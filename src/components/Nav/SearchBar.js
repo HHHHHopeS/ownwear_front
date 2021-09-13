@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchToolBox from "../SearchToolBox/SearchToolBox";
 export default function SearchBar() {
   function clickSearchBar() {

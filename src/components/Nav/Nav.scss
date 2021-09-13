@@ -2,20 +2,21 @@
 .Nav {
   top: 0;
   width: 100vw;
-  height: 70px;
+  height: 80px;
   background-color: $primary;
-  border-bottom: 1px solid black;
+
   position: fixed;
   z-index: 1;
     .nav-section{
         height:100%
     }
   ul {
-    margin-bottom: 0;
+
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     list-style-type: none;
+    align-items: center;
     padding: 0;
     margin-left: -5%;
     height: calc(100% - 16px);
@@ -26,7 +27,7 @@
     }
     li:first-child {
       div.SearchBar {
-    
+        
         width: 18vw;
         height: 20px;
         div.search-section {
@@ -38,7 +39,7 @@
         
           svg {
             width: 10%;
-            margin-top: 8px;
+            margin-top: 12px;
           }
           input {
             width: 90%;
@@ -55,6 +56,7 @@
       }
     }
     li:nth-child(2) {
+      margin-top: 10px;
       button {
         background: none;
         font-size: 30px;
@@ -62,9 +64,11 @@
         font-weight: 800;
         cursor: pointer;
         text-transform: uppercase;
+        
       }
     }
     li:nth-child(3) {
+      margin-top: 15px;
       button {
         background-color: $secondary;
         border: none;
@@ -72,6 +76,7 @@
         font-weight: 600;
         cursor: pointer;
         margin-left: 15%;
+        border-radius: 4px;
       }
     }
   }
@@ -79,7 +84,7 @@
   .noblur {
     background-color: black;
     width: 100vw;
-    top: 75px;
+    top: 80px;
     height: calc(100vh - 70px);
     opacity: 0;
     animation: fadeout 1s;
@@ -92,7 +97,7 @@
 
     background-color: black;
     width: 100vw;
-    top: 75px;
+    top: 80px;
     height: 120vh;
     opacity: 0.4;
     animation: fadein 1s;
