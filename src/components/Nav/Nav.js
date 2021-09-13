@@ -5,7 +5,9 @@ export default function Nav() {
     function loseSearchBar() {
         document.querySelector(".blur-section").classList.remove("blur")
         document.querySelector(".blur-section").classList.add("noblur")
-    
+        setTimeout(()=>{
+            document.querySelector(".blur-section").setAttribute("style","display:none")
+        },500)
         document.querySelector(".SearchToolBox").classList.remove("active")
       }
     return(

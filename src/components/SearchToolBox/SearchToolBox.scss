@@ -7,8 +7,10 @@
     z-index: 100;
     opacity: 0;
     transition: 0.5s all ease;
+    display: none;
 
 }
 .SearchToolBox.active{
+    display: block;
     opacity: 1;
 }
