@@ -1,7 +1,8 @@
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from 'react';
-import { Route, Switch, useLocation,GenericNotFound,Redirect } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import './App.scss';
+import NotFound from './components/404/NotFound';
 import Create from "./components/Create/Create";
 import Detail from "./components/Detail/Detail";
 import Footer from "./components/Footer/Footer";
@@ -13,7 +14,6 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
-import NotFound from './components/404/NotFound';
 
 
 export default function App() {
