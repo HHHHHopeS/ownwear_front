@@ -1,0 +1,14 @@
+.Main{
+    display: flex;
+    flex-direction: row;
+    margin: 0 12%;
+    .side-section{
+        width: 25%;
+
+    }
+    .main-section{
+        width: 75%;
+
+    }
+    
+}

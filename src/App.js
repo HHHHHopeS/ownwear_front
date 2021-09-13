@@ -1,27 +1,33 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Nav from "./components/Nav/Nav"
-import Login from "./components/Login/Login"
-import Main from "./components/Main/Main"
-import Footer from "./components/Footer/Footer"
-import Detail from "./components/Detail/Detail"
-import Ranking from "./components/Ranking/Ranking"
-import Profile from "./components/Profile/Profile"
-import MyPage from "./components/MyPage/MyPage"
-import Create from "./components/Create/Create"
-import List from "./components/List/List"
+import "bootstrap/dist/css/bootstrap.min.css"
+import { useEffect } from 'react';
+import { Route, Switch, useLocation,GenericNotFound,Redirect } from 'react-router-dom';
 import './App.scss';
+import Create from "./components/Create/Create";
+import Detail from "./components/Detail/Detail";
+import Footer from "./components/Footer/Footer";
+import List from "./components/List/List";
+import Login from "./components/Login/Login";
+import Main from "./components/Main/Main";
+import MyPage from "./components/MyPage/MyPage";
+import Nav from "./components/Nav/Nav";
+import Profile from "./components/Profile/Profile";
+import Ranking from "./components/Ranking/Ranking";
+import SubNav from './components/SubNav/SubNav';
+import NotFound from './components/404/NotFound';
 
 
 export default function App() {
-  return (
-    <BrowserRouter>
-      <Nav />
+  const location = useLocation();
+  useEffect(()=>{
+
       
-      <div className="main-section" style={{
-        position:"relative",
-        top:"70px"
-      }
-      }>
+  },[location])
+  return (
+    <div className="App">
+      <Nav />
+      <SubNav />
+      <div className="main-section" 
+      >
         
         <Switch >
           <Route exact path="/" component={Main} />
@@ -32,10 +38,11 @@ export default function App() {
           <Route exact path="/mypage" component={MyPage}/>
           <Route exact path="/create" component={Create}/>
           <Route exact path="/list" component={List}/>
+          <Route component={NotFound} />
         </Switch>
       </div>
       <Footer />
-    </BrowserRouter> 
+      </div>
   );
 }
 
