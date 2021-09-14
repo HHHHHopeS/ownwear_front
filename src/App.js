@@ -30,15 +30,19 @@ export default function App() {
       >
         
         <Switch >
+
           <Route exact path="/" component={Main} />
-          <Route exact path="/login" component={Login}/>
-          <Route exact path="/detail" component={Detail}/>
-          <Route exact path="/ranking" component={Ranking}/>
-          <Route exact path="/profile" component={Profile}/>
-          <Route exact path="/mypage" component={MyPage}/>
-          <Route exact path="/create" component={Create}/>
-          <Route exact path="/list" component={List}/>
-          <Route component={NotFound} />
+          <Route path="/men" component={Main} />
+          <Route path="/women" component={Main} />
+
+          <Route path="/login" component={Login}/>
+          <Route path="/detail" component={Detail}/>
+          <Route  path="/ranking" component={Ranking}/>
+          <Route  path="/profile" component={Profile}/>
+          <Route  path="/mypage" component={MyPage}/>
+          <Route  path="/create" component={Create}/>
+          <Route  path="/list" component={List}/>
+          <Route path="*" component={NotFound} />
         </Switch>
       </div>
       <Footer />
