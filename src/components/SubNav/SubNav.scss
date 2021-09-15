@@ -87,7 +87,7 @@
         width: 50%;
         display: flex;
         flex-direction: row;
-        align-items: end;
+        align-items: flex-end;
         .profile-section {
           display: flex;
           flex-direction: column;
@@ -95,7 +95,7 @@
           .profile-info-section {
             display: flex;
             flex-direction: row;
-            align-items: start;
+            align-items: flex-start;
             height: 30px;
             div {
               padding-left: 15px;
@@ -137,8 +137,8 @@
       .follow-btn-section {
           width: 45%;
             display: flex;
-          justify-content: end;
-          align-items: end;
+          justify-content: flex-end;
+          align-items: flex-end;
 
         
       }
@@ -181,7 +181,7 @@
       height: 45%;
       display: flex;
 
-      justify-content: start;
+      justify-content: flex-start;
       .title-container {
         margin: 60px 12%;
         h1 {
@@ -196,8 +196,8 @@
       height: 30%;
       display: flex;
       flex-direction: row;
-      align-items: end;
-      justify-content: end;
+      align-items: flex-end;
+      justify-content: flex-end;
       margin-right: 12%;
 
       button {
@@ -290,7 +290,7 @@
             div.sns-tag-section{
                 display: flex;
                 flex-direction: row;
-                justify-content: start;
+                justify-content: flex-start;
                 align-items: center;
                 margin-top: 10px;
                 a{

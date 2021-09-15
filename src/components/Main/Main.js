@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react"
-import { useHistory } from "react-router"
 import "./Main.scss"
+import ImgBox from "../ImgBox/ImgBox"
+
+
 
 
 export default function Main(props) {
-    const [isDataRendered,setIsDataRendered] = useState(false)
+    
+    
+    
     const [data,setData] = useState(null)
-    const history = useHistory()
+
     const [currentUrl,setCurrentUrl] = useState(null)
 
     useEffect(()=>{
 
-        if(!data ||currentUrl!==props.match.path){
-            console.log(props.match.path)
+        if(!data || currentUrl!==props.match.path){
+
             switch(props.match.path){
                 case "/": setData([{
                     imgIndex:1,
                     user:"abc",
                     imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9r91yA63eVBG3-AT4Re3pwyqXNKb_ZgWjNx_CDj7IwnSxwG0lQQ-POHV-YjTQCHCJT6w&usqp=CAU",
                     likecount:141,
-                    profileImgUrl:"../../res/exPhoto.jpeg",
+                    userName:"Winter-Aespa",
+                    height:164,
+                    profileImgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
                     tagData:[
                         {
-                            rectorX:0.4,
-                            rectorY:0.5,
+                            rectorX:0.5,
+                            rectorY:0.6,
                             productInfo:{
                                 brandName:'MaisonKitsune',
                                 category:'top',
@@ -41,11 +47,14 @@ export default function Main(props) {
                         user:"abc",
                         imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9r91yA63eVBG3-AT4Re3pwyqXNKb_ZgWjNx_CDj7IwnSxwG0lQQ-POHV-YjTQCHCJT6w&usqp=CAU",
                         likecount:141,
-                        profileImgUrl:"../../res/exPhoto.jpeg",
+                        userName:"Winter-Aespa",
+                        height:164,
+                        rdate:"2021-09-15",
+                        profileImgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
                         tagData:[
                             {
-                                rectorX:0.4,
-                                rectorY:0.5,
+                                rectorX:0.432,
+                                rectorY:0.21,
                                 productInfo:{
                                     brandName:'MaisonKitsune',
                                     category:'top',
@@ -57,7 +66,7 @@ export default function Main(props) {
                             }
                         ]
                     }])
-                    console.log("asdasd");
+
                 break;
                 case "/women":
                     setData([{
@@ -65,11 +74,14 @@ export default function Main(props) {
                         user:"abc",
                         imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9r91yA63eVBG3-AT4Re3pwyqXNKb_ZgWjNx_CDj7IwnSxwG0lQQ-POHV-YjTQCHCJT6w&usqp=CAU",
                         likecount:141,
-                        profileImgUrl:"../../res/exPhoto.jpeg",
+                        userName:"Winter-Aespa",
+                        height:164,
+                        rdate:"2021-09-15",
+                        profileImgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
                         tagData:[
                             {
-                                rectorX:0.4,
-                                rectorY:0.5,
+                                rectorX:0.125,
+                                rectorY:0.325,
                                 productInfo:{
                                     brandName:'MaisonKitsune',
                                     category:'top',
@@ -87,26 +99,36 @@ export default function Main(props) {
 
         }
         
-
-    console.dir(data)
+    
 
     setCurrentUrl(props.match.path)
     
-})
+},[data,currentUrl,props.match.path])
     
+
+
+
+
+
     return(
         <div className="Main">
 
             <div className="side-section">
-            <textarea name="" id="" cols="30" rows="10" value={data ? data[0].imgIndex : "none"}></textarea>
-
+            
+            
             </div>
             <div className="main-section">
-
+            <div className="first-section">
+            <ImgBox data={data}/>
+            <ImgBox data={data}/>
+            <ImgBox data={data}/>
+            </div>
+            
             
             </div>
 
         </div>
     )
 };
+
 

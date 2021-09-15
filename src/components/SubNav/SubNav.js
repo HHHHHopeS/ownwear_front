@@ -25,11 +25,11 @@ export default function SubNav(props) {
         .querySelector(".SubNav")
         .classList.remove(document.querySelector(".SubNav").classList[1]);
     }
-    console.log(location);
+
     if (className) {
       document.querySelector(".SubNav").classList.add(className);
     }
-  }, [location]);
+  }, [location,change]);
   const subButtonEvent = event => {
     const subButtons = document.querySelector(".sub-buttons-section");
     setChange(true);
@@ -166,9 +166,9 @@ export default function SubNav(props) {
                   </div>
                   <div className="sns-tag-section">
                         <div className="sns-icon-container">
-                            <a href=""><FontAwesomeIcon icon={faInstagram}/></a>
-                            <a href=""><FontAwesomeIcon icon={faPinterest}/></a>
-                            <a href=""><FontAwesomeIcon icon={faTwitter}/></a>
+                            <a href="#none"><FontAwesomeIcon icon={faInstagram}/></a>
+                            <a href="#none"><FontAwesomeIcon icon={faPinterest}/></a>
+                            <a href="#none"><FontAwesomeIcon icon={faTwitter}/></a>
                         </div>
                   </div>
                   <div className="fav-brand-section">
