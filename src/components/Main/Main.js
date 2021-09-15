@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import "./Main.scss"
 
+
 export default function Main(props) {
     const [isDataRendered,setIsDataRendered] = useState(false)
     const [data,setData] = useState(null)
@@ -98,10 +99,16 @@ export default function Main(props) {
 
             <div className="side-section">
             <textarea name="" id="" cols="30" rows="10" value={data ? data[0].imgIndex : "none"}></textarea>
-            </div>
-            <div className="main-section">
 
             </div>
+            <div className="main-section">
+                123123
+
+                sdfsdfsdf
+            </div>
+            </div>
+
         </div>
     )
 };
+

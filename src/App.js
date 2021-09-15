@@ -30,6 +30,7 @@ export default function App() {
       >
         
         <Switch >
+
           
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
@@ -42,6 +43,7 @@ export default function App() {
           <Route exact path="/list" component={List}/>
           <Route exact path="/" component={Main} />
           <Route component={NotFound} />
+
         </Switch>
       </div>
       <Footer />
