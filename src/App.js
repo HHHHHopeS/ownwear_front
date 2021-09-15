@@ -1,6 +1,7 @@
+import { render } from "@testing-library/react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Switch, useLocation, Redirect } from 'react-router-dom';
 import './App.scss';
 import NotFound from './components/404/NotFound';
 import Create from "./components/Create/Create";
@@ -15,21 +16,37 @@ import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
 
-
 export default function App() {
-  const location = useLocation();
-  useEffect(()=>{
 
-      
-  },[location])
+  const location = useLocation();
+  console.log("location : " +location)
+  const [checkLogin, setCheckLogin] = useState(false)
+  const check =(history)=> async () => {
+    setCheckLogin(true)
+    fetch("https://localhost:8443/loginform").then(async response => {
+      const answer = await response.text()
+      console.log("answer : "+answer)
+      if (answer == "loginform") {
+          return (history.push("/login")
+          )
+      }
+    })
+  }
+
+  useEffect(() => {
+    if (checkLogin)
+      setCheckLogin(false)
+
+  }, [location])
   return (
     <div className="App">
       <Nav />
       <SubNav />
-      <div className="main-section" 
+      <div className="main-section"
       >
-        
+
         <Switch >
+
 
           
           <Route exact path="/men" component={Main} />
@@ -44,10 +61,17 @@ export default function App() {
           <Route exact path="/" component={Main} />
           <Route component={NotFound} />
 
+
+//           <Route exact path="/" render={props => <Main check={check} />} />
+
+
+
+
+
         </Switch>
       </div>
       <Footer />
-      </div>
+    </div>
   );
 }
 
