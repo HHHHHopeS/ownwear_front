@@ -1,11 +1,11 @@
-import { faCrown, faHashtag, faHome, faUser, faUserAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef, useEffect, useState } from "react";
-import { Breadcrumb } from "react-bootstrap";
-import { useLocation, Link } from "react-router-dom";
-import "./SubNav.scss";
-import exPhoto from "../../res/exPhoto.jpeg";
 import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faCrown, faHashtag, faHome, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { Breadcrumb } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import exPhoto from "../../res/exPhoto.jpeg";
+import "./SubNav.scss";
 
 export default function SubNav(props) {
   const location = useLocation();
@@ -45,13 +45,14 @@ export default function SubNav(props) {
     <div className="SubNav">
       <div className="main">
         <div className="buttons-section">
-          <button className="subnav-btn-all">ALL</button>
-          <button className="subnav-btn-men">MEN</button>
-          <button className="subnav-btn-women">WOMEN</button>
+          <button className="subnav-btn-all"> <Link to={`/`}> ALL</Link></button>
+          <button className="subnav-btn-men"><Link to={`/men`}> MEN</Link></button>
+          <button className="subnav-btn-women"><Link to={`/women`}> WOMEN</Link></button>
         </div>
       </div>
       <div className="login">
         <div className="subnav-breadcrumb-section">
+          
           <Breadcrumb>
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />

@@ -30,7 +30,9 @@ export default function App() {
       >
         
         <Switch >
-          <Route exact path="/" component={Main} />
+          
+          <Route exact path="/men" component={Main} />
+          <Route exact path="/women" component={Main} />
           <Route exact path="/login" component={Login}/>
           <Route exact path="/detail" component={Detail}/>
           <Route exact path="/ranking" component={Ranking}/>
@@ -38,6 +40,7 @@ export default function App() {
           <Route exact path="/mypage" component={MyPage}/>
           <Route exact path="/create" component={Create}/>
           <Route exact path="/list" component={List}/>
+          <Route exact path="/" component={Main} />
           <Route component={NotFound} />
         </Switch>
       </div>
