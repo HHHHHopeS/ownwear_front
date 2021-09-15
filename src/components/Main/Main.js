@@ -102,10 +102,8 @@ export default function Main(props) {
 
             </div>
             <div className="main-section">
-                123123
 
-                sdfsdfsdf
-            </div>
+            
             </div>
 
         </div>
