@@ -2,7 +2,9 @@ import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-sv
 import { faCrown, faHashtag, faHome, faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+
 import { Breadcrumb } from "react-bootstrap";
+
 import { Link, useLocation } from "react-router-dom";
 import exPhoto from "../../res/exPhoto.jpeg";
 import "./SubNav.scss";

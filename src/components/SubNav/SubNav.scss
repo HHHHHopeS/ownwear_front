@@ -31,8 +31,12 @@
       height: 100%;
       align-items: center;
       justify-content: space-evenly;
-
+      
       button {
+        a{
+          text-decoration: none;
+          color: black;
+        }
         background: none;
         border: none;
         cursor: pointer;
