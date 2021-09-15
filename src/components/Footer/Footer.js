@@ -20,16 +20,16 @@ export default function Footer() {
             <p>+82-(10)-8722-4828</p>
           </div>
           <div className="terms-section">
-            <a href="">privacy</a>
-            <a href="">terms</a>
-            <a href="">contact</a>
+            <a href="#none">privacy</a>
+            <a href="#none">terms</a>
+            <a href="#none">contact</a>
           </div>
         </div>
         <div className="right-section">
           <div className="icon-section">
-              <a href=""><FontAwesomeIcon icon={faGithub}/></a>
-              <a href=""><FontAwesomeIcon icon={faGooglePlay}/></a>
-              <a href=""><FontAwesomeIcon icon={faAppStoreIos}/></a>
+              <a href="#none"><FontAwesomeIcon icon={faGithub}/></a>
+              <a href="#none"><FontAwesomeIcon icon={faGooglePlay}/></a>
+              <a href="#none"><FontAwesomeIcon icon={faAppStoreIos}/></a>
           </div>
         </div>
       </div>
