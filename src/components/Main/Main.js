@@ -35,6 +35,7 @@ export default function Main(props) {
                                 category:'top',
                                 productName:"green t-shirt",
                                 productUrl:"http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+                                productImgUrl:"http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
                                 price:16500
                             }
     
@@ -60,6 +61,7 @@ export default function Main(props) {
                                     category:'top',
                                     productName:"green t-shirt",
                                     productUrl:"http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+                                    productImgUrl:"http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
                                     price:16500
                                 }
         
@@ -87,6 +89,7 @@ export default function Main(props) {
                                     category:'top',
                                     productName:"green t-shirt",
                                     productUrl:"http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+                                    productImgUrl:"http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
                                     price:16500
                                 }
         
