@@ -19,6 +19,7 @@
         font-weight: 600;
       }
     }
+    
   }
   div.main {
     display: block;
@@ -41,6 +42,10 @@
         cursor: pointer;
         font-weight: 700;
         font-size: 20px;
+        a{
+          text-decoration: none;
+          color: black;
+        }
       }
       button:hover {
         border-bottom: 3px solid $primary;
