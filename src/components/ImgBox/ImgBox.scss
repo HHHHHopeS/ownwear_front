@@ -11,6 +11,7 @@
             position: relative;
             width: 240px;
             height: 320px;
+
             img{
                 position: absolute;
                 width: 240px;
@@ -52,10 +53,13 @@
                         flex-direction: column;
                         .product-name{
                             font-size: 9px;
-                            font-weight: 900;
+                            font-weight: 700;
                         }
                         .product-price{
+                            text-align: right;
+                            margin-top: 5px;
                             font-size: 10px;
+                            font-weight: 300;
                         }
                     }
                 }
@@ -97,6 +101,7 @@
                     span.height{
 
                         font-size: 12px;
+                 
                     }
                 }
             }
