@@ -1,2 +1,54 @@
-$primary: #BFD7ED;
+$primary: #bfd7ed;
 $secondary: #c0e7f6;
+
+$breakpoint-mobile: 335px;
+$breakpoint-tablet: 758px;
+$breakpoint-desktop: 1024px;
+$breakpoint-wide-screen: 1440px;
+
+@mixin mobile {
+  @media (min-width: #{$breakpoint-mobile}) and (max-width:#{$breakpoint-tablet - 1px}) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width:#{$breakpoint-desktop - 1px}) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) and (max-width:#{$breakpoint-wide-screen - 1px}) {
+    @content;
+  }
+}
+@mixin wide {
+  @media (min-width: #{$breakpoint-wide-screen+1}) {
+    @content;
+  }
+}
+
+@mixin media($keys...){
+  @each $key in $keys{
+    @if($key == mobile){
+      @include mobile{
+        @content
+      }
+    }
+    @else if($key == tablet){
+      @include tablet{
+        @content
+      }
+    }
+    @else if($key == desktop){
+      @include desktop{
+        @content
+      }
+    }
+    @else if($key == wide){
+      @include wide{
+        @content
+      }
+    }
+
+  }
+}
