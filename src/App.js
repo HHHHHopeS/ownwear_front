@@ -14,8 +14,7 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
-
-export default function App() {
+export default function App(props) {
 
 
 
@@ -39,6 +38,7 @@ export default function App() {
   },[checkLogin])
   return (
     <div className="App">
+
       <Nav />
       <SubNav />
       <div className="main-section"
@@ -59,7 +59,7 @@ export default function App() {
           <Route exact path="/list" component={List}/>
           <Route exact path="/" component={Main} />
           <Route component={NotFound} />
-
+    
 
 {/* //           <Route exact path="/" render={props => <Main check={check} />} /> */}
 
@@ -70,7 +70,9 @@ export default function App() {
         </Switch>
       </div>
       <Footer />
+
     </div>
+    
   );
 }
 
