@@ -14,7 +14,15 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
+
+import { useUserState } from "./components/UserContext/UserContext";
+
+
+  
+
 export default function App(props) {
+const {user} = useUserState();
+  
 
 
 
@@ -61,6 +69,7 @@ export default function App(props) {
           <Route component={NotFound} />
     
 
+  app.use(cors());
 {/* //           <Route exact path="/" render={props => <Main check={check} />} /> */}
 
 
