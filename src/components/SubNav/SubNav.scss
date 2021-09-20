@@ -366,6 +366,27 @@
   }
   
 }
+.SubNav.create {
+    width: 100%;
+    height: 140px;
+  > div {
+    display: none;
+  }
+  div.create {
+    margin: 0 12%;
+    display: flex;
+    flex-direction: column;
+    .title-section{
+        h1{
+            svg{
+                margin-right: 10px;
+            }
+        font-weight: 600;
+    }
+    }
+  }
+  
+}
 
 button.follow-button {
     background-color: $primary;

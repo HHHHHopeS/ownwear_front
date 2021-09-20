@@ -1,5 +1,15 @@
-import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faCrown, faHashtag, faHome, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faInstagram,
+  faPinterest,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  faCrown,
+  faHashtag,
+  faHome,
+  faPlus,
+  faUserAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
@@ -29,7 +39,7 @@ export default function SubNav(props) {
     if (className) {
       document.querySelector(".SubNav").classList.add(className);
     }
-  }, [location,change]);
+  }, [location, change]);
   const subButtonEvent = event => {
     const subButtons = document.querySelector(".sub-buttons-section");
     setChange(true);
@@ -47,14 +57,20 @@ export default function SubNav(props) {
     <div className="SubNav">
       <div className="main">
         <div className="buttons-section">
-          <button className="subnav-btn-all"> <Link to={`/`}> ALL</Link></button>
-          <button className="subnav-btn-men"><Link to={`/men`}> MEN</Link></button>
-          <button className="subnav-btn-women"><Link to={`/women`}> WOMEN</Link></button>
+          <button className="subnav-btn-all">
+            {" "}
+            <Link to={`/`}> ALL</Link>
+          </button>
+          <button className="subnav-btn-men">
+            <Link to={`/men`}> MEN</Link>
+          </button>
+          <button className="subnav-btn-women">
+            <Link to={`/women`}> WOMEN</Link>
+          </button>
         </div>
       </div>
       <div className="login">
         <div className="subnav-breadcrumb-section">
-          
           <Breadcrumb>
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />
@@ -152,39 +168,45 @@ export default function SubNav(props) {
             </div>
           </div>
           <div className="right-section">
-              <div className="profile-section">
-                  <div className="profile-title-section">
-                        <h1>username</h1>
-                  </div>
-                  <div className="profile-info-section">
-                        <div className="profile-span-container">
-                            <span className="user-height">167cm</span>
-                        </div>
-                        <div className="profile-span-container">
-                            <span className="user-gender">Female</span>
-                        </div>
-                  </div>
-                  <div className="sns-tag-section">
-                        <div className="sns-icon-container">
-                            <a href="#none"><FontAwesomeIcon icon={faInstagram}/></a>
-                            <a href="#none"><FontAwesomeIcon icon={faPinterest}/></a>
-                            <a href="#none"><FontAwesomeIcon icon={faTwitter}/></a>
-                        </div>
-                  </div>
-                  <div className="fav-brand-section">
-                        <span>fav-brand : </span>
-                        <div className="button-container">
-                        <button className="brand-button">Nike</button>
-                        <button className="brand-button">Balenciaga</button>
-                        <button className="brand-button">Neighborhood</button>
-                        </div>
-                  </div>
+            <div className="profile-section">
+              <div className="profile-title-section">
+                <h1>username</h1>
               </div>
+              <div className="profile-info-section">
+                <div className="profile-span-container">
+                  <span className="user-height">167cm</span>
+                </div>
+                <div className="profile-span-container">
+                  <span className="user-gender">Female</span>
+                </div>
+              </div>
+              <div className="sns-tag-section">
+                <div className="sns-icon-container">
+                  <a href="#none">
+                    <FontAwesomeIcon icon={faInstagram} />
+                  </a>
+                  <a href="#none">
+                    <FontAwesomeIcon icon={faPinterest} />
+                  </a>
+                  <a href="#none">
+                    <FontAwesomeIcon icon={faTwitter} />
+                  </a>
+                </div>
+              </div>
+              <div className="fav-brand-section">
+                <span>fav-brand : </span>
+                <div className="button-container">
+                  <button className="brand-button">Nike</button>
+                  <button className="brand-button">Balenciaga</button>
+                  <button className="brand-button">Neighborhood</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div className="mypage">
-      <div className="subnav-breadcrumb-section">
+        <div className="subnav-breadcrumb-section">
           <Breadcrumb>
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />
@@ -194,23 +216,44 @@ export default function SubNav(props) {
           </Breadcrumb>
         </div>
         <div className="title-section">
-            <h1><FontAwesomeIcon icon={faUserAlt}/>My Profile</h1>
+          <h1>
+            <FontAwesomeIcon icon={faUserAlt} />
+            My Profile
+          </h1>
         </div>
       </div>
       <div className="list">
-      <div className="subnav-breadcrumb-section">
+        <div className="subnav-breadcrumb-section">
           <Breadcrumb>
-                <Breadcrumb.Item href="/">
-                  <FontAwesomeIcon icon={faHome} />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>tag-name</Breadcrumb.Item>
-              </Breadcrumb>
+            <Breadcrumb.Item href="/">
+              <FontAwesomeIcon icon={faHome} />
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active>tag-name</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <div className="title-section">
+          <h1>
+            <FontAwesomeIcon icon={faHashtag} />
+            Tag-name list
+          </h1>
+        </div>
       </div>
-      <div className="title-section">
-          <h1><FontAwesomeIcon icon={faHashtag}/>Tag-name list</h1>
+      <div className="create">
+        <div className="subnav-breadcrumb-section">
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">
+              <FontAwesomeIcon icon={faHome} />
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active>Create</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <div className="title-section">
+          <h1>
+            <FontAwesomeIcon icon={faPlus} />
+            Create
+          </h1>
+        </div>
       </div>
-      </div>
-
     </div>
   );
 }
