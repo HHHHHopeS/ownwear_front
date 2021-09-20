@@ -1,0 +1,30 @@
+@import "../base";
+
+.Create{
+    width: 100vw;
+
+
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+
+    
+    .create-title-container{
+        width: 60%;
+        overflow:hidden;
+    }
+    .slide-content-container{
+        width: 100%;
+        display: flex;
+        >div{
+            height: 100%;
+            background-color: black;
+            width: 100%;
+            >h1{
+                width: 100%;
+            }
+        }
+    }
+    
+}
