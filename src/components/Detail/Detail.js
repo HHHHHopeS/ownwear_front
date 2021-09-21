@@ -38,17 +38,15 @@ export default function Detail(props) {
     edate:"",
     hashtag:[
 
-    ]
-    user
+    ],
+    user:[]
 
   })
   useEffect(()=>{
     const getDetailDataRequest = Object.assign({},{postno:postno})
     getDetailData(getDetailDataRequest).then(response=>{
       setDetailPageData(response)
-    }).catch(
-      Alert("failed to load data, please check network connection")
-    )
+    })
   },[])
   useLayoutEffect(() => {
     if (targetRef.current) {
