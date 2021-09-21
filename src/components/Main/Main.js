@@ -1,11 +1,56 @@
 import { useEffect, useState } from "react";
 import "./Main.scss";
 import ImgBox from "../ImgBox/ImgBox";
+import { Link } from "react-router-dom"
 
 export default function Main(props) {
   const [data, setData] = useState(null);
 
   const [currentUrl, setCurrentUrl] = useState(null);
+
+  const [brand, setBrand] = useState(null);
+
+  const [hotuser, setHotuser] = useState(null);
+  
+  const address = "";
+
+  const sampleBrand = [
+    {"name":"Nike"},
+    {"name":"MaisonKitsune"},
+    {"name":"Dr.Martens"}
+  ]
+
+  const sampleUser = [
+    {"nick":"aaa",
+    "follow":"1,222,222"
+  }
+  ]
+
+  //인기 브랜드
+  useEffect(()=>{
+    fetch(address)
+    .then(response=>response.json())
+    .then(data =>{
+      setBrand(data)
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  },[brand])
+
+  
+  //인기 유저
+  useEffect(()=>{
+    const list = []
+    fetch(address)
+    .then(response=>response.json())
+    .then(data =>{
+      setHotuser({list:data})
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  },[hotuser])
 
   useEffect(() => {
     if (!data || currentUrl !== props.match.path) {
@@ -119,13 +164,61 @@ export default function Main(props) {
       <div className="side-section">
         <div className="sidebar-container">
           <div className="sidebar-contentbox-container first">
-              <span className="content-title">
-
+              <span className="search-title">
+                Search
               </span>
+              <li><Link to="/"><button >코디찾기</button ></Link></li>
+              <li><Link to="/"><button>유저검색</button></Link></li>
+              <li><Link to="/"><button>제품검색</button></Link></li>
+              <li><Link to="/"><button>브랜드찾기</button></Link></li>
+
               <div className="sidebar-content-section"></div>
           </div>
-          <div className="sidebar-contentbox-container second"></div>
-          <div className="sidebar-contentbox-container third"></div>
+          <div className="sidebar-contentbox-container second">
+            <span className="ranking-user">
+              User
+            </span>
+            <ol>
+              <li className="user-list">
+                <div className="user-image">
+                  <p class="user-profileImage">
+                    <Link to="/userprofile"><img src="" alt="..."/></Link>
+                  </p>
+                </div>
+                <div className="user-name">
+                  <p className="user-profileName">username</p>
+                  <p className="user-follow">1,000,000</p>
+                </div>
+              </li>
+              <li className="user-list">
+                <div className="user-image">
+                  <p class="user-profileImage">
+                    <Link to="/userprofile"><img src="" alt="..."/></Link>
+                  </p>
+                </div>
+                <div className="user-name">
+                  <p className="user-profileName">username</p>
+                  <p className="user-follow">1,000,000</p>
+                </div>
+              </li>
+            </ol>
+            <div className="more-button-section">
+              <button className="more">More</button>
+            </div>
+          </div>
+          <div className="sidebar-contentbox-container third">
+            <span className="brand-title">
+                  Brand
+            </span>
+            <ol>
+              <p className="brand-name">{sampleBrand[0].name}</p>
+              <p className="brand-name">MaisonKitsune</p>
+              <p className="brand-name">Dr.Martens</p>
+            </ol>
+            <div className="more-button-section">
+              <button className="more">More</button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="main-section">
