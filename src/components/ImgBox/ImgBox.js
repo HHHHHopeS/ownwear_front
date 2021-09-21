@@ -1,7 +1,7 @@
-import {useState , useEffect} from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons"
 import { faCaretDown, faCaretUp, faHeart } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import "./ImgBox.scss"
 

@@ -14,7 +14,7 @@ export default function OAuth2RedirectHandler(props) {
     const error = getUrlParameter('error')
     if(token){
         console.log(token)
-        sessionStorage.setItem(ACCESS_TOKEN,token)
+        localStorage.setItem(ACCESS_TOKEN,token)
         return <Redirect to={{
             pathname: "/",
             state: {from:props.location}

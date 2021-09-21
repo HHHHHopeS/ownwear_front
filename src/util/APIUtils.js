@@ -1,11 +1,12 @@
-import { API_BASE_URL,ACCESS_TOKEN } from "../constants";
+import { ACCESS_TOKEN, API_BASE_URL } from "../constants";
 
+// 기본 베이스 건들지마셈
 const request = (options) =>{
     const headers = new Headers({
     "Content-Type":'application/json',
 })
-if(sessionStorage.getItem(ACCESS_TOKEN)){
-    headers.append("Authorization","Bearer " + sessionStorage.getItem(ACCESS_TOKEN))
+if(localStorage.getItem(ACCESS_TOKEN)){
+    headers.append("Authorization","Bearer " + localStorage.getItem(ACCESS_TOKEN))
     
 }
 const defaults = {headers:headers};
@@ -20,8 +21,10 @@ return fetch(options.url,options).then(
     })
 )
 }
+
+//현재 유저 정보 가져오기
 export function getCurrentUser(){
-    if(!sessionStorage.getItem(ACCESS_TOKEN)){
+    if(!localStorage.getItem(ACCESS_TOKEN)){
         return Promise.reject("No access token set.");
 
     }
@@ -31,6 +34,8 @@ export function getCurrentUser(){
     })
 
 }
+
+// 로그인
 export function login(loginRequest){
     return request({
         url:API_BASE_URL+"/auth/login",
@@ -43,5 +48,26 @@ export function signup(signupRequest){
         url:API_BASE_URL+"/auth/signup",
         method:"POST",
         body:JSON.stringify(signupRequest)
+    })
+}
+
+//좋아요 토글
+export function toggleLike(toggleLikeRequest){
+    return request({
+        url:API_BASE_URL+"/toggleLike",
+        method:"POST",
+        body:JSON.stringify(toggleLikeRequest)
+    })
+}
+
+
+//디테일페이지 
+
+//초기 데이터 가져오기 
+export function getDetailData(detailDataReqeust){
+    return request({
+        url:API_BASE_URL+"/getDetailData",
+        method:"POST",
+        body:JSON.stringify(detailDataReqeust)
     })
 }

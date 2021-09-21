@@ -1,23 +1,23 @@
 import {
   faInstagram,
   faPinterest,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faCrown,
   faHashtag,
   faHome,
   faPlus,
-  faUserAlt,
+  faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-
 import { Breadcrumb } from "react-bootstrap";
-
 import { Link, useLocation } from "react-router-dom";
 import exPhoto from "../../res/exPhoto.jpeg";
 import "./SubNav.scss";
+
+
 
 export default function SubNav(props) {
   const location = useLocation();
