@@ -1,51 +1,16 @@
-import "./Login.scss";
-import { useContext, useEffect, useReducer, useState, createContext, useCallback } from 'react'
-import { UserDispatchContext } from "../UserContext/UserContext";
-import {  useUserState } from "../UserContext/UserContext";
+import {  useContext, useEffect, useState } from 'react';
+import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
-import {Link, Redirect} from "react-router-dom"
-import axios from "axios";
-import { login,signup } from '../../util/APIUtils';
+import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
+import { login, signup } from '../../util/APIUtils';
+
+import "./Login.scss";
 
 export default function Login(props) {
-  const { userList } = useUserState;
-  const dispatch = useContext(UserDispatchContext)
-  const [submitting, setSubmitting] = useState(false);
-  const useInput = (initialValue) => {
-    const [value, setValue] = useState(initialValue);
-
-    const handler = useCallback((e) => {
-      const blank = /\s/;
-      if (blank.test(e.target.value) === true) {
-        alert("공백은 사용할 수 없습니다.");
-        return;
-      }
-      setValue(e.target.value);
-    }, []);
-
-    return [value, handler, setValue];
-  };
+  const {user} = useContext(UserContext)
 
 
-  // const [join, setJoin] = useState(false);
-  // async function joinMember(e) {
-  //   e.preventDefault();
-  //   const joinNick = document.getElementById("newnick").value;
-  //   const joinEmail = document.getElementById("newemail").value;
-  //   const joinPwd = document.getElementById("newpwd").value;
-  //   const checkJoinPwd = document.getElementById("checkpwd").value;
-  //   const joinData = {
-  //     method: 'POST',
-  //     body: JSON.stringify({ joinNick, joinEmail, joinPwd, checkJoinPwd }),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }
-  //   if (joinPwd != checkJoinPwd) {
-  //     alert("비밀번호 확인 다시하셈")
-  //   }
-  // }
   useEffect(() => {
     console.log(props.authenticated)
     if(props.location.state && props.location.state.error){
@@ -58,14 +23,12 @@ export default function Login(props) {
       })
     },100)
     }
-    if (submitting) {
-      setSubmitting(false)
-    }
+
 
   })
 
 
-  if(props.authenticated){
+  if(user.auth){
 
     return<Redirect to={{
       pathname:"/",
@@ -117,9 +80,10 @@ function LoginForm(props){
     e.preventDefault();
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
-      sessionStorage.setItem(ACCESS_TOKEN,response.accessToken);
+      localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       Alert.success("you re successfuly logged in! ")
       props.history.push("/")
+     
     }).catch(error=>{
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")
 
@@ -202,7 +166,7 @@ function SignupForm(props){
       Alert.success("you re successfuly registered! ")
       const loginRequest = Object.assign({},{email:email,password:password})
       login(loginRequest).then(response=>{
-        sessionStorage.setItem(ACCESS_TOKEN,response.accessToken)
+        localStorage.setItem(ACCESS_TOKEN,response.accessToken)
 
       })
       props.history.push("/")
@@ -225,7 +189,7 @@ function SignupForm(props){
           className="form-control" placeholder="password"
           value={password} onChange={handleInputChange} required
         />
-      </div>
+        </div>
       <div className="form-item">
         <input type="text" name="name" 
           className="form-control" placeholder="Name"

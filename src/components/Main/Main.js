@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Main.scss";
+import { Link } from "react-router-dom";
 import ImgBox from "../ImgBox/ImgBox";
-import { Link } from "react-router-dom"
+import "./Main.scss";
 
 export default function Main(props) {
   const [data, setData] = useState(null);
@@ -181,7 +181,7 @@ export default function Main(props) {
             <ol>
               <li className="user-list">
                 <div className="user-image">
-                  <p class="user-profileImage">
+                  <p className="user-profileImage">
                     <Link to="/userprofile"><img src="" alt="..."/></Link>
                   </p>
                 </div>
@@ -192,7 +192,7 @@ export default function Main(props) {
               </li>
               <li className="user-list">
                 <div className="user-image">
-                  <p class="user-profileImage">
+                  <p className="user-profileImage">
                     <Link to="/userprofile"><img src="" alt="..."/></Link>
                   </p>
                 </div>

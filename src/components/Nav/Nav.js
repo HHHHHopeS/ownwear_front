@@ -1,14 +1,15 @@
-import userEvent from "@testing-library/user-event";
-import { Link } from "react-router-dom"
-import { useUserDispatch, useUserState } from "../UserContext/UserContext";
-import "./Nav.scss"
-import SearchBar from "./SearchBar"
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../common/UserContext";
+import "./Nav.scss";
+import SearchBar from "./SearchBar";
+
 
 export default function Nav(props) {
-    const {user} = useUserState();
+    const {user} = useContext(UserContext);
     
 
-    const dispatch = useUserDispatch();
+
     function loseSearchBar() {
         document.querySelector(".blur-section").classList.remove("blur")
         document.querySelector(".blur-section").classList.add("noblur")
@@ -23,13 +24,13 @@ export default function Nav(props) {
             <ul>
                 <li><SearchBar /></li>
                 <li><Link to="/"><button>オンウエア</button></Link></li>
-                {!props.authenticated ? (
+                {!user.auth ? (
                 <li><Link to="/login" ><button>Login/Signup</button></Link></li>
                 ):(
                         <div className="">
 
                         <li><a onClick={props.onLogout}>Logout</a></li>
-                        <li><a href="">{props.name}</a></li>
+                        <li><a href="">{user.info.name}</a></li>
                         </div>
                 )}
             </ul>
