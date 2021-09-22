@@ -3,7 +3,7 @@ $border: 1px solid rgb(219,219,219);
 
 .Detail {
   margin: 0 17%;
-
+  margin-bottom: 10%;
   display: flex;
   flex-direction: row;
 
@@ -180,9 +180,136 @@ $border: 1px solid rgb(219,219,219);
       }
       .comment-list-section {
         width: 100%;
-        min-height: 60px;
+        min-height: 50px;
         border-inline: $border;
+        .comment{
+          width: 100%;
+          padding-block: 10px 20px;
 
+          display: flex;
+          flex-direction: row;
+          .comment-profile-section{
+            width: 13%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            .comment-profile-image{
+              margin-left: 15px;
+              img{
+                margin-top: 2px;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+              }
+            }
+          }
+          .comment-main-section{
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+          .comment-content-section{
+            font-size: 15px;
+            width: 85%;
+
+            .comment-profile-username{
+              font-weight: 800;
+              cursor: pointer;
+            }
+            span:nth-child(2){
+              margin-left: 10px;
+
+            }
+            span:nth-child(2)[contentEditable=true]{
+              outline: 1px solid black;
+            }
+            span:nth-child(2)[contentEditable=true]:focus{
+              outline: 1px solid black;
+            }
+            >div{
+              display: flex;
+            textarea{
+              width: 80%;
+              height: 100px;
+              resize: none;
+              border: 1px solid $grey;
+              padding:2px 5px;
+
+            }
+            textarea:focus{
+              outline: none;
+            }
+
+            button{
+              border: none;
+              background: none;
+              cursor: pointer;
+              color: $grey;
+              
+            }
+            button:nth-child(2){
+              font-size: 17px;
+              svg{
+                path{
+                width: 16.88px;
+                height: 15px;
+              }
+              }
+            
+          }
+          }
+          }
+          .comment-content-sub-section{
+            display: flex;
+            flex-direction: row;
+            font-size: 11px;
+            color: $grey;
+          
+          .comment-reply-section{
+            margin-left: 8px;
+            span{
+              cursor: pointer;
+              font-weight:600;
+            }
+          }
+
+        }
+        
+        }
+        .comment-edit-section{
+          span{
+            cursor: pointer;
+          }
+          .comment-edit-menu{
+            position: absolute;
+            border-radius: 2px;
+
+              box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+              background-color: white;
+              
+            button{
+              
+              background: none;
+
+              border: none;
+              
+              padding: 15px 35px;
+              font-size: 15px;
+              font-weight: 500;
+              svg{
+                color: rgb(92, 92, 92);
+                margin-right: 10px;
+              }
+            }
+            button:hover{
+              background-color: $primary;
+            }
+            button:nth-of-type(2){
+              padding-top: 10px;
+            }
+          }
+        }
+        }
         h1 {
           text-align: center;
           font-size: 20px;
@@ -197,7 +324,7 @@ $border: 1px solid rgb(219,219,219);
 
           justify-content: start;
 
-          .comment-input {
+          .comment-input-container {
             width: 85%;
             height: 100%;
             display: flex;
@@ -245,6 +372,20 @@ $border: 1px solid rgb(219,219,219);
               background: none;
               border: $border;
             }
+          }
+        }
+        > div:nth-child(2){
+          margin-left: 1px;
+          width: 200px;
+          max-height: 220px;
+          border: 1px solid $primary;
+          button{
+            width: 100%;
+            height:50px;
+            border: none;
+            border-bottom: 1px solid $primary;
+            background:none;
+            
           }
         }
       }

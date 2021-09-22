@@ -71,3 +71,33 @@ export function getDetailData(detailDataReqeust){
         body:JSON.stringify(detailDataReqeust)
     })
 }
+
+
+// 댓글 수정 요청
+
+export function updateComment(updateCommentRequest){
+    return request({
+        url:API_BASE_URL+"/updateComment",
+        method:"POST",
+        body:JSON.stringify(updateCommentRequest)
+    })
+}
+
+//해시태그 자동완성 요청
+export function hashtagAutoComplete(hashtagAutoCompleteRequest){
+    return request({
+        url:API_BASE_URL+"/hashtagAutoComplete",
+        method:"POST",
+        body:JSON.stringify(hashtagAutoCompleteRequest)
+    })
+}
+
+
+//유저태그 자동완성 요청
+export function usertagAutoComplete(usertagAutoCompleteRequest){
+    return request({
+        url:API_BASE_URL+"/usertagAutoComplete",
+        method:"POST",
+        body:JSON.stringify(usertagAutoCompleteRequest)
+    })
+}
