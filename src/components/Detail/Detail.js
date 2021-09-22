@@ -8,46 +8,109 @@ import {
   faShareSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import {
+  faEdit,
   faEllipsisH,
+  faEllipsisV,
   faHeart,
   faPaperPlane,
+  faPen,
+  faTimes,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, {useEffect, useLayoutEffect, useRef, useState, useContext } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useContext,
+  createRef,
+} from "react";
+
 import Masonry from "react-masonry-css";
-import { Redirect } from "react-router";
+import { Link,Redirect } from "react-router-dom";
 import { UserContext } from "../../common/UserContext";
 import Alert from "react-s-alert";
 import "./Detail.scss";
-import { getDetailData,toggleLike } from "../../util/APIUtils";
+import { getDetailData, toggleLike,updateComment,hashtagAutoComplete } from "../../util/APIUtils";
 
 export default function Detail(props) {
-  const postno = props.location.pathname
+  const postno = props.location.pathname;
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoverTag, setHoverTag] = useState(false);
-  const [detailPageData,setDetailPageData] = useState({
-    postno:postno,
-    userno:1,
-    username:"winter",
-    imgData:{
-
+  const [detailPageData, setDetailPageData] = useState({
+    postno: postno,
+    userno: 1,
+    username: "winter-aespa",
+    imgData: {
+      imgUrl:
+        "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
+      height: 164,
+      profileImgUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+      tagData: [
+        {
+          rectorX: 0.5,
+          rectorY: 0.5,
+          productInfo: {
+            brandName: "Givenchy",
+            category: "top",
+            productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
+            productUrl:
+              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+            productImgUrl:
+              "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
+            price: 1012000,
+          },
+        },
+      ],
     },
-    rdate:"2021/08/30 08:31:20",
-    edate:"",
-    hashtag:[
-
+    rdate: "2021/08/30 08:31:20",
+    edate: "",
+    hashtag: ["Givenchy", "sweatshirt", "red"],
+    userRelated: [
+      {
+        postno: 1,
+        imgUrl: "",
+      },
     ],
-    user:[]
-
-  })
-  useEffect(()=>{
-    const getDetailDataRequest = Object.assign({},{postno:postno})
-    getDetailData(getDetailDataRequest).then(response=>{
-      setDetailPageData(response)
-    })
-  },[])
+    likecount: 1543,
+    comments: [
+      //시간순 오래된순
+      {
+        commentno: 1,
+        commnetdate: "2021-9-21 18:31:20",
+        userinfo: {
+          userno: 2,
+          username: "카리나",
+          userImg:
+            "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+        },
+        content:
+          "나는 @댓글입니다 @정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
+      },
+      {
+        commentno: 2,
+        commnetdate: "2021-9-21 18:31:20",
+        userinfo: {
+          userno: 1,
+          username: "카리나a",
+          userImg:
+            "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+        },
+        content:
+          "나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
+      },
+    ],
+  });
+  useEffect(() => {
+    const getDetailDataRequest = Object.assign({}, { postno: postno });
+    getDetailData(getDetailDataRequest).then(response => {
+      setDetailPageData(response);
+    });
+  }, []);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -73,11 +136,12 @@ export default function Detail(props) {
     setTimeout(reRender, 1000);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
-  
+
   return (
     <div className="Detail">
       <div className="detail-main-section">
         <Image
+          imgData={detailPageData.imgData}
           dimensions={dimensions}
           targetRef={targetRef}
           setHoverTag={setHoverTag}
@@ -88,8 +152,12 @@ export default function Detail(props) {
             width: `${dimensions.width}px`,
           }}
         >
-          <LikeShare  user={user} {...props} />
-          <Comment user={user} />
+          <LikeShare
+            likecount={detailPageData.likecount}
+            user={user}
+            {...props}
+          />
+          <Comment comments={detailPageData.comments} user={user} />
         </div>
       </div>
       <div className="detail-side-section">
@@ -105,6 +173,39 @@ function Image(props) {
   const dimensions = props.dimensions;
   const targetRef = props.targetRef;
   const setHoverTag = props.setHoverTag;
+  const imgData = props.imgData;
+
+  const RenderTags = () => {
+    let tagRenderer = [];
+    let i = 1;
+    for (let tag of imgData.tagData) {
+      tagRenderer.push(
+        <div
+          key={i}
+          className="tag"
+          style={{
+            top: `${tag.rectorY * 100}%`,
+            left: `${tag.rectorX * 100}%`,
+          }}
+        >
+          <div></div>
+          <span
+            className="tag-label"
+            onMouseOver={() => {
+              setHoverTag(true);
+            }}
+            onMouseOut={() => {
+              setHoverTag(false);
+            }}
+          >
+            {tag.productInfo.brandName}
+          </span>
+        </div>
+      );
+      i++;
+    }
+    return tagRenderer;
+  };
   return (
     <div
       className="img-container"
@@ -116,7 +217,7 @@ function Image(props) {
       <img
         className="user-image"
         ref={targetRef}
-        src="https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large"
+        src={imgData.imgUrl} //imgUrl
         alt=""
       />
       <div
@@ -126,74 +227,54 @@ function Image(props) {
           height: `${dimensions.height}px`,
         }}
       >
-        <div
-          className="tag"
-          style={{
-            top: "50%",
-            left: "50%",
-          }}
-        >
-          <div></div>
-          <span
-            className="tag-label"
-            onMouseOver={setHoverTag}
-            onMouseOut={() => {
-              setHoverTag(false);
-            }}
-          >
-            GIVENCHY
-          </span>
-        </div>
+        <RenderTags />
       </div>
     </div>
   );
 }
 
 function LikeShare(props) {
-  const postno = props.location.pathname
+  const postno = props.location.pathname;
+  const likecount = props.likecount;
   const [hover, setHover] = useState(false);
   const [shareActive, setShareActive] = useState(false);
-  const [isLike,setIsLike] = useState(false)
-  const user = props.user
-  const [icon,setIcon] = useState(emptyHeart)
-  const pressLike =  ()=>{
-    if(user.auth){
-      const toggleLikeRequest = Object.assign({},{userno:user.info.id,postno:postno})
+  const [isLike, setIsLike] = useState(false);
+  const user = props.user;
+  const [icon, setIcon] = useState(emptyHeart);
+  const pressLike = () => {
+    if (user.auth) {
+      const toggleLikeRequest = Object.assign(
+        {},
+        { userno: user.info.id, postno: postno }
+      );
 
-      toggleLike(toggleLikeRequest).then(response=>{
-        if(isLike){
-        
-          setIsLike(false)
-        }
-        else{
-          
-          setIsLike(true)
-        }
-      }).catch(()=>{
-        Alert.error("oops cannot change, please retry!")
-      })
-      
+      toggleLike(toggleLikeRequest)
+        .then(response => {
+          if (isLike) {
+            setIsLike(false);
+          } else {
+            setIsLike(true);
+          }
+        })
+        .catch(() => {
+          Alert.error("oops cannot change, please retry!");
+        });
+    } else {
+      Alert.error("please login first!");
+      props.history.push("/login");
     }
-    
-    else{
-      Alert.error("please login first!")
-      props.history.push("/login")
-    }
-  }
-  useEffect(()=>{
-    const setheartIcon = ()=>{
-    
-      if(user.auth&&isLike){
+  };
+  useEffect(() => {
+    const setheartIcon = () => {
+      if (user.auth && isLike) {
+        setIcon(faHeart);
+      } else {
+        setIcon(emptyHeart);
+      }
+    };
 
-          setIcon(faHeart)
-      }
-      else{
-        setIcon(emptyHeart)
-      }
-    }
-    
-  setheartIcon();
-  })
+    setheartIcon();
+  });
   return (
     <div className="like-share-section">
       <div className="like-section">
@@ -201,13 +282,20 @@ function LikeShare(props) {
           <div className="like-button-container">
             <button
               className="like"
-              onMouseOver={isLike? null:setHover}
-              onMouseOut={isLike? null:() => {
-                setHover(false);
-              }}
+              onMouseOver={isLike ? null : setHover}
+              onMouseOut={
+                isLike
+                  ? null
+                  : () => {
+                      setHover(false);
+                    }
+              }
               onClick={pressLike}
             >
-              <FontAwesomeIcon style={icon===faHeart?{color:"rgb(237, 73, 113)"}:{}} icon={hover?faHeart:icon} />
+              <FontAwesomeIcon
+                style={icon === faHeart ? { color: "rgb(237, 73, 113)" } : {}}
+                icon={hover ? faHeart : icon}
+              />
             </button>
           </div>
           <div
@@ -239,10 +327,7 @@ function LikeShare(props) {
           </div>
         </div>
         <div className="letter-section">
-          <span>
-            {/* like count */}
-            1523 Likes
-          </span>
+          <span>{likecount}Likes</span>
         </div>
       </div>
     </div>
@@ -251,19 +336,357 @@ function LikeShare(props) {
 
 function Comment(props) {
   const user = props.user;
+  const comments = props.comments;
+  const [showmenu, setShowmenu] = useState({
+    commentno: null,
+    active: false,
+  });
+  const [onEdit, setOnEdit] = useState({
+    commentno: null,
+    active: false,
+  });
+  const [autoCompleteResult,setAutoCompleteResult] = useState([])
+  const contentRef = useRef([]);
+  contentRef.current = comments.map(
+    (comment,i) => contentRef.current[i] ?? createRef()
+  );
+  
+  const caculateDatetime = date => {
+    const currentDate = new Date();
+    const postedDate = new Date(date);
+    const postedYear = postedDate.getFullYear();
+    const currentYear = currentDate.getFullYear();
+    const postedMonth = postedDate.getMonth();
+    const currentMonth = currentDate.getMonth();
+    const postedDay = postedDate.getDate();
+    const currentDay = currentDate.getDate();
+    const postedHours = postedDate.getHours();
+    const currentHours = currentDate.getHours();
+    const postedMinutes = postedDate.getMinutes();
+    const currentMinutes = currentDate.getMinutes();
+    if (currentYear > postedYear) {
+      if (currentMonth < postedMonth) {
+        return `${currentMonth + 12 - postedMonth}달전`;
+      } else {
+        return `${currentYear - postedYear}년전`;
+      }
+    } else {
+      if (currentMonth > postedMonth) {
+        if (currentMonth - postedMonth === 1 && currentDay < postedDay) {
+          const lastDay = new Date(currentDate, currentMonth, 0).getDate();
+          return `${currentDay + lastDay - postedDay}일전`;
+        } else {
+          return `${currentMonth - postedMonth}달전`;
+        }
+      } else {
+        if (currentDay > postedDay) {
+          if (currentDay - postedDay === 1 && currentHours < postedHours) {
+            return `${currentHours + 24 - postedHours}시간전`;
+          } else {
+            return `${currentDay - postedDay}일전`;
+          }
+        } else {
+          if (currentHours > postedHours) {
+            if (
+              currentHours - postedHours === 1 &&
+              currentMinutes < postedMinutes
+            ) {
+              return `${currentMinutes + 60 - postedMinutes}분전`;
+            } else {
+              return `${currentHours - postedHours}시간전`;
+            }
+          } else {
+            if (currentMinutes > postedMinutes) {
+              return `${currentMinutes - postedMinutes}분전`;
+            } else {
+              return "방금전";
+            }
+          }
+        }
+      }
+    }
+  };
+  
+  const confirmEdit = (updatedContent,commentno) => {
+    const requestContent = updatedContent.innerText.trim()
+    if(requestContent){
+      
+      const requestData = Object.assign({},{content:requestContent,commentno:commentno})
+      updateComment(requestData).then(response=>{
+        if(response){
+        updatedContent.innerText =requestContent
+        setOnEdit({active:false})
+      }
+      else{
+        Alert.error("oops! something went wrong. please retry!")
+      }
+      }).catch(error=>{
+        Alert.error("oops! something went wrong. please retry!")
+        
+      })
+      
+    }
+    else{
+      Alert.error("댓글 내용을 입력해주세요!")
+    }
+  };
+  const replyComment = e => {
+    const className = e.currentTarget.className;
+    const index = className.lastIndexOf("-");
+    const targetName = className.substring(index + 1);
+    const inputValue = document.querySelector(".comment-input").value;
+    if (!inputValue.includes("@" + targetName + " "))
+      document.querySelector(".comment-input").value = "@" + targetName + " ";
+  };
+  const complete = (data,el)=>{
+    const inputValue= el.value
+    const position = el.selectionStart
+    const startingpoint = inputValue.lastIndexOf("#",position)
+    const userTagStartingPoint = inputValue.lastIndexOf("@",position)
+    const newHastagValue = inputValue.substring(startingpoint+1,)
+    console.log(inputValue.substring(startingpoint,position).replace(data))
+    console.log(data)
+    if(userTagStartingPoint<startingpoint){
+    el.value = inputValue.substring(0,startingpoint)+ "#"+data+" " +inputValue.substring(position+1,)
+  }
+  else{
+    el.value = inputValue.substring(0,userTagStartingPoint)+ "@"+data+" " +inputValue.substring(position+1,)
+  }
+  }
+  const transformTags = (data)=>{
+    const hashTags = (data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
+    const userTags = (data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
+    console.log(hashTags)
+    let innerHtml = data
+    userTags.map(usertag=>{
+      innerHtml = innerHtml.replace(usertag,(<Link to={"/profile/"+usertag.replace("@","")}>{usertag}</Link>))
+    })
+    hashTags.map(hashtag=>{
+      innerHtml = innerHtml.replace(hashtag,(<Link to={"/list/"+hashtag.replace("#","")}>{hashtag}</Link>))
+    })
+    console.log(innerHtml)
+    return( <span>{innerHtml}</span>)
+    
+  }
+  const listenTags= e=>{
+
+    const position = e.currentTarget.selectionStart;
+    const inputValue= e.currentTarget.value
+    const hashTagcount = (inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
+    const userTagcount = (inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
+    console.log(1)
+    console.log((inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])[0])
+    console.log(1)
+    if(hashTagcount>0||userTagcount>0){
+        const startingpoint = inputValue.lastIndexOf("#",position)
+        const userTagStartingPoint = inputValue.lastIndexOf("@",position)
+        if(startingpoint<userTagStartingPoint){
+          // do uesrTag
+          if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
+
+            const newHastagValue = inputValue.substring(startingpoint+1,position)
+
+            
+            const requestData = Object.assign({},{newHastagValue})
+            // setTimeout(
+            //   hashtagAutoComplete(requestData).then(response=>{
+            //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
+            //   }).catch(err=>{
+            //     Alert.error("autocomplete not work!")
+            //   })
+              
+            // ,800)
+            setTimeout(setAutoCompleteResult({data:["user","bsb","sdg","aaaa"],targetElement:e.currentTarget}),800)
+          }
+        }
+        else{
+        if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
+
+          const newHastagValue = inputValue.substring(startingpoint+1,position)
+
+          
+          const requestData = Object.assign({},{newHastagValue})
+          // setTimeout(
+          //   hashtagAutoComplete(requestData).then(response=>{
+          //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
+          //   }).catch(err=>{
+          //     Alert.error("autocomplete not work!")
+          //   })
+            
+          // ,800)
+          setTimeout(setAutoCompleteResult({data:["sd","sd","bsd","as"],targetElement:e.currentTarget}),800)
+        }
+        else{
+          setAutoCompleteResult([])
+        }
+      }
+    }
+    else{
+      setAutoCompleteResult([])
+    }
+  }
 
   return (
     <div className="comment-section">
       <div className="comment-list-section">
+        {comments.length === 0 ? (
+          <h1>No Comments Yet</h1>
+        ) : (
+          comments.map((comment,i) => (
+            <div
+              key={comment.commentno}
+              className={"comment no" + comment.commentno}
+            >
+              <div className="comment-profile-section">
+                <div className="comment-profile-image">
+                  <img src={comment.userinfo.userImg} alt="" />
+                </div>
+              </div>
+              <div className="comment-main-section">
+                <div className="comment-content-section">
+                  <span
+                    className={
+                      "comment-profile-username user-" + comment.userinfo.userno
+                    }
+                  >
+                    {comment.userinfo.username}
+                  </span>
+                  <span
+                    ref={contentRef.current[i]}
+                    suppressContentEditableWarning={true}
+                    contentEditable={
+                      user.auth
+                        ? onEdit.commentno === comment.commentno &&
+                          onEdit.active &&
+                          user.info.id === comment.userinfo.userno
+                          ? true
+                          : false
+                        : false
+                    }
+                  >
+                    {transformTags(comment.content)}
+                  </span>
+                  <div
+                    hidden={
+                      user.auth
+                        ? onEdit.commentno === comment.commentno &&
+                          onEdit.active &&
+                          user.info.id === comment.userinfo.userno
+                          ? false
+                          : true
+                        : true
+                    }
+                  >
+                    <div className="button-container">
+                      <button onClick={()=>{confirmEdit(contentRef.current[i].current,comment.commentno)}}> {/* 댓글 수정 전송*/}
+                        <FontAwesomeIcon icon={faPen} />
+                      </button>
+                      <button
+                        onClick={() => {
+                          contentRef.current[
+                            i
+                          ].current.innerText = comment.content;
+                          setOnEdit({
+                            active: false,
+                          });
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTimes} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style={
+                    user.auth
+                      ? onEdit.commentno === comment.commentno &&
+                        onEdit.active &&
+                        user.info.id === comment.userinfo.userno
+                        ? { display: "none" }
+                        : { display: "flex" }
+                      : { display: "flex" }
+                  }
+                  className="comment-content-sub-section"
+                >
+                  <div className="comment-time-section">
+                    <span>{caculateDatetime(comment.commnetdate)}</span>
+                  </div>
+                  <div className="comment-reply-section">
+                    <span
+                      className={
+                        "comment-target-user-" + comment.userinfo.username
+                      }
+                      onClick={replyComment}
+                    >
+                      답장
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {user.auth ? (
+                user.info.id === comment.userinfo.userno ? (
+                  <div className="comment-edit-section">
+                    <span
+                      onClick={
+                        !showmenu.active
+                          ? () => {
+                              setShowmenu({
+                                commentno: comment.commentno,
+                                active: true,
+                              });
+                            }
+                          : () => {
+                              setShowmenu({
+                                active: false,
+                              });
+                            }
+                      }
+                    >
+                      <FontAwesomeIcon icon={faEllipsisH} />
+                    </span>
+                    <div
+                      style={
+                        showmenu.commentno === comment.commentno &&
+                        showmenu.active
+                          ? { display: "flex", flexDirection: "column" }
+                          : { display: "none" }
+                      }
+                      className={"comment-edit-menu no" + comment.commentno}
+                    >
+                      <button
+                        onClick={() => {
+                          setShowmenu({
+                            active: false,
+                          });
+
+                          setOnEdit({
+                            commentno: comment.commentno,
+                            active: true,
+                          });
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} /> 수정
+                      </button>
+                      <button>
+                        <FontAwesomeIcon icon={faTrashAlt} /> 삭제
+                      </button>
+                    </div>
+                  </div>
+                ) : null
+              ) : null}
+            </div>
+          ))
+        )}
         {/* load comment */}
-        <h1>No Comments Yet</h1>
       </div>
       <div className="comment-input-section">
         <form>
-          <div className="comment-input">
+          <div className="comment-input-container">
             <div className="img-section"></div>
             <input
+              className="comment-input"
               type="text"
+              onChange={listenTags}
               placeholder={
                 user.auth
                   ? "leave a comment"
@@ -282,6 +705,17 @@ function Comment(props) {
             </button>
           </div>
         </form>
+        <div style={{position:"absolute"}} hidden={autoCompleteResult?false:true}>
+        {autoCompleteResult.data?autoCompleteResult.data.map(hashtag=>(
+          
+          <button onClick={()=>{complete(hashtag,autoCompleteResult.targetElement)
+            setAutoCompleteResult({data:null,targetElement:null})}
+          }>
+            {hashtag}
+          </button>
+        ))
+      :null}
+      </div>
       </div>
     </div>
   );
@@ -343,7 +777,7 @@ function Product(props) {
             RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS
           </span>
 
-          <span className="product-price">₩1,012,000</span>
+          <span className="product-price"></span>
         </div>
       </div>
     </div>
@@ -393,5 +827,3 @@ function RelatedImages(props) {
     </div>
   );
 }
-
-
