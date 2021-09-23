@@ -73,7 +73,7 @@ export default function Detail(props) {
     userRelated: [
       {
         postno: 1,
-        imgUrl: "",
+        imgUrl: "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
       },
     ],
     likecount: 1543,
@@ -89,11 +89,11 @@ export default function Detail(props) {
             "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
         },
         content:
-          "나는 @댓글입니다 @정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
+          "나는 #weg @bcd 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
       },
       {
         commentno: 2,
-        commnetdate: "2021-9-21 18:31:20",
+        commnetdate: "2021-9-23 10:2:20",
         userinfo: {
           userno: 1,
           username: "카리나a",
@@ -444,8 +444,8 @@ function Comment(props) {
     const startingpoint = inputValue.lastIndexOf("#",position)
     const userTagStartingPoint = inputValue.lastIndexOf("@",position)
     const newHastagValue = inputValue.substring(startingpoint+1,)
-    console.log(inputValue.substring(startingpoint,position).replace(data))
-    console.log(data)
+
+
     if(userTagStartingPoint<startingpoint){
     el.value = inputValue.substring(0,startingpoint)+ "#"+data+" " +inputValue.substring(position+1,)
   }
@@ -456,16 +456,17 @@ function Comment(props) {
   const transformTags = (data)=>{
     const hashTags = (data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
     const userTags = (data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
-    console.log(hashTags)
+
     let innerHtml = data
     userTags.map(usertag=>{
-      innerHtml = innerHtml.replace(usertag,(<Link to={"/profile/"+usertag.replace("@","")}>{usertag}</Link>))
+      console.log(usertag)
+      innerHtml = innerHtml.replace(usertag,`<a href="/profile/${usertag.replace("@","")}">${usertag}</a>`)
     })
     hashTags.map(hashtag=>{
-      innerHtml = innerHtml.replace(hashtag,(<Link to={"/list/"+hashtag.replace("#","")}>{hashtag}</Link>))
+      innerHtml = innerHtml.replace(hashtag,`<a href="/list/${hashtag.replace("#","")}">${hashtag}</a>`)
     })
     console.log(innerHtml)
-    return( <span>{innerHtml}</span>)
+    return {__html:"<span>"+innerHtml+"</span>"}
     
   }
   const listenTags= e=>{
@@ -474,9 +475,9 @@ function Comment(props) {
     const inputValue= e.currentTarget.value
     const hashTagcount = (inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
     const userTagcount = (inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
-    console.log(1)
-    console.log((inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])[0])
-    console.log(1)
+
+
+
     if(hashTagcount>0||userTagcount>0){
         const startingpoint = inputValue.lastIndexOf("#",position)
         const userTagStartingPoint = inputValue.lastIndexOf("@",position)
@@ -564,7 +565,7 @@ function Comment(props) {
                         : false
                     }
                   >
-                    {transformTags(comment.content)}
+                    <span dangerouslySetInnerHTML={transformTags(comment.content)}></span>
                   </span>
                   <div
                     hidden={
@@ -796,22 +797,30 @@ function RelatedImages(props) {
           className="masonry-grid"
           columnClassName="masonry-grid-column"
         >
-          <img
-            src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-            alt=""
-          />
-          <img
-            src="https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png"
-            alt=""
-          />
-          <img
-            src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-            alt=""
-          />
-          <img
-            src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-            alt=""
-          />
+          <a href="">
+            <img
+              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
+              alt=""
+            />
+          </a>
+          <a href="">
+            <img
+              src="https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png"
+              alt=""
+            />
+          </a>
+          <a href="">
+            <img
+              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
+              alt=""
+            />
+          </a>
+          <a href="">
+            <img
+              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
+              alt=""
+            />
+          </a>
 
           <div className="more">
             <img
