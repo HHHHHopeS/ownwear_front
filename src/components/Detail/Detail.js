@@ -10,7 +10,6 @@ import {
 import {
   faEdit,
   faEllipsisH,
-  faEllipsisV,
   faHeart,
   faPaperPlane,
   faPen,
@@ -19,27 +18,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
+  createRef,
+  useContext,
   useEffect,
   useLayoutEffect,
+  useReducer,
   useRef,
   useState,
-  useContext,
-  createRef,
 } from "react";
-
 import Masonry from "react-masonry-css";
-import { Link,Redirect } from "react-router-dom";
-import { UserContext } from "../../common/UserContext";
 import Alert from "react-s-alert";
+import { UserContext } from "../../common/UserContext";
+import {
+  getDetailData,
+  toggleLike,
+  updateComment,
+  getIsLike,
+  getLikeUserList,
+} from "../../util/APIUtils";
+import NotFound from "../404/NotFound";
+import ContetentEditable from "react-contenteditable";
 import "./Detail.scss";
-import { getDetailData, toggleLike,updateComment,hashtagAutoComplete } from "../../util/APIUtils";
+import LikeListModal from "./LikeListModal";
 
 export default function Detail(props) {
-  const postno = props.location.pathname;
+  const pathName = props.location.pathname;
+  const postuser = pathName.split("/")[1];
+  const postno = pathName.split("/")[2];
+  const [isLike, setIsLike] = useState(false);
+  const [show, setShow] = useState(false);
+
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoverTag, setHoverTag] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
     postno: postno,
     userno: 1,
@@ -73,7 +86,8 @@ export default function Detail(props) {
     userRelated: [
       {
         postno: 1,
-        imgUrl: "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
+        imgUrl:
+          "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
       },
     ],
     likecount: 1543,
@@ -105,12 +119,95 @@ export default function Detail(props) {
       },
     ],
   });
+  const [likeUserList, setLikeUserList] = useState([
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:false
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:false
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+  ]);
+
   useEffect(() => {
     const getDetailDataRequest = Object.assign({}, { postno: postno });
-    getDetailData(getDetailDataRequest).then(response => {
-      setDetailPageData(response);
-    });
-  }, []);
+    getDetailData(getDetailDataRequest)
+      .then(response => {
+        setDetailPageData(response);
+        if (user.auth) {
+          const getIsLikeRequest = Object.assign(
+            {},
+            { postno: postno, userno: user.info.id }
+          );
+          getIsLike(getIsLikeRequest)
+            .then(response => {
+              if (response) {
+                setIsLike(true);
+              } else {
+                setIsLike(false);
+              }
+            })
+            .catch(err => {
+              Alert.error("failed to check is like");
+            });
+        } else {
+          setIsLike(false);
+        }
+      })
+      .catch(err => {
+        Alert.error("failed to get data");
+        // setNotFound(true)  백 구축 하면 원상복귀
+      });
+  }, [postno]);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -136,38 +233,69 @@ export default function Detail(props) {
     setTimeout(reRender, 1000);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
-
-  return (
-    <div className="Detail">
-      <div className="detail-main-section">
-        <Image
-          imgData={detailPageData.imgData}
-          dimensions={dimensions}
-          targetRef={targetRef}
-          setHoverTag={setHoverTag}
-        />
-        <div
-          className="comment-container"
-          style={{
-            width: `${dimensions.width}px`,
-          }}
-        >
-          <LikeShare
-            likecount={detailPageData.likecount}
-            user={user}
-            {...props}
+  const setLikecount = bool => {
+    if (bool) {
+      setDetailPageData({
+        ...detailPageData,
+        likecount: detailPageData.likecount + 1,
+      });
+    } else {
+      setDetailPageData({
+        ...detailPageData,
+        likecount: detailPageData.likecount - 1,
+      });
+    }
+  };
+  if (postno && postuser && !notFound) {
+    return (
+      <div className="Detail">
+        <div className="detail-main-section">
+          <Image
+            imgData={detailPageData.imgData}
+            dimensions={dimensions}
+            targetRef={targetRef}
+            setHoverTag={setHoverTag}
           />
-          <Comment comments={detailPageData.comments} user={user} />
+          <div
+            className="comment-container"
+            style={{
+              width: `${dimensions.width}px`,
+            }}
+          >
+            <LikeShare
+              likecount={detailPageData.likecount}
+              setIsLike={setIsLike}
+              isLike={isLike}
+              setLikecount={setLikecount}
+              user={user}
+              show={show}
+              setShow={setShow}
+              {...props}
+            />
+            <Comment
+              comments={detailPageData.comments}
+              setDetailPageData={setDetailPageData}
+              user={user}
+            />
+          </div>
         </div>
+        <div className="detail-side-section">
+          <ImageInfo />
+          <Product hoverTag={hoverTag} />
+          <RelatedImages />
+        </div>
+        <LikeListModal
+          likeUserList={likeUserList}
+          show={show}
+          setShow={setShow}
+        />
       </div>
-      <div className="detail-side-section">
-        <ImageInfo />
-        <Product hoverTag={hoverTag} />
-        <RelatedImages />
-      </div>
-    </div>
-  );
+    );
+  } else {
+    return <NotFound></NotFound>;
+  }
 }
+
 
 function Image(props) {
   const dimensions = props.dimensions;
@@ -234,11 +362,16 @@ function Image(props) {
 }
 
 function LikeShare(props) {
-  const postno = props.location.pathname;
+  const postno = props.location.pathname.split("/")[3];
+  console.log(postno);
   const likecount = props.likecount;
+  const setLikecount = props.setLikecount;
   const [hover, setHover] = useState(false);
   const [shareActive, setShareActive] = useState(false);
-  const [isLike, setIsLike] = useState(false);
+
+  const setShow = props.setShow;
+  const isLike = props.isLike;
+  const setIsLike = props.setIsLike;
   const user = props.user;
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
@@ -247,22 +380,47 @@ function LikeShare(props) {
         {},
         { userno: user.info.id, postno: postno }
       );
-
-      toggleLike(toggleLikeRequest)
-        .then(response => {
-          if (isLike) {
-            setIsLike(false);
-          } else {
-            setIsLike(true);
-          }
-        })
-        .catch(() => {
-          Alert.error("oops cannot change, please retry!");
-        });
+      setLikecount(false);
+      if (isLike) {
+        setIsLike(false);
+        console.log("2");
+      } else {
+        setIsLike(true);
+        console.log(isLike);
+      }
+      // 좋아요 카운트 쿼리
+      // toggleLike(toggleLikeRequest)
+      //   .then(response => {
+      //     if (isLike) {
+      //       setIsLike(false);
+      //     } else {
+      //       setIsLike(true);
+      //     }
+      //     if(response){
+      //       setLikecount(response)
+      //     }
+      //   })
+      //   .catch(() => {
+      //     Alert.error("oops cannot change, please retry!");
+      //   });
     } else {
       Alert.error("please login first!");
       props.history.push("/login");
     }
+  };
+  const activeLikeListModal = () => {
+    if(user.auth){
+    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:user.id });
+    // getLikeUserList(LikeUserListRequest).then(
+    //   response=>{
+
+    //   }
+    // )
+  }
+  else{
+    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:null });
+  }
+    setShow(true);
   };
   useEffect(() => {
     const setheartIcon = () => {
@@ -327,7 +485,7 @@ function LikeShare(props) {
           </div>
         </div>
         <div className="letter-section">
-          <span>{likecount}Likes</span>
+          <span onClick={activeLikeListModal}>{likecount}Likes</span>
         </div>
       </div>
     </div>
@@ -335,8 +493,10 @@ function LikeShare(props) {
 }
 
 function Comment(props) {
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const user = props.user;
   const comments = props.comments;
+  const [initialContent, setInitialContent] = useState(null);
   const [showmenu, setShowmenu] = useState({
     commentno: null,
     active: false,
@@ -345,12 +505,14 @@ function Comment(props) {
     commentno: null,
     active: false,
   });
-  const [autoCompleteResult,setAutoCompleteResult] = useState([])
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const contentRef = useRef([]);
   contentRef.current = comments.map(
-    (comment,i) => contentRef.current[i] ?? createRef()
+    (comment, i) => contentRef.current[i] ?? createRef()
   );
-  
+  const handleChange = e => {
+    console.log(e);
+  };
   const caculateDatetime = date => {
     const currentDate = new Date();
     const postedDate = new Date(date);
@@ -406,28 +568,28 @@ function Comment(props) {
       }
     }
   };
-  
-  const confirmEdit = (updatedContent,commentno) => {
-    const requestContent = updatedContent.innerText.trim()
-    if(requestContent){
-      
-      const requestData = Object.assign({},{content:requestContent,commentno:commentno})
-      updateComment(requestData).then(response=>{
-        if(response){
-        updatedContent.innerText =requestContent
-        setOnEdit({active:false})
-      }
-      else{
-        Alert.error("oops! something went wrong. please retry!")
-      }
-      }).catch(error=>{
-        Alert.error("oops! something went wrong. please retry!")
-        
-      })
-      
-    }
-    else{
-      Alert.error("댓글 내용을 입력해주세요!")
+
+  const confirmEdit = (updatedContent, commentno) => {
+    const requestContent = updatedContent.innerText.trim();
+    if (requestContent) {
+      const requestData = Object.assign(
+        {},
+        { content: requestContent, commentno: commentno }
+      );
+      updateComment(requestData)
+        .then(response => {
+          if (response) {
+            updatedContent.innerText = requestContent;
+            setOnEdit({ active: false });
+          } else {
+            Alert.error("oops! something went wrong. please retry!");
+          }
+        })
+        .catch(error => {
+          Alert.error("oops! something went wrong. please retry!");
+        });
+    } else {
+      Alert.error("댓글 내용을 입력해주세요!");
     }
   };
   const replyComment = e => {
@@ -438,94 +600,126 @@ function Comment(props) {
     if (!inputValue.includes("@" + targetName + " "))
       document.querySelector(".comment-input").value = "@" + targetName + " ";
   };
-  const complete = (data,el)=>{
-    const inputValue= el.value
-    const position = el.selectionStart
-    const startingpoint = inputValue.lastIndexOf("#",position)
-    const userTagStartingPoint = inputValue.lastIndexOf("@",position)
-    const newHastagValue = inputValue.substring(startingpoint+1,)
+  const complete = (data, el) => {
+    const inputValue = el.value;
+    const position = el.selectionStart;
+    const startingpoint = inputValue.lastIndexOf("#", position);
+    const userTagStartingPoint = inputValue.lastIndexOf("@", position);
+    const newHastagValue = inputValue.substring(startingpoint + 1);
 
+    if (userTagStartingPoint < startingpoint) {
+      el.value =
+        inputValue.substring(0, startingpoint) +
+        "#" +
+        data +
+        " " +
+        inputValue.substring(position + 1);
+    } else {
+      el.value =
+        inputValue.substring(0, userTagStartingPoint) +
+        "@" +
+        data +
+        " " +
+        inputValue.substring(position + 1);
+    }
+  };
+  const transformTags = data => {
+    const hashTags =
+      data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
+    const userTags =
+      data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
 
-    if(userTagStartingPoint<startingpoint){
-    el.value = inputValue.substring(0,startingpoint)+ "#"+data+" " +inputValue.substring(position+1,)
-  }
-  else{
-    el.value = inputValue.substring(0,userTagStartingPoint)+ "@"+data+" " +inputValue.substring(position+1,)
-  }
-  }
-  const transformTags = (data)=>{
-    const hashTags = (data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
-    const userTags = (data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
+    let innerHtml = data;
+    userTags.map(usertag => {
+      innerHtml = innerHtml.replace(
+        usertag,
+        `<a href="/profile/${usertag.replace("@", "")}">${usertag}</a>`
+      );
+    });
+    hashTags.map(hashtag => {
+      innerHtml = innerHtml.replace(
+        hashtag,
+        `<a href="/list/${hashtag.replace("#", "")}">${hashtag}</a>`
+      );
+    });
 
-    let innerHtml = data
-    userTags.map(usertag=>{
-      console.log(usertag)
-      innerHtml = innerHtml.replace(usertag,`<a href="/profile/${usertag.replace("@","")}">${usertag}</a>`)
-    })
-    hashTags.map(hashtag=>{
-      innerHtml = innerHtml.replace(hashtag,`<a href="/list/${hashtag.replace("#","")}">${hashtag}</a>`)
-    })
-    console.log(innerHtml)
-    return {__html:"<span>"+innerHtml+"</span>"}
-    
-  }
-  const listenTags= e=>{
-
+    return { __html: "<span>" + innerHtml + "</span>" };
+  };
+  const listenTags = e => {
     const position = e.currentTarget.selectionStart;
-    const inputValue= e.currentTarget.value
-    const hashTagcount = (inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
-    const userTagcount = (inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
+    const inputValue = e.currentTarget.value;
+    const hashTagcount = (
+      inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+    ).length;
+    const userTagcount = (
+      inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+    ).length;
 
+    if (hashTagcount > 0 || userTagcount > 0) {
+      const startingpoint = inputValue.lastIndexOf("#", position);
+      const userTagStartingPoint = inputValue.lastIndexOf("@", position);
+      if (startingpoint < userTagStartingPoint) {
+        // do uesrTag
+        if (
+          inputValue.substring(position - 1, position).trim() &&
+          inputValue[(startingpoint, startingpoint + 1)]
+        ) {
+          const newHastagValue = inputValue.substring(
+            startingpoint + 1,
+            position
+          );
 
-
-    if(hashTagcount>0||userTagcount>0){
-        const startingpoint = inputValue.lastIndexOf("#",position)
-        const userTagStartingPoint = inputValue.lastIndexOf("@",position)
-        if(startingpoint<userTagStartingPoint){
-          // do uesrTag
-          if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
-
-            const newHastagValue = inputValue.substring(startingpoint+1,position)
-
-            
-            const requestData = Object.assign({},{newHastagValue})
-            // setTimeout(
-            //   hashtagAutoComplete(requestData).then(response=>{
-            //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
-            //   }).catch(err=>{
-            //     Alert.error("autocomplete not work!")
-            //   })
-              
-            // ,800)
-            setTimeout(setAutoCompleteResult({data:["user","bsb","sdg","aaaa"],targetElement:e.currentTarget}),800)
-          }
-        }
-        else{
-        if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
-
-          const newHastagValue = inputValue.substring(startingpoint+1,position)
-
-          
-          const requestData = Object.assign({},{newHastagValue})
+          const requestData = Object.assign({}, { newHastagValue });
           // setTimeout(
           //   hashtagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
           //   }).catch(err=>{
           //     Alert.error("autocomplete not work!")
           //   })
-            
+
           // ,800)
-          setTimeout(setAutoCompleteResult({data:["sd","sd","bsd","as"],targetElement:e.currentTarget}),800)
+          setTimeout(
+            setAutoCompleteResult({
+              data: ["user", "bsb", "sdg", "aaaa"],
+              targetElement: e.currentTarget,
+            }),
+            800
+          );
         }
-        else{
-          setAutoCompleteResult([])
+      } else {
+        if (
+          inputValue.substring(position - 1, position).trim() &&
+          inputValue[(startingpoint, startingpoint + 1)]
+        ) {
+          const newHastagValue = inputValue.substring(
+            startingpoint + 1,
+            position
+          );
+
+          const requestData = Object.assign({}, { newHastagValue });
+          // setTimeout(
+          //   hashtagAutoComplete(requestData).then(response=>{
+          //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
+          //   }).catch(err=>{
+          //     Alert.error("autocomplete not work!")
+          //   })
+
+          // ,800)
+          setTimeout(
+            setAutoCompleteResult({
+              data: ["sd", "sd", "bsd", "as"],
+              targetElement: e.currentTarget,
+            }),
+            800
+          );
+        } else {
+          setAutoCompleteResult([]);
         }
       }
+    } else {
+      setAutoCompleteResult([]);
     }
-    else{
-      setAutoCompleteResult([])
-    }
-  }
+  };
 
   return (
     <div className="comment-section">
@@ -533,7 +727,7 @@ function Comment(props) {
         {comments.length === 0 ? (
           <h1>No Comments Yet</h1>
         ) : (
-          comments.map((comment,i) => (
+          comments.map((comment, i) => (
             <div
               key={comment.commentno}
               className={"comment no" + comment.commentno}
@@ -555,6 +749,7 @@ function Comment(props) {
                   <span
                     ref={contentRef.current[i]}
                     suppressContentEditableWarning={true}
+                    onChange={handleChange}
                     contentEditable={
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
@@ -565,7 +760,9 @@ function Comment(props) {
                         : false
                     }
                   >
-                    <span dangerouslySetInnerHTML={transformTags(comment.content)}></span>
+                    <span
+                      dangerouslySetInnerHTML={transformTags(comment.content)}
+                    ></span>
                   </span>
                   <div
                     hidden={
@@ -579,14 +776,24 @@ function Comment(props) {
                     }
                   >
                     <div className="button-container">
-                      <button onClick={()=>{confirmEdit(contentRef.current[i].current,comment.commentno)}}> {/* 댓글 수정 전송*/}
+                      <button
+                        onClick={() => {
+                          confirmEdit(
+                            contentRef.current[i].current,
+                            comment.commentno
+                          );
+                        }}
+                      >
+                        {" "}
+                        {/* 댓글 수정 전송*/}
                         <FontAwesomeIcon icon={faPen} />
                       </button>
                       <button
                         onClick={() => {
-                          contentRef.current[
-                            i
-                          ].current.innerText = comment.content;
+                          contentRef.current[i].current = initialContent;
+                          console.log();
+                          setInitialContent(null);
+
                           setOnEdit({
                             active: false,
                           });
@@ -659,7 +866,7 @@ function Comment(props) {
                           setShowmenu({
                             active: false,
                           });
-
+                          setInitialContent(contentRef.current[i].current);
                           setOnEdit({
                             commentno: comment.commentno,
                             active: true,
@@ -706,17 +913,23 @@ function Comment(props) {
             </button>
           </div>
         </form>
-        <div style={{position:"absolute"}} hidden={autoCompleteResult?false:true}>
-        {autoCompleteResult.data?autoCompleteResult.data.map(hashtag=>(
-          
-          <button onClick={()=>{complete(hashtag,autoCompleteResult.targetElement)
-            setAutoCompleteResult({data:null,targetElement:null})}
-          }>
-            {hashtag}
-          </button>
-        ))
-      :null}
-      </div>
+        <div
+          style={{ position: "absolute" }}
+          hidden={autoCompleteResult ? false : true}
+        >
+          {autoCompleteResult.data
+            ? autoCompleteResult.data.map(hashtag => (
+                <button
+                  onClick={() => {
+                    complete(hashtag, autoCompleteResult.targetElement);
+                    setAutoCompleteResult({ data: null, targetElement: null });
+                  }}
+                >
+                  {hashtag}
+                </button>
+              ))
+            : null}
+        </div>
       </div>
     </div>
   );

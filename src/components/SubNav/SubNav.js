@@ -11,6 +11,7 @@ import {
   faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { height, width } from "dom-helpers";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
@@ -29,14 +30,18 @@ export default function SubNav(props) {
       setChange(false);
     }
 
-    const className = location.pathname.replace("/", "");
-    if (document.querySelector(".SubNav").classList.length > 1) {
+    let className = location.pathname.replace("/", "");
+    if(className.includes("detail")||className.includes("list")||className.includes("profile"))
+    {className = className.split("/")
+    className = className[0]}
+    
+    if (document.querySelector(".SubNav")&&document.querySelector(".SubNav").classList.length > 1) {
       document
         .querySelector(".SubNav")
         .classList.remove(document.querySelector(".SubNav").classList[1]);
     }
 
-    if (className) {
+    if (className&&document.querySelector(".SubNav")) {
       document.querySelector(".SubNav").classList.add(className);
     }
   }, [location, change]);
@@ -53,6 +58,10 @@ export default function SubNav(props) {
     setChange(true);
     setRankingTitle(event.target.innerText);
   };
+  if(location.pathname.replace("/","").includes("detail")&&location.pathname.replace("/","").split("/").length!==3){
+    return <div className="SubNav" style={{height:"0"}}></div>
+  }
+  else{
   return (
     <div className="SubNav">
       <div className="main">
@@ -256,4 +265,5 @@ export default function SubNav(props) {
       </div>
     </div>
   );
+}
 }

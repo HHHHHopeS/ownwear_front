@@ -82,7 +82,8 @@ function LoginForm(props){
     login(loginRequest).then(response =>{
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       Alert.success("you re successfuly logged in! ")
-      props.history.push("/")
+      console.log(1)
+      props.history.goBack()
      
     }).catch(error=>{
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")

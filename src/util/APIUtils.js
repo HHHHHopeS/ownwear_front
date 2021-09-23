@@ -51,14 +51,7 @@ export function signup(signupRequest){
     })
 }
 
-//좋아요 토글
-export function toggleLike(toggleLikeRequest){
-    return request({
-        url:API_BASE_URL+"/toggleLike",
-        method:"POST",
-        body:JSON.stringify(toggleLikeRequest)
-    })
-}
+
 
 
 //디테일페이지 
@@ -72,6 +65,35 @@ export function getDetailData(detailDataReqeust){
     })
 }
 
+
+//좋아요 했는지 조회
+
+export function getIsLike(getIsLikeRequest){
+    return request({
+        url:API_BASE_URL+"/checkIsLike",
+        method:"POST",
+        body:JSON.stringify(getIsLikeRequest)
+    })
+}
+
+
+//좋아요 토글
+export function toggleLike(toggleLikeRequest){
+    return request({
+        url:API_BASE_URL+"/toggleLike",
+        method:"POST",
+        body:JSON.stringify(toggleLikeRequest)
+    })
+}
+
+//좋아요한 유저 목록 조회 (유저 권한은 필요 없을듯?)
+export function getLikeUserList(LikeUserListRequest){
+    return request({
+        url:API_BASE_URL+"/getLikeUserList",
+        method:"POST",
+        body:JSON.stringify(LikeUserListRequest)
+    })
+}
 
 // 댓글 수정 요청
 

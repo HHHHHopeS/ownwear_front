@@ -80,12 +80,12 @@ const handleLogout= ()=>{
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
-          <Route exact path="/detail" component={Detail}/>
+          <Route exact path="/detail/:id/:id" component={Detail}/>
           <Route exact path="/ranking" component={Ranking}/>
-          <Route exact path="/profile" component={Profile}/>
+          <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>
           <Route exact path="/create" component={Create}/>
-          <Route exact path="/list" component={List}/>
+          <Route exact path="/list/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
           <Route exact path="/" component={Main} />
 
