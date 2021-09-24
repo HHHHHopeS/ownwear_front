@@ -147,7 +147,9 @@ export default function Main(props) {
               </div>  
               <Hotuser/>
             <div className="more-button-section">
+              
               <button className="more">More</button>
+              
             </div>
           </div>
 
@@ -185,7 +187,7 @@ export default function Main(props) {
             <ImgBox data={data} />
           </div>
           <div className="more-button-section">
-            <button className="more" onClick>More</button>
+          <Link to={{pathname:'/list', state:data}}>More</Link>
           </div>
         </div>
         <div className="list-section prefered-tag1">
