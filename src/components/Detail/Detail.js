@@ -1,11 +1,11 @@
 import {
   faFacebookF,
   faPinterest,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faHeart as emptyHeart,
-  faShareSquare,
+  faShareSquare
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faEdit,
@@ -14,7 +14,7 @@ import {
   faPaperPlane,
   faPen,
   faTimes,
-  faTrashAlt,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
@@ -24,20 +24,16 @@ import React, {
   useLayoutEffect,
   useReducer,
   useRef,
-  useState,
+  useState
 } from "react";
 import Masonry from "react-masonry-css";
+import { Link } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import {
-  getDetailData,
-  toggleLike,
-  updateComment,
-  getIsLike,
-  getLikeUserList,
+  getDetailData, getIsLike, updateComment
 } from "../../util/APIUtils";
 import NotFound from "../404/NotFound";
-import ContetentEditable from "react-contenteditable";
 import "./Detail.scss";
 import LikeListModal from "./LikeListModal";
 
@@ -47,7 +43,6 @@ export default function Detail(props) {
   const postno = pathName.split("/")[2];
   const [isLike, setIsLike] = useState(false);
   const [show, setShow] = useState(false);
-
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -56,7 +51,7 @@ export default function Detail(props) {
   const [detailPageData, setDetailPageData] = useState({
     postno: postno,
     userno: 1,
-    username: "winter-aespa",
+    username: "winter",
     imgData: {
       imgUrl:
         "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
@@ -72,7 +67,7 @@ export default function Detail(props) {
             category: "top",
             productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
             productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+              "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
             productImgUrl:
               "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
             price: 1012000,
@@ -80,14 +75,29 @@ export default function Detail(props) {
         },
       ],
     },
-    rdate: "2021/08/30 08:31:20",
+    rdate: "2021-08-30 08:31:20",
     edate: "",
-    hashtag: ["Givenchy", "sweatshirt", "red"],
+    hashtags: ["Givenchy", "sweatshirt", "red"],
     userRelated: [
       {
-        postno: 1,
+        postno: 2,
         imgUrl:
           "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
+      },
+      {
+        postno: 3,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
+      },
+      {
+        postno: 4,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
+      },
+      {
+        postno: 5,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
     ],
     likecount: 1543,
@@ -122,7 +132,7 @@ export default function Detail(props) {
   const [likeUserList, setLikeUserList] = useState([
     {
       username: "카리나a",
-      userno: "3",
+      userno: "1",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
@@ -273,18 +283,20 @@ export default function Detail(props) {
               {...props}
             />
             <Comment
-              comments={detailPageData.comments}
+              postno={postno}
+              detailPageData={detailPageData}
               setDetailPageData={setDetailPageData}
               user={user}
             />
           </div>
         </div>
         <div className="detail-side-section">
-          <ImageInfo />
-          <Product hoverTag={hoverTag} />
-          <RelatedImages />
+          <ImageInfo detailPageData={detailPageData} />
+          <Product detailPageData={detailPageData} hoverTag={hoverTag} />
+          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.username}/>
         </div>
         <LikeListModal
+        setLikeUserList ={setLikeUserList}
           likeUserList={likeUserList}
           show={show}
           setShow={setShow}
@@ -495,7 +507,10 @@ function LikeShare(props) {
 function Comment(props) {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const user = props.user;
-  const comments = props.comments;
+  const comments = props.detailPageData.comments;
+  const detailPageData = props.detailPageData
+  const setDetailPageData = props.setDetailPageData
+
   const [initialContent, setInitialContent] = useState(null);
   const [showmenu, setShowmenu] = useState({
     commentno: null,
@@ -720,7 +735,47 @@ function Comment(props) {
       setAutoCompleteResult([]);
     }
   };
-
+  const createComment=()=>{
+    const data =document.querySelector(".comment-input").value
+    const createCommentRequest = Object.assign({},{userno:user.info.id,postno:props.postno,content:data})
+    // fetchCreateComment(createCommentRequest).then(
+    //   response=>{
+    //     let arr = [...comments]
+    //     arr.push(response)
+    //     setDetailPageData({...detailPageData,comments:arr})
+    //   }
+    // ).catch(err=>{
+    //   Alert.error("oops cannot create comment")
+    // })
+    let arr = [...comments]
+    arr.push(
+      {
+      commentno:3,
+      commentdata:"2021-9-23 18:31:20",
+      userinfo:{
+        userno:1,
+      username:"winter",
+      userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+    },
+    content:data
+    })
+    setDetailPageData({...detailPageData,comments:arr})
+    document.querySelector(".comment-input").value=""
+  }
+  const deleteComment=(comment)=>{
+    const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
+    const arr = [...comments]
+    const index = arr.indexOf(comment);
+    arr.splice(index,1)
+    
+    // fetchDeleteComment(deleteCommentRequest).then(response=>{
+    //   Alert.success("comment has deleted!")
+    //   setDetailPageData({...detailPageData,comments:arr})  
+    // }).catch(err=>{
+    //   Alert.error("delete failed!")
+    // })
+    setDetailPageData({...detailPageData,comments:arr})
+  }
   return (
     <div className="comment-section">
       <div className="comment-list-section">
@@ -875,7 +930,7 @@ function Comment(props) {
                       >
                         <FontAwesomeIcon icon={faEdit} /> 수정
                       </button>
-                      <button>
+                      <button onClick={()=>deleteComment(comment)}>
                         <FontAwesomeIcon icon={faTrashAlt} /> 삭제
                       </button>
                     </div>
@@ -888,7 +943,7 @@ function Comment(props) {
         {/* load comment */}
       </div>
       <div className="comment-input-section">
-        <form>
+        <div className="comment-input-form">
           <div className="comment-input-container">
             <div className="img-section"></div>
             <input
@@ -906,13 +961,13 @@ function Comment(props) {
           <div className="button-section">
             <button
               // submit event 추가
-              onSubmit={null}
+              onClick={createComment}
               disabled={user.auth ? false : true}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
-        </form>
+        </div>
         <div
           style={{ position: "absolute" }}
           hidden={autoCompleteResult ? false : true}
@@ -936,70 +991,73 @@ function Comment(props) {
 }
 
 function ImageInfo(props) {
+  const detailPageData = props.detailPageData
   return (
     <div className="img-info-container">
       {/* 프로필 앵커태그 */}
-      <span className="title-profile"> winter</span>
+      <span className="title-profile"> {detailPageData.username}</span>
 
       <span>님의</span>
       {/* 상품 앵커태그 */}
       <span className="title-product">
-        {}Red Oversized Metal Details Sweatshirt
-      </span>
+        {detailPageData.imgData.tagData[0].productName}</span>
       <span>을 활용한 데일리 룩</span>
 
       <div className="hashtag-container">
-        <button className="hashtag">#Givenchy</button>
-        <button className="hashtag">#sweatshirt</button>
-        <button className="hashtag">#red</button>
+        {detailPageData.hashtags.map(hashtag=>(
+          <Link to={"/list/"+hashtag} className="hashtag">#{hashtag}</Link>
+        ))}
       </div>
 
       <div className="register-date-container">
-        posted 2021/08/30 at 08:31:20
+        posted at {detailPageData.rdate}
       </div>
     </div>
+
   );
 }
 
 function Product(props) {
+  const tagData = props.detailPageData.imgData.tagData
   const hoverTag = props.hoverTag;
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>
-      <div
-        className="product product-1"
-        style={
-          hoverTag
-            ? {
-                border: "2px solid black",
-              }
-            : {
-                border: "none",
-                background: "none",
-              }
-        }
-      >
-        <div className="product-img-section">
+      {tagData.map((tag,index)=>(
+        <div className={"product product-"+{index}}>
+          <div className="product-img-section">
+            <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
           <img
-            src="https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg"
-            alt=""
+            src={tag.productInfo.productImgUrl}
+            alt="productImg"
           />
+          </a>
         </div>
         <div className="product-info-section">
-          <span className="product-brand">GIVENCHY</span>
+          <Link to={"/list/"+tag.productInfo.brandName}>
+          <span className="product-brand">{tag.productInfo.brandName}</span>
+          </Link>
+          <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
           <span className="product-name">
-            RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS
+            {tag.productInfo.productName}
           </span>
+          </a>
 
-          <span className="product-price"></span>
+          <span className="product-price">{tag.productInfo.price}원</span>
         </div>
-      </div>
+        </div>
+      ))}
+      
+      
     </div>
   );
 }
 
 function RelatedImages(props) {
+  const userRelated = props.userRelated
+  const username = props.username
   return (
+
     <div className="related-img-container">
       <div className="header-section">
         <span className="title-header">Related Image</span>
@@ -1010,32 +1068,14 @@ function RelatedImages(props) {
           className="masonry-grid"
           columnClassName="masonry-grid-column"
         >
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
+          {userRelated.map(relatedPost=>(
+              <Link to={"/detail/"+username+"/"+relatedPost.postno}>
+                <img src={relatedPost.imgUrl} alt="" />
+              </Link>
+          ))}
 
           <div className="more">
+            <Link to={"/profile/"+username}>
             <img
               src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
               alt=""
@@ -1043,6 +1083,8 @@ function RelatedImages(props) {
             <span>
               <FontAwesomeIcon icon={faEllipsisH} />
             </span>
+            </Link>
+            
           </div>
         </Masonry>
       </div>

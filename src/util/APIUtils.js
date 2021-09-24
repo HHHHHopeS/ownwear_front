@@ -94,6 +94,15 @@ export function getLikeUserList(LikeUserListRequest){
         body:JSON.stringify(LikeUserListRequest)
     })
 }
+// 댓글 추가 요청
+
+export function fetchCreateComment(createCommentRequest){
+    return request({
+        url:API_BASE_URL+"/createComment",
+        method:"POST",
+        body:JSON.stringify(createCommentRequest)
+    })
+}
 
 // 댓글 수정 요청
 
@@ -102,6 +111,13 @@ export function updateComment(updateCommentRequest){
         url:API_BASE_URL+"/updateComment",
         method:"POST",
         body:JSON.stringify(updateCommentRequest)
+    })
+}
+export function fetchDeleteComment(deleteCommentRequest){
+    return request({
+        url:API_BASE_URL+"/updateComment",
+        method:"POST",
+        body:JSON.stringify(deleteCommentRequest)
     })
 }
 
@@ -121,5 +137,15 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
         url:API_BASE_URL+"/usertagAutoComplete",
         method:"POST",
         body:JSON.stringify(usertagAutoCompleteRequest)
+    })
+}
+
+//좋아요모달 팔로우
+
+export function updateModalFollow(updateModalFollowRequest){
+    return request({
+        url:API_BASE_URL+"/usertagAutoComplete",
+        method:"POST",
+        body:JSON.stringify(updateModalFollowRequest)
     })
 }

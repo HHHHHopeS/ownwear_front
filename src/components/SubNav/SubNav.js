@@ -11,7 +11,6 @@ import {
   faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { height, width } from "dom-helpers";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
