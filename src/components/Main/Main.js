@@ -34,7 +34,7 @@ export default function Main(props) {
       setBrand(data)
     })
     .catch(error =>{
-      console.log(error)
+
     })
   },[brand])
 
@@ -48,7 +48,7 @@ export default function Main(props) {
       setHotuser({list:data})
     })
     .catch(error =>{
-      console.log(error)
+
     })
   },[hotuser])
 

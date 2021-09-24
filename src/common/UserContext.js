@@ -6,12 +6,14 @@ export const UserProvider = ({children})=>{
 
     const setCurrentUser = (userInfo) =>{
         if(userInfo){
+            console.log(userInfo)
         setUser((user) => ({
             info: userInfo,
             auth:true,
         }))
     }
     else{
+
         setUser((user)=>({
             info:null,
             auth:false
