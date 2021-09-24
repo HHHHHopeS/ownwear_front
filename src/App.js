@@ -19,6 +19,7 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
+import PrivateRoute from "./common/PrivateRoute";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
@@ -29,29 +30,34 @@ import { getCurrentUser } from "./util/APIUtils";
   
 
 export default function App(props) {
-const {setCurrentUser} = useContext(UserContext)
+const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
-
-const [loading,setLoading] = useState(false)
+const [authenticated,setAuthenticated] = useState(false)
+const [loading,setLoading] = useState(true)
 
 
 const handleLogout= ()=>{
   localStorage.removeItem(ACCESS_TOKEN);
   setCurrentUser(null)
+  setAuthenticated(false)
   Alert.success("You re safely logged out!")
 }
 
   
   useEffect(() => {
-
+    
     const loadCurrentlyLoggedInUser = ()=>{
 
       setLoading(true)
       getCurrentUser().then(response=>{
 
         setCurrentUser(response)
+        if(user.auth){
+          setAuthenticated(true)
+        }
+        else(setAuthenticated(false))
         setLoading(false)
-        console.log(response)
+
       }).catch(error=>{
         console.log(error)
         setLoading(false)
@@ -59,8 +65,9 @@ const handleLogout= ()=>{
     }
 
   loadCurrentlyLoggedInUser();
+
   return () => setLoading(false);
-  },[location])
+  },[user.auth])
   
   if(loading){
     return <LoadingIndicator />
@@ -71,7 +78,7 @@ const handleLogout= ()=>{
 
       <Nav onLogout={handleLogout}/>
       <SubNav />
-      <div className="main-section"
+      <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
 
         <Switch >
@@ -85,7 +92,8 @@ const handleLogout= ()=>{
           <Route exact path="/ranking" component={Ranking}/>
           <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>
-          <Route exact path="/create" component={Create}/>
+          <Route exact path="/create" component={Create} authenticated={authenticated} ></Route>
+
           <Route exact path="/list/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
           <Route exact path="/" component={Main} />

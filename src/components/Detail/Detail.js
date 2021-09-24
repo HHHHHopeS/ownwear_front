@@ -375,7 +375,7 @@ function Image(props) {
 
 function LikeShare(props) {
   const postno = props.location.pathname.split("/")[3];
-  console.log(postno);
+
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
   const [hover, setHover] = useState(false);
@@ -395,10 +395,10 @@ function LikeShare(props) {
       setLikecount(false);
       if (isLike) {
         setIsLike(false);
-        console.log("2");
+
       } else {
         setIsLike(true);
-        console.log(isLike);
+
       }
       // 좋아요 카운트 쿼리
       // toggleLike(toggleLikeRequest)
@@ -526,7 +526,7 @@ function Comment(props) {
     (comment, i) => contentRef.current[i] ?? createRef()
   );
   const handleChange = e => {
-    console.log(e);
+
   };
   const caculateDatetime = date => {
     const currentDate = new Date();
@@ -846,7 +846,7 @@ function Comment(props) {
                       <button
                         onClick={() => {
                           contentRef.current[i].current = initialContent;
-                          console.log();
+
                           setInitialContent(null);
 
                           setOnEdit({

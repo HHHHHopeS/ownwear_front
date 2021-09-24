@@ -12,6 +12,7 @@ export default function Main(props) {
 
   const [currentUrl, setCurrentUrl] = useState(null);
 
+
   useEffect(() => {
     if (!data || currentUrl !== props.match.path) {
       switch (props.match.path) {
