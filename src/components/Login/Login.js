@@ -1,11 +1,11 @@
-import {  useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
 import { login, signup } from '../../util/APIUtils';
-
 import "./Login.scss";
+
 
 export default function Login(props) {
   const {user} = useContext(UserContext)
@@ -82,7 +82,8 @@ function LoginForm(props){
     login(loginRequest).then(response =>{
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       Alert.success("you re successfuly logged in! ")
-      props.history.push("/")
+      console.log(1)
+      props.history.goBack()
      
     }).catch(error=>{
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")

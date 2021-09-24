@@ -1,49 +1,57 @@
 import {
   faFacebookF,
   faPinterest,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faHeart as emptyHeart,
-  faShareSquare,
+  faShareSquare
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faEdit,
   faEllipsisH,
-  faEllipsisV,
   faHeart,
   faPaperPlane,
   faPen,
   faTimes,
-  faTrashAlt,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
+  createRef,
+  useContext,
   useEffect,
   useLayoutEffect,
+  useReducer,
   useRef,
-  useState,
-  useContext,
-  createRef,
+  useState
 } from "react";
-
 import Masonry from "react-masonry-css";
-import { Link,Redirect } from "react-router-dom";
-import { UserContext } from "../../common/UserContext";
+import { Link } from "react-router-dom";
 import Alert from "react-s-alert";
+import { UserContext } from "../../common/UserContext";
+import {
+  getDetailData, getIsLike, updateComment
+} from "../../util/APIUtils";
+import NotFound from "../404/NotFound";
 import "./Detail.scss";
-import { getDetailData, toggleLike,updateComment,hashtagAutoComplete } from "../../util/APIUtils";
+import LikeListModal from "./LikeListModal";
 
 export default function Detail(props) {
-  const postno = props.location.pathname;
+  const pathName = props.location.pathname;
+  const postuser = pathName.split("/")[1];
+  const postno = pathName.split("/")[2];
+  const [isLike, setIsLike] = useState(false);
+  const [show, setShow] = useState(false);
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoverTag, setHoverTag] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
     postno: postno,
     userno: 1,
-    username: "winter-aespa",
+    username: "winter",
     imgData: {
       imgUrl:
         "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
@@ -59,7 +67,7 @@ export default function Detail(props) {
             category: "top",
             productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
             productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
+              "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
             productImgUrl:
               "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
             price: 1012000,
@@ -67,13 +75,29 @@ export default function Detail(props) {
         },
       ],
     },
-    rdate: "2021/08/30 08:31:20",
+    rdate: "2021-08-30 08:31:20",
     edate: "",
-    hashtag: ["Givenchy", "sweatshirt", "red"],
+    hashtags: ["Givenchy", "sweatshirt", "red"],
     userRelated: [
       {
-        postno: 1,
-        imgUrl: "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
+        postno: 2,
+        imgUrl:
+          "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
+      },
+      {
+        postno: 3,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
+      },
+      {
+        postno: 4,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
+      },
+      {
+        postno: 5,
+        imgUrl:
+          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
     ],
     likecount: 1543,
@@ -105,12 +129,95 @@ export default function Detail(props) {
       },
     ],
   });
+  const [likeUserList, setLikeUserList] = useState([
+    {
+      username: "카리나a",
+      userno: "1",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:false
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:false
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+    {
+      username: "카리나a",
+      userno: "3",
+      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower:12050,
+      isUserFollowed:true
+    },
+  ]);
+
   useEffect(() => {
     const getDetailDataRequest = Object.assign({}, { postno: postno });
-    getDetailData(getDetailDataRequest).then(response => {
-      setDetailPageData(response);
-    });
-  }, []);
+    getDetailData(getDetailDataRequest)
+      .then(response => {
+        setDetailPageData(response);
+        if (user.auth) {
+          const getIsLikeRequest = Object.assign(
+            {},
+            { postno: postno, userno: user.info.id }
+          );
+          getIsLike(getIsLikeRequest)
+            .then(response => {
+              if (response) {
+                setIsLike(true);
+              } else {
+                setIsLike(false);
+              }
+            })
+            .catch(err => {
+              Alert.error("failed to check is like");
+            });
+        } else {
+          setIsLike(false);
+        }
+      })
+      .catch(err => {
+        Alert.error("failed to get data");
+        // setNotFound(true)  백 구축 하면 원상복귀
+      });
+  }, [postno]);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -136,38 +243,71 @@ export default function Detail(props) {
     setTimeout(reRender, 1000);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
-
-  return (
-    <div className="Detail">
-      <div className="detail-main-section">
-        <Image
-          imgData={detailPageData.imgData}
-          dimensions={dimensions}
-          targetRef={targetRef}
-          setHoverTag={setHoverTag}
-        />
-        <div
-          className="comment-container"
-          style={{
-            width: `${dimensions.width}px`,
-          }}
-        >
-          <LikeShare
-            likecount={detailPageData.likecount}
-            user={user}
-            {...props}
+  const setLikecount = bool => {
+    if (bool) {
+      setDetailPageData({
+        ...detailPageData,
+        likecount: detailPageData.likecount + 1,
+      });
+    } else {
+      setDetailPageData({
+        ...detailPageData,
+        likecount: detailPageData.likecount - 1,
+      });
+    }
+  };
+  if (postno && postuser && !notFound) {
+    return (
+      <div className="Detail">
+        <div className="detail-main-section">
+          <Image
+            imgData={detailPageData.imgData}
+            dimensions={dimensions}
+            targetRef={targetRef}
+            setHoverTag={setHoverTag}
           />
-          <Comment comments={detailPageData.comments} user={user} />
+          <div
+            className="comment-container"
+            style={{
+              width: `${dimensions.width}px`,
+            }}
+          >
+            <LikeShare
+              likecount={detailPageData.likecount}
+              setIsLike={setIsLike}
+              isLike={isLike}
+              setLikecount={setLikecount}
+              user={user}
+              show={show}
+              setShow={setShow}
+              {...props}
+            />
+            <Comment
+              postno={postno}
+              detailPageData={detailPageData}
+              setDetailPageData={setDetailPageData}
+              user={user}
+            />
+          </div>
         </div>
+        <div className="detail-side-section">
+          <ImageInfo detailPageData={detailPageData} />
+          <Product detailPageData={detailPageData} hoverTag={hoverTag} />
+          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.username}/>
+        </div>
+        <LikeListModal
+        setLikeUserList ={setLikeUserList}
+          likeUserList={likeUserList}
+          show={show}
+          setShow={setShow}
+        />
       </div>
-      <div className="detail-side-section">
-        <ImageInfo />
-        <Product hoverTag={hoverTag} />
-        <RelatedImages />
-      </div>
-    </div>
-  );
+    );
+  } else {
+    return <NotFound></NotFound>;
+  }
 }
+
 
 function Image(props) {
   const dimensions = props.dimensions;
@@ -234,11 +374,16 @@ function Image(props) {
 }
 
 function LikeShare(props) {
-  const postno = props.location.pathname;
+  const postno = props.location.pathname.split("/")[3];
+  console.log(postno);
   const likecount = props.likecount;
+  const setLikecount = props.setLikecount;
   const [hover, setHover] = useState(false);
   const [shareActive, setShareActive] = useState(false);
-  const [isLike, setIsLike] = useState(false);
+
+  const setShow = props.setShow;
+  const isLike = props.isLike;
+  const setIsLike = props.setIsLike;
   const user = props.user;
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
@@ -247,22 +392,47 @@ function LikeShare(props) {
         {},
         { userno: user.info.id, postno: postno }
       );
-
-      toggleLike(toggleLikeRequest)
-        .then(response => {
-          if (isLike) {
-            setIsLike(false);
-          } else {
-            setIsLike(true);
-          }
-        })
-        .catch(() => {
-          Alert.error("oops cannot change, please retry!");
-        });
+      setLikecount(false);
+      if (isLike) {
+        setIsLike(false);
+        console.log("2");
+      } else {
+        setIsLike(true);
+        console.log(isLike);
+      }
+      // 좋아요 카운트 쿼리
+      // toggleLike(toggleLikeRequest)
+      //   .then(response => {
+      //     if (isLike) {
+      //       setIsLike(false);
+      //     } else {
+      //       setIsLike(true);
+      //     }
+      //     if(response){
+      //       setLikecount(response)
+      //     }
+      //   })
+      //   .catch(() => {
+      //     Alert.error("oops cannot change, please retry!");
+      //   });
     } else {
       Alert.error("please login first!");
       props.history.push("/login");
     }
+  };
+  const activeLikeListModal = () => {
+    if(user.auth){
+    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:user.id });
+    // getLikeUserList(LikeUserListRequest).then(
+    //   response=>{
+
+    //   }
+    // )
+  }
+  else{
+    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:null });
+  }
+    setShow(true);
   };
   useEffect(() => {
     const setheartIcon = () => {
@@ -327,7 +497,7 @@ function LikeShare(props) {
           </div>
         </div>
         <div className="letter-section">
-          <span>{likecount}Likes</span>
+          <span onClick={activeLikeListModal}>{likecount}Likes</span>
         </div>
       </div>
     </div>
@@ -335,8 +505,13 @@ function LikeShare(props) {
 }
 
 function Comment(props) {
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const user = props.user;
-  const comments = props.comments;
+  const comments = props.detailPageData.comments;
+  const detailPageData = props.detailPageData
+  const setDetailPageData = props.setDetailPageData
+
+  const [initialContent, setInitialContent] = useState(null);
   const [showmenu, setShowmenu] = useState({
     commentno: null,
     active: false,
@@ -345,12 +520,14 @@ function Comment(props) {
     commentno: null,
     active: false,
   });
-  const [autoCompleteResult,setAutoCompleteResult] = useState([])
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const contentRef = useRef([]);
   contentRef.current = comments.map(
-    (comment,i) => contentRef.current[i] ?? createRef()
+    (comment, i) => contentRef.current[i] ?? createRef()
   );
-  
+  const handleChange = e => {
+    console.log(e);
+  };
   const caculateDatetime = date => {
     const currentDate = new Date();
     const postedDate = new Date(date);
@@ -406,28 +583,28 @@ function Comment(props) {
       }
     }
   };
-  
-  const confirmEdit = (updatedContent,commentno) => {
-    const requestContent = updatedContent.innerText.trim()
-    if(requestContent){
-      
-      const requestData = Object.assign({},{content:requestContent,commentno:commentno})
-      updateComment(requestData).then(response=>{
-        if(response){
-        updatedContent.innerText =requestContent
-        setOnEdit({active:false})
-      }
-      else{
-        Alert.error("oops! something went wrong. please retry!")
-      }
-      }).catch(error=>{
-        Alert.error("oops! something went wrong. please retry!")
-        
-      })
-      
-    }
-    else{
-      Alert.error("댓글 내용을 입력해주세요!")
+
+  const confirmEdit = (updatedContent, commentno) => {
+    const requestContent = updatedContent.innerText.trim();
+    if (requestContent) {
+      const requestData = Object.assign(
+        {},
+        { content: requestContent, commentno: commentno }
+      );
+      updateComment(requestData)
+        .then(response => {
+          if (response) {
+            updatedContent.innerText = requestContent;
+            setOnEdit({ active: false });
+          } else {
+            Alert.error("oops! something went wrong. please retry!");
+          }
+        })
+        .catch(error => {
+          Alert.error("oops! something went wrong. please retry!");
+        });
+    } else {
+      Alert.error("댓글 내용을 입력해주세요!");
     }
   };
   const replyComment = e => {
@@ -438,102 +615,174 @@ function Comment(props) {
     if (!inputValue.includes("@" + targetName + " "))
       document.querySelector(".comment-input").value = "@" + targetName + " ";
   };
-  const complete = (data,el)=>{
-    const inputValue= el.value
-    const position = el.selectionStart
-    const startingpoint = inputValue.lastIndexOf("#",position)
-    const userTagStartingPoint = inputValue.lastIndexOf("@",position)
-    const newHastagValue = inputValue.substring(startingpoint+1,)
+  const complete = (data, el) => {
+    const inputValue = el.value;
+    const position = el.selectionStart;
+    const startingpoint = inputValue.lastIndexOf("#", position);
+    const userTagStartingPoint = inputValue.lastIndexOf("@", position);
+    const newHastagValue = inputValue.substring(startingpoint + 1);
 
+    if (userTagStartingPoint < startingpoint) {
+      el.value =
+        inputValue.substring(0, startingpoint) +
+        "#" +
+        data +
+        " " +
+        inputValue.substring(position + 1);
+    } else {
+      el.value =
+        inputValue.substring(0, userTagStartingPoint) +
+        "@" +
+        data +
+        " " +
+        inputValue.substring(position + 1);
+    }
+  };
+  const transformTags = data => {
+    const hashTags =
+      data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
+    const userTags =
+      data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
 
-    if(userTagStartingPoint<startingpoint){
-    el.value = inputValue.substring(0,startingpoint)+ "#"+data+" " +inputValue.substring(position+1,)
-  }
-  else{
-    el.value = inputValue.substring(0,userTagStartingPoint)+ "@"+data+" " +inputValue.substring(position+1,)
-  }
-  }
-  const transformTags = (data)=>{
-    const hashTags = (data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
-    const userTags = (data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[])
+    let innerHtml = data;
+    userTags.map(usertag => {
+      innerHtml = innerHtml.replace(
+        usertag,
+        `<a href="/profile/${usertag.replace("@", "")}">${usertag}</a>`
+      );
+    });
+    hashTags.map(hashtag => {
+      innerHtml = innerHtml.replace(
+        hashtag,
+        `<a href="/list/${hashtag.replace("#", "")}">${hashtag}</a>`
+      );
+    });
 
-    let innerHtml = data
-    userTags.map(usertag=>{
-      console.log(usertag)
-      innerHtml = innerHtml.replace(usertag,`<a href="/profile/${usertag.replace("@","")}">${usertag}</a>`)
-    })
-    hashTags.map(hashtag=>{
-      innerHtml = innerHtml.replace(hashtag,`<a href="/list/${hashtag.replace("#","")}">${hashtag}</a>`)
-    })
-    console.log(innerHtml)
-    return {__html:"<span>"+innerHtml+"</span>"}
-    
-  }
-  const listenTags= e=>{
-
+    return { __html: "<span>" + innerHtml + "</span>" };
+  };
+  const listenTags = e => {
     const position = e.currentTarget.selectionStart;
-    const inputValue= e.currentTarget.value
-    const hashTagcount = (inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
-    const userTagcount = (inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g)||[]).length
+    const inputValue = e.currentTarget.value;
+    const hashTagcount = (
+      inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+    ).length;
+    const userTagcount = (
+      inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+    ).length;
 
+    if (hashTagcount > 0 || userTagcount > 0) {
+      const startingpoint = inputValue.lastIndexOf("#", position);
+      const userTagStartingPoint = inputValue.lastIndexOf("@", position);
+      if (startingpoint < userTagStartingPoint) {
+        // do uesrTag
+        if (
+          inputValue.substring(position - 1, position).trim() &&
+          inputValue[(startingpoint, startingpoint + 1)]
+        ) {
+          const newHastagValue = inputValue.substring(
+            startingpoint + 1,
+            position
+          );
 
-
-    if(hashTagcount>0||userTagcount>0){
-        const startingpoint = inputValue.lastIndexOf("#",position)
-        const userTagStartingPoint = inputValue.lastIndexOf("@",position)
-        if(startingpoint<userTagStartingPoint){
-          // do uesrTag
-          if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
-
-            const newHastagValue = inputValue.substring(startingpoint+1,position)
-
-            
-            const requestData = Object.assign({},{newHastagValue})
-            // setTimeout(
-            //   hashtagAutoComplete(requestData).then(response=>{
-            //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
-            //   }).catch(err=>{
-            //     Alert.error("autocomplete not work!")
-            //   })
-              
-            // ,800)
-            setTimeout(setAutoCompleteResult({data:["user","bsb","sdg","aaaa"],targetElement:e.currentTarget}),800)
-          }
-        }
-        else{
-        if(inputValue.substring(position-1,position).trim()&&inputValue[startingpoint,startingpoint+1]){
-
-          const newHastagValue = inputValue.substring(startingpoint+1,position)
-
-          
-          const requestData = Object.assign({},{newHastagValue})
+          const requestData = Object.assign({}, { newHastagValue });
           // setTimeout(
           //   hashtagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
           //   }).catch(err=>{
           //     Alert.error("autocomplete not work!")
           //   })
-            
+
           // ,800)
-          setTimeout(setAutoCompleteResult({data:["sd","sd","bsd","as"],targetElement:e.currentTarget}),800)
+          setTimeout(
+            setAutoCompleteResult({
+              data: ["user", "bsb", "sdg", "aaaa"],
+              targetElement: e.currentTarget,
+            }),
+            800
+          );
         }
-        else{
-          setAutoCompleteResult([])
+      } else {
+        if (
+          inputValue.substring(position - 1, position).trim() &&
+          inputValue[(startingpoint, startingpoint + 1)]
+        ) {
+          const newHastagValue = inputValue.substring(
+            startingpoint + 1,
+            position
+          );
+
+          const requestData = Object.assign({}, { newHastagValue });
+          // setTimeout(
+          //   hashtagAutoComplete(requestData).then(response=>{
+          //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
+          //   }).catch(err=>{
+          //     Alert.error("autocomplete not work!")
+          //   })
+
+          // ,800)
+          setTimeout(
+            setAutoCompleteResult({
+              data: ["sd", "sd", "bsd", "as"],
+              targetElement: e.currentTarget,
+            }),
+            800
+          );
+        } else {
+          setAutoCompleteResult([]);
         }
       }
+    } else {
+      setAutoCompleteResult([]);
     }
-    else{
-      setAutoCompleteResult([])
-    }
+  };
+  const createComment=()=>{
+    const data =document.querySelector(".comment-input").value
+    const createCommentRequest = Object.assign({},{userno:user.info.id,postno:props.postno,content:data})
+    // fetchCreateComment(createCommentRequest).then(
+    //   response=>{
+    //     let arr = [...comments]
+    //     arr.push(response)
+    //     setDetailPageData({...detailPageData,comments:arr})
+    //   }
+    // ).catch(err=>{
+    //   Alert.error("oops cannot create comment")
+    // })
+    let arr = [...comments]
+    arr.push(
+      {
+      commentno:3,
+      commentdata:"2021-9-23 18:31:20",
+      userinfo:{
+        userno:1,
+      username:"winter",
+      userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+    },
+    content:data
+    })
+    setDetailPageData({...detailPageData,comments:arr})
+    document.querySelector(".comment-input").value=""
   }
-
+  const deleteComment=(comment)=>{
+    const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
+    const arr = [...comments]
+    const index = arr.indexOf(comment);
+    arr.splice(index,1)
+    
+    // fetchDeleteComment(deleteCommentRequest).then(response=>{
+    //   Alert.success("comment has deleted!")
+    //   setDetailPageData({...detailPageData,comments:arr})  
+    // }).catch(err=>{
+    //   Alert.error("delete failed!")
+    // })
+    setDetailPageData({...detailPageData,comments:arr})
+  }
   return (
     <div className="comment-section">
       <div className="comment-list-section">
         {comments.length === 0 ? (
           <h1>No Comments Yet</h1>
         ) : (
-          comments.map((comment,i) => (
+          comments.map((comment, i) => (
             <div
               key={comment.commentno}
               className={"comment no" + comment.commentno}
@@ -555,6 +804,7 @@ function Comment(props) {
                   <span
                     ref={contentRef.current[i]}
                     suppressContentEditableWarning={true}
+                    onChange={handleChange}
                     contentEditable={
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
@@ -565,7 +815,9 @@ function Comment(props) {
                         : false
                     }
                   >
-                    <span dangerouslySetInnerHTML={transformTags(comment.content)}></span>
+                    <span
+                      dangerouslySetInnerHTML={transformTags(comment.content)}
+                    ></span>
                   </span>
                   <div
                     hidden={
@@ -579,14 +831,24 @@ function Comment(props) {
                     }
                   >
                     <div className="button-container">
-                      <button onClick={()=>{confirmEdit(contentRef.current[i].current,comment.commentno)}}> {/* 댓글 수정 전송*/}
+                      <button
+                        onClick={() => {
+                          confirmEdit(
+                            contentRef.current[i].current,
+                            comment.commentno
+                          );
+                        }}
+                      >
+                        {" "}
+                        {/* 댓글 수정 전송*/}
                         <FontAwesomeIcon icon={faPen} />
                       </button>
                       <button
                         onClick={() => {
-                          contentRef.current[
-                            i
-                          ].current.innerText = comment.content;
+                          contentRef.current[i].current = initialContent;
+                          console.log();
+                          setInitialContent(null);
+
                           setOnEdit({
                             active: false,
                           });
@@ -659,7 +921,7 @@ function Comment(props) {
                           setShowmenu({
                             active: false,
                           });
-
+                          setInitialContent(contentRef.current[i].current);
                           setOnEdit({
                             commentno: comment.commentno,
                             active: true,
@@ -668,7 +930,7 @@ function Comment(props) {
                       >
                         <FontAwesomeIcon icon={faEdit} /> 수정
                       </button>
-                      <button>
+                      <button onClick={()=>deleteComment(comment)}>
                         <FontAwesomeIcon icon={faTrashAlt} /> 삭제
                       </button>
                     </div>
@@ -681,7 +943,7 @@ function Comment(props) {
         {/* load comment */}
       </div>
       <div className="comment-input-section">
-        <form>
+        <div className="comment-input-form">
           <div className="comment-input-container">
             <div className="img-section"></div>
             <input
@@ -699,94 +961,103 @@ function Comment(props) {
           <div className="button-section">
             <button
               // submit event 추가
-              onSubmit={null}
+              onClick={createComment}
               disabled={user.auth ? false : true}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
-        </form>
-        <div style={{position:"absolute"}} hidden={autoCompleteResult?false:true}>
-        {autoCompleteResult.data?autoCompleteResult.data.map(hashtag=>(
-          
-          <button onClick={()=>{complete(hashtag,autoCompleteResult.targetElement)
-            setAutoCompleteResult({data:null,targetElement:null})}
-          }>
-            {hashtag}
-          </button>
-        ))
-      :null}
-      </div>
+        </div>
+        <div
+          style={{ position: "absolute" }}
+          hidden={autoCompleteResult ? false : true}
+        >
+          {autoCompleteResult.data
+            ? autoCompleteResult.data.map(hashtag => (
+                <button
+                  onClick={() => {
+                    complete(hashtag, autoCompleteResult.targetElement);
+                    setAutoCompleteResult({ data: null, targetElement: null });
+                  }}
+                >
+                  {hashtag}
+                </button>
+              ))
+            : null}
+        </div>
       </div>
     </div>
   );
 }
 
 function ImageInfo(props) {
+  const detailPageData = props.detailPageData
   return (
     <div className="img-info-container">
       {/* 프로필 앵커태그 */}
-      <span className="title-profile"> winter</span>
+      <span className="title-profile"> {detailPageData.username}</span>
 
       <span>님의</span>
       {/* 상품 앵커태그 */}
       <span className="title-product">
-        {}Red Oversized Metal Details Sweatshirt
-      </span>
+        {detailPageData.imgData.tagData[0].productName}</span>
       <span>을 활용한 데일리 룩</span>
 
       <div className="hashtag-container">
-        <button className="hashtag">#Givenchy</button>
-        <button className="hashtag">#sweatshirt</button>
-        <button className="hashtag">#red</button>
+        {detailPageData.hashtags.map(hashtag=>(
+          <Link to={"/list/"+hashtag} className="hashtag">#{hashtag}</Link>
+        ))}
       </div>
 
       <div className="register-date-container">
-        posted 2021/08/30 at 08:31:20
+        posted at {detailPageData.rdate}
       </div>
     </div>
+
   );
 }
 
 function Product(props) {
+  const tagData = props.detailPageData.imgData.tagData
   const hoverTag = props.hoverTag;
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>
-      <div
-        className="product product-1"
-        style={
-          hoverTag
-            ? {
-                border: "2px solid black",
-              }
-            : {
-                border: "none",
-                background: "none",
-              }
-        }
-      >
-        <div className="product-img-section">
+      {tagData.map((tag,index)=>(
+        <div className={"product product-"+{index}}>
+          <div className="product-img-section">
+            <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
           <img
-            src="https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg"
-            alt=""
+            src={tag.productInfo.productImgUrl}
+            alt="productImg"
           />
+          </a>
         </div>
         <div className="product-info-section">
-          <span className="product-brand">GIVENCHY</span>
+          <Link to={"/list/"+tag.productInfo.brandName}>
+          <span className="product-brand">{tag.productInfo.brandName}</span>
+          </Link>
+          <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
           <span className="product-name">
-            RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS
+            {tag.productInfo.productName}
           </span>
+          </a>
 
-          <span className="product-price"></span>
+          <span className="product-price">{tag.productInfo.price}원</span>
         </div>
-      </div>
+        </div>
+      ))}
+      
+      
     </div>
   );
 }
 
 function RelatedImages(props) {
+  const userRelated = props.userRelated
+  const username = props.username
   return (
+
     <div className="related-img-container">
       <div className="header-section">
         <span className="title-header">Related Image</span>
@@ -797,32 +1068,14 @@ function RelatedImages(props) {
           className="masonry-grid"
           columnClassName="masonry-grid-column"
         >
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
-          <a href="">
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-          </a>
+          {userRelated.map(relatedPost=>(
+              <Link to={"/detail/"+username+"/"+relatedPost.postno}>
+                <img src={relatedPost.imgUrl} alt="" />
+              </Link>
+          ))}
 
           <div className="more">
+            <Link to={"/profile/"+username}>
             <img
               src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
               alt=""
@@ -830,6 +1083,8 @@ function RelatedImages(props) {
             <span>
               <FontAwesomeIcon icon={faEllipsisH} />
             </span>
+            </Link>
+            
           </div>
         </Masonry>
       </div>

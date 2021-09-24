@@ -1,8 +1,9 @@
 
-import { Redirect } from "react-router";
+import { Redirect, useLocation } from "react-router";
 import { ACCESS_TOKEN } from "../../constants";
 
 export default function OAuth2RedirectHandler(props) {
+    const location = useLocation()
     const getUrlParameter= (name)=>{
         
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -13,7 +14,7 @@ export default function OAuth2RedirectHandler(props) {
     const token = getUrlParameter('token')
     const error = getUrlParameter('error')
     if(token){
-        console.log(token)
+        
         localStorage.setItem(ACCESS_TOKEN,token)
         return <Redirect to={{
             pathname: "/",

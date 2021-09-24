@@ -1,0 +1,120 @@
+@import "./components/base";
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  .fade.modal-backdrop.show{
+      z-index: 10;
+  }
+  > div.fade.LikeListModal.modal {
+    display: flex !important;
+    justify-content: center;
+
+    .modal-dialog {
+      margin-top: 15vh;
+
+      .modal-content {
+        height: 420px;
+        
+        border-radius: 15px;
+        width: 400px;
+        .modal-header{
+            span{
+                font-size: 18px;
+                font-weight: 700;
+            }
+
+        }
+        .modal-body {
+            overflow-y: scroll;
+          .user-container {
+            width: 100%;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            .user-info-section {
+              display: flex;
+
+              width: 80%;
+              .user-info-image {
+                img {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                }
+              }
+              .user-info-text {
+                margin-left: 14px;
+                display: flex;
+                flex-direction: column;
+                a{
+                    color: black;
+                    text-decoration: none;
+                    font-weight: 800;
+                    font-size: 15px;
+                }
+                a:hover{
+                    text-decoration: underline;
+                    text-decoration-thickness: 2px;
+                }
+                >span{
+                    font-size: 13px;
+                    color: $grey;
+                    font-weight: 500;
+                }
+              }
+            }
+            .user-follower-section{
+                width: 25%;
+                text-align: right;
+                button{
+                    transition: 0.2s all ease;
+                    transition-property: color,width;
+                    
+                }
+            button.follow{
+                
+                width: 60px;
+                text-align: center;
+                border-radius: 5px;
+                color: white;
+                background-color: #085ED6;
+                font-weight: 700;
+                font-size: 14px;
+                height: 35px;
+                border: none;
+
+            }
+            button.following{
+                width: 80px;
+                text-align: center;
+                border-radius: 5px;
+                color: #085ED6;
+                border: 1px solid #085ED6;
+                font-weight: 700;
+                font-size: 14px;
+                height: 35px;
+                background-color: #F9FAFB;
+            }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+
+.s-alert-wrapper{
+    z-index: 11;
+}

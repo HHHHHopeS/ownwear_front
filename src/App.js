@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect, useState } from 'react';
-import { Route, Switch,useLocation } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
 import "react-s-alert/dist/s-alert-default.css";
@@ -22,6 +22,7 @@ import SubNav from './components/SubNav/SubNav';
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
+
 
 
 
@@ -80,12 +81,12 @@ const handleLogout= ()=>{
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
-          <Route exact path="/detail" component={Detail}/>
+          <Route exact path="/detail/:id/:id" component={Detail}/>
           <Route exact path="/ranking" component={Ranking}/>
-          <Route exact path="/profile" component={Profile}/>
+          <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>
           <Route exact path="/create" component={Create}/>
-          <Route exact path="/list" component={List}/>
+          <Route exact path="/list/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
           <Route exact path="/" component={Main} />
 

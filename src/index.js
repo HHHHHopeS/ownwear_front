@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
+import Alert from "react-s-alert";
 import App from './App';
 import { UserProvider } from "./common/UserContext";
-import './index.css';
-import Alert from "react-s-alert"
+import './index.scss';
 
 
 ReactDOM.render(
