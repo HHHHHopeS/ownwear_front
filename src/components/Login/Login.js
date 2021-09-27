@@ -3,16 +3,16 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { login, signup } from '../../util/APIUtils';
+import { login, signup,getCurrentUser } from '../../util/APIUtils';
 import "./Login.scss";
 
 
 export default function Login(props) {
-  const {user} = useContext(UserContext)
+  const {user,setCurrentUser} = useContext(UserContext)
 
 
   useEffect(() => {
-    console.log(props.authenticated)
+
     if(props.location.state && props.location.state.error){
       setTimeout(()=>{
         Alert.error(props.location.state.error,{timeout:5000})
@@ -39,7 +39,7 @@ export default function Login(props) {
     <div className="Login">
       <div className="main-container">
         <div id="login-form-container">
-          <LoginForm {...props}/>
+          <LoginForm setCurrentUser={setCurrentUser} {...props}/>
           <div id="social-login-form-container">
             <h2>OR</h2>
             <SocialLogin />
@@ -63,6 +63,7 @@ function SocialLogin(){
 }
 
 function LoginForm(props){
+  const setCurrentUser=props.setCurrentUser
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const handleInputChange = (e)=>{
@@ -80,12 +81,18 @@ function LoginForm(props){
     e.preventDefault();
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
+      
+      console.log(response)
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
-      Alert.success("you re successfuly logged in! ")
-      console.log(1)
+      getCurrentUser().then(response=>{
+        setCurrentUser(response)
+      })
+      
+
       props.history.goBack()
      
     }).catch(error=>{
+      console.log(error)
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")
 
     })

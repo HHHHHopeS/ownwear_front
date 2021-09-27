@@ -1,8 +1,12 @@
 
+import { useContext } from "react";
 import { Redirect, useLocation } from "react-router";
+import { UserContext } from "../../common/UserContext";
 import { ACCESS_TOKEN } from "../../constants";
+import { getCurrentUser } from "../../util/APIUtils";
 
 export default function OAuth2RedirectHandler(props) {
+    const {setCurrentUser} = useContext(UserContext)
     const location = useLocation()
     const getUrlParameter= (name)=>{
         
@@ -16,6 +20,11 @@ export default function OAuth2RedirectHandler(props) {
     if(token){
         
         localStorage.setItem(ACCESS_TOKEN,token)
+        console.log(props.location)
+        getCurrentUser().then(response=>{
+            setCurrentUser(response)
+          })
+          props.history.go(-2)
         return <Redirect to={{
             pathname: "/",
             state: {from:props.location}
