@@ -1,19 +1,19 @@
 @import "../base";
 
+.ImgBoxBig{
 
-.ImgBox{
-        width: 300px;
-        height: 430px;
+        width: 500px;
+        height: 700px;
 
         .img-container{
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 450px;
+            height: 650px;
 
             img{
                 position: absolute;
-                width: 300px;
-                height: 400px;
+                width: 450px;
+                height: 650px;
 
             }
             .img-rector{
@@ -61,8 +61,10 @@
                         }
                     }
                 }
+
             }
         }
+        
         .info-container{
             position: relative;
             display: flex;
@@ -74,11 +76,11 @@
                 margin-left: 5px;
                 display: flex;
                 flex-direction: row;
-                .profile-img-section{
-                                        
+                .profile-img-section{   
+                    margin-top: 10px;            
                     img{
-                        width: 45px;
-                        height: 45px;
+                        width: 90px;
+                        height: 90px;
                         border-radius: 50%;
                     }
                 }
@@ -90,12 +92,12 @@
                     vertical-align: middle;
 
                     span.username{
-                        font-size: 15px;
+                        font-size: 30px;
                         font-weight: 700;
                     }
                     span.height{
 
-                        font-size: 12px;
+                        font-size: 24px;
                  
                     }
                 }
@@ -116,7 +118,6 @@
                         
                     }
                     
-                     
                 }
                 span{
                     margin-top: -5px;
