@@ -187,7 +187,7 @@ export default function Main(props) {
             <ImgBox data={data} />
           </div>
           <div className="more-button-section">
-          <Link to={{pathname:'/list', state:data}}>More</Link>
+          <Link to={{pathname:'/list/jjs', state:data}}>More</Link>
           </div>
         </div>
         <div className="list-section prefered-tag1">
