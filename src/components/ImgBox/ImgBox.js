@@ -9,7 +9,7 @@ export default function ImgBox(props) {
     const data = props.data
     const [hover,setHover] = useState(false)
     const [imgHover,setImgHover] = useState(false)
-
+console.log(data)
     useEffect(()=>{
         
         

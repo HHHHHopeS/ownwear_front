@@ -375,7 +375,9 @@ export default function Main(props) {
 
           </div>
           <div className="more-button-section">
-            <button className="more">More</button>
+
+          <Link to={{pathname:'/list/jjs', state:data}}>More</Link>
+
           </div>
         </div>
         <div className="list-section prefered-tag1">

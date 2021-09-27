@@ -2,6 +2,7 @@
 
 
 .ImgBox{
+
         width: 300px;
         height: 430px;
 
@@ -65,6 +66,9 @@
         }
         .info-container{
             position: relative;
+
+            border: none solid;
+
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -77,9 +81,11 @@
                 .profile-img-section{
                                         
                     img{
-                        width: 45px;
-                        height: 45px;
+                        width: 47px;
+                        height: 47px;
                         border-radius: 50%;
+                        //border: none solid;
+
                     }
                 }
                 .profile-info-section{
@@ -90,12 +96,12 @@
                     vertical-align: middle;
 
                     span.username{
-                        font-size: 15px;
+                        font-size: 16px;
                         font-weight: 700;
                     }
                     span.height{
 
-                        font-size: 12px;
+                        font-size: 13px;
                  
                     }
                 }
