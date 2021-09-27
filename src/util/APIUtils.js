@@ -149,3 +149,14 @@ export function updateModalFollow(updateModalFollowRequest){
         body:JSON.stringify(updateModalFollowRequest)
     })
 }
+
+
+// clarifai 데이터 가져오기
+
+export function getClarifaiData(getClarifaiDataRequest){
+    return request({
+        url:API_BASE_URL+"/getRectorData",
+        method:"POST",
+        body:getClarifaiDataRequest
+    })
+}

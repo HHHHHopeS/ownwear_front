@@ -19,7 +19,6 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
-import PrivateRoute from "./common/PrivateRoute";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";

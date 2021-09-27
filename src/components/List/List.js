@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import "./List.scss"
+import { useEffect, useState } from "react";
 import ImgBox from "../ImgBox/ImgBox";
+import "./List.scss";
 
 export default function List(props) {
 

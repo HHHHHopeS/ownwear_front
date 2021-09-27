@@ -1,11 +1,10 @@
-import "./Create.scss";
-import { useContext,useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Alert from "react-s-alert";
+import TextTransition, { presets } from "react-text-transition";
 import { UserContext } from "../../common/UserContext";
-import TextTransition ,{presets} from "react-text-transition"
 import { getCurrentUser } from "../../util/APIUtils";
-import loading from "../../res/loading.gif"
-import Alert from "react-s-alert"
-import ImageUploadModule from "./ImageUploadModule"
+import "./Create.scss";
+import ImageUploadModule from "./ImageUploadModule";
 export default function Create(props) {
   const {user,setCurrentUser} = useContext(UserContext)
   const [phase,setPhase] = useState({
@@ -49,8 +48,8 @@ export default function Create(props) {
         <div className="create-main-container">
           
           
-          {phase.phaseNo===2||phase.phaseNo===4?
-          <img src={loading} alt="" /> :null}
+          {/* {phase.phaseNo===2||phase.phaseNo===4?
+          <img src={loading} alt="" /> :null} */}
           
           
             <div className="img-container">

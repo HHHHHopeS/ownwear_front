@@ -1,14 +1,14 @@
 import {
-  faInstagram,
-  faPinterest,
-  faTwitter
+    faInstagram,
+    faPinterest,
+    faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
-  faCrown,
-  faHashtag,
-  faHome,
-  faPlus,
-  faUserAlt
+    faCrown,
+    faHashtag,
+    faHome,
+    faPlus,
+    faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
