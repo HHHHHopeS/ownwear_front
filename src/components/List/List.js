@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
-import "./List.scss"
+import { useEffect, useState } from "react";
 import ImgBox from "../ImgBox/ImgBox";
+
+import "./List.scss";
+
 import Masonry from "react-masonry-css";
+
 
 export default function List(props) {
   const imgData = props.location.state;

@@ -35,6 +35,18 @@ $white: #fff;
       opacity: 0;
     }
   }
+  .img-section{
+    
+  
+  .img-container{
+    display: flex;
+
+    position: absolute;
+    canvas{
+        position: relative;
+    }
+  }
+}
 }
 
 .upload-button {
