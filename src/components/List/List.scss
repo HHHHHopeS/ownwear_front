@@ -1,11 +1,21 @@
 @import "../base";
 
 
-
-.imgbox-section{
-
-    margin-top: 10px;
+.List{
+    width: 100vw;
+    
+    
+.list-section{
+    width: 100%;
+    padding: 0 12%;    margin-top: 20px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+    .ImgBox{
+        margin: 40px;
+    }
+
+ 
+
+}
 }
