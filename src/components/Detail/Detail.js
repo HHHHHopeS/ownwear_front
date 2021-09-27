@@ -49,34 +49,36 @@ export default function Detail(props) {
   const [hoverTag, setHoverTag] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
-    postno: postno,
-    userno: 1,
-    username: "winter",
-    imgData: {
-      imgUrl:
-        "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
-      height: 164,
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.5,
-          rectorY: 0.5,
-          productInfo: {
-            brandName: "Givenchy",
-            category: "top",
-            productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
-            productUrl:
-              "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
-            productImgUrl:
-              "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
-            price: 1012000,
+    postData:{
+      postno: postno,
+      userno: 1,
+      username: "winter",
+      imgData: {
+        imgUrl:
+          "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
+        height: 164,
+        profileImgUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+        tagData: [
+          {
+            rectorX: 0.5,
+            rectorY: 0.5,
+            productInfo: {
+              brandName: "Givenchy",
+              category: "top",
+              productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
+              productUrl:
+                "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
+              productImgUrl:
+                "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
+              price: 1012000,
+            },
           },
-        },
-      ],
+        ],
+      },
+      rdate: "2021-08-30 08:31:20",
+      edate: "",
     },
-    rdate: "2021-08-30 08:31:20",
-    edate: "",
     hashtags: ["Givenchy", "sweatshirt", "red"],
     userRelated: [
       {
@@ -261,7 +263,7 @@ export default function Detail(props) {
       <div className="Detail">
         <div className="detail-main-section">
           <Image
-            imgData={detailPageData.imgData}
+            imgData={detailPageData.postData.imgData}
             dimensions={dimensions}
             targetRef={targetRef}
             setHoverTag={setHoverTag}
@@ -995,12 +997,12 @@ function ImageInfo(props) {
   return (
     <div className="img-info-container">
       {/* 프로필 앵커태그 */}
-      <span className="title-profile"> {detailPageData.username}</span>
+      <span className="title-profile"> {detailPageData.postData.username}</span>
 
       <span>님의</span>
       {/* 상품 앵커태그 */}
       <span className="title-product">
-        {detailPageData.imgData.tagData[0].productName}</span>
+        {detailPageData.postData.imgData.tagData[0].productName}</span>
       <span>을 활용한 데일리 룩</span>
 
       <div className="hashtag-container">
@@ -1010,7 +1012,7 @@ function ImageInfo(props) {
       </div>
 
       <div className="register-date-container">
-        posted at {detailPageData.rdate}
+        posted at {detailPageData.postData.rdate}
       </div>
     </div>
 
@@ -1018,7 +1020,7 @@ function ImageInfo(props) {
 }
 
 function Product(props) {
-  const tagData = props.detailPageData.imgData.tagData
+  const tagData = props.detailPageData.postData.imgData.tagData
   const hoverTag = props.hoverTag;
   return (
     <div className="product-container">

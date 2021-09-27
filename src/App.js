@@ -50,7 +50,7 @@ const handleLogout= ()=>{
 
       setLoading(true)
       getCurrentUser().then(response=>{
-
+        
         setCurrentUser(response)
         if(user.auth){
           setAuthenticated(true)
@@ -88,7 +88,7 @@ const handleLogout= ()=>{
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
-          <Route exact path="/detail/:id/:id" component={Detail}/>
+          <Route exact path="/detail/:id" component={Detail}/>
           <Route exact path="/ranking" component={Ranking}/>
           <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>

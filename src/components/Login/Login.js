@@ -81,6 +81,8 @@ function LoginForm(props){
     e.preventDefault();
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
+      
+      console.log(response)
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       getCurrentUser().then(response=>{
         setCurrentUser(response)
