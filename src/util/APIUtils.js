@@ -157,4 +157,14 @@ export function getdata(getDataRequest){
         method:"POST",
         body:JSON.stringify(getDataRequest)
     })
+    }
+// clarifai 데이터 가져오기
+
+export function getClarifaiData(getClarifaiDataRequest){
+    return request({
+        url:API_BASE_URL+"/getRectorData",
+        method:"POST",
+        body:getClarifaiDataRequest
+
+    })
 }
