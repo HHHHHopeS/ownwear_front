@@ -59,7 +59,7 @@ export function signup(signupRequest){
 //초기 데이터 가져오기 
 export function getDetailData(detailDataReqeust){
     return request({
-        url:API_BASE_URL+"/getDetailData",
+        url:API_BASE_URL+"/detail",
         method:"POST",
         body:JSON.stringify(detailDataReqeust)
     })
@@ -158,5 +158,13 @@ export function getClarifaiData(getClarifaiDataRequest){
         url:API_BASE_URL+"/getRectorData",
         method:"POST",
         body:getClarifaiDataRequest
+    })
+}
+
+export function getGoogleData(getGoogleDataRequest){
+    return request({
+        url:API_BASE_URL+"/getGoogleData",
+        method:"POST",
+        body:JSON.stringify(getGoogleDataRequest)
     })
 }
