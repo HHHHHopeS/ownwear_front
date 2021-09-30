@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/src/ReactCrop.scss";
 import Alert from "react-s-alert";
-import { getClarifaiData } from "../../util/APIUtils";
+import { getClarifaiData, getGoogleData } from "../../util/APIUtils";
 import "./ImageUploadModule.scss";
 /**
  * @param {HTMLImageElement} image - Image File Object
@@ -15,13 +15,16 @@ export default function Upload(props) {
   const [preview, setPreview] = useState("");
   const [drop, setDrop] = useState(false);
   const [completedCrop, setCompletedCrop] = useState(null);
-  const [rectors, setRectors] = useState([]);
+  const [rectors, setRectors] = useState({});
+  const [croppedRectors, setCroppedRectors] = useState([]);
+  const [previewImage,setPreviewImage] =useState(null)
   const imgRef = useRef();
-
+const previewImageRef= useRef();
   const previewCanvasRef = useRef();
   const [crop, setCrop] = useState(null);
   const phase = props.phase;
   const setPhase = props.setPhase;
+
   const handleEnter = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -103,11 +106,6 @@ export default function Upload(props) {
     };
   }
   useEffect(() => {
-    if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
-      return;
-    }
-  }, [completedCrop]);
-  useEffect(() => {
     switch (phase.phaseNo) {
       case 0:
         break;
@@ -119,14 +117,20 @@ export default function Upload(props) {
         imgRef.current.hidden = true;
         previewCanvasRef.current.hidden = false;
         const base64 = previewCanvasRef.current.toDataURL();
-
+        setPreviewImage({data:base64})
+        previewCanvasRef.current.hidden=true
         getClarifaiData(base64)
           .then(response => {
             console.log(response);
+            const list = []
             if (response) {
-                setRectors(response.regions)
+                
+                response.regions.map(region=>{
+                    if(region.value>0.95)
+                    list.push(region)
+                })
+              setRectors(list);
               setPhase({ ...phase, phaseNo: 3 });
-              
             }
           })
           .catch(err => {
@@ -138,18 +142,70 @@ export default function Upload(props) {
         return false;
     }
   }, [phase.phaseNo]);
+  useEffect(() => {
+    let image = new Image();
+    
+    croppedRectors.map((croppedRector, index) => {
+      console.log(croppedRector);
+      console.log(document.querySelector(`.cropped-img-${index}`));
+
+      getCroppedImg(
+        previewImageRef.current,
+        
+        document.querySelector(`.cropped-img-${index}`),
+        croppedRector
+      );
+      console.log(1)
+      
+    });
+  }, [croppedRectors]);
+  function addCroppedRectors(e) {
+    console.log(e.currentTarget.parentElement);
+    const el = e.currentTarget.parentElement;
+    const width = parseFloat(el.style.width.split("%")[0]);
+    const height = parseFloat(el.style.height.split("%")[0]);
+    const x = parseFloat(el.style.left.split("%")[0]);
+    
+    const y = parseFloat(el.style.top.split("%")[0]);
+
+    const crop = {
+      unit: "%",
+      width,
+      height,
+      x,
+      y,
+    };
+
+    function isInclude(arr, item) {
+      let itemAsString = JSON.stringify(item);
+      let contains = arr.some(el => {
+        return JSON.stringify(el) === itemAsString;
+      });
+      return contains;
+    }
+    if (!isInclude(croppedRectors, crop)) {
+      croppedRectors.push(crop);
+      setCroppedRectors([...croppedRectors]);
+    }
+    console.log(croppedRectors);
+  }
+
   function getCroppedImg(image, canv, crp) {
     const canvas = canv;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
     const crop = crp;
-
+    console.log(crop)
     const ctx = canvas.getContext("2d");
 
     const pixelRatio = window.devicePixelRatio;
-    canvas.width = (crop.width * pixelRatio * image.width) / 200;
-    canvas.height = (crop.height * pixelRatio * image.height) / 200;
+    console.log(crop.width)
+    
 
+    canvas.width = (crop.width * pixelRatio * image.width) / 200;
+    
+    canvas.height = (crop.height * pixelRatio * image.height) / 200;
+    console.log(canvas)
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     ctx.imageSmoothingQuality = "high";
 
@@ -164,11 +220,30 @@ export default function Upload(props) {
       (crop.width * image.width) / 200,
       (crop.height * image.height) / 200
     );
-
+    
     if (ctx) {
-      setPhase({ ...phase, phaseNo: 2 });
-
+      return true;
     }
+    return false;
+  }
+
+  function getProductData(){
+      const base64List = []
+      const canvasList = document.getElementsByClassName("cropped")
+      for(let canvas of canvasList){
+
+                base64List.push(canvas.toDataURL())
+            
+            
+      }
+      
+        const dataRequest = Object.assign({},{list:base64List})
+        console.log(dataRequest)
+        getGoogleData(dataRequest).then(response=>
+            console.log(response)
+            ).catch(err=>{
+                console.log(err)
+            })
   }
 
   return (
@@ -194,50 +269,83 @@ export default function Upload(props) {
             setCrop(newpercentCrop);
           }}
         />
-        <div className="img-section" style={phase.phaseNo===0||phase.phaseNo===1?{
-    
-        }:
-        {width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    display: "flex",}}>
-        <div style={phase.phaseNo>=2?{
-            width:previewCanvasRef.current.width,
-            height:previewCanvasRef.current.height
-        }:null} className="img-container">
-        <canvas ref={previewCanvasRef}></canvas>
-        {phase.phaseNo === 3
-          ? rectors.map(rector => {
-              console.log(1)
-              let mt = rector.regionInfo.boundingBox.topRow;
-              let ml = rector.regionInfo.boundingBox.leftCol;
-              let mr = rector.regionInfo.boundingBox.rightCol;
-              let mb = rector.regionInfo.boundingBox.bottomRow;
-              let tag = rector.data.concepts[0].name;
-              const style = {
-                backgroundPosition: `${ml * 100 + 16}% ${mb * 100 - 7}% `,
-                position: "absolute",
-                top: `${mt * 100}%`,
-                left: `${ml * 100}%`,
-                right: `${mr * 100}%`,
-                bottom: `${mb * 100}%`,
-                border: "1px black solid",
-                width: `${(mr - ml) * 100}%`,
-                height: `${(mb - mt) * 100}%`,
-              };
-              return (
-                <div className="image-rector" style={style} key={tag}>
-                  <button>{tag}</button>
-                  
-                </div>
-                
-              );
-            })
-          : null}
-      </div>    
-      </div>
+        <div
+          className="img-section"
+          style={
+            phase.phaseNo === 0 || phase.phaseNo === 1
+              ? {}
+              : {
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "center",
+                  display: "flex",
+                }
+          }
+        >
+          <div
+            style={
+              phase.phaseNo >= 2
+                ? {
+                    width: previewCanvasRef.current.width,
+                    height: previewCanvasRef.current.height,
+                  }
+                : null
+            }
+            className={completedCrop?"img-container active":"img-container"}
+          >
+            <canvas ref={previewCanvasRef}></canvas>
+            <img ref={previewImageRef} src={previewImage?previewImage.data:null} alt="" />
+            {phase.phaseNo === 3
+              ? rectors.map(rector => {
+                  console.log(1);
+                  let mt = rector.regionInfo.boundingBox.topRow;
+                  let ml = rector.regionInfo.boundingBox.leftCol;
+                  let mr = rector.regionInfo.boundingBox.rightCol;
+                  let mb = rector.regionInfo.boundingBox.bottomRow;
+                  let tag = rector.data.concepts[0].name;
+                  const style = {
+                    // backgroundPosition: `${ml * 100 + 16}% ${mb * 100 - 7}% `,
+                    position: "absolute",
+                    top: `${mt * 100}%`,
+                    left: `${ml * 100}%`,
+                    right: `${mr * 100}%`,
+                    bottom: `${mb * 100}%`,
+                    border: "1px black solid",
+                    width: `${(mr - ml) * 100}%`,
+                    height: `${(mb - mt) * 100}%`,
+                    zIndex: 0,
+                  };
+                  return (
+                    <div className="image-rector" style={style} key={tag}>
+                      <button
+                        style={{ 
+                            top:"50%",
+                            zIndex: "1" }}
+                        onClick={addCroppedRectors}
+                      >
+                        {tag}
+                      </button>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
+          
         </div>
-        
+        <div className="tag-container">
+            {croppedRectors
+              ? croppedRectors.map((croppedRector, index) => (
+                  <div className="cropped-container">
+                  <canvas className={"cropped cropped-img-" + index}></canvas>
+                  </div>
+                ))
+              : null}
+              <div className="button-section">
+                  <button onClick={getProductData}>Search Product</button>
+              </div>
+          </div>
+      </div>
+
       <form className="my-form">
         <p>Drag and Drop image here</p>
         <div className="upload-button">
@@ -271,6 +379,8 @@ export default function Upload(props) {
               previewCanvasRef.current,
               completedCrop
             )
+              ? setPhase({ ...phase, phaseNo: 2 })
+              : null
           }
           className="button"
         >

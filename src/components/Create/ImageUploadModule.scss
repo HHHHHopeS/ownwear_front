@@ -46,7 +46,30 @@ $white: #fff;
         position: relative;
     }
   }
+  
 }
+.tag-container{
+    width: 50%;
+    background-color: white;
+    height: 100%;
+    border: 1px solid black;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .cropped-container{
+        width: 100%;
+        height: 20%;
+        border: 1px solid black;   
+        canvas{
+            min-height: 50%;
+            max-width: 100px;
+        max-height: 100%;
+        }     
+    }
+  }
 }
 
 .upload-button {

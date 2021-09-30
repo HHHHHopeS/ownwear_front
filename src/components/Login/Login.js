@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { getCurrentUser, login, signup } from '../../util/APIUtils';
+import { login, signup,getCurrentUser } from '../../util/APIUtils';
 import "./Login.scss";
 
 
@@ -81,7 +81,7 @@ function LoginForm(props){
     e.preventDefault();
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
-      
+
       console.log(response)
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       getCurrentUser().then(response=>{

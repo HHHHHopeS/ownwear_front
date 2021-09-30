@@ -6,6 +6,12 @@ import { Link } from "react-router-dom"
 import { GiClothes } from 'react-icons/gi'
 import { FaCameraRetro } from 'react-icons/fa'
 import { BiFace } from "react-icons/bi";
+
+import { VscBold } from "react-icons/vsc";
+
+
+import "./Main.scss";
+
 import { VscBold } from "react-icons/vsc";
 import exPhoto from "../../res/iu.jpg";
 
