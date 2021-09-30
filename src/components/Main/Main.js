@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import "./Main.scss";
 import ImgBox from "../ImgBox/ImgBox";
