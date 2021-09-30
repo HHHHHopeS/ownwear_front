@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: row;
     margin: 0 12%;
+    scroll-behavior: smooth;
     .side-section{
         width: 20%;
 
@@ -94,7 +95,19 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            
+            .imgbox-section{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+            }
+            .imgbox-section.second{
+                margin-top: 50px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+            }
             .title-section{
                 font-size: 25px;
                 margin-top: 20px;
@@ -111,16 +124,6 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-evenly;
-                .small-section-container{
-                    display: flex;
-                    flex-direction: column;
-                    .small-section.first{
-                        display:flex;
-                    }
-                    .small-section.second{
-                        display: flex;
-                    }
-                }
             }
             .more-button-section{
                 align-self: end;
