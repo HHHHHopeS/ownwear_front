@@ -47,7 +47,9 @@ export default function Main(props) {
           ]);
           break;
         case "/men":
-          setData([
+          setData({
+            pageno:1,
+            result:[
             {
               imgIndex: 2,
               user: "abc",
@@ -76,7 +78,7 @@ export default function Main(props) {
                 },
               ],
             },
-          ]);
+          ]});
 
           break;
         case "/women":
@@ -182,9 +184,10 @@ export default function Main(props) {
           <div className="title-section">Top Likes</div>
           <span className="line"></span>
           <div className="imgbox-section">
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+            <ImgBox data={data?data[0]:null} />
+            <ImgBox data={data?data[0]:null} />
+            <ImgBox data={data?data[0]:null} />
+            
           </div>
           <div className="more-button-section">
           <Link to={{pathname:'/list/jjs', state:data}}>More</Link>
@@ -194,9 +197,9 @@ export default function Main(props) {
           <div className="title-section">Top Likes</div>
           <span className="line"></span>
           <div className="imgbox-section">
+            {/* <ImgBox data={data} />
             <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+            <ImgBox data={data} /> */}
           </div>
           <div className="more-button-section">
             <button className="more">More</button>
@@ -206,12 +209,13 @@ export default function Main(props) {
           <div className="title-section">Top Likes</div>
           <span className="line"></span>
           <div className="imgbox-section">
+            {/* <ImgBox data={data} />
             <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+            <ImgBox data={data} /> */}
           </div>
           <div className="more-button-section">
             <button className="more">More</button>
+          
           </div>
         </div>
       </div>

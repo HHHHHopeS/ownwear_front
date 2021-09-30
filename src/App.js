@@ -22,6 +22,9 @@ import SubNav from './components/SubNav/SubNav';
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
+import axios from 'axios';
+import Paging from "./Paging/Paging";
+
 
 
 
@@ -32,7 +35,10 @@ export default function App(props) {
 const {setCurrentUser} = useContext(UserContext)
 const location = useLocation()
 
-const [loading,setLoading] = useState(false)
+const [loading,setLoading] = useState(false);
+const [post, setPosts] = useState([]);
+const [currentPage, setCurrentPage] = useState(1);
+const [postPerPage, setPostsPerPage] = useState(12);
 
 
 const handleLogout= ()=>{
@@ -44,6 +50,15 @@ const handleLogout= ()=>{
   
   useEffect(() => {
 
+    // const fetchData = async () => {
+    //   setLoading(true);
+    //   const res = await axios.get('');
+    //   setPosts(res.data);
+    //   setLoading(false);
+    // }
+
+    
+    
     const loadCurrentlyLoggedInUser = ()=>{
 
       setLoading(true)
@@ -57,10 +72,16 @@ const handleLogout= ()=>{
         setLoading(false)
       })
     }
+   
 
   loadCurrentlyLoggedInUser();
+    // fetchData();
+    // console.log(Object);
   return () => setLoading(false);
-  },[location])
+  
+  },[location]);
+
+  
   
   if(loading){
     return <LoadingIndicator />
@@ -68,12 +89,12 @@ const handleLogout= ()=>{
 
   return (
     <div className="App">
-
+      
       <Nav onLogout={handleLogout}/>
       <SubNav />
       <div className="main-section"
       >
-
+        
         <Switch >
 
 
@@ -86,13 +107,14 @@ const handleLogout= ()=>{
           <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>
           <Route exact path="/create" component={Create}/>
-          <Route exact path="/list/:id" component={List}/>
+          <Route exact path="/list/:id/:id/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
           <Route exact path="/" component={Main} />
 
           <Route component={NotFound} />
 
         </Switch>
+  
       </div>
       <Footer />
       

@@ -144,8 +144,17 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
 
 export function updateModalFollow(updateModalFollowRequest){
     return request({
-        url:API_BASE_URL+"/usertagAutoComplete",
+        url:API_BASE_URL+"usertag/autoComplete",
         method:"POST",
         body:JSON.stringify(updateModalFollowRequest)
+    })
+}
+
+//페이징
+export function getdata(getDataRequest){
+    return request({
+        url:API_BASE_URL+"/getdata",
+        method:"POST",
+        body:JSON.stringify(getDataRequest)
     })
 }

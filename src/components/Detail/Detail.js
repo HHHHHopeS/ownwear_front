@@ -39,8 +39,10 @@ import LikeListModal from "./LikeListModal";
 
 export default function Detail(props) {
   const pathName = props.location.pathname;
+  
   const postuser = pathName.split("/")[1];
   const postno = pathName.split("/")[2];
+
   const [isLike, setIsLike] = useState(false);
   const [show, setShow] = useState(false);
   const { user } = useContext(UserContext);

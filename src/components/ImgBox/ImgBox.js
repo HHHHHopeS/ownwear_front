@@ -63,7 +63,7 @@ console.log(data)
                 </div>
                 <div className="button-section">
                     <button onMouseOver={setHover} onMouseOut={()=>{setHover(false)}} ><FontAwesomeIcon icon={hover? faHeart :emptyHeart} /></button>
-                    <span>{data.likecount}</span>
+                    {/* <span>{data.likecount}</span> */}
                 </div>
             </div>
         </div>
