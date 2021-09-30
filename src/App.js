@@ -22,6 +22,9 @@ import SubNav from './components/SubNav/SubNav';
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
+import axios from 'axios';
+import Paging from "./Paging/Paging";
+
 
 
 
@@ -31,8 +34,16 @@ import { getCurrentUser } from "./util/APIUtils";
 export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
+<<<<<<< HEAD
+
+const [loading,setLoading] = useState(false);
+const [post, setPosts] = useState([]);
+const [currentPage, setCurrentPage] = useState(1);
+const [postPerPage, setPostsPerPage] = useState(12);
+=======
 const [authenticated,setAuthenticated] = useState(false)
 const [loading,setLoading] = useState(true)
+>>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
 
 
 const handleLogout= ()=>{
@@ -44,6 +55,18 @@ const handleLogout= ()=>{
 
   
   useEffect(() => {
+<<<<<<< HEAD
+
+    // const fetchData = async () => {
+    //   setLoading(true);
+    //   const res = await axios.get('');
+    //   setPosts(res.data);
+    //   setLoading(false);
+    // }
+
+    
+=======
+>>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
     
     const loadCurrentlyLoggedInUser = ()=>{
 
@@ -62,11 +85,22 @@ const handleLogout= ()=>{
         setLoading(false)
       })
     }
+   
 
   loadCurrentlyLoggedInUser();
+<<<<<<< HEAD
+    // fetchData();
+    // console.log(Object);
+  return () => setLoading(false);
+  
+  },[location]);
+
+  
+=======
 
   return () => setLoading(false);
   },[user.auth])
+>>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
   
   if(loading){
     return <LoadingIndicator />
@@ -74,12 +108,12 @@ const handleLogout= ()=>{
 
   return (
     <div className="App">
-
+      
       <Nav onLogout={handleLogout}/>
       <SubNav />
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
-
+        
         <Switch >
 
 
@@ -91,15 +125,16 @@ const handleLogout= ()=>{
           <Route exact path="/ranking" component={Ranking}/>
           <Route exact path="/profile/:id" component={Profile}/>
           <Route exact path="/mypage" component={MyPage}/>
-          <Route exact path="/create" component={Create} authenticated={authenticated} ></Route>
 
-          <Route exact path="/list/:id" component={List}/>
+          <Route exact path="/create" component={Create}/>
+          <Route exact path="/list/:id/:id/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
           <Route exact path="/" component={Main} />
 
           <Route component={NotFound} />
 
         </Switch>
+  
       </div>
       <Footer />
       

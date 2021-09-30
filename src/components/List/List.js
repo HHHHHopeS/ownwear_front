@@ -4,9 +4,11 @@ import ImgBox from "../ImgBox/ImgBox";
 import "./List.scss";
 
 import Masonry from "react-masonry-css";
-
+import Paging from "../../Paging/Paging";
+import getdata from "../../util/APIUtils"
 
 export default function List(props) {
+
   const imgData = props.location.state;
   const [data, setData] = useState([
     {
@@ -178,7 +180,24 @@ export default function List(props) {
       ],
     },
   ]);
+
+  const pathName = props.location.pathname;
   
+  const isHashtag = pathName.split("/")[1];
+  const title = pathName.split("/")[2];
+  const pageno = pathName.split("/")[3];
+  useEffect(()=>{
+    
+    const requestBody = Object.assign({},{
+      isHashtag,
+      title,
+      pageno
+    })
+    getdata(requestBody).then(response=>setData(data)).catch(err=>console.log(err))
+  },[pathName])
+  useEffect(()=>{
+    history.location
+  },[page])
 
 
 
@@ -186,10 +205,11 @@ export default function List(props) {
   return (
     <div className="List">
       <div className="list-section">
-      {data.map(img=>
+      {data ? data.result.map(img=>
         (<ImgBox data={img}></ImgBox>
-      ))}
+      )):null}
 </div>
+<Paging pageno={data.pageno} isHashtag={isHashtag} title={title}/>
     </div>
   );
 
