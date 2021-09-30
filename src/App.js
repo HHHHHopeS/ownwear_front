@@ -34,16 +34,10 @@ import Paging from "./Paging/Paging";
 export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
-<<<<<<< HEAD
 
-const [loading,setLoading] = useState(false);
-const [post, setPosts] = useState([]);
-const [currentPage, setCurrentPage] = useState(1);
-const [postPerPage, setPostsPerPage] = useState(12);
-=======
 const [authenticated,setAuthenticated] = useState(false)
 const [loading,setLoading] = useState(true)
->>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
+
 
 
 const handleLogout= ()=>{
@@ -55,7 +49,6 @@ const handleLogout= ()=>{
 
   
   useEffect(() => {
-<<<<<<< HEAD
 
     // const fetchData = async () => {
     //   setLoading(true);
@@ -65,9 +58,7 @@ const handleLogout= ()=>{
     // }
 
     
-=======
->>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
-    
+
     const loadCurrentlyLoggedInUser = ()=>{
 
       setLoading(true)
@@ -88,19 +79,11 @@ const handleLogout= ()=>{
    
 
   loadCurrentlyLoggedInUser();
-<<<<<<< HEAD
-    // fetchData();
-    // console.log(Object);
-  return () => setLoading(false);
-  
-  },[location]);
 
-  
-=======
 
   return () => setLoading(false);
   },[user.auth])
->>>>>>> 32a9625de1eb9156108a75c07ef8bae49142b769
+
   
   if(loading){
     return <LoadingIndicator />
