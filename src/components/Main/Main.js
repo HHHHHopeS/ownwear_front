@@ -12,7 +12,7 @@ import { VscBold } from "react-icons/vsc";
 
 import "./Main.scss";
 
-import { VscBold } from "react-icons/vsc";
+
 import exPhoto from "../../res/iu.jpg";
 
 

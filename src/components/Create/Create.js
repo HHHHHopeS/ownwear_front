@@ -9,7 +9,7 @@ export default function Create(props) {
   const {user,setCurrentUser} = useContext(UserContext)
   const [phase,setPhase] = useState({
     phaseNo:0,
-    phaseTitle:["upload Image!","crop Image!","verifying","select Tag you want","searching","edit your tag","add hashtag","complete"]
+    phaseTitle:["upload Image!","crop Image!","verifying","select Tag you want","searching","edit your tag","add hashtag","sending","complete!"]
   })
   const [uploadedImage,setUploadedImage] = useState(null)
     useEffect(

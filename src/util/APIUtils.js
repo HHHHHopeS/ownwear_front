@@ -157,7 +157,7 @@ export function getdata(getDataRequest){
         method:"POST",
         body:JSON.stringify(getDataRequest)
     })
-    }
+}
 // clarifai 데이터 가져오기
 
 export function getClarifaiData(getClarifaiDataRequest){
@@ -168,11 +168,21 @@ export function getClarifaiData(getClarifaiDataRequest){
 
     })
 }
-
+// google 상품 데이터 가져오기
 export function getGoogleData(getGoogleDataRequest){
     return request({
         url:API_BASE_URL+"/getGoogleData",
         method:"POST",
         body:JSON.stringify(getGoogleDataRequest)
+    })
+}
+
+// create 전송
+
+export function insertImageData(insertImageDataReqeust){
+    return request({
+        url:API_BASE_URL+"/insert",
+        method:"POST",
+        body:JSON.stringify(insertImageDataReqeust)
     })
 }
