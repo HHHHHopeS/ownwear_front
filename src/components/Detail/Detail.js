@@ -61,6 +61,7 @@ export default function Detail(props) {
         height: 164,
         profileImgUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+
         tagData: [
           {
             rectorX: 0.5,
@@ -109,7 +110,7 @@ export default function Detail(props) {
       //시간순 오래된순
       {
         commentno: 1,
-        commnetdate: "2021-9-21 18:31:20",
+        commnetdate: "2021-09-01 18:31:20",
         userinfo: {
           userno: 2,
           username: "카리나",
@@ -121,7 +122,7 @@ export default function Detail(props) {
       },
       {
         commentno: 2,
-        commnetdate: "2021-9-23 10:2:20",
+        commnetdate: "2021-09-18 10:02:20",
         userinfo: {
           userno: 1,
           username: "카리나a",

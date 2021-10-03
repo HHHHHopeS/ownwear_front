@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { login, signup,getCurrentUser } from '../../util/APIUtils';
+import { getCurrentUser, login, signup } from '../../util/APIUtils';
 import "./Login.scss";
 
 
