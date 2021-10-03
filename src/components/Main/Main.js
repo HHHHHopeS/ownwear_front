@@ -1,19 +1,18 @@
 
 import { useEffect, useState } from "react";
-import "./Main.scss";
-import ImgBox from "../ImgBox/ImgBox";
-import { Link } from "react-router-dom"
-import { GiClothes } from 'react-icons/gi'
-import { FaCameraRetro } from 'react-icons/fa'
 import { BiFace } from "react-icons/bi";
-
+import { FaCameraRetro } from 'react-icons/fa';
+import { GiClothes } from 'react-icons/gi';
 import { VscBold } from "react-icons/vsc";
-
-
+import { Link } from "react-router-dom";
+import exPhoto from "../../res/iu.jpg";
+import ImgBox from "../ImgBox/ImgBox";
 import "./Main.scss";
 
 
-import exPhoto from "../../res/iu.jpg";
+
+
+
 
 
 export default function Main(props) {

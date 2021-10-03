@@ -2,9 +2,9 @@ import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons"
 import { faCaretDown, faCaretUp, faHeart } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
+import { AiOutlineMessage } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import "./ImgBox.scss"
-import {AiOutlineMessage} from "react-icons/ai";
 
 export default function ImgBox(props) {
     const data = props.data

@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createRef, useCallback, useContext, useEffect, useRef, useState } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/src/ReactCrop.scss";
+import { useHistory } from "react-router";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
-import { getClarifaiData, getGoogleData } from "../../util/APIUtils";
+import { getClarifaiData, getGoogleData,insertImageData,sendImage } from "../../util/APIUtils";
 import "./ImageUploadModule.scss";
 /**
  * @param {HTMLImageElement} image - Image File Object
@@ -18,6 +19,7 @@ export default function Upload(props) {
   const phase = props.phase;
   const setPhase = props.setPhase;
   const {user} = useContext(UserContext)
+  const history = useHistory()
   // usestate
   const [highlight, setHighlight] = useState(false);
   const [preview, setPreview] = useState("");
@@ -42,7 +44,7 @@ export default function Upload(props) {
   productTagRef.current = productTags.map(
     (productTag, i) => productTagRef.current[i] ?? createRef()
   );
-
+    
   useEffect(() => {
     if (crop) {
       setCompletedCrop(crop);
@@ -115,7 +117,7 @@ export default function Upload(props) {
   }, [phase, phase.phaseNo, setPhase]);
   useEffect(() => {
     croppedRectors.map((croppedRector, index) => {
-      getCroppedImg(
+      getCroppedImgForTag(
         previewImageRef.current,
 
         document.querySelector(`.cropped-img-${index}`),
@@ -208,29 +210,102 @@ export default function Upload(props) {
     const canvas = canv;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
+    console.log(image.naturalWidth)
+    console.log(image.naturalHeight)
+    
     const crop = crp;
-
+    console.log(crop)
     const ctx = canvas.getContext("2d");
 
-    canvas.width = (crop.width * image.width) / 100;
+    canvas.width = (crop.width * image.naturalWidth) / 100;
 
-    canvas.height = (crop.height * image.height) / 100;
+    canvas.height = (crop.height * image.naturalHeight) / 100;
 
     ctx.imageSmoothingQuality = "high";
 
+    // ctx.drawImage(
+    //   image,
+    //   ((crop.x * image.width) / 100) * scaleX,
+    //   ((crop.y * image.height) / 100) * scaleY,
+    //   ((crop.width * image.width) / 100) * scaleX,
+    //   ((crop.height * image.height) / 100) * scaleY,
+    //   0,
+    //   0,
+    //   (crop.width * image.width) / 100,
+    //   (crop.height * image.height) / 100
+    console.log(((crop.x * image.naturalWidth) / 100) )
+    console.log(((crop.width * image.naturalWidth) / 100))
+    console.log(  (crop.width * image.naturalWidth) / 100)
+    // );
     ctx.drawImage(
       image,
-      ((crop.x * image.width) / 100) * scaleX,
-      ((crop.y * image.height) / 100) * scaleY,
-      ((crop.width * image.width) / 100) * scaleX,
-      ((crop.height * image.height) / 100) * scaleY,
+      ((crop.x * image.naturalWidth) / 100) ,
+      ((crop.y * image.naturalHeight) / 100),
+      ((crop.width * image.naturalWidth) / 100) ,
+      ((crop.height * image.naturalHeight) / 100),
       0,
       0,
-      (crop.width * image.width) / 100,
-      (crop.height * image.height) / 100
+      (crop.width * image.naturalWidth) / 100,
+      (crop.height * image.naturalHeight) / 100
     );
-
+ 
     if (ctx) {
+      
+      previewImageRef.current.width=canvas.width/scaleX
+      
+      
+      previewImageRef.current.height=canvas.height/scaleY
+      
+      return true;
+    }
+    return false;
+  }
+  function getCroppedImgForTag(image, canv, crp) {
+    const canvas = canv;
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    console.log(image.naturalWidth)
+    console.log(image.naturalHeight)
+    
+    const crop = crp;
+    console.log(crop)
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = (crop.width * image.naturalWidth) / 100;
+
+    canvas.height = (crop.height * image.naturalHeight) / 100;
+
+    ctx.imageSmoothingQuality = "high";
+
+    // ctx.drawImage(
+    //   image,
+    //   ((crop.x * image.width) / 100) * scaleX,
+    //   ((crop.y * image.height) / 100) * scaleY,
+    //   ((crop.width * image.width) / 100) * scaleX,
+    //   ((crop.height * image.height) / 100) * scaleY,
+    //   0,
+    //   0,
+    //   (crop.width * image.width) / 100,
+    //   (crop.height * image.height) / 100
+    console.log(((crop.x * image.naturalWidth) / 100) )
+    console.log(((crop.width * image.naturalWidth) / 100))
+    console.log(  (crop.width * image.naturalWidth) / 100)
+    // );
+    ctx.drawImage(
+      image,
+      ((crop.x * image.naturalWidth) / 100) ,
+      ((crop.y * image.naturalHeight) / 100),
+      ((crop.width * image.naturalWidth) / 100) ,
+      ((crop.height * image.naturalHeight) / 100),
+      0,
+      0,
+      (crop.width * image.naturalWidth) / 100,
+      (crop.height * image.naturalHeight) / 100
+    );
+ 
+    if (ctx) {
+      
+
       return true;
     }
     return false;
@@ -440,16 +515,7 @@ export default function Upload(props) {
     setPhase({...phase,phaseNo:6})
   }
 
-  function finishCreate(){
-    console.log(tagData) //tag data
-    console.log(previewImageRef.current.src) // base 64
-    console.log(hashtagData) // hashtag
-    console.log(user.info)
-    // insertImageData()
-    const imgData = {
-      
-    }
-  }
+  
   function addHashTag(e,el){
     let tag = null
     if(el)
@@ -487,6 +553,30 @@ else{
     }
 
     setHashtagData(hashtagDataCopied)
+  }
+  function finishCreate(){
+    console.log(tagData) //tag data
+    console.log(previewImageRef.current.src) // base 64
+    console.log(hashtagData) // hashtag
+    console.log(user.info)
+    // insertImageData()
+    setPhase({...phase,phaseNo:7})
+    sendImage(previewImageRef.current.src)
+    .then(response=>{
+      let imgUrl = response.data
+      const imgData = {
+        imgUrl,
+        tagData,
+
+      }
+
+      const request = Object.assign({},{imgData,hashtagData})
+      insertImageData(request).then(response=>setTimeout(()=>history.push(`/detail/${response}`),1000))
+      .catch(err=>console.log(err))
+      setPhase({...phase,phaseNo:8})
+    })
+    .catch(err=>console.log(err))
+    
   }
   return (
     <>
@@ -529,8 +619,7 @@ else{
               phase.phaseNo === 0 || phase.phaseNo === 1
                 ? {}
                 :previewCanvasRef.current? {
-                    width: previewCanvasRef.current.width,
-                    height: previewCanvasRef.current.height,
+                  width:previewImageRef.current.width,height:previewImageRef.current.height,
                     justifyContent: "end",
                     display: "flex",
                   }:null
@@ -538,18 +627,14 @@ else{
           >
             <div
               style={
-                phase.phaseNo >= 2
-                  ? {
-                      width: previewCanvasRef.current.width,
-                      height: previewCanvasRef.current.height,
-                    }
-                  : null
+                previewImageRef.current?{width:previewImageRef.current.width,height:previewImageRef.current.height}:null
               }
               className={completedCrop ? "img-box active" : "img-box"}
             >
               <canvas ref={previewCanvasRef}></canvas>
               <img
                 ref={previewImageRef}
+                
                 src={previewImage ? previewImage.data : null}
                 alt=""
               />

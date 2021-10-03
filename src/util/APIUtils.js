@@ -186,3 +186,11 @@ export function insertImageData(insertImageDataReqeust){
         body:JSON.stringify(insertImageDataReqeust)
     })
 }
+
+export function sendImage(sendImageRequest){
+    return request({
+        url:API_BASE_URL+"/uploadImageFile",
+        method:"POST",
+        body:sendImageRequest
+    })
+}
