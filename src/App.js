@@ -1,12 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect, useState } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Redirect,Route,useHistory, Switch, useLocation } from 'react-router-dom';
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
 import "react-s-alert/dist/s-alert-default.css";
 import './App.scss';
 import LoadingIndicator from "./common/LoadingIndicator";
 import { UserContext } from "./common/UserContext";
+import { Modal } from "react-bootstrap";
 import NotFound from './components/404/NotFound';
 import Create from "./components/Create/Create";
 import Detail from "./components/Detail/Detail";
@@ -24,6 +25,7 @@ import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
 import axios from 'axios';
 import Paging from "./Paging/Paging";
+import { BiCheck } from "react-icons/bi";
 
 
 
@@ -34,7 +36,7 @@ import Paging from "./Paging/Paging";
 export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
-
+const history = useHistory()
 const [authenticated,setAuthenticated] = useState(false)
 const [loading,setLoading] = useState(true)
 
@@ -65,16 +67,23 @@ const handleLogout= ()=>{
       getCurrentUser().then(response=>{
         
         setCurrentUser(response)
+        if(user.info.verified){
         if(user.auth){
           setAuthenticated(true)
         }
         else(setAuthenticated(false))
         setLoading(false)
-
+      }
+      else{
+        console.log("user is not verified")
+        setLoading(false)
+        history.push("/mypage")
+      }
       }).catch(error=>{
         console.log(error)
         setLoading(false)
       })
+      
     }
    
 
@@ -83,12 +92,25 @@ const handleLogout= ()=>{
 
   return () => setLoading(false);
   },[user.auth])
-
+  useEffect(()=>{
+    const checkVerified= ()=>{
+      if(user.info.verified){
+        return false
+      }
+      else{
+        history.push("/mypage")
+      }
+    }
+    if(user.auth){
+    checkVerified()
+  }
+  return false
+  },[location])
   
   if(loading){
     return <LoadingIndicator />
   }
-
+  
   return (
     <div className="App">
       
@@ -97,10 +119,11 @@ const handleLogout= ()=>{
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
         
+        
         <Switch >
 
 
-          
+          {/* <Route exact path="unverifed" component={Unverifed}> */}
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>

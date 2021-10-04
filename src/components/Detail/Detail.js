@@ -689,9 +689,9 @@ function Comment(props) {
             position
           );
 
-          const requestData = Object.assign({}, { newHastagValue });
+          const requestData = Object.assign({}, { value:newHastagValue });
           // setTimeout(
-          //   hashtagAutoComplete(requestData).then(response=>{
+          //   usertagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
           //   }).catch(err=>{
           //     Alert.error("autocomplete not work!")
@@ -716,7 +716,7 @@ function Comment(props) {
             position
           );
 
-          const requestData = Object.assign({}, { newHastagValue });
+          const requestData = Object.assign({}, { value:newHastagValue });
           // setTimeout(
           //   hashtagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
