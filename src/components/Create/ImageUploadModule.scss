@@ -3,11 +3,13 @@
 $primary-color: #101010;
 $white: #fff;
 .img-container {
+  display: flex;
+  flex-direction: column;
   .upload-main-section {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 90%;
+    height: 85%;
     .upload {
       display: flex;
       align-items: center;
@@ -50,6 +52,23 @@ $white: #fff;
           display: flex;
 
           position: absolute;
+          .tag-button{
+            background-color: black;
+            border-radius: 5px;
+            color: white;
+            font-family: "Montserrat";
+            width: 80px;
+          font-weight: bold;
+            opacity: 0.8;
+            z-index: -1;
+            padding: 5px 0;
+            border: none;
+            &:hover{
+              z-index: 1;
+              opacity: 1000;
+            }
+          }
+
           canvas {
             position: relative;
           }
@@ -87,7 +106,7 @@ $white: #fff;
         overflow-x: hidden;
         position: relative;
         background-color: white;
-        height: 380px;
+        height: 400px;
         width: 100%;
         flex-direction: row;
         .cropped-tag-container {
@@ -259,12 +278,17 @@ $white: #fff;
           flex-direction: column;
           .input-container{
             width: 100%;
-            height: 40%;
+            height: 38%;
             display: flex;
             justify-content: center;
-            align-items: end;
-            >div{
+            flex-direction: column;
+            align-items: center;
+            
+            .input-section{
               width: 50%;
+              display: flex;
+              >div{
+              width: 100%;
               border-bottom: 1px solid $grey;
               transition: border .3s ease;
               label{
@@ -279,13 +303,13 @@ $white: #fff;
                 &:focus{
                   outline: none;
                 }
-              } 
+              } }
               
               
               
             }
             >div.active{
-              border-bottom: 4px solid $primary;
+
               label{
                 font-size: 26px;
               }
@@ -304,10 +328,18 @@ $white: #fff;
               padding: 5px 10px;
             }
           }
+          .error-container{
+            width: 100%;
+            height: 5%;
+            text-align: center;
+            color: $error;
+            font-weight: bold;
+
+          }
           .result-container{
             overflow-y: scroll;
             width: 100%;
-            height: 60%;
+            height: 57%;
             justify-content: center;
             padding: 30px;
             display: flex;
@@ -341,6 +373,17 @@ $white: #fff;
         display: none;
         width: 100%;
         height: 60px;
+        
+        button:nth-child(1){
+          color: gray;
+          cursor: default;
+          border-right: 1px solid white;
+        }
+        button.undo-active{
+          color:white;
+          cursor: pointer;
+          
+        }
         button {
           width: 100%;
           height: 100%;
@@ -357,12 +400,15 @@ $white: #fff;
     }
   }
 }
-
+.footer-button-section{
+  display: flex;
+  justify-content: center;
 .upload-button {
   width: 200px;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
+  margin-right: 2px;
 }
 
 .upload-file {
@@ -374,7 +420,11 @@ $white: #fff;
   opacity: 0;
   cursor: pointer;
 }
-
+button{
+  width: 200px;
+  
+}
+}
 .button {
   display: flex;
   align-items: center;
@@ -390,4 +440,24 @@ $white: #fff;
   text-decoration: none;
   background-color: $primary-color;
   border: 0;
+}
+
+.rbt{
+  height: 35px;
+  outline: none;
+.rbt-input{
+  height: 100%;
+  border: none;
+  .rbt-input-wrapper{
+  display: flex;
+  height: 100%;
+  
+}}
+.rbt-aux{
+  display: none;
+}
+input:focus{
+  outline: none;
+  box-shadow: none;
+}
 }

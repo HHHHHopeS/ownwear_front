@@ -144,7 +144,7 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
 
 export function updateModalFollow(updateModalFollowRequest){
     return request({
-        url:API_BASE_URL+"usertag/autoComplete",
+        url:API_BASE_URL+"usertag/isUserFollowed",
         method:"POST",
         body:JSON.stringify(updateModalFollowRequest)
     })
