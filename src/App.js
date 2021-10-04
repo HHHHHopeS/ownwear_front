@@ -67,19 +67,16 @@ const handleLogout= ()=>{
       getCurrentUser().then(response=>{
         
         setCurrentUser(response)
-        if(user.info.verified){
+  
         if(user.auth){
           setAuthenticated(true)
         }
-        else(setAuthenticated(false))
-        setLoading(false)
+        else{(setAuthenticated(false))
+        setLoading(false)}
       }
-      else{
-        console.log("user is not verified")
-        setLoading(false)
-        history.push("/mypage")
-      }
-      }).catch(error=>{
+      
+
+      ).catch(error=>{
         console.log(error)
         setLoading(false)
       })

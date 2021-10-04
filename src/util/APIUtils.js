@@ -60,7 +60,7 @@ export function signup(signupRequest){
 //초기 데이터 가져오기 
 export function getDetailData(detailDataReqeust){
     return request({
-        url:API_BASE_URL+"/detail/"+detailDataReqeust.postData.postno,
+        url:API_BASE_URL+"/detail/"+detailDataReqeust.post_id,
         method:"POST",
         body:JSON.stringify(detailDataReqeust)
     })
