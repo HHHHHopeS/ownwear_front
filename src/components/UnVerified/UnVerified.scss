@@ -1,0 +1,41 @@
+.UnVerified{
+    width: 100%;
+    height: calc(100vh - 70px);
+    
+
+    .additional-info-container
+    {
+        width: 60%;
+        height: 100%;
+        margin: 0 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .form-container{
+            background-color: red;
+            width: 100%;
+            height: 90%;
+            .form-title-section{
+                height: 15%;
+                width: 100%;
+                background-color: green;
+            }
+            .form-main-section{
+                width: 100%;
+                height: 85%;
+
+                .left{
+                    width: 50%;
+                    height: 100%;
+                    background-color: blue;
+                }
+                .right{
+                    width: 50%;
+                    height: 100%;
+                }
+            }
+            
+        }
+        
+    }
+}
