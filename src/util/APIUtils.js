@@ -178,6 +178,34 @@ export function getGoogleData(getGoogleDataRequest){
     })
 }
 
+
+//인덱스 게시물데이터
+export function getIndexData(getIndexDataRequest){
+    return request({
+        url:API_BASE_URL+"/detail/getlist",
+        method:"GET",
+        body:getIndexDataRequest
+    })
+}
+
+//브랜드데이터
+export function getBrandData(getBrandDataRequest){
+    return request({
+        url:API_BASE_URL+"/getBrandData",
+        method:"POST",
+        body:getBrandDataRequest
+    })
+}
+
+//유저리스트
+export function getHotUserData(getHotUserDataRequest){
+    return request({
+        url:API_BASE_URL+"/getHotUserData",
+        method:"POST",
+        body:getHotUserDataRequest
+    })
+}
+
 // create 전송
 
 export function insertImageData(insertImageDataReqeust){
@@ -195,3 +223,4 @@ export function sendImage(sendImageRequest){
         body:sendImageRequest
     })
 }
+
