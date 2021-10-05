@@ -1,13 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect, useState } from 'react';
-import { Redirect,Route,useHistory, Switch, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
 import "react-s-alert/dist/s-alert-default.css";
 import './App.scss';
 import LoadingIndicator from "./common/LoadingIndicator";
 import { UserContext } from "./common/UserContext";
-import { Modal } from "react-bootstrap";
 import NotFound from './components/404/NotFound';
 import Create from "./components/Create/Create";
 import Detail from "./components/Detail/Detail";
@@ -23,9 +22,6 @@ import SubNav from './components/SubNav/SubNav';
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
-import axios from 'axios';
-import Paging from "./Paging/Paging";
-import { BiCheck } from "react-icons/bi";
 
 
 
@@ -36,8 +32,8 @@ import { BiCheck } from "react-icons/bi";
 export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
-const history = useHistory()
-const [authenticated,setAuthenticated] = useState(false)
+
+
 const [loading,setLoading] = useState(true)
 
 
@@ -45,11 +41,26 @@ const [loading,setLoading] = useState(true)
 const handleLogout= ()=>{
   localStorage.removeItem(ACCESS_TOKEN);
   setCurrentUser(null)
-  setAuthenticated(false)
+
   Alert.success("You re safely logged out!")
 }
 
-  
+const CheckVerified= ()=>{
+
+  if(user.auth&&location.pathname!=="/mypage"){
+  if(user.info.isverified){
+
+    return false
+  }
+  else{
+    
+    return <Redirect to="/mypage"></Redirect>
+    
+
+  }
+}
+else return null
+}
   useEffect(() => {
 
     // const fetchData = async () => {
@@ -65,14 +76,17 @@ const handleLogout= ()=>{
 
       setLoading(true)
       getCurrentUser().then(response=>{
-        
         setCurrentUser(response)
-  
+        
         if(user.auth){
-          setAuthenticated(true)
+
+
+          
+          setLoading(false)
         }
-        else{(setAuthenticated(false))
+        else{
         setLoading(false)}
+        
       }
       
 
@@ -82,27 +96,15 @@ const handleLogout= ()=>{
       })
       
     }
-   
-
+    
+    
+    
   loadCurrentlyLoggedInUser();
 
 
   return () => setLoading(false);
   },[user.auth])
-  useEffect(()=>{
-    const checkVerified= ()=>{
-      if(user.info.verified){
-        return false
-      }
-      else{
-        history.push("/mypage")
-      }
-    }
-    if(user.auth){
-    checkVerified()
-  }
-  return false
-  },[location])
+
   
   if(loading){
     return <LoadingIndicator />
@@ -116,7 +118,7 @@ const handleLogout= ()=>{
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
         
-        
+        <CheckVerified />
         <Switch >
 
 

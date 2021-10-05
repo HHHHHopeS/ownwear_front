@@ -51,7 +51,7 @@ export default function Upload(props) {
   const [tagData, setTagData] = useState([]);
   const [hashtagData, setHashtagData] = useState([]);
   const [activeInputFocus, setActiveInputFocus] = useState(false);
-  const [hashtagInputValue, setHashtagInputValue] = useState("");
+
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const [isLoading,setIsLoading] = useState(false)
   // ref
@@ -112,12 +112,14 @@ export default function Upload(props) {
                   }
                 }
                 if (region.value > 0.95) list.push(region);
+                return false
               });
 
               setRectors(list);
               setPhase({ ...phase, phaseNo: 3 });
+              
             }
-          })
+            return false})
           .catch(err => {
             Alert.error("error!");
           });
@@ -148,7 +150,7 @@ export default function Upload(props) {
 
         document.querySelector(`.cropped-img-${index}`),
         croppedRector
-      );
+      );return null
     });
   }, [croppedRectors]);
 
@@ -286,8 +288,7 @@ export default function Upload(props) {
   }
   function getCroppedImgForTag(image, canv, crp) {
     const canvas = canv;
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
+
     console.log(image.naturalWidth);
     console.log(image.naturalHeight);
 
@@ -561,21 +562,7 @@ export default function Upload(props) {
     setPhase({ ...phase, phaseNo: 6 });
   }
 
-  function configureHashtag(text, e) {
-    let value = text;
-    setHashtagInputValue(value);
 
-    if (value.includes(" ")) {
-      value = value.replaceAll(" ", "");
-      setHashtagInputValue(value);
-    }
- 
-    
-    
-    // let options = ["a", "ac", "a_d"];
-
-    // setAutoCompleteResult(response);
-  }
   function addHashTag(e, el) {
     document.querySelector(".hashtag-error").innerText = "";
     let tag = null;
@@ -584,7 +571,8 @@ export default function Upload(props) {
     } else {
       tag = e.currentTarget.value;
     }
-    const regExp = /[!?@#$%^&*():;+-=~{}<>\[\]\|\\\"\'\,\.\/\`\₩]/g;
+    const regExp = /[!?@#$%^&*():;+-=~{}<>[\]|\\"',./`₩]/g;
+    // const regExp = /[!?@#$%^&*():;+-=~{}<>\[\]\|\\\"\'\,\.\/\`\₩]/g;
     var check = /[가-힣A-Za-z0-9_]{1,30}/;
 
     if (regExp.test(tag) !== true) {
@@ -719,7 +707,7 @@ export default function Upload(props) {
               }
               className={completedCrop ? "img-box active" : "img-box"}
             >
-              <canvas hidden="true" ref={previewCanvasRef}></canvas>
+              <canvas hidden={true} ref={previewCanvasRef}></canvas>
               <img
                 ref={previewImageRef}
                 src={
@@ -915,7 +903,7 @@ export default function Upload(props) {
                         }
                       }}
                       searchText={"searching"}
-                      text={hashtagInputValue}
+
                     />
                     {/* <input
                       value={hashtagInputValue}

@@ -11,7 +11,7 @@ export default function Create(props) {
     phaseNo:0,
     phaseTitle:["upload Image!","crop Image!","verifying","select Tag you want","searching","edit your tag","add hashtag","sending","complete!"]
   })
-  const [uploadedImage,setUploadedImage] = useState(null)
+
     useEffect(
      ()=>{
         if(!user.auth){

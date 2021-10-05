@@ -1,16 +1,17 @@
 
 import { useContext } from "react";
-import { Redirect, useLocation } from "react-router";
+import { Redirect } from "react-router";
 import { UserContext } from "../../common/UserContext";
 import { ACCESS_TOKEN } from "../../constants";
 import { getCurrentUser } from "../../util/APIUtils";
 
 export default function OAuth2RedirectHandler(props) {
     const {setCurrentUser} = useContext(UserContext)
-    const location = useLocation()
+
     const getUrlParameter= (name)=>{
         
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        // name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
         var results = regex.exec(props.location.search)
         return results === null? '': decodeURIComponent(results[1].replace(/\+/g,' '))

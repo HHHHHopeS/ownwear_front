@@ -55,7 +55,7 @@ export default function Login(props) {
 function SocialLogin(){
   return(
     <div className="social-login">
-      <a href="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+      <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
         Log in with Facebook
       </a>
     </div>
