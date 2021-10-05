@@ -58,6 +58,7 @@ export function signup(signupRequest){
 //디테일페이지 
 
 //초기 데이터 가져오기 
+
 export function getDetailData(detailDataReqeust){
     return request({
         url:API_BASE_URL+"/detail/"+detailDataReqeust.post_id,

@@ -1,13 +1,13 @@
 @import "../base";
 
 .SubNav {
-    
+  
   position: static;
   margin-top: 80px;
   height: 60px;
   width: 100%;
   background-color: white;
-  border-bottom: 1px solid $primary;
+  box-shadow: $boxshadow-bottom;
   > div {
     display: none;
     .subnav-breadcrumb-section {
