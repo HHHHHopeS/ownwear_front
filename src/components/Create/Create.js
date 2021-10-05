@@ -9,9 +9,9 @@ export default function Create(props) {
   const {user,setCurrentUser} = useContext(UserContext)
   const [phase,setPhase] = useState({
     phaseNo:0,
-    phaseTitle:["upload Image!","crop Image!","verifying","select Tag you want","searching","edit your tag","add hashtag","complete"]
+    phaseTitle:["upload Image!","crop Image!","verifying","select Tag you want","searching","edit your tag","add hashtag","sending","complete!"]
   })
-  const [uploadedImage,setUploadedImage] = useState(null)
+
     useEffect(
      ()=>{
         if(!user.auth){
@@ -61,33 +61,7 @@ export default function Create(props) {
           
         
         </div>
-        <div className="create-sub-container">
-        {phase.phaseNo>0?<button onClick={()=>setPhase({...phase,phaseNo:phase.phaseNo-1})}>
-          minus
-        </button>:null}
-        {phase.phaseNo<7?
-        <button onClick={()=>setPhase({...phase,phaseNo:phase.phaseNo+1})}>
-          plus
-        </button>:null}
-        
-        {/* phase.phaseNo===0?
-          <div>im image0</div>
-          :
-          phase.phaseNo===1?
-          <div>im image1</div>
-          :
-          phase.phaseNo===3?
-          <div>im image3</div>
-          :
-          phase.phaseNo===5?
-          <div>im image5</div>
-          :
-          phase.phaseNo===6?
-          <div>im image6</div>
-          :
-          
-          <div>im image7</div> */}
-        </div>
+       
         
   
       </div>

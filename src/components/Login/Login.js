@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { login, signup,getCurrentUser } from '../../util/APIUtils';
+import { getCurrentUser, login, signup } from '../../util/APIUtils';
 import "./Login.scss";
 
 
@@ -55,7 +55,7 @@ export default function Login(props) {
 function SocialLogin(){
   return(
     <div className="social-login">
-      <a href="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+      <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
         Log in with Facebook
       </a>
     </div>

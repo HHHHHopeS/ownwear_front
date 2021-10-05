@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import "./Main.scss";
+
+
 import ImgBox from "../ImgBox/ImgBox";
 import { Link } from "react-router-dom"
 import { GiClothes } from 'react-icons/gi'
@@ -10,6 +11,7 @@ import { VscBold } from "react-icons/vsc";
 import { getIndexData } from "../../util/APIUtils"
 import "./Main.scss";
 import exPhoto from "../../res/iu.jpg";
+
 
 export default function Main(props) {
 
