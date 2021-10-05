@@ -21,6 +21,7 @@
     }
     
   }
+  
   div.main {
     display: block;
     height: 100%;
@@ -51,6 +52,13 @@
         border-bottom: 3px solid $primary;
       }
     }
+  }
+}
+.SubNav.none{
+  width: 0;
+  height: 0;
+  > div {
+    display: none;
   }
 }
 .SubNav.login {
