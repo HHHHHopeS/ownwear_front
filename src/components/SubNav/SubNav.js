@@ -57,7 +57,7 @@ export default function SubNav(props) {
     setChange(true);
     setRankingTitle(event.target.innerText);
   };
-  if(location.pathname.replace("/","").includes("detail")&&location.pathname.replace("/","").split("/").length!==3){
+  if(location.pathname.replace("/","").includes("detail")&&location.pathname.replace("/","").split("/").length!==2){
     return <div className="SubNav" style={{height:"0"}}></div>
   }
   else{

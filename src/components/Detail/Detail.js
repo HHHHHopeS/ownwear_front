@@ -220,7 +220,7 @@ export default function Detail(props) {
         Alert.error("failed to get data");
         // setNotFound(true)  백 구축 하면 원상복귀
       });
-  }, [post_id,user.auth,user.info.id]);
+  }, [post_id,user.auth,]);
   // }, [post_id]);
   useLayoutEffect(() => {
     if (targetRef.current) {
