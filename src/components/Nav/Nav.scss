@@ -1,17 +1,22 @@
 @import "../base";
+
 .Nav {
   top: 0;
   width: 100vw;
   height: 80px;
-  background-color: $primary;
-
+  border-bottom: 2px solid $primary;
+  background-color: white;
   position: fixed;
   z-index: 1;
-    .nav-section{
-        height:100%
-    }
+  .nav-section {
+    height: 100%;
+    width: 100%;
+  }
+  .logo-image {
+    max-height: 70px;
+  }
   ul {
-
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -21,27 +26,36 @@
     margin-left: -5%;
     height: calc(100% - 16px);
     li {
-
       text-decoration: none;
-
     }
     li:first-child {
+      .search-bar-container{
+        width: 350px;
+        margin-right: -100px;
+        @include wide {
+
+          margin-right: -80px;
+        }
       div.SearchBar {
-        
-        width: 18vw;
+        width: 220px;
         height: 20px;
+        margin-right: 10px;
+        transition: width 0.5s ease;
+        
         div.search-section {
-            background-color: white;
+          background-color: #f3f4f4;
           padding: 0 0 0 10px;
           border-radius: 5px;
           display: inline-flex;
           width: 100%;
-        
+
           svg {
+            color: #9e9ea7;
             width: 10%;
             margin-top: 12px;
           }
           input {
+            background-color: #f3f4f4;
             width: 90%;
             font-size: 20px;
             border-radius: 5px;
@@ -52,7 +66,13 @@
             outline: none;
           }
         }
-        
+      }
+      .SearchBar.active {
+        width: 320px;
+        @include wide {
+          width: 350px;
+        }
+      }
       }
     }
     li:nth-child(2) {
@@ -64,19 +84,37 @@
         font-weight: 800;
         cursor: pointer;
         text-transform: uppercase;
-        
       }
     }
     li:nth-child(3) {
       margin-top: 15px;
       button {
-        background-color: $secondary;
+        background: none;
         border: none;
         padding: 10px 20px;
         font-weight: 600;
         cursor: pointer;
         margin-left: 15%;
         border-radius: 4px;
+      }
+    }
+    .nav-after-login {
+      display: flex;
+      align-items: center;
+
+      li {
+        margin: 0;
+        padding: 0;
+        margin-top: 10px;
+        button {
+          background: none;
+          border: none;
+          padding: 10px;
+          margin: 0;
+          font-size: 20px;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
       }
     }
   }
@@ -89,12 +127,8 @@
     opacity: 0;
     animation: fadeout 1s;
     z-index: 0;
-    
-    
-
   }
   .blur {
-
     background-color: black;
     width: 100vw;
     top: 80px;

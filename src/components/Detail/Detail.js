@@ -21,9 +21,7 @@ import React, {
   createRef,
   useContext,
   useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
+  useLayoutEffect, useRef,
   useState
 } from "react";
 import Masonry from "react-masonry-css";
@@ -222,7 +220,8 @@ export default function Detail(props) {
         Alert.error("failed to get data");
         // setNotFound(true)  백 구축 하면 원상복귀
       });
-  }, [post_id]);
+  }, [post_id,user.auth,user.info.id]);
+  // }, [post_id]);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -379,7 +378,7 @@ function Image(props) {
 }
 
 function LikeShare(props) {
-  const post_id = props.location.pathname.split("/")[3];
+  // const post_id = props.location.pathname.split("/")[3];
 
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
@@ -393,10 +392,10 @@ function LikeShare(props) {
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
     if (user.auth) {
-      const toggleLikeRequest = Object.assign(
-        {},
-        { user_id: user.info.id, post_id: post_id }
-      );
+      // const toggleLikeRequest = Object.assign(
+      //   {},
+      //   { user_id: user.info.id, post_id: post_id }
+      // );
       setLikecount(false);
       if (isLike) {
         setIsLike(false);
@@ -426,17 +425,17 @@ function LikeShare(props) {
     }
   };
   const activeLikeListModal = () => {
-    if(user.auth){
-    const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:user.id });
-    // getLikeUserList(LikeUserListRequest).then(
-    //   response=>{
+  //   if(user.auth){
+  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:user.id });
+  //   // getLikeUserList(LikeUserListRequest).then(
+  //   //   response=>{
 
-    //   }
-    // )
-  }
-  else{
-    const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:null });
-  }
+  //   //   }
+  //   // )
+  // }
+  // else{
+  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:null });
+  // }
     setShow(true);
   };
   useEffect(() => {
@@ -510,7 +509,7 @@ function LikeShare(props) {
 }
 
 function Comment(props) {
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  
   const user = props.user;
   const comments = props.detailPageData.comments;
   const detailPageData = props.detailPageData
@@ -625,7 +624,7 @@ function Comment(props) {
     const position = el.selectionStart;
     const startingpoint = inputValue.lastIndexOf("#", position);
     const userTagStartingPoint = inputValue.lastIndexOf("@", position);
-    const newHastagValue = inputValue.substring(startingpoint + 1);
+    
 
     if (userTagStartingPoint < startingpoint) {
       el.value =
@@ -655,12 +654,14 @@ function Comment(props) {
         usertag,
         `<a href="/profile/${usertag.replace("@", "")}">${usertag}</a>`
       );
+        return false
     });
     hashTags.map(hashtag => {
       innerHtml = innerHtml.replace(
         hashtag,
         `<a href="/list/${hashtag.replace("#", "")}">${hashtag}</a>`
       );
+      return false
     });
 
     return { __html: "<span>" + innerHtml + "</span>" };
@@ -684,12 +685,12 @@ function Comment(props) {
           inputValue.substring(position - 1, position).trim() &&
           inputValue[(startingpoint, startingpoint + 1)]
         ) {
-          const newHastagValue = inputValue.substring(
+          const newHashtagValue = inputValue.substring(
             startingpoint + 1,
             position
           );
 
-          const requestData = Object.assign({}, { value:newHastagValue });
+          // const requestData = Object.assign({}, { value:newHashtagValue });
           // setTimeout(
           //   usertagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
@@ -711,12 +712,12 @@ function Comment(props) {
           inputValue.substring(position - 1, position).trim() &&
           inputValue[(startingpoint, startingpoint + 1)]
         ) {
-          const newHastagValue = inputValue.substring(
-            startingpoint + 1,
-            position
-          );
+          // const newHashtagValue = inputValue.substring(
+          //   startingpoint + 1,
+          //   position
+          // );
 
-          const requestData = Object.assign({}, { value:newHastagValue });
+          // const requestData = Object.assign({}, { value:newHashtagValue });
           // setTimeout(
           //   hashtagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
@@ -742,7 +743,7 @@ function Comment(props) {
   };
   const createComment=()=>{
     const data =document.querySelector(".comment-input").value
-    const createCommentRequest = Object.assign({},{user_id:user.info.id,post_id:props.post_id,content:data})
+    // const createCommentRequest = Object.assign({},{user_id:user.info.id,post_id:props.post_id,content:data})
     // fetchCreateComment(createCommentRequest).then(
     //   response=>{
     //     let arr = [...comments]
@@ -768,7 +769,7 @@ function Comment(props) {
     document.querySelector(".comment-input").value=""
   }
   const deleteComment=(comment)=>{
-    const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
+    // const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
     const arr = [...comments]
     const index = arr.indexOf(comment);
     arr.splice(index,1)
@@ -1024,7 +1025,7 @@ function ImageInfo(props) {
 
 function Product(props) {
   const tagData = props.detailPageData.postData.imgData.tagData
-  const hoverTag = props.hoverTag;
+  
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>

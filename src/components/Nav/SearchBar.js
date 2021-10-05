@@ -7,7 +7,7 @@ export default function SearchBar() {
     document.querySelector(".blur-section").classList.remove("noblur")
     document.querySelector(".blur-section").classList.add("blur")
     document.querySelector(".SearchToolBox").classList.add("active")
-    
+    document.querySelector(".SearchBar").classList.add("active")
   }
   
   return (
