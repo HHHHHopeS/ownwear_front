@@ -5,7 +5,7 @@ import "./List.scss";
 
 import Masonry from "react-masonry-css";
 import Paging from "../../Paging/Paging";
-import getdata from "../../util/APIUtils"
+import {getdata} from "../../util/APIUtils"
 
 export default function List(props) {
 
@@ -186,18 +186,18 @@ export default function List(props) {
   const isHashtag = pathName.split("/")[1];
   const title = pathName.split("/")[2];
   const pageno = pathName.split("/")[3];
-  useEffect(()=>{
+  // useEffect(()=>{
     
-    const requestBody = Object.assign({},{
-      isHashtag,
-      title,
-      pageno
-    })
-    getdata(requestBody).then(response=>setData(data)).catch(err=>console.log(err))
-  },[pathName])
-  useEffect(()=>{
-    history.location
-  },[page])
+  //   const requestBody = Object.assign({},{
+  //     isHashtag,
+  //     title,
+  //     pageno
+  //   })
+  //   getdata(requestBody).then(response=>setData(data)).catch(err=>console.log(err))
+  // },[pathName])
+  // useEffect(()=>{
+  //   history.location
+  // },[page])
 
 
 

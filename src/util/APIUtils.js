@@ -176,3 +176,30 @@ export function getGoogleData(getGoogleDataRequest){
         body:JSON.stringify(getGoogleDataRequest)
     })
 }
+
+//인덱스 게시물데이터
+export function getIndexData(getIndexDataRequest){
+    return request({
+        url:API_BASE_URL+"/detail/getlist",
+        method:"GET",
+        body:getIndexDataRequest
+    })
+}
+
+//브랜드데이터
+export function getBrandData(getBrandDataRequest){
+    return request({
+        url:API_BASE_URL+"/getBrandData",
+        method:"POST",
+        body:getBrandDataRequest
+    })
+}
+
+//유저리스트
+export function getHotUserData(getHotUserDataRequest){
+    return request({
+        url:API_BASE_URL+"/getHotUserData",
+        method:"POST",
+        body:getHotUserDataRequest
+    })
+}
