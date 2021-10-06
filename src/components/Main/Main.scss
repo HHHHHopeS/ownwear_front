@@ -1,135 +1,147 @@
 @import "../base";
 
-.Main{
+.Main {
+    width: 100%;
     display: flex;
     flex-direction: row;
     margin: 0 12%;
     scroll-behavior: smooth;
-    .side-section{
+    .side-section {
         width: 20%;
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
 
-        .sidebar-container{
+        .sidebar-container {
             margin-top: 80px;
             width: 100%;
             height: 100%;
-            .more{
+
+            .more {
                 background: none;
-                border:none;
+                border: none;
             }
-            .sidebar-contentbox-container{
+            .sidebar-contentbox-container {
                 width: 95%;
                 height: 25%;
+                .title-more-section {
+                    display: flex;
+                    justify-content: space-between;
+                    .title {
+                        span {
+                            font-size: 25px;
+                        }
+                    }
+                }
+                .more-button-section {
+                    font-size: 20px;
+                    display: flex;
+                    cursor: pointer;
+                    align-items: center;
+                }
             }
-            .sidebar-contentbox-container.first{
-                span{
+            .sidebar-contentbox-container.first {
+                span {
                     font-size: 25px;
                 }
-                a:link{
-                    color:black;
+                a:link {
+                    color: black;
                     text-decoration: none;
                 }
             }
             .sidebar-contentbox-container.second {
                 position: relative;
-                
-                .title{
-                    span{
-                        font-size: 25px;
+                height: 500px;
+                .hotuser-info {
+                    margin-left: 5px;
+                    flex-direction: column;
+                    .user {
+                        margin-top: 10px;
+                        display: flex;
                     }
-                    display:block;
-                }
-                .hotuser-info{
-                    margin-left:5px;
-                    display: flex;
-                    flex-direction: row;
-                    .user-image{
-                        img{
-                            width:45px;
+                    .user-image {
+                        img {
+                            width: 45px;
                             height: 45px;
-                            border-radius:50%;
+                            border-radius: 50%;
                         }
                     }
-                    .user-info{
+                    .user-info {
                         margin-left: 10px;
                         display: flex;
                         flex-direction: column;
                         vertical-align: middle;
-                    }
-                }
-                .more-button-section{
-                    align-self: end;
-                    position: absolute; bottom:0; right:0;
-                    button{
-                        border: none;
-                        background-color: $secondary;
-                        padding: 10px 30px;
-                        cursor: pointer;
-                        
+                        .follow {
+                            display: inline;
+                            .user-follow {
+                                margin-left: 5px;
+                            }
+                        }
                     }
                 }
             }
-            .sidebar-contentbox-container.third{
+            .sidebar-contentbox-container.third {
                 position: relative;
-                span{
+                height: 500px;
+                span {
                     font-size: 25px;
                 }
-                .more-button-section{
-                    align-self: end;
-                    position: absolute; bottom:0; right:0;
-                    margin-top: 20px;
-                    button{
-                        border: none;
-                        background-color: $secondary;
-                        padding: 10px 30px;
-                        cursor: pointer;
-                        
-                    }
+            }
+            .sidebar-contentbox-container.fourth {
+                position: relative;
+                height: 500px;
+                span {
+                    font-size: 25px;
                 }
             }
         }
     }
-    .main-section{
+    .main-section {
         width: 80%;
-        .list-section{
+        .list-section {
             margin-top: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            .imgbox-section{
+            justify-content: space-around;
+            .imgbox-section {
+                width: 100%;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-evenly;
             }
-            .imgbox-section.second{
+            .imgbox-section.second {
                 margin-top: 50px;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-evenly;
             }
-            .title-section{
+            .title-section {
                 font-size: 25px;
                 margin-top: 20px;
             }
-            .line{
+            .line {
                 margin-top: 10px;
                 width: 75%;
-                height:1px;
+                height: 1px;
                 border-bottom: 1px solid $primary;
-
             }
-            .imgbox-section{
+            .imgbox-section {
                 margin-top: 10px;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-evenly;
             }
-            .more-button-section{
+            .more-button-section {
                 align-self: end;
                 margin-right: 40px;
                 margin-top: 20px;
-                button{
+                button {
                     border: none;
                     background-color: $secondary;
                     padding: 10px 30px;
@@ -137,24 +149,31 @@
                 }
             }
         }
-        .loadmore-section{
-            .title-section{
-                font-size: 25px;
-                margin-top: 20px;
-            }
-            .line{
-                margin-top: 10px;
-                width: 75%;
-                height:1px;
-                border-bottom: 1px solid $primary;
-            }
-            .section1{
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-
-            }
+    }
+    .loadmore-section {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        .title-section {
+            font-size: 25px;
+            margin-top: 20px;
         }
-    }  
+        .line {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 75%;
+            height: 1px;
+            border-bottom: 1px solid $primary;
+        }
+        .imgbox-section {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .imgbox-section.second {
+            margin-top: 50px;
+        }
+    }
 }

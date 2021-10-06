@@ -21,9 +21,7 @@ import React, {
   createRef,
   useContext,
   useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
+  useLayoutEffect, useRef,
   useState
 } from "react";
 import Masonry from "react-masonry-css";
@@ -41,7 +39,7 @@ export default function Detail(props) {
   const pathName = props.location.pathname;
   
   const postuser = pathName.split("/")[1];
-  const postno = pathName.split("/")[2];
+  const post_id = pathName.split("/")[2];
 
   const [isLike, setIsLike] = useState(false);
   const [show, setShow] = useState(false);
@@ -52,8 +50,8 @@ export default function Detail(props) {
   const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
     postData:{
-      postno: postno,
-      userno: 1,
+      post_id: post_id,
+      user_id: 1,
       username: "winter",
       imgData: {
         imgUrl:
@@ -61,6 +59,7 @@ export default function Detail(props) {
         height: 164,
         profileImgUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+
         tagData: [
           {
             rectorX: 0.5,
@@ -84,22 +83,22 @@ export default function Detail(props) {
     hashtags: ["Givenchy", "sweatshirt", "red"],
     userRelated: [
       {
-        postno: 2,
+        post_id: 2,
         imgUrl:
           "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
       },
       {
-        postno: 3,
+        post_id: 3,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
       {
-        postno: 4,
+        post_id: 4,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
       {
-        postno: 5,
+        post_id: 5,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
@@ -109,9 +108,9 @@ export default function Detail(props) {
       //시간순 오래된순
       {
         commentno: 1,
-        commnetdate: "2021-9-21 18:31:20",
+        commnetdate: "2021-09-01 18:31:20",
         userinfo: {
-          userno: 2,
+          user_id: 2,
           username: "카리나",
           userImg:
             "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
@@ -121,9 +120,9 @@ export default function Detail(props) {
       },
       {
         commentno: 2,
-        commnetdate: "2021-9-23 10:2:20",
+        commnetdate: "2021-09-18 10:02:20",
         userinfo: {
-          userno: 1,
+          user_id: 1,
           username: "카리나a",
           userImg:
             "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
@@ -136,56 +135,56 @@ export default function Detail(props) {
   const [likeUserList, setLikeUserList] = useState([
     {
       username: "카리나a",
-      userno: "1",
+      user_id: "1",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:false
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:false
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      userno: "3",
+      user_id: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
@@ -193,14 +192,14 @@ export default function Detail(props) {
   ]);
 
   useEffect(() => {
-    const getDetailDataRequest = Object.assign({}, { postno: postno });
+    const getDetailDataRequest = Object.assign({}, { post_id: post_id });
     getDetailData(getDetailDataRequest)
       .then(response => {
         setDetailPageData(response);
         if (user.auth) {
           const getIsLikeRequest = Object.assign(
             {},
-            { postno: postno, userno: user.info.id }
+            { post_id: post_id, user_id: user.info.id }
           );
           getIsLike(getIsLikeRequest)
             .then(response => {
@@ -221,7 +220,8 @@ export default function Detail(props) {
         Alert.error("failed to get data");
         // setNotFound(true)  백 구축 하면 원상복귀
       });
-  }, [postno]);
+  }, [post_id,user.auth,]);
+  // }, [post_id]);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -260,7 +260,7 @@ export default function Detail(props) {
       });
     }
   };
-  if (postno && postuser && !notFound) {
+  if (post_id && postuser && !notFound) {
     return (
       <div className="Detail">
         <div className="detail-main-section">
@@ -287,7 +287,7 @@ export default function Detail(props) {
               {...props}
             />
             <Comment
-              postno={postno}
+              post_id={post_id}
               detailPageData={detailPageData}
               setDetailPageData={setDetailPageData}
               user={user}
@@ -378,7 +378,7 @@ function Image(props) {
 }
 
 function LikeShare(props) {
-  const postno = props.location.pathname.split("/")[3];
+  // const post_id = props.location.pathname.split("/")[3];
 
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
@@ -392,10 +392,10 @@ function LikeShare(props) {
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
     if (user.auth) {
-      const toggleLikeRequest = Object.assign(
-        {},
-        { userno: user.info.id, postno: postno }
-      );
+      // const toggleLikeRequest = Object.assign(
+      //   {},
+      //   { user_id: user.info.id, post_id: post_id }
+      // );
       setLikecount(false);
       if (isLike) {
         setIsLike(false);
@@ -425,17 +425,17 @@ function LikeShare(props) {
     }
   };
   const activeLikeListModal = () => {
-    if(user.auth){
-    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:user.id });
-    // getLikeUserList(LikeUserListRequest).then(
-    //   response=>{
+  //   if(user.auth){
+  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:user.id });
+  //   // getLikeUserList(LikeUserListRequest).then(
+  //   //   response=>{
 
-    //   }
-    // )
-  }
-  else{
-    const LikeUserListRequest = Object.assign({}, { postno: postno,userno:null });
-  }
+  //   //   }
+  //   // )
+  // }
+  // else{
+  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:null });
+  // }
     setShow(true);
   };
   useEffect(() => {
@@ -509,7 +509,7 @@ function LikeShare(props) {
 }
 
 function Comment(props) {
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  
   const user = props.user;
   const comments = props.detailPageData.comments;
   const detailPageData = props.detailPageData
@@ -624,7 +624,7 @@ function Comment(props) {
     const position = el.selectionStart;
     const startingpoint = inputValue.lastIndexOf("#", position);
     const userTagStartingPoint = inputValue.lastIndexOf("@", position);
-    const newHastagValue = inputValue.substring(startingpoint + 1);
+    
 
     if (userTagStartingPoint < startingpoint) {
       el.value =
@@ -654,12 +654,14 @@ function Comment(props) {
         usertag,
         `<a href="/profile/${usertag.replace("@", "")}">${usertag}</a>`
       );
+        return false
     });
     hashTags.map(hashtag => {
       innerHtml = innerHtml.replace(
         hashtag,
         `<a href="/list/${hashtag.replace("#", "")}">${hashtag}</a>`
       );
+      return false
     });
 
     return { __html: "<span>" + innerHtml + "</span>" };
@@ -683,14 +685,14 @@ function Comment(props) {
           inputValue.substring(position - 1, position).trim() &&
           inputValue[(startingpoint, startingpoint + 1)]
         ) {
-          const newHastagValue = inputValue.substring(
+          const newHashtagValue = inputValue.substring(
             startingpoint + 1,
             position
           );
 
-          const requestData = Object.assign({}, { newHastagValue });
+          // const requestData = Object.assign({}, { value:newHashtagValue });
           // setTimeout(
-          //   hashtagAutoComplete(requestData).then(response=>{
+          //   usertagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
           //   }).catch(err=>{
           //     Alert.error("autocomplete not work!")
@@ -710,12 +712,12 @@ function Comment(props) {
           inputValue.substring(position - 1, position).trim() &&
           inputValue[(startingpoint, startingpoint + 1)]
         ) {
-          const newHastagValue = inputValue.substring(
-            startingpoint + 1,
-            position
-          );
+          // const newHashtagValue = inputValue.substring(
+          //   startingpoint + 1,
+          //   position
+          // );
 
-          const requestData = Object.assign({}, { newHastagValue });
+          // const requestData = Object.assign({}, { value:newHashtagValue });
           // setTimeout(
           //   hashtagAutoComplete(requestData).then(response=>{
           //     setAutoCompleteResult({data:response,targetElement:e.currentTarget})
@@ -741,7 +743,7 @@ function Comment(props) {
   };
   const createComment=()=>{
     const data =document.querySelector(".comment-input").value
-    const createCommentRequest = Object.assign({},{userno:user.info.id,postno:props.postno,content:data})
+    // const createCommentRequest = Object.assign({},{user_id:user.info.id,post_id:props.post_id,content:data})
     // fetchCreateComment(createCommentRequest).then(
     //   response=>{
     //     let arr = [...comments]
@@ -757,7 +759,7 @@ function Comment(props) {
       commentno:3,
       commentdata:"2021-9-23 18:31:20",
       userinfo:{
-        userno:1,
+        user_id:1,
       username:"winter",
       userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
     },
@@ -767,7 +769,7 @@ function Comment(props) {
     document.querySelector(".comment-input").value=""
   }
   const deleteComment=(comment)=>{
-    const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
+    // const deleteCommentRequest = Object.assign({},{commentno:comment.commentno})
     const arr = [...comments]
     const index = arr.indexOf(comment);
     arr.splice(index,1)
@@ -800,7 +802,7 @@ function Comment(props) {
                 <div className="comment-content-section">
                   <span
                     className={
-                      "comment-profile-username user-" + comment.userinfo.userno
+                      "comment-profile-username user-" + comment.userinfo.user_id
                     }
                   >
                     {comment.userinfo.username}
@@ -813,7 +815,7 @@ function Comment(props) {
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
                           onEdit.active &&
-                          user.info.id === comment.userinfo.userno
+                          user.info.id === comment.userinfo.user_id
                           ? true
                           : false
                         : false
@@ -828,7 +830,7 @@ function Comment(props) {
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
                           onEdit.active &&
-                          user.info.id === comment.userinfo.userno
+                          user.info.id === comment.userinfo.user_id
                           ? false
                           : true
                         : true
@@ -868,7 +870,7 @@ function Comment(props) {
                     user.auth
                       ? onEdit.commentno === comment.commentno &&
                         onEdit.active &&
-                        user.info.id === comment.userinfo.userno
+                        user.info.id === comment.userinfo.user_id
                         ? { display: "none" }
                         : { display: "flex" }
                       : { display: "flex" }
@@ -891,7 +893,7 @@ function Comment(props) {
                 </div>
               </div>
               {user.auth ? (
-                user.info.id === comment.userinfo.userno ? (
+                user.info.id === comment.userinfo.user_id ? (
                   <div className="comment-edit-section">
                     <span
                       onClick={
@@ -1023,7 +1025,7 @@ function ImageInfo(props) {
 
 function Product(props) {
   const tagData = props.detailPageData.postData.imgData.tagData
-  const hoverTag = props.hoverTag;
+  
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>
@@ -1073,7 +1075,7 @@ function RelatedImages(props) {
           columnClassName="masonry-grid-column"
         >
           {userRelated.map(relatedPost=>(
-              <Link to={"/detail/"+username+"/"+relatedPost.postno}>
+              <Link to={"/detail/"+username+"/"+relatedPost.post_id}>
                 <img src={relatedPost.imgUrl} alt="" />
               </Link>
           ))}

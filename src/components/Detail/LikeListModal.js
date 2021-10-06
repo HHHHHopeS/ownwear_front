@@ -12,7 +12,7 @@ export default function LikeListModal(props) {
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
-  const controlFollow = (e, index, userno) => {
+  const controlFollow = (e, index, user_id) => {
     const target = e.currentTarget;
     let arr = [...likeUserList];
     const obj = likeUserList[index];
@@ -20,7 +20,7 @@ export default function LikeListModal(props) {
     if (target.className === "follow") {
       const updateModalFollowRequest = Object.assign(
         {},
-        { targetuserno: userno, userno: user.info.id, operator: "plus" }
+        { targetuserno: user_id, user_id: user.info.id, operator: "plus" }
       );
       updateModalFollow(updateModalFollowRequest).then(response => {
         if (response) {
@@ -37,7 +37,7 @@ export default function LikeListModal(props) {
     } else {
       const updateModalFollowRequest = Object.assign(
         {},
-        { targetuserno: userno, userno: user.info.id, operator: "minus" }
+        { targetuserno: user_id, user_id: user.info.id, operator: "minus" }
       );
       updateModalFollow(updateModalFollowRequest).then(
           response =>{
@@ -90,7 +90,7 @@ export default function LikeListModal(props) {
                 {likeUser.isUserFollowed ? (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, likeUser.userno);
+                      controlFollow(e, index, likeUser.user_id);
                     }}
                     className="following"
                   >
@@ -99,7 +99,7 @@ export default function LikeListModal(props) {
                 ) : (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, likeUser.userno);
+                      controlFollow(e, index, likeUser.user_id);
                     }}
                     className="follow"
                   >

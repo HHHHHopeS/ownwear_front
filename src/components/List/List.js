@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import ImgBox from "../ImgBox/ImgBox";
-
-import "./List.scss";
-
-import Masonry from "react-masonry-css";
+import { useState } from "react";
 import Paging from "../../Paging/Paging";
+import ImgBox from "../ImgBox/ImgBox";
+import "./List.scss";
+import Masonry from "react-masonry-css";
 import {getdata} from "../../util/APIUtils"
 import Alert from "react-s-alert";
+
 
 export default function List(props) {
   
@@ -369,7 +368,7 @@ export default function List(props) {
 // }
   
   const pathName = props.location.pathname;
-  
+
   const isHashtag = pathName.split("/")[2];
   const title = pathName.split("/")[3];
   const pageno = pathName.split("/")[4];
@@ -405,6 +404,7 @@ export default function List(props) {
 
     props.history.push(`/list/${isHashtag}/${title}/${page}`)
   },[page])
+
 
 
 

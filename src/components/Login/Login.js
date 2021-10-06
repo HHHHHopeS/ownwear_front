@@ -1,15 +1,17 @@
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from '../../common/UserContext';
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { login, signup,getCurrentUser } from '../../util/APIUtils';
+import { getCurrentUser, login, signup } from '../../util/APIUtils';
 import "./Login.scss";
 
 
 export default function Login(props) {
   const {user,setCurrentUser} = useContext(UserContext)
-
+  const [isLogin,setIsLogin]= useState(true)
 
   useEffect(() => {
 
@@ -37,15 +39,32 @@ export default function Login(props) {
   }
   return (
     <div className="Login">
-      <div className="main-container">
+      
+      <div  className="main-container">
+        <div className={isLogin?"form-container login":"form-container signup"}>
+        {isLogin?
         <div id="login-form-container">
+          <h2>SIGNIN</h2>
           <LoginForm setCurrentUser={setCurrentUser} {...props}/>
           <div id="social-login-form-container">
-            <h2>OR</h2>
+            <p>OR</p>
             <SocialLogin />
           </div>
         </div>
+        :
         <Signup {...props}/>
+        
+        }
+        </div>
+          <div className={isLogin?"toggle-container signup":"toggle-container login"}>
+            <div className="title-section">
+                <span>{isLogin?"Welcome Back!":"Hello World!"}</span>
+
+            </div>
+            <button onClick={isLogin?()=>setIsLogin(false):setIsLogin} >{isLogin?"signup":"login"}</button>
+          </div>
+        
+        
       </div>
     </div>
   );
@@ -54,11 +73,18 @@ export default function Login(props) {
 
 function SocialLogin(){
   return(
+    <a className="facebook-button" href={FACEBOOK_AUTH_URL}>
     <div className="social-login">
-      <a href="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
-        Log in with Facebook
+      
+      <div className="icon-container">
+        <FontAwesomeIcon icon={faFacebook}/>
+      </div>
+      <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+        Continue with Facebook
       </a>
+      
     </div>
+    </a>
   )
 }
 
@@ -113,6 +139,7 @@ function LoginForm(props){
         />
 
       </div>
+      <a className="forget-password-button" href="none">forget your password?</a>
       <div className="form-item">
         <button type="submit" className="btn btn-block btn-primary">
           Login
@@ -124,14 +151,10 @@ function LoginForm(props){
 
 function Signup(props){
   return(
-    <div id="signup-form-container">
+    <div id="signup-form-container" >
           <h2>SIGNUP</h2>
           {/* <form onSubmit={joinMember} className="join-form"> */}
 
-          <SocialSignup/>
-          <div className="seperator">
-            <span className="or">OR</span>
-          </div>
           <SignupForm {...props}/>
         </div>
   )
@@ -207,7 +230,7 @@ function SignupForm(props){
       </div>
       <div className="form-item">
         <button type="submit" className="btn btn-block btn-primary">
-          Sign Up
+          SignUp
         </button>
       </div>
     </form>

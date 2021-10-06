@@ -11,6 +11,7 @@ if(localStorage.getItem(ACCESS_TOKEN)){
 }
 const defaults = {headers:headers};
 options = Object.assign({},defaults,options)
+console.log(options);
 return fetch(options.url,options).then(
     response=>
     response.json().then(json=>{
@@ -57,9 +58,10 @@ export function signup(signupRequest){
 //디테일페이지 
 
 //초기 데이터 가져오기 
+
 export function getDetailData(detailDataReqeust){
     return request({
-        url:API_BASE_URL+"/detail",
+        url:API_BASE_URL+"/detail/"+detailDataReqeust.post_id,
         method:"POST",
         body:JSON.stringify(detailDataReqeust)
     })
@@ -68,28 +70,28 @@ export function getDetailData(detailDataReqeust){
 
 //좋아요 했는지 조회
 
-export function getIsLike(getIsLikeRequest){
-    return request({
-        url:API_BASE_URL+"/checkIsLike",
-        method:"POST",
-        body:JSON.stringify(getIsLikeRequest)
-    })
-}
+    export function getIsLike(getIsLikeRequest){
+        return request({
+            url:API_BASE_URL+"/like/check",
+            method:"POST",
+            body:JSON.stringify(getIsLikeRequest)
+        })
+    }
 
 
-//좋아요 토글
-export function toggleLike(toggleLikeRequest){
-    return request({
-        url:API_BASE_URL+"/toggleLike",
-        method:"POST",
-        body:JSON.stringify(toggleLikeRequest)
-    })
-}
+    //좋아요 토글
+    export function toggleLike(toggleLikeRequest){
+        return request({
+            url:API_BASE_URL+"/like/toggle",
+            method:"POST",
+            body:JSON.stringify(toggleLikeRequest)
+        })
+    }
 
 //좋아요한 유저 목록 조회 (유저 권한은 필요 없을듯?)
 export function getLikeUserList(LikeUserListRequest){
     return request({
-        url:API_BASE_URL+"/getLikeUserList",
+        url:API_BASE_URL+"/like/getlist",
         method:"POST",
         body:JSON.stringify(LikeUserListRequest)
     })
@@ -98,7 +100,7 @@ export function getLikeUserList(LikeUserListRequest){
 
 export function fetchCreateComment(createCommentRequest){
     return request({
-        url:API_BASE_URL+"/createComment",
+        url:API_BASE_URL+"/comment/create",
         method:"POST",
         body:JSON.stringify(createCommentRequest)
     })
@@ -108,14 +110,14 @@ export function fetchCreateComment(createCommentRequest){
 
 export function updateComment(updateCommentRequest){
     return request({
-        url:API_BASE_URL+"/updateComment",
+        url:API_BASE_URL+"/comment/update",
         method:"POST",
         body:JSON.stringify(updateCommentRequest)
     })
 }
 export function fetchDeleteComment(deleteCommentRequest){
     return request({
-        url:API_BASE_URL+"/updateComment",
+        url:API_BASE_URL+"/comment/update",
         method:"POST",
         body:JSON.stringify(deleteCommentRequest)
     })
@@ -124,7 +126,7 @@ export function fetchDeleteComment(deleteCommentRequest){
 //해시태그 자동완성 요청
 export function hashtagAutoComplete(hashtagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"/hashtagAutoComplete",
+        url:API_BASE_URL+"/hashtag/autocomplete",
         method:"POST",
         body:JSON.stringify(hashtagAutoCompleteRequest)
     })
@@ -134,7 +136,7 @@ export function hashtagAutoComplete(hashtagAutoCompleteRequest){
 //유저태그 자동완성 요청
 export function usertagAutoComplete(usertagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"/usertagAutoComplete",
+        url:API_BASE_URL+"usertag/autocomplete",
         method:"POST",
         body:JSON.stringify(usertagAutoCompleteRequest)
     })
@@ -144,7 +146,7 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
 
 export function updateModalFollow(updateModalFollowRequest){
     return request({
-        url:API_BASE_URL+"usertag/autoComplete",
+        url:API_BASE_URL+"usertag/autocomplete",
         method:"POST",
         body:JSON.stringify(updateModalFollowRequest)
     })
@@ -157,7 +159,7 @@ export function getdata(getDataRequest){
         method:"POST",
         body:JSON.stringify(getDataRequest)
     })
-    }
+}
 // clarifai 데이터 가져오기
 
 export function getClarifaiData(getClarifaiDataRequest){
@@ -168,7 +170,7 @@ export function getClarifaiData(getClarifaiDataRequest){
 
     })
 }
-
+// google 상품 데이터 가져오기
 export function getGoogleData(getGoogleDataRequest){
     return request({
         url:API_BASE_URL+"/getGoogleData",
@@ -176,3 +178,50 @@ export function getGoogleData(getGoogleDataRequest){
         body:JSON.stringify(getGoogleDataRequest)
     })
 }
+
+
+//인덱스 게시물데이터
+export function getIndexData(getIndexDataRequest){
+    return request({
+        url:API_BASE_URL+"/detail/getlist",
+        method:"GET",
+        body:getIndexDataRequest
+    })
+}
+
+//브랜드데이터
+export function getBrandData(getBrandDataRequest){
+    return request({
+        url:API_BASE_URL+"/getBrandData",
+        method:"POST",
+        body:getBrandDataRequest
+    })
+}
+
+//유저리스트
+export function getHotUserData(getHotUserDataRequest){
+    return request({
+        url:API_BASE_URL+"/getHotUserData",
+        method:"POST",
+        body:getHotUserDataRequest
+    })
+}
+
+// create 전송
+
+export function insertImageData(insertImageDataReqeust){
+    return request({
+        url:API_BASE_URL+"/create",
+        method:"POST",
+        body:JSON.stringify(insertImageDataReqeust)
+    })
+}
+
+export function sendImage(sendImageRequest){
+    return request({
+        url:API_BASE_URL+"/uploadImageFile",
+        method:"POST",
+        body:sendImageRequest
+    })
+}
+

@@ -1,3 +1,5 @@
+@import "../base";
+
 .SearchToolBox{
     position: relative;
     top: 18px;
@@ -13,4 +15,19 @@
 .SearchToolBox.active{
     display: block;
     opacity: 1;
+    ul.tabs li{
+        cursor:pointer;
+    }
+    ul.tabs li.current{
+        background: $primary;
+        padding: 15px;
+    }
+    .tab-content{
+        display:none;
+        background: $primary;
+        padding: 15px;
+    }
+    .tab-content.current{
+        display: inherit;
+    }
 }
