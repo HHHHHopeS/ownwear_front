@@ -10,6 +10,7 @@ import { BiFace } from "react-icons/bi";
 import { VscBold } from "react-icons/vsc";
 import { getIndexData } from "../../util/APIUtils"
 import "./Main.scss";
+
 import exPhoto from "../../res/iu.jpg";
 
 
