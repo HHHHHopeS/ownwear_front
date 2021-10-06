@@ -1,0 +1,70 @@
+@import "../base";
+
+.MyPage{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .Profile-change{
+        width: 100vw;
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    
+    
+        .Profile-img{
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            background-image:url(https://pbs.twimg.com/profile_images/1121059538751246343/AJc266if_400x400.jpg);
+            background-size: contain;
+            border-radius: 400px;
+            float: left;
+    
+        
+        }
+        .Profile-info{
+            width: 600px;
+            height: 200px;
+            margin: 20px;
+            padding: 20px;
+            background: lightgrey;
+            border-radius: .25rem;
+            float: right;
+         
+            .Profile-index{
+                width: 400px;
+                float: left;
+            }
+        
+        }
+
+        .Profile-info ul{
+            width: 400px;
+        }
+
+        .Tab {
+            width: 70%;
+        }
+
+    }
+
+    .Profile-follow{
+        
+        width: 840px;
+        height: 500px;
+        background: lightgrey;
+        border-radius: .25rem;
+    } 
+
+   
+
+}
+
+
+
+
+
+
