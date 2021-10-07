@@ -1,15 +1,13 @@
 @import "../base";
 
 .SubNav {
-  
   position: static;
-  margin-top: 80px;
-  height: 60px;
-  width: 100%;
-  background-color: white;
-  box-shadow: $boxshadow-bottom;
+  
   > div {
-    display: none;
+    margin-top: 80px;
+    background-color: white;
+    box-shadow: $boxshadow-bottom;
+
     .subnav-breadcrumb-section {
       margin-top: 15px;
     }
@@ -19,12 +17,11 @@
         font-weight: 600;
       }
     }
-    
   }
-  
+
   div.main {
     display: block;
-    height: 100%;
+    height: 60px;
 
     .buttons-section {
       display: flex;
@@ -32,9 +29,9 @@
       height: 100%;
       align-items: center;
       justify-content: space-evenly;
-      
+
       button {
-        a{
+        a {
           text-decoration: none;
           color: black;
         }
@@ -43,7 +40,7 @@
         cursor: pointer;
         font-weight: 700;
         font-size: 20px;
-        a{
+        a {
           text-decoration: none;
           color: black;
         }
@@ -53,43 +50,24 @@
       }
     }
   }
-}
-.SubNav.none{
-  width: 0;
-  height: 0;
-  > div {
-    display: none;
-  }
-}
-.SubNav.login {
-  height: 140px;
-  width: 100%;
-
-  > div {
-    display: none;
-  }
   div.login {
+    height: 140px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin-inline: 12%;
-  }
-}
-.SubNav.detail {
-  height: 180px;
-  width: 100%;
-
-  > div {
-    display: none;
+    padding-inline: 12%;
   }
   div.detail {
+    height: 180px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin-inline: 12%;
-    margin-top: 20px;
+    padding-inline: 12%;
+    padding-top: 20px;
 
     .subnav-main-section {
-        display: flex;
-        flex-direction: row;
+      display: flex;
+      flex-direction: row;
 
       .subnav-main-profile {
         width: 50%;
@@ -143,24 +121,16 @@
         }
       }
       .follow-btn-section {
-          width: 45%;
-            display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-
-        
+        width: 45%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
       }
     }
   }
-}
-.SubNav.ranking {
-  height: 250px;
-  > div {
-    display: none;
-  }
   div.ranking {
+    height: 250px;
     display: block;
-    height: 100%;
     .buttons-section {
       height: 25%;
       display: flex;
@@ -230,175 +200,135 @@
       }
     }
   }
-}
-.SubNav.profile {
-    
+  div.profile {
     height: 300px;
     width: 100%;
-  > div {
-    display: none;
-  }
-  >div.profile {
-    height: 100%;
+
     display: flex;
     flex-direction: column;
-    margin-inline: 12%;
-    div.subnav-breadcrumb-section{
-        margin-top: 2%;
-        
+    padding-inline: 12%;
+    div.subnav-breadcrumb-section {
+      margin-top: 2%;
     }
-    div.subnav-main-section{
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-    div.left-section{
+    div.subnav-main-section {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      div.left-section {
         width: 20%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        div.img-section{
-            img{
-                width: 160px;
-                height: 160px;
-                border-radius: 50%;
-
-            }
+        div.img-section {
+          img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+          }
         }
-        div.button-section{
-            margin-top: 20px;
+        div.button-section {
+          margin-top: 20px;
         }
+      }
     }
-}
-    div.right-section{
-        width: 80%;
-        height: 100%;
-        div.profile-section{
-            margin-inline: 5%;
-            div.profile-info-section{
-                display: flex;
-                align-items: center;
-                div{
-                    margin-left: 5px;
-                    
-                }
-                div:nth-child(2){
-
-                    
-                    border-left: 1px solid grey;
-                    padding-left: 15px;
-                    margin-left: 15px;
-                }
-                span{
-                    font-size: 15px;
-                    font-weight: 300;
-                    color: gray;
-                }
-            }
-            div.sns-tag-section{
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                margin-top: 10px;
-                a{
-                    font-size: 30px;
-                    color: black;
-                    margin-left: 15px;
-                }
-            }
-            div.fav-brand-section{
-                display: flex;
-                flex-direction: row;
-                margin-top: 10px;
-                margin-left: 5px;
-                .button-container{
-                    
-
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-evenly;
-                button.brand-button{
-                    margin-left: 5px;
-                    background-color: $secondary;
-                    border-radius: 5px;
-                    border : 0.1px solid $primary;
-
-                }
-            }
-            }
+    div.right-section {
+      width: 80%;
+      height: 100%;
+      div.profile-section {
+        margin-inline: 5%;
+        div.profile-info-section {
+          display: flex;
+          align-items: center;
+          div {
+            margin-left: 5px;
+          }
+          div:nth-child(2) {
+            border-left: 1px solid grey;
+            padding-left: 15px;
+            margin-left: 15px;
+          }
+          span {
+            font-size: 15px;
+            font-weight: 300;
+            color: gray;
+          }
         }
-
+        div.sns-tag-section {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          margin-top: 10px;
+          a {
+            font-size: 30px;
+            color: black;
+            margin-left: 15px;
+          }
+        }
+        div.fav-brand-section {
+          display: flex;
+          flex-direction: row;
+          margin-top: 10px;
+          margin-left: 5px;
+          .button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            button.brand-button {
+              margin-left: 5px;
+              background-color: $secondary;
+              border-radius: 5px;
+              border: 0.1px solid $primary;
+            }
+          }
+        }
+      }
     }
-  }
-}
-.SubNav.mypage {
-    width: 100%;
-    height: 140px;
-
-  > div {
-    display: none;
   }
   div.mypage {
-    margin: 0 12%;
-    display: flex;
-    flex-direction: column;
-    .title-section{
-        h1{
-            svg{
-                margin-right: 10px;
-            }
-        font-weight: 600;
-    }
-    }
-  }
-}
-.SubNav.list {
     width: 100%;
     height: 140px;
-  > div {
-    display: none;
+    padding-inline: 12%;
+    display: flex;
+    flex-direction: column;
+    .title-section {
+      h1 {
+        svg {
+          margin-right: 10px;
+        }
+        font-weight: 600;
+      }
+    }
   }
   div.list {
-    margin: 0 12%;
-    display: flex;
-    flex-direction: column;
-    .title-section{
-        h1{
-            svg{
-                margin-right: 10px;
-            }
-        font-weight: 600;
-    }
-    }
-  }
-  
-}
-.SubNav.create {
     width: 100%;
     height: 140px;
-  > div {
-    display: none;
-  }
-  div.create {
-    margin: 0 12%;
+    padding-inline: 12%;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    .title-section{
-        h1{
-            svg{
-                margin-right: 10px;
-            }
+    .title-section {
+      h1 {
+        svg {
+          margin-right: 10px;
+        }
         font-weight: 600;
-    }
+      }
     }
   }
-  
+  div.none{
+    
+    margin-bottom: 80px;
+  }
 }
 
+
+
+
 button.follow-button {
-    background-color: $primary;
-    padding: 10px 40px;
-    font-weight: 600;
-    border: none;
+  background-color: $primary;
+  padding: 10px 40px;
+  font-weight: 600;
+  border: none;
 }
