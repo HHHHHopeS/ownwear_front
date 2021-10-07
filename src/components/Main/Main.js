@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { FiUserPlus } from 'react-icons/fi'
 import { getIndexData, moreData } from "../../util/APIUtils"
 import "./Main.scss";
+
 import exPhoto from "../../res/iu.jpg";
 
 export default function Main(props) {

@@ -19,6 +19,7 @@ import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
 import Ranking from "./components/Ranking/Ranking";
 import SubNav from './components/SubNav/SubNav';
+import UnVerified from "./components/UnVerified/UnVerified";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
@@ -47,14 +48,14 @@ const handleLogout= ()=>{
 
 const CheckVerified= ()=>{
 
-  if(user.auth&&location.pathname!=="/mypage"){
+  if(user.auth&&location.pathname!=="/unverified"){
   if(user.info.isverified){
 
     return false
   }
   else{
     
-    return <Redirect to="/mypage"></Redirect>
+    return <Redirect to="/unverified"></Redirect>
     
 
   }
@@ -107,7 +108,9 @@ else return null
 
   
   if(loading){
-    return <LoadingIndicator />
+    return <div style={{height:"100vh"}}>
+      <LoadingIndicator />
+    </div>
   }
   
   return (
@@ -122,7 +125,7 @@ else return null
         <Switch >
 
 
-          {/* <Route exact path="unverifed" component={Unverifed}> */}
+          <Route exact path="/unverified" component={UnVerified} />
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>

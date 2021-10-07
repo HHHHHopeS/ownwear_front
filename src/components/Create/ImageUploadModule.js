@@ -221,7 +221,7 @@ export default function Upload(props) {
     }
     reader.onload = () => {
       // this is the base64 data
-      const fileRes = btoa(reader.result);
+      const fileRes = Buffer.from(reader.result,"binary").toString("base64");
       if (fileRes) {
         setPreview(`data:image/jpg;base64,${fileRes}`);
         setPhase({ ...phase, phaseNo: 1 });
@@ -567,10 +567,11 @@ export default function Upload(props) {
     document.querySelector(".hashtag-error").innerText = "";
     let tag = null;
     if (el) {
-      tag = el.value;
+      tag = el.state.text
     } else {
       tag = e.currentTarget.value;
     }
+
     const regExp = /[!?@#$%^&*():;+-=~{}<>[\]|\\"',./`₩]/g;
     // const regExp = /[!?@#$%^&*():;+-=~{}<>\[\]\|\\\"\'\,\.\/\`\₩]/g;
     var check = /[가-힣A-Za-z0-9_]{1,30}/;
@@ -926,7 +927,7 @@ export default function Upload(props) {
                     onClick={e =>
                       addHashTag(
                         e,
-                        e.currentTarget.parentElement.children[0].children[1]
+                        hashTagInputRef.current
                       )
                     }
                     className={activeInputFocus ? "active" : null}

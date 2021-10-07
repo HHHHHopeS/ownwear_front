@@ -33,15 +33,18 @@ export default function SubNav(props) {
     if(className.includes("detail")||className.includes("list")||className.includes("profile"))
     {className = className.split("/")
     className = className[0]}
-    
+    console.log()
     if (document.querySelector(".SubNav")&&document.querySelector(".SubNav").classList.length > 1) {
       document
         .querySelector(".SubNav")
         .classList.remove(document.querySelector(".SubNav").classList[1]);
     }
 
-    if (className&&document.querySelector(".SubNav")) {
+    if (className&&document.querySelector(".SubNav")&&className!=="unverified") {
       document.querySelector(".SubNav").classList.add(className);
+    }
+    if(className==="unverified"&&document.querySelector(".SubNav")){
+      document.querySelector(".SubNav").classList.add("none")
     }
   }, [location, change]);
   const subButtonEvent = event => {
@@ -57,12 +60,13 @@ export default function SubNav(props) {
     setChange(true);
     setRankingTitle(event.target.innerText);
   };
-  if(location.pathname.replace("/","").includes("detail")&&location.pathname.replace("/","").split("/").length!==3){
+  if(location.pathname.replace("/","").includes("detail")&&location.pathname.replace("/","").split("/").length!==2){
     return <div className="SubNav" style={{height:"0"}}></div>
   }
   else{
   return (
     <div className="SubNav">
+      
       <div className="main">
         <div className="buttons-section">
           <button className="subnav-btn-all">
