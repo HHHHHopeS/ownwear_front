@@ -183,9 +183,8 @@ export function getGoogleData(getGoogleDataRequest){
 //인덱스 게시물데이터
 export function getIndexData(url,position){
     return request({
-        url:API_BASE_URL+"/detail/getlist/?url="+url+"&position="+position,
+        url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
         method:"GET"
-        
     })
 }
 
