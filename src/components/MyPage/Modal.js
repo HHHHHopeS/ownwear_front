@@ -100,11 +100,10 @@ export const Modal = ({ showModal, setShowModal }) => {
             <ModalWrapper showModal={showModal}>
               <ModalContent>
                 <form action ="MyPage.js" method="POST" onSubmit="" >
-                    <p><input type="text" name="username" placeholder="Username"/></p>
-                    <p><input type="text" name="nickname" placeholder="Nickname"/></p>
-                    <p><input type="text" name="email" placeholder="Email"/></p>
-                    <p><input type="number" name="phone" placeholder="Phone"/></p>
-                    <p><input type="file" name="photo" placeholder="photo"/></p>             
+                   <p><input type="password" name="password" placeholder="Password" /></p>
+                    <p><input type="password" name="passwordNew" placeholder="PasswordNew" /></p>
+                    <p><input type="password" name="passwordNewRe" placeholder="PasswordNewRe"/></p>
+                          
                 </form>
                 
                 <button>저장</button>
