@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-
-
+import React from 'react'
 import ImgBox from "../ImgBox/ImgBox";
 import { Link } from "react-router-dom"
-import { GiClothes } from 'react-icons/gi'
-import { FaCameraRetro } from 'react-icons/fa'
 import { FiUserPlus } from 'react-icons/fi'
-import { BiFace } from "react-icons/bi";
-import { VscBold } from "react-icons/vsc";
-import { getIndexData } from "../../util/APIUtils"
+import { getIndexData, moreData } from "../../util/APIUtils"
 import "./Main.scss";
 
 import exPhoto from "../../res/iu.jpg";
-
 
 export default function Main(props) {
 
   const [data, setData] = useState(null);
 
-  const [currentUrl, setCurrentUrl] = useState(null);
+  const currentUrl = props.match.path;
+
+  const [moreData1, setMoreData1] = useState(null)
+  const [moreData2, setMoreData2] = useState(null)
+  const [moreData3, setMoreData3] = useState(null)
+
+  const [position, setPosition] = useState(0)
 
   const winter = {
     imgIndex: 3,
@@ -103,8 +103,8 @@ export default function Main(props) {
       },
     ],
   }
-  const sampleGongyou=[
-    gongyou,gongyou,gongyou,gongyou,gongyou,gongyou
+  const sampleGongyou = [
+    gongyou, gongyou, gongyou, gongyou, gongyou, gongyou
   ]
   const sampleIU = [
     iu, iu, iu, iu, iu, iu
@@ -278,99 +278,89 @@ export default function Main(props) {
       ],
     }
   ]
+  const newsample =
+  {
+    imgIndex: 6,
+    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRakVMKjlmybjA9mZ4UeqIunBfMD-7m2wh8AQ&usqp=CAU",
+    userName: "IU",
+    height: 164,
+    profileImgUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+    tagData: [{
+      rectorX: 0.432,
+      rectorY: 0.21,
+      productInfo: {
+        productImgUrl: "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
+        brandName: "MaisonKitsune",
+        price: 123000
+      }
+    }],
+  }
 
-  const newsample = 
-    {
-      imgIndex:6,
-      imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRakVMKjlmybjA9mZ4UeqIunBfMD-7m2wh8AQ&usqp=CAU",
-      userName:"IU",
-      height:164,
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData:[{
-        rectorX:0.432,
-        rectorY:0.21,
-        productInfo:{
-          productImgUrl:"http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-          brandName:"MaisonKitsune",
-          price:123000
-        }
-      }],
-    }
-  // useEffect(() => {
-  //   getIndexData().then(response => {
-  //     setData(response.content)
-  //     console.log(response)
-  //     console.log(data)
-  //   })
-  // }, [JSON.stringify(data)])
+  const listSection = (value, data) => {
+    return (
+      <div className="list-section">
+        <div className="title-section">{value}</div>
+        <span className="line"></span>
+        <div className="imgbox-section">
+          {data ? data.map(boxdata=>
+            <ImgBox data={boxdata}/>
+          ) : null}
+        </div>
+        <div className="more-button-section">
+          <Link to={{ pathname: '/ranking' }}>More</Link>
+        </div>
+      </div>
+    )
+  }
 
   const scrollEvent = () => {
     const scrollTop = document.documentElement.scrollTop;
-    if (scrollTop > 1800) {
-
+    if (scrollTop > 1800 && !moreData1) {
+      setPosition(1)
     }
-    if (scrollTop > 2500) {
-
+    if (scrollTop > 2500 && !moreData2) {
+      setPosition(2)
     }
-    if (scrollTop > 3300) {
-
+    if (scrollTop > 3300 && !moreData3) {
+      setPosition(3)
     }
+    console.log(scrollTop)
   }
+
+  useEffect(() => {
+    switch (position) {
+      case 1: ; break;
+      case 2: ; break;
+      case 2: ; break;
+      default: break;
+    }
+  })
 
   useEffect(() => {
     window.addEventListener('scroll', scrollEvent)
   }, [])
 
   useEffect(() => {
-    if (!data || currentUrl !== props.match.path) {
-      switch (props.match.path) {
-        case "/":
-          setData(
-            newsample
-          );
-          break;
-        case "/men": 
-          setData(
-            newsample
-          );
-          break;
-        case "/women":
-          setData(
-            newsample
-          );
-          break;
-        default:
-          break;
-      }
+    if (!data || currentUrl) {
+      setData(sampleIU)
+      // getIndexData(currentUrl,0).then(response => setData(response))
+
     }
-    setCurrentUrl(props.match.path);
-  }, [data, currentUrl, props.match.path]);
+  }, [JSON.stringify(data), currentUrl]);
 
   return (
+
     <div className="Main">
       <div className="side-section">
         <div className="sidebar-container">
-          {/* <div className="sidebar-contentbox-container first">
-            <span className="search-title">
-              Search
-            </span>
-            <div className="sidebar-content-section">
-              <ol>
-                <p /><FaCameraRetro /><Link to="/">코디</Link>
-                <p /><BiFace /><Link to="/">유저</Link>
-                <p /><GiClothes /><Link to="/">제품</Link>
-                <p /><VscBold /><Link to="/">브랜드</Link>
-              </ol>
-            </div>
-          </div> */}
           <div className="sidebar-contentbox-container second">
             <div className="title-more-section">
               <div className="title">
                 <span className="ranking-user">User</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={"/ranking/user"}>More</Link>
               </div>
             </div>
             <Hotuser />
@@ -381,7 +371,7 @@ export default function Main(props) {
                 <span className="brand-title">Brand</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={{ pathname: '/ranking/brand' }}>More</Link>
               </div>
             </div>
             <ol>
@@ -391,88 +381,82 @@ export default function Main(props) {
           <div className="sidebar-contentbox-container fourth">
             <div className="title-more-section">
               <div className="title">
-                <span className="brand-title">Category</span>
+                <span className="brand-title">Tag</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={{ pathname: '/ranking/tag' }}>More</Link>
               </div>
             </div>
             <ol>
-              <p /><Link to="/">top</Link>
-              <p /><Link to="/">shoes</Link>
+              <HotTag />
             </ol>
           </div>
         </div>
       </div>
 
       <div className="container">
-        {/* {getpost ?
-          getpost => ( */}
-            <div className="main-section">
-              <div className="list-section">
-                <div className="title-section">ranking</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/jjs', state: data }}>More</Link>
-                </div>
-              </div>
-              <div className="list-section prefered-tag1">
-                <div className="title-section">tag1</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/', state: data }}>More</Link>
-                </div>
-              </div>
-              <div className="list-section preferd-tag2n">
-                <div className="title-section">tag2</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/jjs', state: data }}>More</Link>
-                </div>
-              </div>
+        <div className="main-section ">
+          {listSection("ranking",data) }
+          {/* <div className="list-section prefered-tag1">
+            <div className="title-section">tag1</div>
+            <span className="line"></span>
+            <div className="imgbox-section">
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+              <ImgBox data={data} />
             </div>
-          {/* ) : null} */}
+            <div className="imgbox-section second">
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+            </div>
+            <div className="more-button-section">
+              <Link to={{ pathname: '/list/tag1'}}>More</Link>
+            </div>
+          </div>
+
+
+
+
+          <div className="list-section preferd-tag2n">
+            <div className="title-section">tag2</div>
+            <span className="line"></span>
+            <div className="imgbox-section">
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+            </div>
+            <div className="imgbox-section second">
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+              <ImgBox data={data} />
+            </div>
+            <div className="more-button-section">
+              <Link to={{ pathname: '/list/tag2'}}>More</Link>
+            </div>
+          </div>
+        </div>
         <div className="loadmore-section">
           <div className="title-section">코디추천</div>
           <span className="line"></span>
+          <ScrollPost/>
           <div className="imgbox-section">
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+        
+            <ImgBox data={moreData} />
+            <ImgBox data={moreData} />
+            <ImgBox data={moreData} />
+           
           </div>
           <div className="imgbox-section second">
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+            
+            <ImgBox data={moreData} />
+            <ImgBox data={moreData} />
+            <ImgBox data={moreData} />
+            
           </div>
+          <div className="more-button-section">
+            <Link to={{ pathname: '/list/cody'}}>More</Link>
+          </div>*/}
         </div>
       </div>
     </div>
@@ -483,7 +467,13 @@ const HotBrand = () => {
   const sampleBrand = [
     { brand: "Nike" },
     { brand: "MaisonKitsune" },
-    { brand: "Dr.Martens" }
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
   ]
 
   useEffect(() => {
@@ -524,6 +514,7 @@ const Hotuser = () => {
     //   setHotuser(response)
     // })
     setHotuser(sampleUser);
+    console.log(sampleUser)
   }, [])
 
   return (
@@ -549,3 +540,69 @@ const Hotuser = () => {
     </div>
   )
 }
+
+const HotTag = () => {
+  const [hotTag, setHotTag] = useState([]);
+  const sampleTag = [
+    { name: "가디건" },
+    { name: "트렌치코트" },
+    { name: "난방" },
+    { name: "맨투맨" },
+    { name: "원피스" },
+    { name: "부츠" },
+    { name: "모자" },
+  ]
+  useEffect(() => {
+    setHotTag(sampleTag)
+    console.log(sampleTag)
+  }, [])
+  return (
+    <div>
+      {hotTag.map((tag) =>
+        <Link key={tag.name} to="/"><p className="tag-name">{tag.name}</p></Link>
+      )}
+    </div>
+  )
+}
+
+// function ScrollPost(){
+//   const{
+//     status,
+//     data,
+//     isFetching,
+//     isFetchingNextPage,
+//     isFetchingPreviousPage,
+//     fetchNextPage,
+//     fetchPreviousPage,
+//     hasNextPage,
+//     hasPreviousPage,
+//   } = useInfiniteQuery(
+//     'datas',
+//     async ({pageParam = 0})=>{
+//       const res = await fetch(pageParam)
+//       return res.data
+//     },
+//     {
+//       getPreviousPageParam: firstPage =>firstPage.previousId ?? false,
+//       getNextPageParam: lastPage => lastPage.nextId ?? false,
+//     }
+//   )
+//   const loadMoreScroll = React.useRef()
+
+//   useIntersectionObserver({
+//     target:loadMoreScroll,
+//     onIntersect: fetchNextPage,
+//     enabled:hasNextPage,
+//   })
+//   return(
+//     <div>
+//       {data.pages.map(page=>{
+//         <React.Fragment key={page.nextId}>
+//           {page.data.map(project=>(
+//             <ImgBox data={project}/>
+//           ))}
+//         </React.Fragment>
+//       })}
+//     </div>
+//   )
+// }
