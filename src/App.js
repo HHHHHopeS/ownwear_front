@@ -108,7 +108,9 @@ else return null
 
   
   if(loading){
-    return <LoadingIndicator />
+    return <div style={{height:"100vh"}}>
+      <LoadingIndicator />
+    </div>
   }
   
   return (
