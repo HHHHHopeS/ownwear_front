@@ -12,7 +12,7 @@ export const calculateDatetime = date => {
     const postedMinutes = postedDate.getMinutes();
     const currentMinutes = currentDate.getMinutes();
     if (currentYear > postedYear) {
-      if (currentMonth < postedMonth) {
+      if (currentMonth < postedMonth&&currentYear-postedYear===1) {
         return `${currentMonth + 12 - postedMonth}달전`;
       } else {
         return `${currentYear - postedYear}년전`;
@@ -20,7 +20,9 @@ export const calculateDatetime = date => {
     } else {
       if (currentMonth > postedMonth) {
         if (currentMonth - postedMonth === 1 && currentDay < postedDay) {
-          const lastDay = new Date(currentDate, currentMonth, 0).getDate();
+          
+          const lastDay = new Date(currentDay, currentMonth, 0).getDate();
+          
           return `${currentDay + lastDay - postedDay}일전`;
         } else {
           return `${currentMonth - postedMonth}달전`;
@@ -36,12 +38,12 @@ export const calculateDatetime = date => {
           if (currentHours > postedHours) {
             if (
               currentHours - postedHours === 1 &&
-              currentMinutes < postedMinutes
+              currentMinutes < postedMinutes 
             ) {
               return `${currentMinutes + 60 - postedMinutes}분전`;
             } else {
               return `${currentHours - postedHours}시간전`;
-            }
+            } 
           } else {
             if (currentMinutes > postedMinutes) {
               return `${currentMinutes - postedMinutes}분전`;
