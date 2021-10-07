@@ -7,8 +7,7 @@
     margin: 0 12%;
     scroll-behavior: smooth;
     .side-section {
-        @include mobile
-        {
+        @include mobile {
             display: none;
         }
         width: 20%;
@@ -61,7 +60,7 @@
                 position: relative;
                 height: 500px;
                 .hotuser-info {
-                    margin-left: 5px;
+                    margin-left: 30px;
                     flex-direction: column;
                     .user {
                         margin-top: 15px;
@@ -91,20 +90,20 @@
             .sidebar-contentbox-container.third {
                 position: relative;
                 height: 500px;
-                ol{
+                ol {
                     margin-top: 20px;
                 }
-                p{
+                p {
                     font-size: 20px;
                 }
             }
             .sidebar-contentbox-container.fourth {
                 position: relative;
                 height: 500px;
-                ol{
+                ol {
                     margin-top: 20px;
                 }
-                p{
+                p {
                     font-size: 20px;
                 }
             }
@@ -112,6 +111,25 @@
     }
     .main-section {
         width: 80%;
+        .more-button-section {
+            align-self: end;
+            margin-right: 40px;
+            margin-top: 30px;
+            font-size: 25px;
+            float: right;
+            button {
+                border: none;
+                padding: 10px 30px;
+                cursor: pointer;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        }
         .list-section {
             margin-top: 10px;
             display: flex;
@@ -127,6 +145,10 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-evenly;
+                .ImgBox {
+                    margin-top: 10px;
+                    margin-bottom: 30px;
+                }
             }
             .line {
                 margin-top: 10px;
@@ -137,7 +159,7 @@
             .more-button-section {
                 align-self: end;
                 margin-right: 40px;
-                margin-top: 50px;
+                margin-top: 30px;
                 font-size: 25px;
                 button {
                     border: none;
@@ -152,51 +174,6 @@
                     text-decoration: underline;
                 }
             }
-        }
-    }
-    .loadmore-section {
-        width: 80%;
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        .title-section {
-            font-size: 25px;
-            margin-top: 20px;
-        }
-        .line {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            width: 75%;
-            height: 1px;
-            border-bottom: 1px solid $primary;
-        }
-        .imgbox-section {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-        }
-        .imgbox-section.second {
-            margin-top: 50px;
-        }
-        .more-button-section {
-            align-self: end;
-            margin-right: 40px;
-            margin-top: 50px;
-            font-size: 25px;
-            button {
-                border: none;
-                padding: 10px 30px;
-                cursor: pointer;
-            }
-            a {
-                text-decoration: none;
-                color: black;
-            }
-            a:hover {
-                text-decoration: underline;
-            }  
         }
     }
 }

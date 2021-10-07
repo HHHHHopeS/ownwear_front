@@ -189,10 +189,10 @@ export default function Nav(props) {
 
 
   useEffect(()=>{
-    if(user.info.isChecked){
+    if(user.info&&!user.info.ischecked){
     getList()
   }
-  },[user.info.isChecked,user.info.user_id])
+  },[])
 
 
   return (
@@ -314,14 +314,14 @@ export default function Nav(props) {
                   <FontAwesomeIcon
                     style={
                       user.info
-                        ? user.info.ischecked
+                        ? !user.info.ischecked
                           ? { color: "#f6b800" }
                           : {}
                         : {}
                     }
                     icon={
                       user.info
-                        ? user.info.ischecked
+                        ? !user.info.ischecked
                           ? fsBell
                           : faBell
                         : faBell
