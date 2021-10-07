@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Paging from "../../Paging/Paging";
 import ImgBox from "../ImgBox/ImgBox";
 import "./List.scss";
 import Masonry from "react-masonry-css";
 import {getdata} from "../../util/APIUtils"
 import Alert from "react-s-alert";
+
 
 
 export default function List(props) {
