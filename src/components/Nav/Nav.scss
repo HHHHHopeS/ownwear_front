@@ -116,7 +116,7 @@
           background-color: white;
           border-radius: 8px;
           top: 40px;
-          left: -200px;
+          left: 0px;
           transition: opacity 0.3s ease-in-out;
           visibility: hidden;
         }
@@ -125,7 +125,7 @@
           @include box_shadow(1);
 
           position: absolute;
-          top: 45px;
+          top: 40px;
           left: 0px;
           border-radius: 8px;
           transition: opacity 0.3s ease-out;
