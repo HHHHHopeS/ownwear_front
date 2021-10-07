@@ -221,7 +221,7 @@ export default function Upload(props) {
     }
     reader.onload = () => {
       // this is the base64 data
-      const fileRes = btoa(reader.result);
+      const fileRes = Buffer.from(reader.result,"binary").toString("base64");
       if (fileRes) {
         setPreview(`data:image/jpg;base64,${fileRes}`);
         setPhase({ ...phase, phaseNo: 1 });

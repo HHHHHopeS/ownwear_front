@@ -217,6 +217,7 @@ export function insertImageData(insertImageDataReqeust){
     })
 }
 
+
 export function sendImage(sendImageRequest){
     return request({
         url:API_BASE_URL+"/uploadImageFile",
@@ -225,3 +226,39 @@ export function sendImage(sendImageRequest){
     })
 }
 
+// 이메일, 유저네임 중복확인
+
+export function checkIsValid(checkIsValidRequest){
+    return request({
+        url:API_BASE_URL+"/validationCheck/",
+        method:"POST",
+        body:checkIsValidRequest
+    })
+}
+export function updateAdditonalData(updateAdditonalDataRequest){
+    return request({
+        url:API_BASE_URL+"/user/update/oauth2",
+        method:"POST",
+        body:JSON.stringify(updateAdditonalDataRequest)
+    })
+}
+
+
+// 알람 리스트 받아오기 
+
+export function getAlertList(getAlertListRequestData){
+    return request({
+        url:API_BASE_URL+"/user/alert",
+        method:"POST",
+        body:getAlertListRequestData
+    })
+}
+
+// 알람 읽음으로 체크
+export function setAlertChecked(setAlertCheckedRequest){
+    return request({
+        url:API_BASE_URL+"/user/alert",
+        method:"POST",
+        body:setAlertCheckedRequest
+    })
+}
