@@ -37,7 +37,7 @@ export default function Nav(props) {
       post_no: "1",
       username: "카리나",
       userimg: exPhoto,
-      date: "2019-11-11 00:00:00",
+      date: "1900-10-5 13:01:00",
     },
     {
       alert_id:2,
