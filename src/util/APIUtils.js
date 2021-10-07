@@ -180,11 +180,11 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물데이터
-export function getIndexData(getIndexDataRequest){
+export function getIndexData(url,position){
     return request({
-        url:API_BASE_URL+"/detail/getlist",
-        method:"GET",
-        body:getIndexDataRequest
+        url:API_BASE_URL+"/detail/getlist/?url="+url+"&position="+position,
+        method:"GET"
+        
     })
 }
 
@@ -224,3 +224,10 @@ export function sendImage(sendImageRequest){
     })
 }
 
+export function moreData(moraDataRequest){
+    return request({
+        url:API_BASE_URL+"/detail/getIndex",
+        method:"POST",
+        body:moraDataRequest
+    })
+}
