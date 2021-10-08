@@ -263,3 +263,10 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
+export function getAutoComplete(getAutoCompleteData){
+    return request({
+        url:API_BASE_URL+"autocomplete",
+        method:"POST",
+        body:JSON.stringify(getAutoCompleteData)
+    })
+}
