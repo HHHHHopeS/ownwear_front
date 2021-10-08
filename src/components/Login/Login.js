@@ -52,7 +52,7 @@ export default function Login(props) {
           </div>
         </div>
         :
-        <Signup {...props}/>
+        <Signup setCurrentUser={setCurrentUser} {...props}/>
         
         }
         </div>
@@ -172,6 +172,7 @@ function SocialSignup(props){
 }
 
 function SignupForm(props){
+  const setCurrentUser=props.setCurrentUser
   const [name,setName] = useState("")
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
@@ -198,7 +199,9 @@ function SignupForm(props){
       const loginRequest = Object.assign({},{email:email,password:password})
       login(loginRequest).then(response=>{
         localStorage.setItem(ACCESS_TOKEN,response.accessToken)
-
+        getCurrentUser().then(response=>{
+          setCurrentUser(response)
+        })
       })
       props.history.push("/")
     }).catch(error=>{
