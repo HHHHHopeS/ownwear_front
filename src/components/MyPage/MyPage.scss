@@ -24,10 +24,15 @@
             .Profile-img{
                 width: 200px;
                 height: 200px;
-                background-image:url(https://pbs.twimg.com/profile_images/1121059538751246343/AJc266if_400x400.jpg);
-                background-size: contain;
-                border-radius: 400px;
+                
+                border-radius: 50%;
+                border: 1px solid black;
                 margin: auto;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
             }
             
             .P-edit-container{
@@ -39,7 +44,9 @@
                 .Profile-edit{
 
                     display: block;
-
+                    input{
+                        margin-block: 10px;
+                    }
                 }
                
                 .P-edit-btn{
@@ -76,9 +83,16 @@
                     display: block;
                     margin-top: 20px;
                 }
-    
-    
+                
+            }
 
+            .camera {
+                margin-left: 200px;
+            }
+            .close{
+            
+                margin-left: 250px;
+                background: none;
             }
 
 

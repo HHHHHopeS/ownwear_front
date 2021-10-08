@@ -79,9 +79,9 @@ function SocialLogin(){
       <div className="icon-container">
         <FontAwesomeIcon icon={faFacebook}/>
       </div>
-      <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+      <span  href={FACEBOOK_AUTH_URL}>
         Continue with Facebook
-      </a>
+      </span>
       
     </div>
     </a>
@@ -108,7 +108,7 @@ function LoginForm(props){
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
 
-      console.log(response)
+
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       getCurrentUser().then(response=>{
         setCurrentUser(response)

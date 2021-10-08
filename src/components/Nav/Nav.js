@@ -189,9 +189,11 @@ export default function Nav(props) {
 
 
   useEffect(()=>{
+
     if(user.info&&!user.info.ischecked){
     getList()
   }
+
   },[])
 
 
