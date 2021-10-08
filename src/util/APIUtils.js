@@ -176,11 +176,10 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물데이터
-export function getIndexData(getIndexDataRequest){
+export function getIndexData(url,position){
     return request({
-        url:API_BASE_URL+"/detail/getlist",
-        method:"GET",
-        body:getIndexDataRequest
+        url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
+        method:"GET"
     })
 }
 
@@ -221,6 +220,7 @@ export function sendImage(sendImageRequest){
     })
 }
 
+
 // 이메일, 유저네임 중복확인
 
 export function checkIsValid(checkIsValidRequest){
@@ -257,3 +257,12 @@ export function setAlertChecked(setAlertCheckedRequest){
         body:setAlertCheckedRequest
     })
 }
+
+export function getAutoComplete(getAutoCompleteData){
+    return request({
+        url:API_BASE_URL+"autocomplete",
+        method:"POST",
+        body:JSON.stringify(getAutoCompleteData)
+    })
+}
+

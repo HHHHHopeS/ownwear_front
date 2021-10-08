@@ -13,6 +13,7 @@ import {
   faHeart,
   faPaperPlane,
   faPen,
+  faShareAlt,
   faTimes,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -485,18 +486,17 @@ function LikeShare(props) {
                   : setShareActive
               }
             >
-              <FontAwesomeIcon icon={faShareSquare} />
+              <FontAwesomeIcon icon={faShareAlt} />
             </button>
             <div className="share-icons">
               <button className="facebook">
-                <FontAwesomeIcon icon={faFacebookF} />{" "}
+                <FontAwesomeIcon icon={faFacebookF} />
               </button>
               <button className="twitter">
-                <FontAwesomeIcon icon={faTwitter} />{" "}
+                <FontAwesomeIcon icon={faTwitter} />
               </button>
               <button className="pinterest">
-                <FontAwesomeIcon icon={faPinterest} />{" "}
-              </button>
+                <FontAwesomeIcon icon={faPinterest} /></button>
             </div>
           </div>
         </div>

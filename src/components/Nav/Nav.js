@@ -189,9 +189,11 @@ export default function Nav(props) {
 
 
   useEffect(()=>{
-  //   if(user.info&&user.info.isChecked){
-  //   getList()
-  // }
+
+    if(user.info&&!user.info.ischecked){
+    getList()
+  }
+
   },[])
 
 
@@ -278,7 +280,7 @@ export default function Nav(props) {
                   <div
                     className="button-container"
                     onClick={() => {
-                      history.push("/mypage/" + user.info.username);
+                      history.push("/mypage");
                     }}
                     onMouseOver={e => hoverIcon(e)}
                     onMouseOut={e => stopHover(e)}
@@ -314,14 +316,14 @@ export default function Nav(props) {
                   <FontAwesomeIcon
                     style={
                       user.info
-                        ? user.info.ischecked
+                        ? !user.info.ischecked
                           ? { color: "#f6b800" }
                           : {}
                         : {}
                     }
                     icon={
                       user.info
-                        ? user.info.ischecked
+                        ? !user.info.ischecked
                           ? fsBell
                           : faBell
                         : faBell

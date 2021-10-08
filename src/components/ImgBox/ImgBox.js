@@ -13,7 +13,7 @@ export default function ImgBox(props) {
     useEffect(()=>{
         
     },[hover])
-
+    
     if(data){
         const tagX = data.tagData[0].rectorX
         const tagY = data.tagData[0].rectorY 
@@ -55,7 +55,7 @@ export default function ImgBox(props) {
             <div className="info-container">
                 <div className="profile-section">
                     <div className="profile-img-section" >
-                        <Link to=""><img src={data.profileImgUrl} alt="sd" /></Link>
+                        <Link key={data.profileImgUrl} to={`/profile/${data.userName}`}><img src={data.profileImgUrl} alt="sd" /></Link>
                     </div>
                     <div className="profile-info-section">
                         <span className="username">{data.userName}</span>
