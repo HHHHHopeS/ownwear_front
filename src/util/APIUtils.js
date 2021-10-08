@@ -14,13 +14,8 @@ options = Object.assign({},defaults,options)
 console.log(options);
 return fetch(options.url,options).then(
     response=>
-    response.json().then(json=>{
-        if(!response.ok){
-            return Promise.reject(json);
-        }
-        return json
-    })
-)
+    response.json()
+).then(json=>json)
 }
 
 //현재 유저 정보 가져오기

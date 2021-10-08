@@ -189,10 +189,10 @@ export default function Nav(props) {
 
 
   useEffect(()=>{
-    if(user.info.isChecked){
-    getList()
-  }
-  },[user.info.isChecked,user.info.user_id])
+  //   if(user.info&&user.info.isChecked){
+  //   getList()
+  // }
+  },[])
 
 
   return (
