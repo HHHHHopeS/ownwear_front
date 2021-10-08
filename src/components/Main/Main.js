@@ -1,7 +1,7 @@
-import { useEffect, useState,} from "react";
+import { useEffect, useState, } from "react";
 import React from 'react'
 import ImgBox from "../ImgBox/ImgBox";
-import { Link,useLocation  } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { FiUserPlus } from 'react-icons/fi'
 import { getIndexData, moreData } from "../../util/APIUtils"
 import "./Main.scss";
@@ -156,32 +156,32 @@ export default function Main(props) {
     }
   }
 
-  function getPosition(url,position){
-    
-    setTimeout(()=>setMoreData([...moreData,sampleGongyou]),2000)
-    // getIndexData(url,position).then(response => setMoreData(moreData.splice(position-1,1,response)))
-    
-  }
-  
+  function getPosition(url, position) {
 
-    
-      
+    setTimeout(() => setMoreData([...moreData, sampleGongyou]), 2000)
+    // getIndexData(url,position).then(response => setMoreData(moreData.splice(position-1,1,response)))
+
+  }
+
+
+
+
 
   useEffect(() => {
     const url = location.pathname
-    
-      getPosition(url,position)
-      
-    
+
+    getPosition(url, position)
+
+
   }, [position])
 
   useEffect(() => {
-    
-    if(moreData.length<4){
+
+    if (moreData.length < 4) {
       console.log(moreData.length)
-    window.addEventListener('scroll', scrollEvent)
-    
-  }
+      window.addEventListener('scroll', scrollEvent)
+
+    }
     return () => window.removeEventListener("scroll", scrollEvent);
   }, [position])
 
@@ -243,11 +243,11 @@ export default function Main(props) {
       <div className="container">
         <div className="main-section ">
           {listSection("ranking", data)}
-          {listSection("tag", data)}
-          {listSection("tag", moreData[0])}
+          {listSection("최신글", data)}
+          {listSection("brand", moreData[0])}
           {codySection("추천코디", moreData[1])}
           {moreImgBox(moreData[2])}
-          {moreImgBox(moreData[3])}
+          {/* {moreImgBox(moreData[3])} */}
           <div className="more-button-section">
             <Link to={{ pathname: '/ranking/cody' }}>More</Link>
           </div>

@@ -263,10 +263,9 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
-export function getAutoComplete(getAutoCompleteData){
+export function getAutoComplete(searchText){
     return request({
-        url:API_BASE_URL+"autocomplete",
-        method:"POST",
-        body:JSON.stringify(getAutoCompleteData)
+        url:API_BASE_URL+"/index/srchdata?username="+"나",
+        method:"GET",
     })
 }
