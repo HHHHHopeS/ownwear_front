@@ -11,7 +11,7 @@ body {
   .fade.modal-backdrop.show{
       z-index: 10;
   }
-  > div.fade.LikeListModal.modal {
+  > div.fade.ListModal.modal {
     display: flex !important;
     justify-content: center;
 
@@ -25,6 +25,7 @@ body {
         width: 400px;
         .modal-header{
             span{
+              text-transform: capitalize;
                 font-size: 18px;
                 font-weight: 700;
             }

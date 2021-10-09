@@ -1,6 +1,7 @@
 export const calculateDatetime = date => {
     const currentDate = new Date();
     const postedDate = new Date(date);
+
     const postedYear = postedDate.getFullYear();
     const currentYear = currentDate.getFullYear();
     const postedMonth = postedDate.getMonth();

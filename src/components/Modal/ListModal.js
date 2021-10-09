@@ -4,18 +4,19 @@ import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import { updateModalFollow } from "../../util/APIUtils";
-export default function LikeListModal(props) {
+export default function ListModal(props) {
+  const title = props.title
   const show = props.show;
   const setShow = props.setShow;
-  const likeUserList = props.likeUserList;
-  const setLikeUserList = props.setLikeUserList;
+  const userList = props.userList;
+  const setUserList = props.setUserList;
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
   const controlFollow = (e, index, user_id) => {
     const target = e.currentTarget;
-    let arr = [...likeUserList];
-    const obj = likeUserList[index];
+    let arr = [...userList];
+    const obj = userList[index];
     if(user.auth){
     if (target.className === "follow") {
       const updateModalFollowRequest = Object.assign(
@@ -55,7 +56,7 @@ export default function LikeListModal(props) {
 
 
     arr[index] = obj;
-    setLikeUserList(arr);
+    setUserList(arr);
 }
     else{
         Alert.error("Please Login First")
@@ -63,34 +64,34 @@ export default function LikeListModal(props) {
     }
   };
   return (
-    <Modal show={show} onHide={handleClose} className="LikeListModal">
+    <Modal show={show} onHide={handleClose} className="ListModal">
       <Modal.Header>
-        <span>Likes</span>
+        <span>{title}</span>
         <button onClick={handleClose} className="btn-close"></button>
       </Modal.Header>
       <Modal.Body>
-        {likeUserList.length > 0 ? (
-          likeUserList.map((likeUser, index) => (
+        {userList.length > 0 ? (
+          userList.map((user, index) => (
             <div className="user-container">
               <div className="user-info-section">
                 <div className="user-info-image">
-                  <Link to={"profile/" + likeUser.username}>
-                    <img src={likeUser.userImg} alt="" />
+                  <Link to={"profile/" + user.username}>
+                    <img src={user.userImg} alt="" />
                   </Link>
                 </div>
                 <div className="user-info-text">
-                  <Link to={"profile/" + likeUser.username}>
-                    {likeUser.username}
+                  <Link to={"profile/" + user.username}>
+                    {user.username}
                   </Link>
-                  <span>{likeUser.follower} followers </span>
+                  <span>{user.follower} followers </span>
                 </div>
               </div>
               <div className="user-follower-section">
                 {/* follow trigger */}
-                {likeUser.isUserFollowed ? (
+                {user.isUserFollowed ? (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, likeUser.user_id);
+                      controlFollow(e, index, user.user_id);
                     }}
                     className="following"
                   >
@@ -99,7 +100,7 @@ export default function LikeListModal(props) {
                 ) : (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, likeUser.user_id);
+                      controlFollow(e, index, user.user_id);
                     }}
                     className="follow"
                   >
@@ -110,7 +111,7 @@ export default function LikeListModal(props) {
             </div>
           ))
         ) : (
-          <h1> no like list</h1>
+          <h1> no list</h1>
         )}
       </Modal.Body>
     </Modal>

@@ -123,6 +123,11 @@
 
       > a.facebook-button {
         text-decoration: none;
+        span{
+          
+          color: white;
+          font-weight: bold;
+        }
       }
       .social-login {
         background-color: #1877f2;
@@ -144,7 +149,7 @@
             color: white;
           }
         }
-        a {
+        span {
           margin-right: 12px;
           padding: 0;
           padding-top: 1px;

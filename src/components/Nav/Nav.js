@@ -186,12 +186,16 @@ export default function Nav(props) {
     }
     return false;
   }, [activeProfile]);
-
+  useEffect(()=>{
+    
+  },[user.info])
 
   useEffect(()=>{
+
     if(user.info&&!user.info.ischecked){
     getList()
   }
+
   },[])
 
 

@@ -77,6 +77,7 @@ else return null
 
       setLoading(true)
       getCurrentUser().then(response=>{
+        
         setCurrentUser(response)
         
         if(user.auth){
@@ -104,7 +105,7 @@ else return null
 
 
   return () => setLoading(false);
-  },[user.auth])
+  },[localStorage.accessToken])
 
   
   if(loading){
