@@ -30,8 +30,11 @@ export default function SearchBar() {
     }
   }
   
+  const getResult=()=>{
+    getAutoComplete(inputText).then(response=>setResult(JSON.stringify(response)))
+  }
   useEffect(()=>{
-    getAutoComplete().then(response=>setResult(JSON.stringify(response)))
+    getResult()
   },[])
 
   return (
@@ -47,7 +50,7 @@ export default function SearchBar() {
         />
         <p>{data}</p>
       </div>
-      <SearchToolBox />
+      <SearchToolBox result={result}/>
     </div>
   );
 }

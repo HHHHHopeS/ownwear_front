@@ -176,11 +176,9 @@ export default function Main(props) {
   }, [position])
 
   useEffect(() => {
-
     if (moreData.length < 4) {
       console.log(moreData.length)
       window.addEventListener('scroll', scrollEvent)
-
     }
     return () => window.removeEventListener("scroll", scrollEvent);
   }, [position])

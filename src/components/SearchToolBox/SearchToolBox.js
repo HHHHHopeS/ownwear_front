@@ -6,26 +6,25 @@ import React from 'react'
 
 
 export default function SearchToolBox(props) {
-
     const result = props.result
-    console.log("result-----------"+result)
+    console.log(result)
+    
+    const [active, setActive]=useState(0);
+    const clickTab = (index)=>{
+        setActive(index)
+    }
+
     return (
         <div className="SearchToolBox">
-            <div className="container">
-                <ul className="tabs">
-                    <li className="tab-link current" data-tab="tab-1">태그</li>
-                    <li className="tab-link" data-tab="tab-2">유저</li>
-                    <li className="tab-link" data-tab="tab-3">브랜드</li>
-                </ul>
-                <div id="tab-1" className="tab-content current">
-                    <ol>
-                        {result? result.map((resultList)=>(
-                        <Link>{resultList}</Link>
-                        )):null}
-                    </ol>
-                </div>
-                <div id="tab-2" className="tab-content">tab content2</div>
-                <div id="tab-3" className="tab-content">tab content3</div>
+            <div className="title-tab">
+                <button className={active===0?"tabs active-tabs":"tabs"} onClick={()=>clickTab(0)}>Tag</button>
+                <button className={active===1?"tabs active-tabs":"tabs"} onClick={()=>clickTab(1)}>User</button>
+                <button className={active===2?"tabs active-tabs":"tabs"} onClick={()=>clickTab(2)}>Brand</button>
+            </div>
+            <div className="content-tab">
+                <div className={active===0? "content active-contet":"content"}>tag결과</div>
+                <div className={active===1? "content active-contet":"content"}>user</div>
+                <div className={active===2? "content active-contet":"content"}>brand결과</div>
             </div>
         </div>
     )

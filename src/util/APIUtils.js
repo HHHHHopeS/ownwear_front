@@ -263,9 +263,10 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
-export function getAutoComplete(searchText){
+//자동완성
+export function getAutoComplete(inputText){
     return request({
-        url:API_BASE_URL+"/index/srchdata?username="+"나",
+        url:API_BASE_URL+"/index/srchdata?username="+inputText,
         method:"GET",
     })
 }
