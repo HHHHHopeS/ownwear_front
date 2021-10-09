@@ -1,53 +1,22 @@
-import { useEffect, useState } from "react";
-
-
+import { useEffect, useState, } from "react";
+import React from 'react'
 import ImgBox from "../ImgBox/ImgBox";
-import { Link } from "react-router-dom"
-import { GiClothes } from 'react-icons/gi'
-import { FaCameraRetro } from 'react-icons/fa'
+import { Link, useLocation } from "react-router-dom"
 import { FiUserPlus } from 'react-icons/fi'
-import { BiFace } from "react-icons/bi";
-import { VscBold } from "react-icons/vsc";
-import { getIndexData } from "../../util/APIUtils"
+import { getIndexData, moreData } from "../../util/APIUtils"
 import "./Main.scss";
 
 import exPhoto from "../../res/iu.jpg";
 
-
 export default function Main(props) {
-
+  const location = useLocation()
   const [data, setData] = useState(null);
 
-  const [currentUrl, setCurrentUrl] = useState(null);
+  const currentUrl = props.match.path;
 
-  const winter = {
-    imgIndex: 3,
-    user: "abc",
-    imgUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9r91yA63eVBG3-AT4Re3pwyqXNKb_ZgWjNx_CDj7IwnSxwG0lQQ-POHV-YjTQCHCJT6w&usqp=CAU",
-    likecount: 141,
-    userName: "Winter-Aespa",
-    height: 164,
-    rdate: "2021-09-15",
-    profileImgUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-    tagData: [
-      {
-        rectorX: 0.125,
-        rectorY: 0.325,
-        productInfo: {
-          brandName: "MaisonKitsune",
-          category: "top",
-          productName: "green t-shirt",
-          productUrl:
-            "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-          productImgUrl:
-            "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-          price: 16500,
-        },
-      },
-    ],
-  }
+  const [position, setPosition] = useState(0)
+  const [moreData, setMoreData] = useState([]);
+
   const gongyou = {
     imgIndex: 2,
     user: "abc",
@@ -103,274 +72,142 @@ export default function Main(props) {
       },
     ],
   }
-  const sampleGongyou=[
-    gongyou,gongyou,gongyou,gongyou,gongyou,gongyou
-  ]
   const sampleIU = [
     iu, iu, iu, iu, iu, iu
   ]
-  const sampleMoredata = [
-    {
-      imgIndex: 1,
-      user: "abc",
-      imgUrl:
-        "https://pbs.twimg.com/media/C5_aBiPUoAAPtRm.jpg",
-      likecount: 141,
-      userName: "IU",
-      height: 164,
-      rdate: "2021-09-15",
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.432,
-          rectorY: 0.21,
-          productInfo: {
-            brandName: "MaisonKitsune",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    },
-    {
-      imgIndex: 2,
-      user: "abc",
-      imgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9c4hQnWkv0eB7FFWh2zAJxsmEFSGA4Cm3cQ&usqp=CAU",
-      likecount: 141,
-      userName: "song",
-      height: 178,
-      rdate: "2021-09-15",
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.432,
-          rectorY: 0.21,
-          productInfo: {
-            brandName: "MaisonKitsune",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    },
-    {
-      imgIndex: 3,
-      user: "abc",
-      imgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_wxmUpwYAtipUVmA4JZ4bWC0L9d30mGZxRQ&usqp=CAU",
-      likecount: 141,
-      userName: "Winter-Aespa",
-      height: 164,
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.5,
-          rectorY: 0.6,
-          productInfo: {
-            brandName: "Tombrown",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    },
-    {
-      imgIndex: 4,
-      user: "abc",
-      imgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnyVarTkwhXmX5_rMYmsFbfKur_vD83hDbEQ&usqp=CAU",
-      likecount: 141,
-      userName: "IU",
-      height: 164,
-      rdate: "2021-09-15",
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.432,
-          rectorY: 0.21,
-          productInfo: {
-            brandName: "MaisonKitsune",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    },
-    {
-      imgIndex: 5,
-      user: "abc",
-      imgUrl:
-        "data:image/jpeg;base64,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",
-      likecount: 141,
-      userName: "IU",
-      height: 164,
-      rdate: "2021-09-15",
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.432,
-          rectorY: 0.21,
-          productInfo: {
-            brandName: "MaisonKitsune",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    },
-    {
-      imgIndex: 6,
-      user: "abc",
-      imgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRakVMKjlmybjA9mZ4UeqIunBfMD-7m2wh8AQ&usqp=CAU",
-      likecount: 141,
-      userName: "IU",
-      height: 164,
-      rdate: "2021-09-15",
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData: [
-        {
-          rectorX: 0.432,
-          rectorY: 0.21,
-          productInfo: {
-            brandName: "MaisonKitsune",
-            category: "top",
-            productName: "green t-shirt",
-            productUrl:
-              "http://m.5pajamas.com/product/detail.html?product_no=1151&cate_no=42&display_group=1",
-            productImgUrl:
-              "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-            price: 16500,
-          },
-        },
-      ],
-    }
+  const sampleGongyou = [
+    gongyou, gongyou, gongyou, gongyou, gongyou, gongyou
   ]
+  const newsample =
+  {
+    imgIndex: 6,
+    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRakVMKjlmybjA9mZ4UeqIunBfMD-7m2wh8AQ&usqp=CAU",
+    userName: "IU",
+    height: 164,
+    profileImgUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
+    tagData: [{
+      rectorX: 0.432,
+      rectorY: 0.21,
+      productInfo: {
+        productImgUrl: "http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
+        brandName: "MaisonKitsune",
+        price: 123000
+      }
+    }],
+  }
 
-  const newsample = 
-    {
-      imgIndex:6,
-      imgUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRakVMKjlmybjA9mZ4UeqIunBfMD-7m2wh8AQ&usqp=CAU",
-      userName:"IU",
-      height:164,
-      profileImgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-      tagData:[{
-        rectorX:0.432,
-        rectorY:0.21,
-        productInfo:{
-          productImgUrl:"http://m.5pajamas.com/web/upload/NNEditor/20210507/860%200%20(2)_shop1_163525.jpg",
-          brandName:"MaisonKitsune",
-          price:123000
-        }
-      }],
-    }
-  // useEffect(() => {
-  //   getIndexData().then(response => {
-  //     setData(response.content)
-  //     console.log(response)
-  //     console.log(data)
-  //   })
-  // }, [JSON.stringify(data)])
+  const listSection = (value, data) => {
+    return (
+      <div className="list-section">
+        <div className="title-section">{value}</div>
+        <span className="line"></span>
+        <div className="imgbox-section">
+          {data ? data.map(boxdata =>
+            <ImgBox data={boxdata} />
+          ) : null}
+        </div>
+        <div className="more-button-section">
+          <Link to={{ pathname: '/ranking' }}>More</Link>
+        </div>
+      </div>
+    )
+  }
+
+  const codySection = (value, data) => {
+    return (
+      <div className="list-section">
+        <div className="title-section">{value}</div>
+        <span className="line"></span>
+        <div className="imgbox-section">
+          {data ? data.map(boxdata =>
+            <ImgBox data={boxdata} />
+          ) : null}
+        </div>
+      </div>
+    )
+  }
+
+  const moreImgBox = (data) => {
+    return (
+      <div className="list-section">
+        <div className="imgbox-section">
+          {data ? data.map(boxdata =>
+            <ImgBox data={boxdata} />
+          ) : null}
+        </div>
+      </div>
+    )
+  }
 
   const scrollEvent = () => {
     const scrollTop = document.documentElement.scrollTop;
-    if (scrollTop > 1800) {
-
+    if (scrollTop > 1400 && scrollTop <= 2500) {
+      return setPosition(1)
     }
-    if (scrollTop > 2500) {
-
+    if (scrollTop > 2500 && scrollTop <= 3500) {
+      return setPosition(2)
     }
-    if (scrollTop > 3300) {
-
+    if (scrollTop > 3500 && scrollTop <= 4500) {
+      return setPosition(3)
+    }
+    if (scrollTop > 4500) {
+      return setPosition(4)
     }
   }
 
-  useEffect(() => {
-    window.addEventListener('scroll', scrollEvent)
-  }, [])
+  function getPosition(url, position) {
+
+    setTimeout(() => setMoreData([...moreData, sampleGongyou]), 2000)
+    // getIndexData(url,position).then(response => setMoreData(moreData.splice(position-1,1,response)))
+
+  }
+
+
+
+
 
   useEffect(() => {
-    if (!data || currentUrl !== props.match.path) {
-      switch (props.match.path) {
-        case "/":
-          setData(
-            newsample
-          );
-          break;
-        case "/men": 
-          setData(
-            newsample
-          );
-          break;
-        case "/women":
-          setData(
-            newsample
-          );
-          break;
-        default:
-          break;
-      }
+    const url = location.pathname
+
+    getPosition(url, position)
+
+
+  }, [position])
+
+  useEffect(() => {
+
+    if (moreData.length < 4) {
+      console.log(moreData.length)
+      window.addEventListener('scroll', scrollEvent)
+
     }
-    setCurrentUrl(props.match.path);
-  }, [data, currentUrl, props.match.path]);
+    return () => window.removeEventListener("scroll", scrollEvent);
+  }, [position])
+
+  useEffect(() => {
+    if (!data || currentUrl) {
+      setData(sampleIU)
+      // getIndexData(currentUrl,0).then(response =>
+      //    setData(response)
+      //   console.log(response)
+      //    )
+
+    }
+  }, [JSON.stringify(data), currentUrl]);
 
   return (
+
     <div className="Main">
       <div className="side-section">
         <div className="sidebar-container">
-          {/* <div className="sidebar-contentbox-container first">
-            <span className="search-title">
-              Search
-            </span>
-            <div className="sidebar-content-section">
-              <ol>
-                <p /><FaCameraRetro /><Link to="/">코디</Link>
-                <p /><BiFace /><Link to="/">유저</Link>
-                <p /><GiClothes /><Link to="/">제품</Link>
-                <p /><VscBold /><Link to="/">브랜드</Link>
-              </ol>
-            </div>
-          </div> */}
           <div className="sidebar-contentbox-container second">
             <div className="title-more-section">
               <div className="title">
                 <span className="ranking-user">User</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={"/ranking/user"}>More</Link>
               </div>
             </div>
             <Hotuser />
@@ -381,7 +218,7 @@ export default function Main(props) {
                 <span className="brand-title">Brand</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={{ pathname: '/ranking/brand' }}>More</Link>
               </div>
             </div>
             <ol>
@@ -391,99 +228,47 @@ export default function Main(props) {
           <div className="sidebar-contentbox-container fourth">
             <div className="title-more-section">
               <div className="title">
-                <span className="brand-title">Category</span>
+                <span className="brand-title">Tag</span>
               </div>
               <div className="more-button-section">
-                <Link to="/">more</Link>
+                <Link to={{ pathname: '/ranking/tag' }}>More</Link>
               </div>
             </div>
             <ol>
-              <p /><Link to="/">top</Link>
-              <p /><Link to="/">shoes</Link>
+              <HotTag />
             </ol>
           </div>
         </div>
       </div>
-
       <div className="container">
-        {/* {getpost ?
-          getpost => ( */}
-            <div className="main-section">
-              <div className="list-section">
-                <div className="title-section">ranking</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/jjs', state: data }}>More</Link>
-                </div>
-              </div>
-              <div className="list-section prefered-tag1">
-                <div className="title-section">tag1</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/', state: data }}>More</Link>
-                </div>
-              </div>
-              <div className="list-section preferd-tag2n">
-                <div className="title-section">tag2</div>
-                <span className="line"></span>
-                <div className="imgbox-section">
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                  <ImgBox data={data} />
-                </div>
-                <div className="imgbox-section second">
-                  <ImgBox data={data} />
-                </div>
-                <div className="more-button-section">
-                  <Link to={{ pathname: '/list/jjs', state: data }}>More</Link>
-                </div>
-              </div>
-            </div>
-          {/* ) : null} */}
-        <div className="loadmore-section">
-          <div className="title-section">코디추천</div>
-          <span className="line"></span>
-          <div className="imgbox-section">
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-          </div>
-          <div className="imgbox-section second">
-            <ImgBox data={data} />
-            <ImgBox data={data} />
-            <ImgBox data={data} />
+        <div className="main-section ">
+          {listSection("ranking", data)}
+          {listSection("최신글", data)}
+          {listSection("brand", moreData[0])}
+          {codySection("추천코디", moreData[1])}
+          {moreImgBox(moreData[2])}
+          {/* {moreImgBox(moreData[3])} */}
+          <div className="more-button-section">
+            <Link to={{ pathname: '/ranking/cody' }}>More</Link>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
 const HotBrand = () => {
   const [brand, setBrand] = useState([]);
   const sampleBrand = [
     { brand: "Nike" },
     { brand: "MaisonKitsune" },
-    { brand: "Dr.Martens" }
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
+    { brand: "Dr.Martens" },
   ]
 
   useEffect(() => {
@@ -497,7 +282,7 @@ const HotBrand = () => {
   return (
     <div>
       {brand.map((name) => (
-        <Link key={name.brand} to="/"><p className="brand-name">{name.brand}</p></Link>
+        <Link key={name.brand} to={`/list/${name.brand}/1`}><p className="brand-name">{name.brand}</p></Link>
       ))}
     </div>
   )
@@ -546,6 +331,31 @@ const Hotuser = () => {
             </div>
           </div>
         ))}
+    </div>
+  )
+}
+
+const HotTag = () => {
+  const [hotTag, setHotTag] = useState([]);
+  const sampleTag = [
+    { name: "가디건" },
+    { name: "트렌치코트" },
+    { name: "난방" },
+    { name: "맨투맨" },
+    { name: "원피스" },
+    { name: "부츠" },
+    { name: "모자" },
+    { name: "트렌치코트" },
+    { name: "트렌치코트" },
+  ]
+  useEffect(() => {
+    setHotTag(sampleTag)
+  }, [])
+  return (
+    <div>
+      {hotTag.map((tag) =>
+        <Link key={tag.name} to={`/list/${tag.name}/1`}><p className="tag-name">{tag.name}</p></Link>
+      )}
     </div>
   )
 }

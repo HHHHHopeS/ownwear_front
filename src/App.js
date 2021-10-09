@@ -77,6 +77,7 @@ else return null
 
       setLoading(true)
       getCurrentUser().then(response=>{
+        
         setCurrentUser(response)
         
         if(user.auth){

@@ -52,7 +52,7 @@ export default function Login(props) {
           </div>
         </div>
         :
-        <Signup {...props}/>
+        <Signup setCurrentUser={setCurrentUser} {...props}/>
         
         }
         </div>
@@ -79,7 +79,9 @@ function SocialLogin(){
       <div className="icon-container">
         <FontAwesomeIcon icon={faFacebook}/>
       </div>
-      <span className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+
+      <span  href={FACEBOOK_AUTH_URL}>
+
         Continue with Facebook
       </span>
       
@@ -108,7 +110,7 @@ function LoginForm(props){
     const loginRequest = Object.assign({},{email:email,password:password})
     login(loginRequest).then(response =>{
 
-      console.log(response)
+
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
       Alert.success("login success!")
       
@@ -170,6 +172,7 @@ function SocialSignup(props){
 }
 
 function SignupForm(props){
+  const setCurrentUser=props.setCurrentUser
   const [name,setName] = useState("")
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
@@ -199,9 +202,12 @@ function SignupForm(props){
     }).then(()=>{
       const loginRequest = Object.assign({},{email:email,password:password})
       login(loginRequest).then(response=>{
+
       localStorage.setItem(ACCESS_TOKEN,response.accessToken)
       props.history.goBack()
     })}).catch(error=>{
+
+
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")
 
     })

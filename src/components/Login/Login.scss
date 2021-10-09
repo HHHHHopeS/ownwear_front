@@ -123,6 +123,11 @@
 
       > a.facebook-button {
         text-decoration: none;
+        span{
+          
+          color: white;
+          font-weight: bold;
+        }
       }
       .social-login {
         background-color: #1877f2;
