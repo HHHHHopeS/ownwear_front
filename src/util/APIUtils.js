@@ -259,6 +259,7 @@ export function setAlertChecked(setAlertCheckedRequest){
 }
 
 
+
 // 프로필 subnav 데이터 가져오기
 export function getProfileSubNavData(current_username,profile_username){
     return request({
@@ -276,9 +277,12 @@ export function toggleFollow(current_username,target_username){
     })
 }
 
-export function getAutoComplete(searchText){
+
+//자동완성
+export function getAutoComplete(inputText){
+
     return request({
-        url:API_BASE_URL+"/index/srchdata?username="+"나",
+        url:API_BASE_URL+"/index/srchdata?username="+inputText,
         method:"GET",
     })
 }
