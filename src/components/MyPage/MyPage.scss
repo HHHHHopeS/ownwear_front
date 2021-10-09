@@ -6,14 +6,14 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    .Profile-change{
+    .profile-change{
         width: 100vw;
         justify-content: center;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
 
-        .Profile-nav{
+        .profile-nav{
 
             width: 300px;
             height: 1500px;
@@ -21,28 +21,38 @@
             margin-right: 30px;
             justify-content: center;
 
-            .Profile-img{
+            .profile-img{
                 width: 200px;
                 height: 200px;
-                background-image:url(https://pbs.twimg.com/profile_images/1121059538751246343/AJc266if_400x400.jpg);
-                background-size: contain;
-                border-radius: 400px;
+                
+                border-radius: 50%;
+                border: 1px solid black;
                 margin: auto;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
             }
             
-            .P-edit-container{
+            .p-edit-container{
 
                 width: 95%;
                 padding: 10px;
                 border-bottom: 1px solid dimgray;
 
-                .Profile-edit{
+                .profile-edit{
 
                     display: block;
-
+                    input{
+                        margin-block: 10px;
+                    }
+                    label{
+                        margin:10px;
+                    }
                 }
                
-                .P-edit-btn{
+                .p-edit-btn{
                     width: 250px;
                     padding: 8px 18px;
                     border-radius: 4px;
@@ -54,7 +64,7 @@
                     margin-top: 20px;
                     
                 }
-                .Pass-btn{
+                .pass-btn{
                     width: 250px;
                     padding: 8px 18px;
                     border-radius: 4px;
@@ -66,26 +76,40 @@
                     margin-top: 20px;
                     
                 }
-                .Pass-save{
-                    margin-left: 5px;
-                }
-                .edit-save{
-                    margin-left: 5px;
-                }
-                .Password{
-                    display: block;
-                    margin-top: 20px;
-                }
-    
-    
+             
+                
+            }
 
+            .camera {
+                margin-left: 200px;
+            }
+            .close{
+            
+                margin-left: 250px;
+                background: none;
             }
 
 
         }
-
+        .btt{
+           
+            .pass-save{
+                margin-left: 5px;
+            }
+            .edit-save{
+                margin-left: 5px;
+            }
+            
+        }
+        .password{
+            display: block;
+            margin-top: 20px;
+            input{
+                margin-block: 10px;
+            }
+        }
         
-        // .Profile-info{
+        // .profile-info{
         //     width: 600px;
         //     height: 200px;
         //     margin: 20px;
@@ -94,22 +118,22 @@
         //     border-radius: .25rem;
         //     float: right;
          
-        //     .Profile-index{
+        //     .profile-index{
         //         width: 400px;
         //         float: left;
         //     }
         
         // }
 
-        // .Profile-info ul{
+        // .profile-info ul{
         //     width: 400px;
         // }
-        .Profile-show{
+        .profile-show{
 
             width: 50%;
             height: 100vw;
 
-            .Tab {
+            .tab {
                 width: 800px;
             }  
 
@@ -118,7 +142,7 @@
 
     }
 
-    // .Profile-follow{
+    // .profile-follow{
         
     //     width: 840px;
     //     height: 500px;

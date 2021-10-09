@@ -14,13 +14,8 @@ options = Object.assign({},defaults,options)
 
 return fetch(options.url,options).then(
     response=>
-    response.json().then(json=>{
-        if(!response.ok){
-            return Promise.reject(json);
-        }
-        return json
-    })
-)
+    response.json()
+).then(json=>json)
 }
 
 //현재 유저 정보 가져오기
@@ -181,11 +176,10 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물데이터
-export function getIndexData(getIndexDataRequest){
+export function getIndexData(url,position){
     return request({
-        url:API_BASE_URL+"/detail/getlist",
-        method:"GET",
-        body:getIndexDataRequest
+        url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
+        method:"GET"
     })
 }
 
@@ -226,6 +220,7 @@ export function sendImage(sendImageRequest){
     })
 }
 
+
 // 이메일, 유저네임 중복확인
 
 export function checkIsValid(checkIsValidRequest){
@@ -263,6 +258,7 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
+
 // 프로필 subnav 데이터 가져오기
 export function getProfileSubNavData(current_username,profile_username){
     return request({
@@ -276,5 +272,30 @@ export function getProfileSubNavData(current_username,profile_username){
 export function toggleFollow(current_username,target_username){
     return request ({
         url:API_BASE_URL+"/subnav/profile?target_username="+target_username+"&current_username="+current_username,
+        method:"get",
+    })
+}
+
+export function getAutoComplete(searchText){
+    return request({
+        url:API_BASE_URL+"/index/srchdata?username="+"나",
+        method:"GET",
+    })
+}
+
+//비밀번호 변경
+export function getChangePassword(getChangePasswordData){
+    return request({
+        url:API_BASE_URL+"/changepassword",
+        method:"POST",
+        body:JSON.stringify(getChangePasswordData)
+    })
+}
+export function getCheckPassword(getCheckPasswordData){
+    return request({
+        url:API_BASE_URL+"/checkpassword",
+        method:"POST",
+        body:JSON.stringify(getCheckPasswordData)
+
     })
 }

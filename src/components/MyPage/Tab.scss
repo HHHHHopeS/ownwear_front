@@ -1,12 +1,12 @@
-*, ::before, ::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+// *, ::before, ::after {
+//     box-sizing: border-box;
+//     margin: 0;
+//     padding: 0;
+//   }
   
-  body {
-    background: #fff;
-  }
+  // body {
+  //   background: #fff;
+  // }
   
   .tab-container {
     display: flex;
@@ -54,7 +54,7 @@
     transform: translateX(-50%);
     width: calc(100% + 2px);
     height: 5px;
-    background: rgb(88, 147, 241);
+    background: black;
   }
   
   
