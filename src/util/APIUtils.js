@@ -11,7 +11,7 @@ if(localStorage.getItem(ACCESS_TOKEN)){
 }
 const defaults = {headers:headers};
 options = Object.assign({},defaults,options)
-console.log(options);
+
 return fetch(options.url,options).then(
     response=>
     response.json()
@@ -83,12 +83,12 @@ export function getDetailData(detailDataReqeust){
         })
     }
 
-//좋아요한 유저 목록 조회 (유저 권한은 필요 없을듯?)
-export function getLikeUserList(LikeUserListRequest){
+//팔로우 유저 목록 조회 (유저 권한은 필요 없을듯?) // 좋아요, 팔로워, 팔로잉 리스트 전부 통일
+export function getUserList(getUserListRequest){
     return request({
-        url:API_BASE_URL+"/like/getlist",
+        url:API_BASE_URL+"/getlist",
         method:"POST",
-        body:JSON.stringify(LikeUserListRequest)
+        body:JSON.stringify(getUserListRequest)
     })
 }
 // 댓글 추가 요청
@@ -258,6 +258,24 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
+
+// 프로필 subnav 데이터 가져오기
+export function getProfileSubNavData(current_username,profile_username){
+    return request({
+        url:API_BASE_URL+"/subnav/profile?name="+current_username+"&profile_user_id="+profile_username,
+        method:"get",
+
+    })
+}
+
+// 프로필 subnav 팔로우 토글
+export function toggleFollow(current_username,target_username){
+    return request ({
+        url:API_BASE_URL+"/subnav/profile?target_username="+target_username+"&current_username="+current_username,
+        method:"get",
+    })
+}
+
 export function getAutoComplete(searchText){
     return request({
         url:API_BASE_URL+"/index/srchdata?username="+"나",
@@ -278,5 +296,6 @@ export function getCheckPassword(getCheckPasswordData){
         url:API_BASE_URL+"/checkpassword",
         method:"POST",
         body:JSON.stringify(getCheckPasswordData)
+
     })
 }

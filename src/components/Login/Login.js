@@ -79,7 +79,9 @@ function SocialLogin(){
       <div className="icon-container">
         <FontAwesomeIcon icon={faFacebook}/>
       </div>
+
       <span  href={FACEBOOK_AUTH_URL}>
+
         Continue with Facebook
       </span>
       
@@ -110,9 +112,7 @@ function LoginForm(props){
 
 
       localStorage.setItem(ACCESS_TOKEN,response.accessToken);
-      getCurrentUser().then(response=>{
-        setCurrentUser(response)
-      })
+      Alert.success("login success!")
       
 
       props.history.goBack()
@@ -196,15 +196,18 @@ function SignupForm(props){
     signup(signupRequest).then(response =>{
     
       Alert.success("you re successfuly registered! ")
+      
+      
+      
+    }).then(()=>{
       const loginRequest = Object.assign({},{email:email,password:password})
       login(loginRequest).then(response=>{
-        localStorage.setItem(ACCESS_TOKEN,response.accessToken)
-        getCurrentUser().then(response=>{
-          setCurrentUser(response)
-        })
-      })
-      props.history.push("/")
-    }).catch(error=>{
+
+      localStorage.setItem(ACCESS_TOKEN,response.accessToken)
+      props.history.goBack()
+    })}).catch(error=>{
+
+
       Alert.error((error&& error.message)|| "oops! something went wrong. please retry!")
 
     })

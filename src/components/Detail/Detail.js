@@ -34,7 +34,7 @@ import {
 } from "../../util/APIUtils";
 import NotFound from "../404/NotFound";
 import "./Detail.scss";
-import LikeListModal from "./LikeListModal";
+import ListModal from "../Modal/ListModal";
 import { calculateDatetime } from "../../util/TimeUtils";
 export default function Detail(props) {
   const pathName = props.location.pathname;
@@ -300,11 +300,12 @@ export default function Detail(props) {
           <Product detailPageData={detailPageData} hoverTag={hoverTag} />
           <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.username}/>
         </div>
-        <LikeListModal
-        setLikeUserList ={setLikeUserList}
-          likeUserList={likeUserList}
+        <ListModal
+        setUserList ={setLikeUserList}
+          userList={likeUserList}
           show={show}
           setShow={setShow}
+          title={"likes"}
         />
       </div>
     );
@@ -425,7 +426,7 @@ function LikeShare(props) {
       props.history.push("/login");
     }
   };
-  const activeLikeListModal = () => {
+  const activeListModal = () => {
   //   if(user.auth){
   //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:user.id });
   //   // getLikeUserList(LikeUserListRequest).then(
@@ -501,7 +502,7 @@ function LikeShare(props) {
           </div>
         </div>
         <div className="letter-section">
-          <span onClick={activeLikeListModal}>{likecount}Likes</span>
+          <span onClick={activeListModal}>{likecount}Likes</span>
         </div>
       </div>
     </div>
