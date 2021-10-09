@@ -243,10 +243,10 @@ export default function SubNav(props) {
       postcount: 152,
     });
 
-  
+    
     const toggleFollowModal = (e)=>{
-      const type = e.currentTarget.classList[1]
-      // const request = Object.assign({},{type,current_username:user.info.username,username:info.user.username})
+      const type = e.currentTarget.classList[1]  //follwer , f, like
+      // const request = Object.assign({},{type,current_username:user.info.username,target_id:info.user.username})
       // getUserList(request).then(response=>setUserList(response)).catch(err=>console.log)
       setTitle(type)
   
@@ -257,20 +257,19 @@ export default function SubNav(props) {
       const current_username = user.info.username;
 
       
-      getProfileSubNavData(profile_username, current_username)
-        .then(res => {
-          if (res) {
-            setInfo(res);
-          } else {
-            // 404
-            Alert.error("data is null");
-            // history.push("/404")
-          }
-        })
-        .catch(({ error }) => {
-          Alert.error(error);
-          // history.push("/404")
-        });
+      // getProfileSubNavData(profile_username, current_username)
+      //   .then(res => {
+      //     if (res.ok) {
+      //       setInfo(res)
+      //     } else {
+      //       history.push("/404")
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+
+      //     history.push("/404")
+      //   });
     }, [props.location.pathname]);
     return (
       <div className="profile">
@@ -282,7 +281,7 @@ export default function SubNav(props) {
             <Breadcrumb.Item active>user</Breadcrumb.Item>
 
             <Breadcrumb.Item active>
-              {user.info ? user.info.username : null}
+              {info.user ? info.user.username : null}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -290,7 +289,7 @@ export default function SubNav(props) {
           <div className="left-section">
             <div className="img-section">
               <img
-                src={info.user.userimg ? info.user.userimg : defaultUser}
+                src={info.user&&info.user.userimg? info.user.userimg : defaultUser}
                 alt=""
               />
             </div>
@@ -309,37 +308,37 @@ export default function SubNav(props) {
           <div className="right-section">
             <div className="profile-section">
               <div className="profile-title-section">
-                <h1>{info ? info.user.username : null}</h1>
+                <h1>{info.user ? info.user.username : null}</h1>
               </div>
               <div className="profile-info-section">
                 <div className="profile-span-container">
-                  <span className="user-height">{info.user.height}cm</span>
+                  <span className="user-height">{info.user?info.user.height+"cm":null}</span>
                 </div>
                 <div className="profile-span-container">
-                  <span className="user-gender">{info.user.sex===0?"female":"male"}</span>
+                  <span className="user-gender">{info.user&&info.user.sex===0?"female":"male"}</span>
                 </div>
               </div>
               <div className="sns-tag-section">
                 <div className="sns-icon-container">
                   <a
-                    href={"https://instagram.com/" + info.user.instaid}
-                    hidden={info.user.instaid ? false : true}
+                    href={info.user?"https://instagram.com/" + info.user.instaid:null}
+                    hidden={info.user&&info.user.instaid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
                     <FontAwesomeIcon icon={faInstagram} />
                   </a>
                   <a
-                    href={"https://pinterest.com/" + info.user.pinterestid}
-                    hidden={info.user.pinterestid ? false : true}
+                    href={info.user?"https://pinterest.com/" + info.user.pinterestid:null}
+                    hidden={info.user&&info.user.pinterestid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
                     <FontAwesomeIcon icon={faPinterest} />
                   </a>
                   <a
-                    href={"https://twitter.com/" + info.user.twitterid}
-                    hidden={info.user.twitterid ? false : true}
+                    href={info.user?"https://twitter.com/" + info.user.twitterid:null}
+                    hidden={info.user&&info.user.twitterid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -348,7 +347,7 @@ export default function SubNav(props) {
                 </div>
               </div>
               <div
-                hidden={info.favbrands.length > 0 ? false : true}
+                hidden={info.favbrands&&info.favbrands.length > 0 ? false : true}
                 className="fav-brand-section"
               >
                 <span>favourite-brand : </span>
@@ -363,11 +362,11 @@ export default function SubNav(props) {
               
             </div>
             <div className="button-section">
-              {user.info.username !== info.user.username ? (
+              {user.info&&info.user?user.info.uername !== info.user.username ? (
                 <button onClick={followOrNot} className="follow-button">
                   {info.isfollowing ? "unfollow" : "follow"}
                 </button>
-              ) : null}
+              ):null : null}
             </div>
           </div>
         </div>
