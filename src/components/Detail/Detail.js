@@ -193,34 +193,41 @@ export default function Detail(props) {
   ]);
 
   useEffect(() => {
+
+    // 디테일 페이지 로직, 
     const getDetailDataRequest = Object.assign({}, { post_id: post_id });
-    getDetailData(getDetailDataRequest)
-      .then(response => {
-        setDetailPageData(response);
-        if (user.auth) {
-          const getIsLikeRequest = Object.assign(
-            {},
-            { post_id: post_id, user_id: user.info.id }
-          );
-          getIsLike(getIsLikeRequest)
-            .then(response => {
-              if (response) {
-                setIsLike(true);
-              } else {
-                setIsLike(false);
-              }
-            })
-            .catch(err => {
-              Alert.error("failed to check is like");
-            });
-        } else {
-          setIsLike(false);
-        }
-      })
-      .catch(err => {
-        Alert.error("failed to get data");
-        // setNotFound(true)  백 구축 하면 원상복귀
-      });
+    // getDetailData(getDetailDataRequest)
+    //   .then(response => {
+    //     if(response.ok){
+    //     setDetailPageData(response);
+    //   }
+    //   else{
+    //     setNotFound(true)
+    //   }
+    //     if (user.auth) {
+    //       const getIsLikeRequest = Object.assign(
+    //         {},
+    //         { post_id: post_id, user_id: user.info.id }
+    //       );
+    //       getIsLike(getIsLikeRequest)
+    //         .then(response => {
+    //           if (response) {
+    //             setIsLike(true);
+    //           } else {
+    //             setIsLike(false);
+    //           }
+    //         })
+    //         .catch(err => {
+    //           Alert.error("failed to check is like");
+    //         });
+    //     } else {
+    //       setIsLike(false);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     Alert.error("failed to get data");
+    //     // setNotFound(true)  백 구축 하면 원상복귀
+    //   });
   }, [post_id,user.auth,]);
   // }, [post_id]);
   useLayoutEffect(() => {
