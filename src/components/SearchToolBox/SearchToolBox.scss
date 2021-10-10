@@ -18,7 +18,10 @@
         display: flex;
     }
     .content-tab{
-        background-color: rgb(29, 93, 212);
         height: 100%;
+        .content{
+            width: 100%;
+            
+        }
     }
 }

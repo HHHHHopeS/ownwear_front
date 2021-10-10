@@ -176,10 +176,11 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물데이터
-export function getIndexData(url,position){
+export function getIndexData(url,position,ids){
     return request({
         url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
-        method:"GET"
+        method:"POST",
+        body:ids
     })
 }
 
@@ -279,10 +280,10 @@ export function toggleFollow(current_username,target_username){
 
 
 //자동완성
-export function getAutoComplete(inputText){
+export function getAutoComplete(inputText,keyword){
 
     return request({
-        url:API_BASE_URL+"/index/srchdata?username="+inputText,
+        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
         method:"GET",
     })
 }
