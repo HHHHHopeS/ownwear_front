@@ -30,6 +30,7 @@ export default function Nav(props) {
   const [activeProfile, setActiveProfile] = useState(false);
   const [activeAlert, setActiveAlert] = useState(false);
   const [loading,setLoading] = useState(false)
+  const [keyword, setKeyword] = useState(null)
   const [alertList, setAlertList] = useState([
     {
       alert_id:1,
@@ -68,6 +69,7 @@ export default function Nav(props) {
     }, 500);
     document.querySelector(".SearchToolBox").classList.remove("active");
     document.querySelector(".SearchBar").classList.remove("active");
+    setKeyword(null)
   }
   function hoverIcon(e) {
     e.currentTarget.classList.add("active");
@@ -205,7 +207,7 @@ export default function Nav(props) {
         <ul style={user.auth ? {} : { marginLeft: "-5%" }}>
           <li>
             <div className="search-bar-container">
-              <SearchBar />
+              <SearchBar  keyword={keyword} setKeyword={setKeyword} />
             </div>
           </li>
           <li>
