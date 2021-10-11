@@ -176,10 +176,11 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물데이터
-export function getIndexData(url,position){
+export function getIndexData(url,position,ids){
     return request({
         url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
-        method:"GET"
+        method:"POST",
+        body:ids
     })
 }
 
@@ -258,7 +259,9 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
+
 //이거 보고 추가하셈
+
 // 프로필 subnav 데이터 가져오기
 export function getProfileSubNavData(current_user_id,profile_username){
     return request({
@@ -283,9 +286,12 @@ export function toggleFollow(current_username,target_username){
     })
 }
 
-export function getAutoComplete(searchText){
+
+//자동완성
+export function getAutoComplete(inputText,keyword){
+
     return request({
-        url:API_BASE_URL+"/index/srchdata?username="+"나",
+        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
         method:"GET",
     })
 }
