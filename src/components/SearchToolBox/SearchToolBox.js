@@ -8,7 +8,7 @@ import React from 'react'
 export default function SearchToolBox(props) {
 
     const result = props.result
-    console.log("result-----------"+result)
+
     return (
         <div className="SearchToolBox">
             <div className="container">

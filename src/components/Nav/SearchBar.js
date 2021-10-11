@@ -30,9 +30,9 @@ export default function SearchBar() {
     }
   }
   
-  useEffect(()=>{
-    getAutoComplete().then(response=>setResult(JSON.stringify(response)))
-  },[])
+  // useEffect(()=>{
+  //   getAutoComplete().then(response=>setResult(JSON.stringify(response)))
+  // },[])
 
   return (
     <div className="SearchBar">

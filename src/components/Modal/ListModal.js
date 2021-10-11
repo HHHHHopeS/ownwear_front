@@ -72,7 +72,7 @@ export default function ListModal(props) {
       <Modal.Body>
         {userList.length > 0 ? (
           userList.map((user, index) => (
-            <div className="user-container">
+            <div key={index} className="user-container">
               <div className="user-info-section">
                 <div className="user-info-image">
                   <Link to={"profile/" + user.username}>

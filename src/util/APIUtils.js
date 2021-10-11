@@ -121,7 +121,7 @@ export function fetchDeleteComment(deleteCommentRequest){
 //해시태그 자동완성 요청
 export function hashtagAutoComplete(hashtagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"/hashtag/autocomplete",
+        url:API_BASE_URL+"/detail/hashtagAutoComplete",
         method:"POST",
         body:JSON.stringify(hashtagAutoCompleteRequest)
     })
@@ -131,7 +131,7 @@ export function hashtagAutoComplete(hashtagAutoCompleteRequest){
 //유저태그 자동완성 요청
 export function usertagAutoComplete(usertagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"usertag/autocomplete",
+        url:API_BASE_URL+"/usertag/autocomplete",
         method:"POST",
         body:JSON.stringify(usertagAutoCompleteRequest)
     })
@@ -205,7 +205,7 @@ export function getHotUserData(getHotUserDataRequest){
 
 export function insertImageData(insertImageDataReqeust){
     return request({
-        url:API_BASE_URL+"/create",
+        url:API_BASE_URL+"/detail/create",
         method:"POST",
         body:JSON.stringify(insertImageDataReqeust)
     })
@@ -258,13 +258,20 @@ export function setAlertChecked(setAlertCheckedRequest){
     })
 }
 
-
+//이거 보고 추가하셈
 // 프로필 subnav 데이터 가져오기
-export function getProfileSubNavData(current_username,profile_username){
+export function getProfileSubNavData(current_user_id,profile_username){
     return request({
-        url:API_BASE_URL+"/subnav/profile?name="+current_username+"&profile_user_id="+profile_username,
+        url:API_BASE_URL+"/username?current_user_id="+current_user_id+"&profile_username="+profile_username,
         method:"get",
 
+    })
+}
+
+export function getDetailProfileSubNavData(current_user_id,post_id){
+    return request({
+        url:API_BASE_URL+"/detail/post/profile?current_user_id="+current_user_id+"&post_id="+post_id,
+        method:"get",
     })
 }
 
@@ -300,4 +307,11 @@ export function getCheckPassword(getCheckPasswordData){
     })
 }
 
-//test
+// 랭킹페이지 리스트 불러오기
+
+export function getRankingData(type,filter,count){
+    return request({
+        url:API_BASE_URL+"/ranking?type="+type+"&filter="+filter+"&page="+count,
+        method:"get"
+    })
+}

@@ -305,7 +305,7 @@ export default function Detail(props) {
         <div className="detail-side-section">
           <ImageInfo detailPageData={detailPageData} />
           <Product detailPageData={detailPageData} hoverTag={hoverTag} />
-          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.username}/>
+          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.postData.username} user_id={detailPageData.postData.user_id}/>
         </div>
         <ListModal
         setUserList ={setLikeUserList}
@@ -749,18 +749,22 @@ function Comment(props) {
             >
               <div className="comment-profile-section">
                 <div className="comment-profile-image">
+                <Link  to={{pathname:"/profile/"+comment.userinfo.username}}
+
+              >
                   <img src={comment.userinfo.userImg} alt="" />
+                      </Link>
                 </div>
               </div>
               <div className="comment-main-section">
                 <div className="comment-content-section">
-                  <span
+                  <Link  to={{pathname:"/profile/"+comment.userinfo.username,}}
                     className={
                       "comment-profile-username user-" + comment.userinfo.user_id
                     }
                   >
                     {comment.userinfo.username}
-                  </span>
+                  </Link>
                   <span
                     ref={contentRef.current[i]}
                     suppressContentEditableWarning={true}
@@ -965,7 +969,7 @@ function ImageInfo(props) {
 
       <div className="hashtag-container">
         {detailPageData.hashtags.map(hashtag=>(
-          <Link to={"/list/"+hashtag} className="hashtag">#{hashtag}</Link>
+          <Link to={"/list/hashtag/"+hashtag+"/1"} className="hashtag">#{hashtag}</Link>
         ))}
       </div>
 
@@ -994,7 +998,7 @@ function Product(props) {
           </a>
         </div>
         <div className="product-info-section">
-          <Link to={"/list/"+tag.productInfo.brandName}>
+          <Link to={"/list/brand"+tag.productInfo.brandName+"/1"}>
           <span className="product-brand">{tag.productInfo.brandName}</span>
           </Link>
           <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
@@ -1016,6 +1020,7 @@ function Product(props) {
 function RelatedImages(props) {
   const userRelated = props.userRelated
   const username = props.username
+  const user_id= props.user_id
   return (
 
     <div className="related-img-container">
@@ -1029,13 +1034,13 @@ function RelatedImages(props) {
           columnClassName="masonry-grid-column"
         >
           {userRelated.map(relatedPost=>(
-              <Link to={"/detail/"+username+"/"+relatedPost.post_id}>
+              <Link to={"/detail/"+relatedPost.post_id}>
                 <img src={relatedPost.imgUrl} alt="" />
               </Link>
           ))}
 
           <div className="more">
-            <Link to={"/profile/"+username}>
+            <Link state={{user_id}} to={"/profile/"+username}>
             <img
               src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
               alt=""

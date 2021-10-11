@@ -140,7 +140,7 @@ export default function Nav(props) {
     };
 
     return alertList.map((content, index) => (
-      <div className="alert-item-container">
+      <div key={index} className="alert-item-container">
         <div className="alert-item-main">
           <div
             className="left"

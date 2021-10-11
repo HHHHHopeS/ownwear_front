@@ -33,10 +33,10 @@ import { getCurrentUser } from "./util/APIUtils";
 export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
-
+const [id,setId] = useState(null)
 
 const [loading,setLoading] = useState(true)
-
+let user_id= null
 
 
 const handleLogout= ()=>{
@@ -106,7 +106,9 @@ else return null
 
   return () => setLoading(false);
   },[localStorage.accessToken])
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   
   if(loading){
     return <div style={{height:"100vh"}}>
@@ -118,7 +120,7 @@ else return null
     <div className="App">
       
       <Nav onLogout={handleLogout}/>
-      <SubNav />
+      <SubNav setId={setId} />
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
         
@@ -131,8 +133,8 @@ else return null
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
           <Route exact path="/detail/:id" component={Detail}/>
-          <Route exact path="/ranking" component={Ranking}/>
-          <Route exact path="/profile/:id" component={Profile}/>
+          <Route exact path="/ranking/:id/:id" component={Ranking}/>
+          <Route exact path="/profile/:id" render={(props)=><Profile id={id} {...props}/>}/>
           <Route exact path="/mypage" component={MyPage}/>
 
           <Route exact path="/create" component={Create}/>

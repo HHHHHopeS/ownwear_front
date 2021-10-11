@@ -108,7 +108,7 @@ export default function Main(props) {
           ) : null}
         </div>
         <div className="more-button-section">
-          <Link to={{ pathname: '/ranking' }}>More</Link>
+          <Link to={{ pathname: '/ranking/likes/all' }}>More</Link>
         </div>
       </div>
     )
@@ -207,7 +207,7 @@ export default function Main(props) {
                 <span className="ranking-user">User</span>
               </div>
               <div className="more-button-section">
-                <Link to={"/ranking/user"}>More</Link>
+                <Link to={"/ranking/user/all"}>More</Link>
               </div>
             </div>
             <Hotuser />
@@ -218,7 +218,7 @@ export default function Main(props) {
                 <span className="brand-title">Brand</span>
               </div>
               <div className="more-button-section">
-                <Link to={{ pathname: '/ranking/brand' }}>More</Link>
+                <Link to={{ pathname: '/ranking/brand/all' }}>More</Link>
               </div>
             </div>
             <ol>
@@ -231,7 +231,7 @@ export default function Main(props) {
                 <span className="brand-title">Tag</span>
               </div>
               <div className="more-button-section">
-                <Link to={{ pathname: '/ranking/tag' }}>More</Link>
+                <Link to={{ pathname: '/ranking/tag/all' }}>More</Link>
               </div>
             </div>
             <ol>

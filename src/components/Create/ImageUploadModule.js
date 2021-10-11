@@ -91,10 +91,12 @@ export default function Upload(props) {
           .then(response => {
             const list = [];
             if (response) {
+              console.log(response)
               const filter = response.regions.filter(
                 region => region.data.concepts[0].name === "shoes"
               );
 
+              if(filter.length>0){
               if (
                 filter[0].regionInfo.boundingBox.leftCol >
                 filter[1].regionInfo.boundingBox.leftCol
@@ -105,22 +107,36 @@ export default function Upload(props) {
                 filter[1].data.concepts[0].name = "shoes L";
                 filter[0].data.concepts[0].name = "shoes R";
               }
+            }
               response.regions.map(region => {
+                
+                if(filter.length>0){
+                  console.log(filter)
                 for (let data of filter) {
                   if (JSON.stringify(data.regionInfo) === region.regionInfo) {
                     region = data;
                   }
                 }
+              }
+                console.log(region)
                 if (region.value > 0.95) list.push(region);
                 return false
               });
-
+              if(list.length===0){
+                setRectors(response.regions)
+              }
+              else{
               setRectors(list);
+            }
               setPhase({ ...phase, phaseNo: 3 });
               
             }
+            else{
+              console.log()
+            }
             return false})
           .catch(err => {
+            console.log(err)
             Alert.error("error!");
           });
 
@@ -634,7 +650,7 @@ export default function Upload(props) {
           tagData,
         };
 
-        const request = Object.assign({}, {user:{user_id:user.info.id}, imgData, hashtags:hashtagData,brands});
+        const request = Object.assign({}, {user:{user_id:user.info.user_id}, imgData, hashtags:hashtagData,brands});
         insertImageData(request)
           .then(response =>
             setTimeout(() => history.push(`/detail/${response}`), 2000)
@@ -882,9 +898,10 @@ export default function Upload(props) {
                       isLoading={isLoading}
                       onSearch={
                         (q)=>{
+
                           setIsLoading(true)
                           const obj =Object.assign({},{data:q})
-                          console.log(1)
+                          // console.log(1)
                           hashtagAutoComplete(obj).then(response=>setAutoCompleteResult(response))
                           setIsLoading(false)
                         }
