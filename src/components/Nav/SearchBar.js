@@ -57,6 +57,7 @@ export default function SearchBar(props) {
   }
 
 
+
   return (
     <div className="SearchBar">
       <div className="search-section">
