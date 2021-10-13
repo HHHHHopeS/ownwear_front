@@ -33,7 +33,7 @@ export default function Nav(props) {
   const [keyword, setKeyword] = useState(null)
   const [alertList, setAlertList] = useState([
     {
-      alert_id:1,
+      alertid:1,
       type: "like",
       post_no: "1",
       username: "카리나",
@@ -41,7 +41,7 @@ export default function Nav(props) {
       date: "1900-10-5 13:01:00",
     },
     {
-      alert_id:2,
+      alertid:2,
       type: "comment",
       post_no: "1",
       username: "카리나",
@@ -49,7 +49,7 @@ export default function Nav(props) {
       date: "2021-10-01 00:00:00",
     },
     {
-      alert_id:3,
+      alertid:3,
       type: "follow",
       post_no: "1",
       username: "카리나",
@@ -82,8 +82,8 @@ export default function Nav(props) {
     // e.currentTarget.children[1].classList.remove("active")
   }
   function AlertList() {
-    const clear = (index,alert_id) => {
-      setAlertChecked(alert_id).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
+    const clear = (index,alertid) => {
+      setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
     };
     const FigureType = props => {
       const content = props.content;
@@ -95,7 +95,7 @@ export default function Nav(props) {
             <Link
               onClick={e => {
                 e.stopPropagation();
-                clear(index,content.alert_id);
+                clear(index,content.alertid);
               }}
               to={"/profile/" + content.username}
             >
@@ -111,7 +111,7 @@ export default function Nav(props) {
             <Link
               onClick={e => {
                 e.stopPropagation();
-                clear(index,content.alert_id);
+                clear(index,content.alertid);
               }}
               to={"/profile/" + content.username}
             >
@@ -127,7 +127,7 @@ export default function Nav(props) {
             <Link
               onClick={e => {
                 e.stopPropagation();
-                clear(index,content.alert_id);
+                clear(index,content.alertid);
               }}
               to={"/profile/" + content.username}
             >
@@ -150,13 +150,13 @@ export default function Nav(props) {
               content.type === "follow"
                 ? null
                 : (e, index) => {
-                    clear(index,content.alert_id);
+                    clear(index,content.alertid);
                     history.push(`/detail/${content.post_no}`);
                   }
             }
           >
             <div className="profile-image-section">
-              <Link onClick={e=>{clear(index,content.alert_id);e.stopPropagation()}} to={"/profile/"+content.username}>
+              <Link onClick={e=>{clear(index,content.alertid);e.stopPropagation()}} to={"/profile/"+content.username}>
               <img src={content.userimg} alt="" />
               </Link>
             </div>
@@ -165,7 +165,7 @@ export default function Nav(props) {
             </div>
           </div>
           <div className="right">
-            <div onClick={() => clear(index,content.alert_id)} className="button-section">
+            <div onClick={() => clear(index,content.alertid)} className="button-section">
               <FontAwesomeIcon icon={faTimes} />
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function Nav(props) {
 
   function getList(){
     setLoading(true)
-    getAlertList(user.info.user_id).then(response=>setAlertList(response)).then(()=>setLoading(false)).catch(err=>{Alert.error("connection error!");setLoading(false)})
+    getAlertList(user.info.userid).then(response=>setAlertList(response)).then(()=>setLoading(false)).catch(err=>{Alert.error("connection error!");setLoading(false)})
     
   }
   

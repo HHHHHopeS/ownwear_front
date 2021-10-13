@@ -18,7 +18,7 @@ export default function Profile(props) {
   const data = [
     {
       post: {
-        post_no: 1,
+        postid: 1,
         rdate: "2021-08-30 01:02:30",
         imgData: {
           imageurl: sample,
@@ -189,18 +189,19 @@ export default function Profile(props) {
       getdata(request)
         .then(response =>
           setContents(contents=>
-            [...contents, response.ok.content],
-            setPageCount(pageCount=>pageCount + 1)
+            [...contents, response.ok.content]
+            
           )
         )
         .then(() => setIsThreshold(false)).catch(err=>console.log(err))
       setLoading(false);
+      setPageCount(pageCount=>pageCount + 1)
       return (window.onscroll = null);
     }
     if (pageCount === maxCount) {
       return setIsMaxCount(true);
     }
-    
+   
   }, [isThreshold]);
 
   //
@@ -213,7 +214,7 @@ export default function Profile(props) {
       </div>
       :
       
-      contents.map((content, index) => (
+      contents&&contents.map((content, index) => (
         <div className="page-container">
           {content.map((item, index) => (
             <div

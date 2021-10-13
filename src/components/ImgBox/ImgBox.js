@@ -2,25 +2,29 @@ import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons"
 import { faCaretDown, faCaretUp, faHeart } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
+import {useHistory} from "react-router-dom"
 import { AiOutlineMessage } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import "./ImgBox.scss"
 
 export default function ImgBox(props) {
     const data = props.data
+    const history = useHistory()
     const [hover,setHover] = useState(false)
     const [imgHover,setImgHover] = useState(false)
+
     useEffect(()=>{
         
     },[hover])
     
     if(data){
+
         const tagX = data.tagData[0].rectorX
         const tagY = data.tagData[0].rectorY 
     return(
 
         <div className="ImgBox">
-            <div className="img-container"
+            <div onClick={()=>history.push("/detail/"+data.postid)} className="img-container"
                 onMouseOver={setImgHover}
                 onMouseOut={()=>{
                     setImgHover(false);
@@ -58,13 +62,13 @@ export default function ImgBox(props) {
                         <Link key={data.profileImgUrl} to={`/profile/${data.userName}`}><img src={data.profileImgUrl} alt="sd" /></Link>
                     </div>
                     <div className="profile-info-section">
-                        <span className="username">{data.userName}</span>
+                        <Link to={"/profile/"+data.userName}>{data.userName}</Link>
                         <span className="height">{data.height}cm</span>
                     </div>
                 </div>
                 <div className="button-section">
-                    <button><AiOutlineMessage/></button>
-                    <button onMouseOver={setHover} onMouseOut={()=>{setHover(false)}} ><FontAwesomeIcon icon={hover? faHeart :emptyHeart} /></button>
+                    <button onClick={()=>history.push("/detail/"+data.postid)}><AiOutlineMessage/></button>
+                    <button onClick={()=>history.push("/detail/"+data.postid)} onMouseOver={setHover} onMouseOut={()=>{setHover(false)}} ><FontAwesomeIcon icon={hover? faHeart :emptyHeart} /></button>
                     {/* <span>{data.likecount}</span> */}
                 </div>
             </div>

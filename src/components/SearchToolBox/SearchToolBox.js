@@ -15,7 +15,7 @@ export default function SearchToolBox(props) {
         setKeyword(e.currentTarget.innerText)
         setActive(index)
     }
-    console.log(results)
+
 
     return (
         <div className="SearchToolBox">
