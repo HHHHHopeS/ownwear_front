@@ -75,13 +75,7 @@ export function getDetailData(detailDataReqeust){
 
 
     //좋아요 토글
-    export function toggleLike(toggleLikeRequest){
-        return request({
-            url:API_BASE_URL+"/like/toggle",
-            method:"POST",
-            body:JSON.stringify(toggleLikeRequest)
-        })
-    }
+
 
 //팔로우 유저 목록 조회 (유저 권한은 필요 없을듯?) // 좋아요, 팔로워, 팔로잉 리스트 전부 통일
 export function getUserList(getUserListRequest){
@@ -139,13 +133,7 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
 
 //좋아요모달 팔로우
 
-export function updateModalFollow(updateModalFollowRequest){
-    return request({
-        url:API_BASE_URL+"usertag/autocomplete",
-        method:"POST",
-        body:JSON.stringify(updateModalFollowRequest)
-    })
-}
+
 
 //페이징
 export function getdata(getDataRequest){
@@ -278,10 +266,11 @@ export function getDetailProfileSubNavData(current_userid,postid){
     })
 }
 
-// 프로필 subnav 팔로우 토글
-export function toggleFollow(current_username,target_username){
+// 팔로우 토글 (모달포함 )
+
+export function toggleFollow(current_userid,target_userid){
     return request ({
-        url:API_BASE_URL+"/subnav/profile?target_username="+target_username+"&current_username="+current_username,
+        url:API_BASE_URL+"/follow/toggle?target_userid="+target_userid+"&current_userid="+current_userid,
         method:"get",
     })
 }

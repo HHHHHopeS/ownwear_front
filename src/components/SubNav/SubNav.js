@@ -101,9 +101,9 @@ export default function SubNav(props) {
   ]);
   // 팔로잉 언팔 버튼 토글 return true false
 
-  const followOrNot = (current_username, target_username) => {
+  const followOrNot = (current_userid, target_userid) => {
     if (user.auth) {
-      toggleFollow(current_username, target_username);
+      toggleFollow(current_userid, target_userid);
     } else {
       Alert.error("please login first");
       history.push("/login");
@@ -432,7 +432,7 @@ export default function SubNav(props) {
             <div className="button-section">
               {user.info && info.user ? (
                 user.info.uername !== info.user.username ? (
-                  <button onClick={followOrNot} className="follow-button">
+                  <button onClick={(e)=>followOrNot(user.info.userid,info.user.userid)} className="follow-button">
                     {info.isfollowing ? "unfollow" : "follow"}
                   </button>
                 ) : null
