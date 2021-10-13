@@ -57,18 +57,26 @@ export default function MyPage() {
         if (newPassword === newRePassword) {
             console.log("green")
             console.log(user)
-            const request = Object.assign({}, { userid: user.info.userid, password: inputs.newPassword })
+            const request = Object.assign({}, { userid: user.info.userid,password: inputs.password })
             
             console.log(request)
-            getChangePassword(request).then(response => {
-                console.log(response)
+            getCheckPassword(request).then(response => {
+                
+               if(response){
+                   
+                   getChangePassword(request)
+               }
+               else{
+                   console.log(response)
+                //    alert("현재 비밀번호가 잘못되었습니다.")
+               }
 
-                if (response.ok) {
-                    console.log(response.ok) 
-                    alert("비밀번호 변경완료") }
-                    else{
-                        alert("bad request")
-                    }
+                // if (response.ok) {
+                //     console.log(response.ok) 
+                //     alert("비밀번호 변경완료") }
+                //     else{
+                //         console.log(response)
+                //     }
             }).catch(err => console.log(err))
         } else if (newPassword != newRePassword) {
 
