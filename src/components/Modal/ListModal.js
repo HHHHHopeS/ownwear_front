@@ -42,9 +42,11 @@ export default function ListModal(props) {
       );
       updateModalFollow(updateModalFollowRequest).then(
           response =>{
+            if(response.ok){
             target.className = "follow";
             target.innerText = "Follow";
             obj.follower -= 1;
+          }
           }
       ).catch(err=>{
           Alert.error("oops cannot follow")
