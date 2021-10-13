@@ -56,7 +56,7 @@ export function signup(signupRequest){
 
 export function getDetailData(detailDataReqeust){
     return request({
-        url:API_BASE_URL+"/detail/"+detailDataReqeust.post_id,
+        url:API_BASE_URL+"/detail/"+detailDataReqeust.postid,
         method:"POST",
         body:JSON.stringify(detailDataReqeust)
     })
@@ -86,7 +86,7 @@ export function getDetailData(detailDataReqeust){
 //팔로우 유저 목록 조회 (유저 권한은 필요 없을듯?) // 좋아요, 팔로워, 팔로잉 리스트 전부 통일
 export function getUserList(getUserListRequest){
     return request({
-        url:API_BASE_URL+"/getlist",
+        url:API_BASE_URL+"/modal/getlist",
         method:"POST",
         body:JSON.stringify(getUserListRequest)
     })
@@ -263,17 +263,17 @@ export function setAlertChecked(setAlertCheckedRequest){
 //이거 보고 추가하셈
 
 // 프로필 subnav 데이터 가져오기
-export function getProfileSubNavData(current_user_id,profile_username){
+export function getProfileSubNavData(current_userid,profile_username){
     return request({
-        url:API_BASE_URL+"/username?current_user_id="+current_user_id+"&profile_username="+profile_username,
+        url:API_BASE_URL+"/"+profile_username+"/username?current_userid="+current_userid,
         method:"get",
 
     })
 }
 
-export function getDetailProfileSubNavData(current_user_id,post_id){
+export function getDetailProfileSubNavData(current_userid,postid){
     return request({
-        url:API_BASE_URL+"/detail/post/profile?current_user_id="+current_user_id+"&post_id="+post_id,
+        url:API_BASE_URL+"/detail/post/profile?current_userid="+current_userid+"&postid="+postid,
         method:"get",
     })
 }

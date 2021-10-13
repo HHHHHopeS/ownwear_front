@@ -36,7 +36,7 @@ export default function SubNav(props) {
   const [userList, setUserList] = useState([
     {
       username: "카리나a",
-      user_id: "1",
+      userid: "1",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -44,7 +44,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -52,7 +52,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -60,7 +60,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -68,7 +68,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -76,7 +76,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -84,7 +84,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -92,7 +92,7 @@ export default function SubNav(props) {
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg:
         "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower: 12050,
@@ -147,10 +147,10 @@ export default function SubNav(props) {
     );
   };
   const Detail = props => {
-    const post_id = props.location.pathname.split("/")[2];
+    const postid = props.location.pathname.split("/")[2];
     const request = Object.assign(
       {},
-      { current_user_id: user.info.user_id, post_id }
+      { current_userid: user.info.userid, postid }
     );
     useEffect(() => {
       getDetailProfileSubNavData(request).then(res => {
@@ -195,7 +195,7 @@ export default function SubNav(props) {
             </div>
           </div>
           <div className="follow-btn-section">
-            <button onClick={()=>{followOrNot(user.info.user_id,info.user.user_id)}} className="follow-button">Follow</button>
+            <button onClick={()=>{followOrNot(user.info.userid,info.user.userid)}} className="follow-button">Follow</button>
           </div>
         </div>
         </>
@@ -271,8 +271,8 @@ export default function SubNav(props) {
         {},
         {
           type,
-          current_user_id: user.info.user_id,
-          target_id: info.user.user_id,
+          current_userid: user.info.userid,
+          targetid: info.user.userid,
         }
       );
       getUserList(request)
@@ -291,9 +291,9 @@ export default function SubNav(props) {
 
     useEffect(() => {
       const profile_username = props.location.pathname.split("/")[2];
-      const current_user_id = user.info.user_id;
+      const current_userid = user.info.userid;
 
-      getProfileSubNavData(current_user_id, profile_username)
+      getProfileSubNavData(current_userid, profile_username)
         .then(res => {
           if (res.ok) {
             setInfo(res);

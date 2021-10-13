@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useContext, useEffect, useState } from 'react';
+import { useContext,useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import {useHistory} from "react-router"
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
 import "react-s-alert/dist/s-alert-default.css";
@@ -23,7 +24,7 @@ import UnVerified from "./components/UnVerified/UnVerified";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
-
+import CacheRoute, {CacheSwitch} from "react-router-cache-route"
 
 
 
@@ -34,9 +35,10 @@ export default function App(props) {
 const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
 const [id,setId] = useState(null)
-
 const [loading,setLoading] = useState(true)
-let user_id= null
+
+const history = useHistory()
+let userid= null
 
 
 const handleLogout= ()=>{
@@ -62,6 +64,7 @@ const CheckVerified= ()=>{
 }
 else return null
 }
+  
   useEffect(() => {
 
     // const fetchData = async () => {
@@ -107,7 +110,10 @@ else return null
   return () => setLoading(false);
   },[localStorage.accessToken])
   useEffect(() => {
+    console.log(history.action)
+    if(history.action==="PUSH"){
     window.scrollTo(0, 0);
+  }
   }, [location.pathname]);
   
   if(loading){
@@ -125,7 +131,7 @@ else return null
       >
         
         <CheckVerified />
-        <Switch >
+        <CacheSwitch >
 
 
           <Route exact path="/unverified" component={UnVerified} />
@@ -133,7 +139,16 @@ else return null
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
           <Route exact path="/detail/:id" component={Detail}/>
-          <Route exact path="/ranking/:id/:id" component={Ranking}/>
+
+    
+          
+          <CacheRoute saveScrollPosition="true" when="always" cacheKey="Ranking" exact path="/ranking/:id/:id" >
+
+            <Ranking></Ranking>
+
+          </CacheRoute>
+          
+          
           <Route exact path="/profile/:id" render={(props)=><Profile id={id} {...props}/>}/>
           <Route exact path="/mypage" component={MyPage}/>
 
@@ -144,7 +159,7 @@ else return null
 
           <Route component={NotFound} />
 
-        </Switch>
+        </CacheSwitch>
   
       </div>
       <Footer />

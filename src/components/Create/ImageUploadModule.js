@@ -650,7 +650,7 @@ export default function Upload(props) {
           tagData,
         };
 
-        const request = Object.assign({}, {user:{user_id:user.info.user_id}, imgData, hashtags:hashtagData,brands});
+        const request = Object.assign({}, {user:{userid:user.info.userid}, imgData, hashtags:hashtagData,brands});
         insertImageData(request)
           .then(response =>
             setTimeout(() => history.push(`/detail/${response}`), 2000)

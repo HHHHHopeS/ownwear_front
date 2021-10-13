@@ -40,7 +40,7 @@ export default function Detail(props) {
   const pathName = props.location.pathname;
   
   const postuser = pathName.split("/")[1];
-  const post_id = pathName.split("/")[2];
+  const postid = pathName.split("/")[2];
 
   const [isLike, setIsLike] = useState(false);
   const [show, setShow] = useState(false);
@@ -51,8 +51,8 @@ export default function Detail(props) {
   const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
     postData:{
-      post_id: post_id,
-      user_id: 1,
+      postid: postid,
+      userid: 1,
       username: "winter",
       imgData: {
         imgUrl:
@@ -84,22 +84,22 @@ export default function Detail(props) {
     hashtags: ["Givenchy", "sweatshirt", "red"],
     userRelated: [
       {
-        post_id: 2,
+        postid: 2,
         imgUrl:
           "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
       },
       {
-        post_id: 3,
+        postid: 3,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
       {
-        post_id: 4,
+        postid: 4,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
       {
-        post_id: 5,
+        postid: 5,
         imgUrl:
           "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
       },
@@ -111,7 +111,7 @@ export default function Detail(props) {
         commentno: 1,
         commnetdate: "2021-09-01 18:31:20",
         userinfo: {
-          user_id: 2,
+          userid: 2,
           username: "카리나",
           userImg:
             "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
@@ -123,7 +123,7 @@ export default function Detail(props) {
         commentno: 2,
         commnetdate: "2021-09-18 10:02:20",
         userinfo: {
-          user_id: 1,
+          userid: 1,
           username: "카리나a",
           userImg:
             "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
@@ -136,56 +136,56 @@ export default function Detail(props) {
   const [likeUserList, setLikeUserList] = useState([
     {
       username: "카리나a",
-      user_id: "1",
+      userid: "1",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:false
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:false
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
     },
     {
       username: "카리나a",
-      user_id: "3",
+      userid: "3",
       userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
       follower:12050,
       isUserFollowed:true
@@ -195,7 +195,7 @@ export default function Detail(props) {
   useEffect(() => {
 
     // 디테일 페이지 로직, 
-    const getDetailDataRequest = Object.assign({}, { post_id: post_id });
+    const getDetailDataRequest = Object.assign({}, { postid: postid });
     // getDetailData(getDetailDataRequest)
     //   .then(response => {
     //     if(response.ok){
@@ -207,7 +207,7 @@ export default function Detail(props) {
     //     if (user.auth) {
     //       const getIsLikeRequest = Object.assign(
     //         {},
-    //         { post_id: post_id, user_id: user.info.id }
+    //         { postid: postid, userid: user.info.id }
     //       );
     //       getIsLike(getIsLikeRequest)
     //         .then(response => {
@@ -228,8 +228,8 @@ export default function Detail(props) {
     //     Alert.error("failed to get data");
     //     // setNotFound(true)  백 구축 하면 원상복귀
     //   });
-  }, [post_id,user.auth,]);
-  // }, [post_id]);
+  }, [postid,user.auth,]);
+  // }, [postid]);
   useLayoutEffect(() => {
     if (targetRef.current) {
       setDimensions({
@@ -268,7 +268,7 @@ export default function Detail(props) {
       });
     }
   };
-  if (post_id && postuser && !notFound) {
+  if (postid && postuser && !notFound) {
     return (
       <div className="Detail">
         <div className="detail-main-section">
@@ -295,7 +295,7 @@ export default function Detail(props) {
               {...props}
             />
             <Comment
-              post_id={post_id}
+              postid={postid}
               detailPageData={detailPageData}
               setDetailPageData={setDetailPageData}
               user={user}
@@ -305,7 +305,7 @@ export default function Detail(props) {
         <div className="detail-side-section">
           <ImageInfo detailPageData={detailPageData} />
           <Product detailPageData={detailPageData} hoverTag={hoverTag} />
-          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.postData.username} user_id={detailPageData.postData.user_id}/>
+          <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.postData.username} userid={detailPageData.postData.userid}/>
         </div>
         <ListModal
         setUserList ={setLikeUserList}
@@ -387,7 +387,7 @@ function Image(props) {
 }
 
 function LikeShare(props) {
-  // const post_id = props.location.pathname.split("/")[3];
+  // const postid = props.location.pathname.split("/")[3];
 
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
@@ -403,7 +403,7 @@ function LikeShare(props) {
     if (user.auth) {
       // const toggleLikeRequest = Object.assign(
       //   {},
-      //   { user_id: user.info.id, post_id: post_id }
+      //   { userid: user.info.id, postid: postid }
       // );
       setLikecount(false);
       if (isLike) {
@@ -435,7 +435,7 @@ function LikeShare(props) {
   };
   const activeListModal = () => {
   //   if(user.auth){
-  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:user.id });
+  //   const LikeUserListRequest = Object.assign({}, { postid: postid,userid:user.id });
   //   // getLikeUserList(LikeUserListRequest).then(
   //   //   response=>{
 
@@ -443,7 +443,7 @@ function LikeShare(props) {
   //   // )
   // }
   // else{
-  //   const LikeUserListRequest = Object.assign({}, { post_id: post_id,user_id:null });
+  //   const LikeUserListRequest = Object.assign({}, { postid: postid,userid:null });
   // }
     setShow(true);
   };
@@ -697,7 +697,7 @@ function Comment(props) {
   };
   const createComment=()=>{
     const data =document.querySelector(".comment-input").value
-    // const createCommentRequest = Object.assign({},{user_id:user.info.id,post_id:props.post_id,content:data})
+    // const createCommentRequest = Object.assign({},{userid:user.info.id,postid:props.postid,content:data})
     // fetchCreateComment(createCommentRequest).then(
     //   response=>{
     //     let arr = [...comments]
@@ -713,7 +713,7 @@ function Comment(props) {
       commentno:3,
       commentdata:"2021-9-23 18:31:20",
       userinfo:{
-        user_id:1,
+        userid:1,
       username:"winter",
       userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
     },
@@ -760,7 +760,7 @@ function Comment(props) {
                 <div className="comment-content-section">
                   <Link  to={{pathname:"/profile/"+comment.userinfo.username,}}
                     className={
-                      "comment-profile-username user-" + comment.userinfo.user_id
+                      "comment-profile-username user-" + comment.userinfo.userid
                     }
                   >
                     {comment.userinfo.username}
@@ -773,7 +773,7 @@ function Comment(props) {
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
                           onEdit.active &&
-                          user.info.id === comment.userinfo.user_id
+                          user.info.id === comment.userinfo.userid
                           ? true
                           : false
                         : false
@@ -788,7 +788,7 @@ function Comment(props) {
                       user.auth
                         ? onEdit.commentno === comment.commentno &&
                           onEdit.active &&
-                          user.info.id === comment.userinfo.user_id
+                          user.info.id === comment.userinfo.userid
                           ? false
                           : true
                         : true
@@ -828,7 +828,7 @@ function Comment(props) {
                     user.auth
                       ? onEdit.commentno === comment.commentno &&
                         onEdit.active &&
-                        user.info.id === comment.userinfo.user_id
+                        user.info.id === comment.userinfo.userid
                         ? { display: "none" }
                         : { display: "flex" }
                       : { display: "flex" }
@@ -851,7 +851,7 @@ function Comment(props) {
                 </div>
               </div>
               {user.auth ? (
-                user.info.id === comment.userinfo.user_id ? (
+                user.info.id === comment.userinfo.userid ? (
                   <div className="comment-edit-section">
                     <span
                       onClick={
@@ -1020,7 +1020,7 @@ function Product(props) {
 function RelatedImages(props) {
   const userRelated = props.userRelated
   const username = props.username
-  const user_id= props.user_id
+  const userid= props.userid
   return (
 
     <div className="related-img-container">
@@ -1034,13 +1034,13 @@ function RelatedImages(props) {
           columnClassName="masonry-grid-column"
         >
           {userRelated.map(relatedPost=>(
-              <Link to={"/detail/"+relatedPost.post_id}>
+              <Link to={"/detail/"+relatedPost.postid}>
                 <img src={relatedPost.imgUrl} alt="" />
               </Link>
           ))}
 
           <div className="more">
-            <Link state={{user_id}} to={"/profile/"+username}>
+            <Link state={{userid}} to={"/profile/"+username}>
             <img
               src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
               alt=""

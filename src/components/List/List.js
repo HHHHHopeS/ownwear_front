@@ -387,7 +387,7 @@ export default function List(props) {
     
     const getListDataRequest = Object.assign({},{
       isHashtag,  //해시태그 //프로필
-      title, //해시태그 value #장준석 // user_id
+      title, //해시태그 value #장준석 // userid
       pageno // 0
     });
     getdata(getListDataRequest)
