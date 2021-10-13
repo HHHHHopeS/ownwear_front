@@ -299,14 +299,14 @@ export function getAutoComplete(inputText,keyword){
 //비밀번호 변경
 export function getChangePassword(getChangePasswordData){
     return request({
-        url:API_BASE_URL+"/changepassword",
+        url:API_BASE_URL+"/user/updateprofile",
         method:"POST",
         body:JSON.stringify(getChangePasswordData)
     })
 }
 export function getCheckPassword(getCheckPasswordData){
     return request({
-        url:API_BASE_URL+"/checkpassword",
+        url:API_BASE_URL+"/user/checkpw",
         method:"POST",
         body:JSON.stringify(getCheckPasswordData)
 
