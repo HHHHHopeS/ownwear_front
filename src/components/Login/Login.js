@@ -107,12 +107,14 @@ function LoginForm(props) {
     );
     login(loginRequest)
       .then(response => {
-        if (response.ok) {
+        
+        if (response.accessToken) {
           localStorage.setItem(ACCESS_TOKEN, response.accessToken);
           Alert.success("로그인 성공!");
 
           props.history.goBack();
         } else {
+          
           Alert.error("로그인 정보가 잘못 되었습니다. 다시 입력해주세요");
         }
       })
@@ -206,7 +208,7 @@ function SignupForm(props) {
     );
     signup(signupRequest)
       .then(response => {
-        if (response.ok) {
+        if (response.success) {
           Alert.success("you re successfuly registered! ");
           const loginRequest = Object.assign(
             {},
@@ -219,6 +221,7 @@ function SignupForm(props) {
         }
         else{
           Alert.error(response.message)
+          
         }
       })
       .catch(error => {
