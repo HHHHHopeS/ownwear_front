@@ -220,8 +220,13 @@ function SignupForm(props) {
           });
         }
         else{
-          Alert.error(response.message)
-          
+
+          if(response.status===400){
+            Alert.error(response.message)
+          }
+          else if(response.status===500){
+Alert.error("Username is already in use")
+          }
         }
       })
       .catch(error => {

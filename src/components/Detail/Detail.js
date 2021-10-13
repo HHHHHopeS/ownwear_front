@@ -30,7 +30,7 @@ import { Link } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import {
-  getDetailData, getIsLike, updateComment
+  getDetailData, getIsLike, getUserList, updateComment
 } from "../../util/APIUtils";
 import NotFound from "../404/NotFound";
 import "./Detail.scss";
@@ -133,7 +133,7 @@ export default function Detail(props) {
       },
     ],
   });
-  const [likeUserList, setLikeUserList] = useState([
+  const [userList, setUserList] = useState([
     {
       username: "카리나a",
       userid: "1",
@@ -287,7 +287,9 @@ export default function Detail(props) {
             <LikeShare
               likecount={detailPageData.likecount}
               setIsLike={setIsLike}
+              postid={postid}
               isLike={isLike}
+              setUserList={setUserList}
               setLikecount={setLikecount}
               user={user}
               show={show}
@@ -308,8 +310,8 @@ export default function Detail(props) {
           <RelatedImages userRelated={detailPageData.userRelated} username={detailPageData.postData.username} userid={detailPageData.postData.userid}/>
         </div>
         <ListModal
-        setUserList ={setLikeUserList}
-          userList={likeUserList}
+          setUserList={setUserList}
+          userList={userList}
           show={show}
           setShow={setShow}
           title={"likes"}
@@ -388,12 +390,12 @@ function Image(props) {
 
 function LikeShare(props) {
   // const postid = props.location.pathname.split("/")[3];
-
+  const postid = props.postid
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
   const [hover, setHover] = useState(false);
   const [shareActive, setShareActive] = useState(false);
-
+  const setUserList=props.setUserList
   const setShow = props.setShow;
   const isLike = props.isLike;
   const setIsLike = props.setIsLike;
@@ -401,10 +403,11 @@ function LikeShare(props) {
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
     if (user.auth) {
-      // const toggleLikeRequest = Object.assign(
-      //   {},
-      //   { userid: user.info.id, postid: postid }
-      // );
+      
+      const toggleLikeRequest = Object.assign(
+        {},
+        { userid: user.info.id, postid: postid }
+      );
       setLikecount(false);
       if (isLike) {
         setIsLike(false);
@@ -434,17 +437,29 @@ function LikeShare(props) {
     }
   };
   const activeListModal = () => {
-  //   if(user.auth){
-  //   const LikeUserListRequest = Object.assign({}, { postid: postid,userid:user.id });
-  //   // getLikeUserList(LikeUserListRequest).then(
-  //   //   response=>{
-
-  //   //   }
-  //   // )
-  // }
-  // else{
-  //   const LikeUserListRequest = Object.assign({}, { postid: postid,userid:null });
-  // }
+    if(user.auth){
+    const LikeUserListRequest = Object.assign({}, { postid: postid,userid:user.id });
+    getUserList(LikeUserListRequest).then(response=>{
+      if(response.ok){
+      setUserList(response)
+    }
+    else{
+      console.log(response)
+    }
+    })
+  }
+  else{
+    const LikeUserListRequest = Object.assign({}, { postid: postid,userid:null });
+    getUserList(LikeUserListRequest).then(response=>{
+      if(response.ok){
+      setUserList(response)
+    }
+    else{
+      console.log(response)
+    }
+    })
+  }
+    
     setShow(true);
   };
   useEffect(() => {
