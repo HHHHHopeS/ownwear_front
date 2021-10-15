@@ -10,8 +10,8 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import defaultUser from "../../res/default-user.jpeg";
 import { UserContext } from "../../common/UserContext";
-import { sendImage,changePassword,checkPassword } from "../../util/APIUtils";
-import {getChangePassword} from "../../util/APIUtils"
+import { sendImage, changePassword, checkPassword, getCheckPassword } from "../../util/APIUtils";
+import { getChangePassword } from "../../util/APIUtils"
 
 
 // const Container = styled.div`
@@ -47,30 +47,58 @@ export default function MyPage() {
     // const openModal = () => {
     //   setShowModal(prev => !prev);
     // };
-    const submit = (e)=>{
+    const submit = (e) => {
         e.preventDefault()
-        if(newPassword===newRePassword){
-            //getChangePassword().then(response=>setInputs(inputs)).catch(err=>console.log(err))
-        }else if(newPassword!=newRePassword){
+       
+
+
+    
+
+        if (newPassword === newRePassword) {
+            console.log("green")
+            console.log(user)
+            const request = Object.assign({}, { userid: user.info.userid,password: inputs.password })
+            
+            console.log(request)
+            getCheckPassword(request).then(response => {
+                
+               if(response){
+                   
+                   getChangePassword(request)
+               }
+               else{
+                   console.log(response)
+                //    alert("현재 비밀번호가 잘못되었습니다.")
+               }
+
+                // if (response.ok) {
+                //     console.log(response.ok) 
+                //     alert("비밀번호 변경완료") }
+                //     else{
+                //         console.log(response)
+                //     }
+            }).catch(err => console.log(err))
+        } else if (newPassword != newRePassword) {
+
             alert("새비밀번호 확인부탁")
         }
     }
     const [inputs, setInputs] = useState({
-        password:"",
-        newPassword:"",
-        newRePassword:""
+        password: "",
+        newPassword: "",
+        newRePassword: ""
     })
-    const {password,newPassword,newRePassword}=inputs;
+    const { password, newPassword, newRePassword } = inputs;
 
-    const onChange = (e)=>{
+    const onChange = (e) => {
         setInputs({
-            [e.target.name]:e.target.value
+            ...inputs, [e.target.name]: e.target.value
         })
-        console.log("password : "+password)
-        console.log("newPassword : "+newPassword)
-        console.log("newRePassword : "+newRePassword)
+        console.log("password : " + password)
+        console.log("newPassword : " + newPassword)
+        console.log("newRePassword : " + newRePassword)
     }
-    
+
     useEffect(() => {
         if (user.info) {
             setPreview(user.info.userimg)
@@ -156,9 +184,11 @@ export default function MyPage() {
                         {/* <button onClick={()=>setShowForm(false)} className="p-edit-btn">내정보수정</button> */}
                         <div style={showPassForm ? { display: "block" } : { display: "none" }} className="password">
                             <form action="Mypage.js" method="POST" onSubmit={submit}>
-                                <input type="password" name="password" placeholder="Password" value={password} onChange={onChange}/>
-                                <input type="password" name="newPassword" placeholder="PasswordNew" value={newPassword} onChange={onChange}/>
-                                <input type="password" name="newRePassword" placeholder="PasswordNewRe" value={newRePassword} onChange={onChange}/>                                <div className="btt">
+                                <input type="password" name="password" placeholder="Password" value={password} onChange={onChange} />
+                                <input type="password" name="newPassword" placeholder="PasswordNew" value={newPassword} onChange={onChange} />
+                                <input type="password" name="newRePassword" placeholder="PasswordNewRe" value={newRePassword} onChange={onChange} />
+
+                                <div className="btt">
                                     <button onSubmit={submit} className="pass-save">저장</button>
                                     <button onClick={(e) => { e.preventDefault(); setShowPassForm(false) }} className="pass-save">닫기</button>
                                 </div>

@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
-import { updateModalFollow } from "../../util/APIUtils";
+import { getCurrentUser, toggleFollow } from "../../util/APIUtils";
 export default function ListModal(props) {
   const title = props.title
   const show = props.show;
@@ -13,21 +13,30 @@ export default function ListModal(props) {
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
-  const controlFollow = (e, index, user_id) => {
+  const controlFollow = (e, index, userid) => {
     const target = e.currentTarget;
+    const toggleText=(el,obj)=>{
+      if(el.className==="follow"){
+        target.className="following"
+        target.innerText="following"
+        obj.follower+=1
+      }
+      else{
+        target.className="follow"
+        target.innerText="follow"
+        obj.follower-=1
+      }
+    }
     let arr = [...userList];
     const obj = userList[index];
     if(user.auth){
-    if (target.className === "follow") {
-      const updateModalFollowRequest = Object.assign(
-        {},
-        { targetuserno: user_id, user_id: user.info.id, operator: "plus" }
-      );
-      updateModalFollow(updateModalFollowRequest).then(response => {
+      
+      toggleFollow(user.info.userid,obj.userid).then(response => {
         if (response) {
-          target.className = "following";
-          target.innerText = "Following";
-          obj.follower += 1;
+          toggleText(target,obj)
+        }
+        else{
+          console.log(response)
         }
         
       }).catch(
@@ -35,29 +44,10 @@ export default function ListModal(props) {
             Alert.error("oops cannot follow")
           }
       );
-    } else {
-      const updateModalFollowRequest = Object.assign(
-        {},
-        { targetuserno: user_id, user_id: user.info.id, operator: "minus" }
-      );
-      updateModalFollow(updateModalFollowRequest).then(
-          response =>{
-            target.className = "follow";
-            target.innerText = "Follow";
-            obj.follower -= 1;
-          }
-      ).catch(err=>{
-          Alert.error("oops cannot follow")
-      });
-      
-    }
-
-
-
-
-    arr[index] = obj;
+      arr[index] = obj;
     setUserList(arr);
-}
+    } 
+    
     else{
         Alert.error("Please Login First")
         history.push("/login")
@@ -72,7 +62,7 @@ export default function ListModal(props) {
       <Modal.Body>
         {userList.length > 0 ? (
           userList.map((user, index) => (
-            <div className="user-container">
+            <div key={index} className="user-container">
               <div className="user-info-section">
                 <div className="user-info-image">
                   <Link to={"profile/" + user.username}>
@@ -91,7 +81,7 @@ export default function ListModal(props) {
                 {user.isUserFollowed ? (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, user.user_id);
+                      controlFollow(e, index, user.userid);
                     }}
                     className="following"
                   >
@@ -100,7 +90,7 @@ export default function ListModal(props) {
                 ) : (
                   <button
                     onClick={e => {
-                      controlFollow(e, index, user.user_id);
+                      controlFollow(e, index, user.userid);
                     }}
                     className="follow"
                   >

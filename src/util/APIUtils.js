@@ -56,7 +56,7 @@ export function signup(signupRequest){
 
 export function getDetailData(detailDataReqeust){
     return request({
-        url:API_BASE_URL+"/detail/"+detailDataReqeust.post_id,
+        url:API_BASE_URL+"/detail/"+detailDataReqeust.postid,
         method:"POST",
         body:JSON.stringify(detailDataReqeust)
     })
@@ -75,18 +75,12 @@ export function getDetailData(detailDataReqeust){
 
 
     //좋아요 토글
-    export function toggleLike(toggleLikeRequest){
-        return request({
-            url:API_BASE_URL+"/like/toggle",
-            method:"POST",
-            body:JSON.stringify(toggleLikeRequest)
-        })
-    }
+
 
 //팔로우 유저 목록 조회 (유저 권한은 필요 없을듯?) // 좋아요, 팔로워, 팔로잉 리스트 전부 통일
 export function getUserList(getUserListRequest){
     return request({
-        url:API_BASE_URL+"/getlist",
+        url:API_BASE_URL+"/modal/getlist",
         method:"POST",
         body:JSON.stringify(getUserListRequest)
     })
@@ -121,7 +115,7 @@ export function fetchDeleteComment(deleteCommentRequest){
 //해시태그 자동완성 요청
 export function hashtagAutoComplete(hashtagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"/hashtag/autocomplete",
+        url:API_BASE_URL+"/detail/hashtagAutoComplete",
         method:"POST",
         body:JSON.stringify(hashtagAutoCompleteRequest)
     })
@@ -131,7 +125,7 @@ export function hashtagAutoComplete(hashtagAutoCompleteRequest){
 //유저태그 자동완성 요청
 export function usertagAutoComplete(usertagAutoCompleteRequest){
     return request({
-        url:API_BASE_URL+"usertag/autocomplete",
+        url:API_BASE_URL+"/usertag/autocomplete",
         method:"POST",
         body:JSON.stringify(usertagAutoCompleteRequest)
     })
@@ -139,13 +133,7 @@ export function usertagAutoComplete(usertagAutoCompleteRequest){
 
 //좋아요모달 팔로우
 
-export function updateModalFollow(updateModalFollowRequest){
-    return request({
-        url:API_BASE_URL+"usertag/autocomplete",
-        method:"POST",
-        body:JSON.stringify(updateModalFollowRequest)
-    })
-}
+
 
 //페이징
 export function getdata(getDataRequest){
@@ -213,7 +201,7 @@ export function getHotUserData(getHotUserDataRequest){
 
 export function insertImageData(insertImageDataReqeust){
     return request({
-        url:API_BASE_URL+"/create",
+        url:API_BASE_URL+"/detail/create",
         method:"POST",
         body:JSON.stringify(insertImageDataReqeust)
     })
@@ -267,20 +255,29 @@ export function setAlertChecked(setAlertCheckedRequest){
 }
 
 
+//이거 보고 추가하셈
 
 // 프로필 subnav 데이터 가져오기
-export function getProfileSubNavData(current_username,profile_username){
+export function getProfileSubNavData(current_userid,profile_username){
     return request({
-        url:API_BASE_URL+"/subnav/profile?name="+current_username+"&profile_user_id="+profile_username,
+        url:API_BASE_URL+"/"+profile_username+"/username?current_userid="+current_userid,
         method:"get",
 
     })
 }
 
-// 프로필 subnav 팔로우 토글
-export function toggleFollow(current_username,target_username){
+export function getDetailProfileSubNavData(current_userid,postid){
+    return request({
+        url:API_BASE_URL+"/detail/post/profile?current_userid="+current_userid+"&postid="+postid,
+        method:"get",
+    })
+}
+
+// 팔로우 토글 (모달포함 )
+
+export function toggleFollow(current_userid,target_userid){
     return request ({
-        url:API_BASE_URL+"/subnav/profile?target_username="+target_username+"&current_username="+current_username,
+        url:API_BASE_URL+"/follow/toggle?target_userid="+target_userid+"&current_userid="+current_userid,
         method:"get",
     })
 }
@@ -299,18 +296,25 @@ export function getAutoComplete(inputText,keyword){
 //비밀번호 변경
 export function getChangePassword(getChangePasswordData){
     return request({
-        url:API_BASE_URL+"/changepassword",
+        url:API_BASE_URL+"/user/updateprofile",
         method:"POST",
         body:JSON.stringify(getChangePasswordData)
     })
 }
 export function getCheckPassword(getCheckPasswordData){
     return request({
-        url:API_BASE_URL+"/checkpassword",
+        url:API_BASE_URL+"/user/checkpw",
         method:"POST",
         body:JSON.stringify(getCheckPasswordData)
 
     })
 }
 
-//test
+// 랭킹페이지 리스트 불러오기
+
+export function getRankingData(type,filter,count){
+    return request({
+        url:API_BASE_URL+"/ranking?type="+type+"&filter="+filter+"&page="+count,
+        method:"get"
+    })
+}

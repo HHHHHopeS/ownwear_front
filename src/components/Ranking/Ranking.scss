@@ -1,0 +1,72 @@
+.Ranking{
+    min-height: 100vh;
+    width: 100vw;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .TopLikes{
+        width: 90%;
+        min-height: 100vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        .img-box{
+            position: relative;
+            margin-inline: .5vw;
+            margin-block: 3vh;
+        .ranking-number-tag{
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            top: 0;
+            left: 0;
+            padding: 5px ;
+            
+            border-radius: 50%;
+        }
+        
+    }
+    .box-1{
+        
+        .ranking-number-tag{
+                
+                background-color: gold;       
+
+        }
+       }
+    .box-2{
+        .ranking-number-tag{
+
+            background-color: silver;       
+
+        }
+       }
+    .box-3{
+        .ranking-number-tag{
+
+            background-color: #CD7F32;       
+
+        }
+       }
+    
+    }
+    .TopUser{
+        width: 100%;
+        min-height: 100vh;
+
+    }
+    .TopBrands{
+        width: 100%;
+        min-height: 100vh;
+
+    }
+}

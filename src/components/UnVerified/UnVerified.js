@@ -94,7 +94,7 @@ export default function UnVerified(props) {
         
       }
       
-      // updateAdditonalData
+      updateAdditonalData()
     }
     console.log(formData)
     
@@ -310,7 +310,7 @@ export default function UnVerified(props) {
                   <div className="radio">
                     <Form.Check
                       inline
-                      label="male"
+                      label="men"
                       defaultChecked
                       type={"radio"}
                       name="group-sex"
@@ -325,7 +325,7 @@ export default function UnVerified(props) {
 
                     <Form.Check
                       inline
-                      label="female"
+                      label="women"
                       value="0"
                       name="group-sex"
                       type={"radio"}

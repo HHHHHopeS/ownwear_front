@@ -386,9 +386,9 @@ export default function List(props) {
   useEffect(()=>{
     
     const getListDataRequest = Object.assign({},{
-      isHashtag,
-      title,
-      pageno
+      isHashtag,  //해시태그 //프로필
+      title, //해시태그 value #장준석 // userid
+      pageno // 0
     });
     getdata(getListDataRequest)
     .then(response => {

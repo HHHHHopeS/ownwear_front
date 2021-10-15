@@ -15,7 +15,12 @@ import { Breadcrumb } from "react-bootstrap";
 import { Link, Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-import { getUserList, getProfileSubNavData, toggleFollow } from "../../util/APIUtils";
+import {
+  getUserList,
+  getProfileSubNavData,
+  toggleFollow,
+  getDetailProfileSubNavData,
+} from "../../util/APIUtils";
 import Alert from "react-s-alert";
 import "./SubNav.scss";
 import calculateScale from "../../util/numberUtils";
@@ -24,78 +29,86 @@ import ListModal from "../Modal/ListModal";
 export default function SubNav(props) {
   const { user } = useContext(UserContext);
   const history = useHistory();
-  const [show,setShow] = useState(false)
-  const [title,setTitle] = useState(null)
-  const [userList,setUserList] = useState([
+  const [show, setShow] = useState(false);
+  const [title, setTitle] = useState(null);
+  const [info, setInfo] = useState({ user: null });
+  let setId = props.setId;
+  const [userList, setUserList] = useState([
     {
       username: "카리나a",
-      user_id: "1",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "1",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:false
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: false,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:false
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: false,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
     {
       username: "카리나a",
-      user_id: "3",
-      userImg: "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower:12050,
-      isUserFollowed:true
+      userid: "3",
+      userImg:
+        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
+      follower: 12050,
+      isUserFollowed: true,
     },
-  ])
+  ]);
   // 팔로잉 언팔 버튼 토글 return true false
 
-  const followOrNot = (current_username, target_username) => {
+  const followOrNot = (current_userid, target_userid) => {
     if (user.auth) {
-      toggleFollow(current_username, target_username);
+      toggleFollow(current_userid, target_userid);
     } else {
       Alert.error("please login first");
       history.push("/login");
     }
   };
-
-  
 
   const Main = () => {
     return (
@@ -133,45 +146,76 @@ export default function SubNav(props) {
       </div>
     );
   };
-  const Detail = () => {
+  const Detail = props => {
+    const postid = props.location.pathname.split("/")[2];
+    let request =null
+    if(user.info){
+
+     request = Object.assign(
+      {},
+      { current_userid: user.info.userid, postid }
+    );
+  }
+  else{
+    request= Object.assign(
+      {},
+      { current_userid: null, postid }
+    );
+  }
+    useEffect(() => {
+      getDetailProfileSubNavData(request).then(res => {
+        if (res.ok) {
+          setInfo(res);
+        }
+        else{
+          console.log(res)
+        }
+      }).catch(err=>console.log(err));
+    }, []);
     return (
+      
       <div className="detail">
+        {info.user?
+        <>
         <div className="subnav-breadcrumb-section">
           <Breadcrumb>
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />
             </Breadcrumb.Item>
-            <Breadcrumb.Item active>username</Breadcrumb.Item>
+            <Breadcrumb.Item active>{info.user.username}</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="subnav-main-section">
           <div className="subnav-main-profile">
             <div className="img-section">
-              <img src={defaultUser} alt="" />
+              <img src={info.user.userimg?info.user.userimg:defaultUser} alt="" />
             </div>
             <div className="profile-section">
               <div className="profile-name-section">
-                <button>username</button>
+                <Link to={"/profile/"+info.user.username}>{info.user.username}</Link>
               </div>
               <div className="profile-info-section">
                 <div>
-                  <span>164cm</span>
+                  <span>{info.user.height}cm</span>
                 </div>
                 <div>
-                  <span>women</span>
+                  <span>{info.user.sex===0?"women":"men"}</span>
                 </div>
               </div>
             </div>
           </div>
           <div className="follow-btn-section">
-            <button className="follow-button">Follow</button>
+            <button onClick={()=>{followOrNot(user.info.userid,info.user.userid)}} className="follow-button">Follow</button>
           </div>
         </div>
+        </>
+        :null}
       </div>
+      
     );
   };
   const Ranking = props => {
-    const [rankingTitle, setRankingTitle] = useState("LIKES");
+    const [rankingTitle, setRankingTitle] = useState("");
     const setChange = props.setChange;
 
     const location = useLocation();
@@ -184,22 +228,27 @@ export default function SubNav(props) {
       event.target.classList.add("active");
     };
 
-    const RankButtonEvent = event => {
-      setRankingTitle(event.target.innerText);
-    };
+    
+
+    useEffect(()=>{
+      setRankingTitle(location.pathname.split("/")[2])
+      document.querySelector(`.btn-${location.pathname.split("/")[2]}`).classList.add("active")
+      document.querySelector(`.sub-btn-${location.pathname.split("/")[3]}`).classList.add("active")
+      
+    },[location.pathname])
 
     return (
       <div className="ranking">
         <div className="buttons-section">
-          <button className="subnav-btn-like" onClick={RankButtonEvent}>
-            <Link to={`${location.pathname}/likes`}>LIKES</Link>
-          </button>
-          <button className="subnav-btn-follower" onClick={RankButtonEvent}>
-            <Link to={`${location.pathname}/follower`}>FOLLOWER</Link>
-          </button>
-          <button className="subnav-btn-brand" onClick={RankButtonEvent}>
-            <Link to={`${location.pathname}/follower`}> BRAND</Link>
-          </button>
+
+            <Link className="btn-likes" to={`/ranking/likes/all`}>LIKES</Link>
+
+
+            <Link className="btn-user"  to={`/ranking/user/all`}>USER</Link>
+
+
+            <Link className="btn-brand" to={`/ranking/brand/all`} > BRAND</Link>
+
         </div>
         <div className="title-section">
           <div className="title-container">
@@ -210,67 +259,66 @@ export default function SubNav(props) {
           </div>
         </div>
         <div className="sub-buttons-section">
-          <button className="subnav-sbbtn-all" onClick={subButtonEvent}>
+          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/all"} className="sub-btn-all" >
             ALL
-          </button>
-          <button className="subnav-sbbtn-men" onClick={subButtonEvent}>
+          </Link>
+          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/men"} className="sub-btn-men" >
             MEN
-          </button>
-          <button className="subnav-sbbtn-women" onClick={subButtonEvent}>
+          </Link>
+          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/women"} className="sub-btn-women" >
             WOMEN
-          </button>
+          </Link>
         </div>
       </div>
     );
   };
   // 프로필
   const Profile = props => {
-    const [info, setInfo] = useState({
-      user: {
-        user_id: 1,
-        username: "aa",
-        userimg: "",
-        instaid: "asd",
-        twitterid: "asd",
-        pinterestid: "asdb",
-        height: "160",
-        sex: 0,
-      },
-      isfollowing: true,
-      favbrands: ["nike", "balenciaga", "neighborhood"],
-      followercount: 1521,
-      followingcount: 1555,
-      postcount: 152,
-    });
+    const toggleFollowModal = e => {
+      const type = e.currentTarget.classList[1]; //follwer , f, like
+      console.log(type);
+      const request = Object.assign(
+        {},
+        {
+          type,
+          current_userid: user.info.userid,
+          targetid: info.user.userid,
+        }
+      );
+      getUserList(request)
+        .then(response => {
+          if (response.ok) {
+            setUserList(response);
+          } else {
+            console.log(response);
+          }
+        })
+        .catch(err => console.log);
+      setTitle(type);
 
-    
-    const toggleFollowModal = (e)=>{
-      const type = e.currentTarget.classList[1]  //follwer , f, like
-      // const request = Object.assign({},{type,current_username:user.info.username,target_id:info.user.username})
-      // getUserList(request).then(response=>setUserList(response)).catch(err=>console.log)
-      setTitle(type)
-  
-      setShow(true)
-    }
+      setShow(true);
+    };
+
     useEffect(() => {
       const profile_username = props.location.pathname.split("/")[2];
-      const current_username = user.info.username;
+      const current_userid = user.info.userid;
 
-      
-      // getProfileSubNavData(profile_username, current_username)
-      //   .then(res => {
-      //     if (res.ok) {
-      //       setInfo(res)
-      //     } else {
-      //       history.push("/404")
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
+      getProfileSubNavData(current_userid, profile_username)
+        .then(res => {
+          if (res.ok) {
+            setInfo(res);
+          } else {
+            console.log(res);
+            // history.push("/404")
+          }
+        })
+        .catch(err => {
+          console.log(err);
 
-      //     history.push("/404")
-      //   });
+          history.push("/404");
+        });
     }, [props.location.pathname]);
+
     return (
       <div className="profile">
         <div className="subnav-breadcrumb-section">
@@ -289,21 +337,24 @@ export default function SubNav(props) {
           <div className="left-section">
             <div className="img-section">
               <img
-                src={info.user&&info.user.userimg? info.user.userimg : defaultUser}
+                src={
+                  info.user && info.user.userimg
+                    ? info.user.userimg
+                    : defaultUser
+                }
                 alt=""
               />
             </div>
             <div className="follower-section">
-                <div onClick={toggleFollowModal} className="f-box follower">
-                  <span className="title">Follower</span>
-                  <span>{calculateScale(info.followercount)}</span>
-                </div>
-                <div onClick={toggleFollowModal} className="f-box following">
-                <span className="title">Following</span>
-                  <span>{calculateScale(info.followercount)}</span>
-                </div>
+              <div onClick={toggleFollowModal} className="f-box follower">
+                <span className="title">Follower</span>
+                <span>{calculateScale(info.followercount)}</span>
               </div>
-            
+              <div onClick={toggleFollowModal} className="f-box following">
+                <span className="title">Following</span>
+                <span>{calculateScale(info.followercount)}</span>
+              </div>
+            </div>
           </div>
           <div className="right-section">
             <div className="profile-section">
@@ -312,33 +363,49 @@ export default function SubNav(props) {
               </div>
               <div className="profile-info-section">
                 <div className="profile-span-container">
-                  <span className="user-height">{info.user?info.user.height+"cm":null}</span>
+                  <span className="user-height">
+                    {info.user ? info.user.height + "cm" : null}
+                  </span>
                 </div>
                 <div className="profile-span-container">
-                  <span className="user-gender">{info.user&&info.user.sex===0?"female":"male"}</span>
+                  <span className="user-gender">
+                    {info.user && info.user.sex === 0 ? "women" : "men"}
+                  </span>
                 </div>
               </div>
               <div className="sns-tag-section">
                 <div className="sns-icon-container">
                   <a
-                    href={info.user?"https://instagram.com/" + info.user.instaid:null}
-                    hidden={info.user&&info.user.instaid ? false : true}
+                    href={
+                      info.user
+                        ? "https://instagram.com/" + info.user.instaid
+                        : null
+                    }
+                    hidden={info.user && info.user.instaid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
                     <FontAwesomeIcon icon={faInstagram} />
                   </a>
                   <a
-                    href={info.user?"https://pinterest.com/" + info.user.pinterestid:null}
-                    hidden={info.user&&info.user.pinterestid ? false : true}
+                    href={
+                      info.user
+                        ? "https://pinterest.com/" + info.user.pinterestid
+                        : null
+                    }
+                    hidden={info.user && info.user.pinterestid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
                     <FontAwesomeIcon icon={faPinterest} />
                   </a>
                   <a
-                    href={info.user?"https://twitter.com/" + info.user.twitterid:null}
-                    hidden={info.user&&info.user.twitterid ? false : true}
+                    href={
+                      info.user
+                        ? "https://twitter.com/" + info.user.twitterid
+                        : null
+                    }
+                    hidden={info.user && info.user.twitterid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -347,7 +414,9 @@ export default function SubNav(props) {
                 </div>
               </div>
               <div
-                hidden={info.favbrands&&info.favbrands.length > 0 ? false : true}
+                hidden={
+                  info.favbrands && info.favbrands.length > 0 ? false : true
+                }
                 className="fav-brand-section"
               >
                 <span>favourite-brand : </span>
@@ -359,14 +428,15 @@ export default function SubNav(props) {
                     : null}
                 </div>
               </div>
-              
             </div>
             <div className="button-section">
-              {user.info&&info.user?user.info.uername !== info.user.username ? (
-                <button onClick={followOrNot} className="follow-button">
-                  {info.isfollowing ? "unfollow" : "follow"}
-                </button>
-              ):null : null}
+              {user.info && info.user ? (
+                user.info.uername !== info.user.username ? (
+                  <button onClick={(e)=>followOrNot(user.info.userid,info.user.userid)} className="follow-button">
+                    {info.isfollowing ? "unfollow" : "follow"}
+                  </button>
+                ) : null
+              ) : null}
             </div>
           </div>
         </div>
@@ -428,18 +498,18 @@ export default function SubNav(props) {
         <Route exact path="/login" component={Login} />
         <Route exact path="/list/:id/:id/:id" component={List} />
         <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/ranking" component={Ranking} />
+        <Route exact path="/ranking/:id/:id" component={Ranking} />
         <Route exact path="/profile/:id" component={Profile} />
         <Route exact path="/mypage" component={MyPage} />
         <Route component={NotFound} />
       </Switch>
       <ListModal
-      title={title}
-        setUserList ={setUserList}
-          userList={userList}
-          show={show}
-          setShow={setShow}
-        />
+        title={title}
+        setUserList={setUserList}
+        userList={userList}
+        show={show}
+        setShow={setShow}
+      />
     </div>
   );
 }

@@ -114,6 +114,7 @@ export default function SearchBar(props) {
     }
   }, [count])
 
+
   return (
     <div className="SearchBar">
       <div className="search-section">

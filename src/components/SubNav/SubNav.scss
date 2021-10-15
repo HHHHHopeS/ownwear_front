@@ -139,21 +139,26 @@
       align-items: center;
       justify-content: space-evenly;
       border-bottom: 1px solid $primary;
-      button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-weight: 700;
-        font-size: 20px;
+
 
         a {
           text-decoration: none;
           color: black;
-        }
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: 700;
+          font-size: 20px;
+          &:hover{
+            
+              border-bottom: 3px solid $primary;
+  
+          }
       }
-      button:hover {
+      a.active{
         border-bottom: 3px solid $primary;
       }
+
     }
     .title-section {
       height: 45%;
@@ -164,6 +169,7 @@
         margin: 60px 12%;
         h1 {
           font-weight: 600;
+          text-transform: uppercase;
           svg {
             margin-right: 10px;
           }
@@ -178,7 +184,7 @@
       justify-content: flex-end;
       margin-right: 12%;
 
-      button {
+      a {
         background: none;
         border: 2px solid $primary;
         border-bottom: none;
@@ -190,9 +196,12 @@
 
         height: 45px;
         width: 120px;
+        text-decoration: none;
+        text-align: center;
+        color: black;
       }
 
-      button.active {
+      a.active {
         background-color: $primary;
       }
       button:focus {
