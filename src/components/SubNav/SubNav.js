@@ -226,7 +226,7 @@ export default function SubNav(props) {
             </h1>
           </div>
         </div>
-        <div className="sub-buttons-section">
+        <div hidden={location.pathname.includes("brand")?true:false} className="sub-buttons-section">
           <Link
             to={"/ranking/" + location.pathname.split("/")[2] + "/all"}
             className="sub-btn-all"

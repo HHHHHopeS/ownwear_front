@@ -199,12 +199,12 @@ export default function Nav(props) {
     <div className="Nav">
       <div className="nav-section">
         <ul style={user.auth ? {} : { marginLeft: "-5%" }}>
-          <li>
+          <li className="search-bar-section">
             <div className="search-bar-container">
-              <SearchBar  keyword={keyword} setKeyword={setKeyword} />
+              <SearchBar loseSearchBar={loseSearchBar} keyword={keyword} setKeyword={setKeyword} />
             </div>
           </li>
-          <li>
+          <li className="logo-section">
             <Link to="/">
               <button>
                 <img className="logo-image" src={logo} alt="logo" />
@@ -212,7 +212,7 @@ export default function Nav(props) {
             </Link>
           </li>
           {!user.auth ? (
-            <li>
+            <li className="menu-section">
               <Link to="/login">
                 <button>SingIn/Signup</button>
               </Link>

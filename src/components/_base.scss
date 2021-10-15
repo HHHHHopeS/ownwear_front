@@ -10,6 +10,7 @@ $breakpoint-wide-screen: 1440px;
 $creat-bg: #f9f8f7;
 $boxshadow-bottom:inset 0px -1px 0px #f3f3f4;
 $boxshadow-all:inset 0px -1px 0px #f3f3f4;
+$boxshadow-container:rgba(0, 0, 0, 0.16) 0px 1px 4px;
 @mixin mobile {
   @media (min-width: #{$breakpoint-mobile}) and (max-width:#{$breakpoint-tablet - 1px}) {
     @content;
