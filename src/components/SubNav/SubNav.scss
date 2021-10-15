@@ -77,7 +77,19 @@
         .profile-section {
           display: flex;
           flex-direction: column;
-
+          .profile-name-section{
+            
+            a{
+              margin-left: 25px;
+              text-decoration: none;
+              color: black;
+              font-weight: bold;
+              font-size: 35px;
+              &:hover{
+                text-decoration: underline;
+              }
+            }
+          }
           .profile-info-section {
             display: flex;
             flex-direction: row;

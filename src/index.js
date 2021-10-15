@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import Alert from "react-s-alert";
 import App from "./App";
-
+import { ScrollPosition } from "./common/ScrollContext";
 import { UserProvider } from "./common/UserContext";
 import "./index.scss";
-import { ScrollPosition } from "./common/ScrollContext";
+
 
 ReactDOM.render(
   <UserProvider>
