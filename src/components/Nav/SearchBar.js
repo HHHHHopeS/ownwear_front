@@ -1,10 +1,8 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import _ from "lodash";
+import React, { useCallback, useEffect, useState } from 'react';
 import SearchToolBox from "../SearchToolBox/SearchToolBox";
-import { useCallback, useEffect, useRef, useState } from "react"
-import { getAutoComplete } from "../../util/APIUtils";
-import React from 'react'
-import _ from "lodash"
 
 export default function SearchBar(props) {
   function clickSearchBar() {

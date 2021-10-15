@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useCallback } from 'react';
-import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { MdClose } from 'react-icons/md';
+import { animated, useSpring } from 'react-spring';
+import styled from 'styled-components';
 
 const Background = styled.div`
   width: 100%;

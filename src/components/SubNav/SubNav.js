@@ -1,104 +1,35 @@
 import {
   faInstagram,
   faPinterest,
-  faTwitter,
+  faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faCrown,
   faHashtag,
   faHome,
-  faUserAlt,
+  faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
-import { Link, Route, Switch, useLocation, useHistory } from "react-router-dom";
+import { Link, Route, Switch, useHistory, useLocation,Redirect } from "react-router-dom";
+import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
 import {
-  getUserList,
-  getProfileSubNavData,
-  toggleFollow,
-  getDetailProfileSubNavData,
+  deleteDetailPage, getDetailProfileSubNavData, getProfileSubNavData, getUserList, toggleFollow
 } from "../../util/APIUtils";
-import Alert from "react-s-alert";
-import "./SubNav.scss";
 import calculateScale from "../../util/numberUtils";
-import ListModal from "../Modal/ListModal";
+import "./SubNav.scss";
 
 export default function SubNav(props) {
   const { user } = useContext(UserContext);
   const history = useHistory();
-  const [show, setShow] = useState(false);
-  const [title, setTitle] = useState(null);
-  const [info, setInfo] = useState({ user: null });
-  let setId = props.setId;
-  const [userList, setUserList] = useState([
-    {
-      username: "카리나a",
-      userid: "1",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: false,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: false,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-    {
-      username: "카리나a",
-      userid: "3",
-      userImg:
-        "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-      follower: 12050,
-      isUserFollowed: true,
-    },
-  ]);
+  const setShow = props.setShow;
+  const setUserList = props.setUserList;
+  const setTitle= props.setTitle
+  const [info, setInfo] = useState(null);
+  
   // 팔로잉 언팔 버튼 토글 return true false
 
   const followOrNot = (current_userid, target_userid) => {
@@ -147,71 +78,104 @@ export default function SubNav(props) {
     );
   };
   const Detail = props => {
-    const postid = props.location.pathname.split("/")[2];
-    let request =null
-    if(user.info){
+    const { pathname } = useHistory();
 
-     request = Object.assign(
-      {},
-      { current_userid: user.info.userid, postid }
-    );
-  }
-  else{
-    request= Object.assign(
-      {},
-      { current_userid: null, postid }
-    );
-  }
     useEffect(() => {
-      getDetailProfileSubNavData(request).then(res => {
-        if (res.ok) {
-          setInfo(res);
+      const postid = props.location.pathname.split("/")[2];
+      let current_userid = -1;
+
+      if (user.auth) {
+        current_userid = user.info.userid;
+      }
+
+      if(!info||info.postid!==postid){
+        getDetailProfileSubNavData(current_userid, postid)
+          .then(res => setInfo({ ...info, user: res, postid: postid }))
+          .catch(err => console.log(err));
+          }
+
+    }, [info,props.location.pathname]);
+
+    const deleteThisPost = ()=>{
+
+      const postid= parseInt(props.location.pathname.split("/")[2])
+      const request = Object.assign({},{postid:3})
+      if(window.confirm("정말 포스트를 지우겠습니까?")){
+        if(window.confirm("정말루?")){
+          
+          deleteDetailPage(request).then(response=>{
+            console.log(response)
+          }).catch(err=>{Alert.error("에러가 발생했습니다 ㅠㅠ")})
         }
-        else{
-          console.log(res)
-        }
-      }).catch(err=>console.log(err));
-    }, []);
+      }
+    }
+
     return (
-      
       <div className="detail">
-        {info.user?
-        <>
-        <div className="subnav-breadcrumb-section">
-          <Breadcrumb>
-            <Breadcrumb.Item href="/">
-              <FontAwesomeIcon icon={faHome} />
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active>{info.user.username}</Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="subnav-main-section">
-          <div className="subnav-main-profile">
-            <div className="img-section">
-              <img src={info.user.userimg?info.user.userimg:defaultUser} alt="" />
+        {info&&info.user ? (
+          <>
+            <div className="subnav-breadcrumb-section">
+              <Breadcrumb>
+                <Breadcrumb.Item href="/">
+                  <FontAwesomeIcon icon={faHome} />
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>{info.user.username}</Breadcrumb.Item>
+              </Breadcrumb>
             </div>
-            <div className="profile-section">
-              <div className="profile-name-section">
-                <Link to={"/profile/"+info.user.username}>{info.user.username}</Link>
+            <div className="subnav-main-section">
+              <div className="subnav-main-profile">
+                <div className="img-section">
+                  <img
+                    src={info.user.userimg ? info.user.userimg : defaultUser}
+                    alt=""
+                  />
+                </div>
+                <div className="profile-section">
+                  <div className="profile-name-section">
+                    <Link to={"/profile/" + info.user.username}>
+                      {info.user.username}
+                    </Link>
+                  </div>
+                  <div className="profile-info-section">
+                    <div>
+                      <span>{info.user.height?info.user.height+"cm":"160cm"}</span>
+                    </div>
+                    <div>
+                      <span>{info.user.sex === 0 ? "women" : "men"}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="profile-info-section">
-                <div>
-                  <span>{info.user.height}cm</span>
-                </div>
-                <div>
-                  <span>{info.user.sex===0?"women":"men"}</span>
-                </div>
+              <div className="follow-btn-section">
+                {user.info?user.info.userid !== info.user.userid ? (
+                  <button
+                    onClick={() => {
+                      followOrNot(user.info&&user.info.userid, info.user.userid);
+                    }}
+                    className="follow-button"
+                  >
+                    Follow
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => deleteThisPost()}
+                    className="delete-button"
+                  >
+                    Delete
+                  </button>
+                ): <button
+                onClick={() => {
+                  followOrNot(user.info&&user.info.userid, info.user.userid);
+                }}
+                className="follow-button"
+              >
+                Follow
+              </button>}
               </div>
             </div>
-          </div>
-          <div className="follow-btn-section">
-            <button onClick={()=>{followOrNot(user.info.userid,info.user.userid)}} className="follow-button">Follow</button>
-          </div>
-        </div>
-        </>
-        :null}
+          </>
+        ) : null}
       </div>
-      
     );
   };
   const Ranking = props => {
@@ -228,27 +192,31 @@ export default function SubNav(props) {
       event.target.classList.add("active");
     };
 
-    
-
-    useEffect(()=>{
-      setRankingTitle(location.pathname.split("/")[2])
-      document.querySelector(`.btn-${location.pathname.split("/")[2]}`).classList.add("active")
-      document.querySelector(`.sub-btn-${location.pathname.split("/")[3]}`).classList.add("active")
-      
-    },[location.pathname])
+    useEffect(() => {
+      setRankingTitle(location.pathname.split("/")[2]);
+      document
+        .querySelector(`.btn-${location.pathname.split("/")[2]}`)
+        .classList.add("active");
+      document
+        .querySelector(`.sub-btn-${location.pathname.split("/")[3]}`)
+        .classList.add("active");
+    }, [location.pathname]);
 
     return (
       <div className="ranking">
         <div className="buttons-section">
+          <Link className="btn-likes" to={`/ranking/likes/all`}>
+            LIKES
+          </Link>
 
-            <Link className="btn-likes" to={`/ranking/likes/all`}>LIKES</Link>
+          <Link className="btn-user" to={`/ranking/user/all`}>
+            USER
+          </Link>
 
-
-            <Link className="btn-user"  to={`/ranking/user/all`}>USER</Link>
-
-
-            <Link className="btn-brand" to={`/ranking/brand/all`} > BRAND</Link>
-
+          <Link className="btn-brand" to={`/ranking/brand/all`}>
+            {" "}
+            BRAND
+          </Link>
         </div>
         <div className="title-section">
           <div className="title-container">
@@ -259,13 +227,22 @@ export default function SubNav(props) {
           </div>
         </div>
         <div className="sub-buttons-section">
-          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/all"} className="sub-btn-all" >
+          <Link
+            to={"/ranking/" + location.pathname.split("/")[2] + "/all"}
+            className="sub-btn-all"
+          >
             ALL
           </Link>
-          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/men"} className="sub-btn-men" >
+          <Link
+            to={"/ranking/" + location.pathname.split("/")[2] + "/men"}
+            className="sub-btn-men"
+          >
             MEN
           </Link>
-          <Link to={"/ranking/"+location.pathname.split("/")[2]+"/women"} className="sub-btn-women" >
+          <Link
+            to={"/ranking/" + location.pathname.split("/")[2] + "/women"}
+            className="sub-btn-women"
+          >
             WOMEN
           </Link>
         </div>
@@ -282,43 +259,50 @@ export default function SubNav(props) {
         {
           type,
           current_userid: user.info.userid,
-          targetid: info.user.userid,
+          // 유저 프로필 불러오기 완성되면 변경
+
+          targetid:info.user.userid
+
         }
       );
+      console.log(type)
       getUserList(request)
         .then(response => {
-          if (response.ok) {
-            setUserList(response);
-          } else {
-            console.log(response);
-          }
+        
+          console.log(response)
+         setUserList(response)
         })
         .catch(err => console.log);
       setTitle(type);
-
+        
       setShow(true);
     };
-
+    
     useEffect(() => {
-      const profile_username = props.location.pathname.split("/")[2];
-      const current_userid = user.info.userid;
-
+      const profile_username = props.location.pathname.split("/")[2];  
+      
+      
+      let current_userid = -1;
+      if (user.info) {
+        current_userid = user.info.userid;
+      }
+      
+      //프로필 유저정보
+      if(!info||info.postid){
       getProfileSubNavData(current_userid, profile_username)
         .then(res => {
-          if (res.ok) {
-            setInfo(res);
-          } else {
-            console.log(res);
-            // history.push("/404")
-          }
+          console.log(res)
+            setInfo(res)
+
         })
         .catch(err => {
           console.log(err);
 
           history.push("/404");
         });
-    }, [props.location.pathname]);
-
+      }
+    }, [info,props.location.pathname]);
+    if(info&&info.user){
     return (
       <div className="profile">
         <div className="subnav-breadcrumb-section">
@@ -329,7 +313,7 @@ export default function SubNav(props) {
             <Breadcrumb.Item active>user</Breadcrumb.Item>
 
             <Breadcrumb.Item active>
-              {info.user ? info.user.username : null}
+              {info&&info.user ? info.user.username : null}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -338,7 +322,7 @@ export default function SubNav(props) {
             <div className="img-section">
               <img
                 src={
-                  info.user && info.user.userimg
+                  info && info.user.userimg
                     ? info.user.userimg
                     : defaultUser
                 }
@@ -348,11 +332,11 @@ export default function SubNav(props) {
             <div className="follower-section">
               <div onClick={toggleFollowModal} className="f-box follower">
                 <span className="title">Follower</span>
-                <span>{calculateScale(info.followercount)}</span>
+                <span>{info&&info.follower&&calculateScale(info.follower)}</span>
               </div>
               <div onClick={toggleFollowModal} className="f-box following">
                 <span className="title">Following</span>
-                <span>{calculateScale(info.followercount)}</span>
+                <span>{info&&info.following&&calculateScale(info.following)}</span>
               </div>
             </div>
           </div>
@@ -364,7 +348,7 @@ export default function SubNav(props) {
               <div className="profile-info-section">
                 <div className="profile-span-container">
                   <span className="user-height">
-                    {info.user ? info.user.height + "cm" : null}
+                    {info.user&&info.user.height ? info.user.height + "cm" : "160cm"}
                   </span>
                 </div>
                 <div className="profile-span-container">
@@ -393,7 +377,7 @@ export default function SubNav(props) {
                         ? "https://pinterest.com/" + info.user.pinterestid
                         : null
                     }
-                    hidden={info.user && info.user.pinterestid ? false : true}
+                    hidden={info && info.user.pinterestid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -405,7 +389,7 @@ export default function SubNav(props) {
                         ? "https://twitter.com/" + info.user.twitterid
                         : null
                     }
-                    hidden={info.user && info.user.twitterid ? false : true}
+                    hidden={info && info.twitterid ? false : true}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -415,14 +399,14 @@ export default function SubNav(props) {
               </div>
               <div
                 hidden={
-                  info.favbrands && info.favbrands.length > 0 ? false : true
+                  info.user&&info.user.favbrands && info.user.favbrands.length > 0 ? false : true
                 }
                 className="fav-brand-section"
               >
                 <span>favourite-brand : </span>
                 <div className="button-container">
-                  {info.favbrands
-                    ? info.favbrands.map(brand => (
+                  {info&&info.user.favbrands
+                    ? info.user.favbrands.map(brand => (
                         <Link to={"/list/brand/" + brand + "/1"}>{brand}</Link>
                       ))
                     : null}
@@ -432,8 +416,14 @@ export default function SubNav(props) {
             <div className="button-section">
               {user.info && info.user ? (
                 user.info.uername !== info.user.username ? (
-                  <button onClick={(e)=>followOrNot(user.info.userid,info.user.userid)} className="follow-button">
-                    {info.isfollowing ? "unfollow" : "follow"}
+                  <button
+                    onClick={e =>
+                      followOrNot(user.info.userid, info.user.userid)
+                    }
+                    className="follow-button"
+                    hidden={user.info&&user.info.username!==info.user.username?false:true}
+                  >
+                    {info.user&&info.user.isfollowing ? "unfollow" : "follow"}
                   </button>
                 ) : null
               ) : null}
@@ -442,6 +432,12 @@ export default function SubNav(props) {
         </div>
       </div>
     );
+  }
+  else{
+    return(
+      null
+    )
+  }
   };
 
   const MyPage = () => {
@@ -503,13 +499,7 @@ export default function SubNav(props) {
         <Route exact path="/mypage" component={MyPage} />
         <Route component={NotFound} />
       </Switch>
-      <ListModal
-        title={title}
-        setUserList={setUserList}
-        userList={userList}
-        show={show}
-        setShow={setShow}
-      />
+      
     </div>
   );
 }
