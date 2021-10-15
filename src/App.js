@@ -25,7 +25,7 @@ import SubNav from './components/SubNav/SubNav';
 import UnVerified from "./components/UnVerified/UnVerified";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
-import { getCurrentUser } from "./util/APIUtils";
+import { getCurrentUser, getUserList,toggleFollow } from "./util/APIUtils";
 
 
 
@@ -41,7 +41,45 @@ const [userList,setUserList] = useState([])
 const [title,setTitle]=useState("")
 const history = useHistory()
 
+const  followOrNot = async (current_userid, target_userid) => {
+  
+  if (user.auth) {
+    let response = await toggleFollow(current_userid, target_userid).then(bool=>bool)
+    return response
+  } else {
+    Alert.error("please login first");
+    history.push("/login");
+  }
+  
 
+};
+
+const toggleFollowModal = (e,type,userid) => {
+   //follwer , f, like
+  
+  const request = Object.assign(
+    {},
+    {
+      type,
+      current_userid: user.info.userid,
+      // 유저 프로필 불러오기 완성되면 변경
+
+      targetid:userid
+
+    }
+  );
+  
+  getUserList(request)
+    .then(response => {
+    
+      console.log(response)
+     setUserList(response)
+    })
+    .catch(err => console.log);
+  setTitle(type);
+    
+  setShow(true);
+};
 
 const handleLogout= ()=>{
   localStorage.removeItem(ACCESS_TOKEN);
@@ -128,7 +166,7 @@ else return null
     <div className="App">
       
       <Nav onLogout={handleLogout}/>
-      <SubNav setUserList={setUserList} setTitle={setTitle} setShow={setShow} setId={setId} />
+      <SubNav followOrNot={followOrNot} toggleFollowModal={toggleFollowModal} />
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
         
@@ -146,7 +184,7 @@ else return null
           
           <CacheRoute saveScrollPosition="true" when="always" cacheKey="Ranking" exact path="/ranking/:id/:id" >
 
-            <Ranking></Ranking>
+            <Ranking followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}></Ranking>
 
           </CacheRoute>
           
@@ -172,6 +210,7 @@ else return null
           setShow={setShow}
           title={title}
         />
+        
     </div>
     
   );

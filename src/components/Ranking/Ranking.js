@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
-import { Route, Switch, useLocation } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { Route, Switch, useHistory, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useDidCache, useDidRecover } from "react-router-cache-route";
 import LoadingIndicator from "../../common/LoadingIndicator";
@@ -9,29 +9,44 @@ import ImgBox from "../ImgBox/ImgBox";
 import defaultUser from "../../res/default-user.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Ranking.scss";
-import { data } from "./sampleData";
+import { brandData, data,userdata } from "./sampleData";
 import sample from "../../res/sample.png";
+import calculateScale from "../../util/numberUtils"
+import ReactTooltip from "react-tooltip";
+import { getRankingData } from "../../util/APIUtils";
 import {
   faInstagram,
   faPinterest,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { UserContext } from "../../common/UserContext";
 
 export default function Ranking(props) {
   const [list, setList] = useState([]);
   const [isThreshold, setIsThreshold] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isMaxCount, setIsMaxCount] = useState(false);
-  const [likeList, setLikeList] = useState({});
-
+  const [maxCount,setMaxCount] = useState(9);
   const [count, setCount] = useState(0);
   const { pathname } = useLocation();
+  const {user} = useContext(UserContext)
+  const toggleFollowModal = props.toggleFollowModal
+  const followOrNot = props.followOrNot
+  const history = useHistory()
   let type = pathname.split("/")[2];
   //like - user - brand
   let filter = pathname.split("/")[3];
+  //all - men - women 
   useDidCache(() => {}, [list]);
   useDidRecover(() => {}, [list]);
   ScrollHandler();
+  const setData = (bool,index)=>{
+    let follower = list[type][filter][index].follower
+    if(bool){follower=follower+1}
+    else {follower=follower-1}
+    console.log(follower)
+    setList({...list,[type]:{...list[type],[filter]:[...list[type][filter],{...list[type][filter][index],follower,user:{...list[type][filter][index].user,isfollowing:bool?true:false}}]}})
+  }
   const TopLikes = props => {
     return (
       <div id="toplike" className="TopLikes">
@@ -53,8 +68,11 @@ export default function Ranking(props) {
     );
   };
   const TopUser = props => {
+    
     return (
       <div id="topuser" className="TopUser">
+        <ReactTooltip effect="solid" >
+                      </ReactTooltip>
         {list[[type]] &&
           list[[type]][[filter]] &&
           list[[type]][[filter]].length > 0 &&
@@ -70,45 +88,48 @@ export default function Ranking(props) {
               </div>
               <div className="center">
                 <div className="img-section">
-                  <Link to="">
-                    <img src={defaultUser} alt="" />
+                  <Link to={"/profile/"+data.user.username}>
+                    <img src={data.user.userimg?data.user.userimg:defaultUser} alt="" />
                   </Link>
                 </div>
                 <div className="info-section">
                   <div className="user-info-main">
-                    <div className="username-section">
-                      <Link to="">AA</Link>
+                    <div  className="username-section">
+   
+                      <Link style={data.user.username.length>20?{fontSize:"20px"}:{}} data-for={data.user.username.length<12?"tooltip":null}  data-tip={data.user.username}  to={"/profile/"+data.user.username}>{data.user.username}</Link>
+                      
+                     
                     </div>
                     <div className="user-info-section">
-                      <span className="height">160cm</span>
-                      <span className="sex">male</span>
+                      <span className="height">{data.user.height?data.user.height+"cm":null}</span>
+                      <span className="sex">{data.user.sex===1?"male":"female"}</span>
                     </div>
                   </div>
                   <div className="user-info-sub">
                     <div className="follow-section">
-                      <div onClick="" className="follow-container">
+                      <div onClick={e=>toggleFollowModal(e,"following",data.user.userid)} className="follow-container">
                         <span className="follow following">following</span>
-                        <span className="follow-num">1520</span>
+                        <span className="follow-num">{calculateScale(data.following)}</span>
                       </div>
-                      <div onClick="" className="follow-container">
+                      <div onClick={e=>toggleFollowModal(e,"follower",data.user.userid)} className="follow-container">
                         <span className="follow follower">follower</span>
-                        <span className="follow-num">1500</span>
+                        <span className="follow-num">{calculateScale(data.follower)}</span>
                       </div>
                     </div>
                     <div className="sns-section">
-                      <a rel="noreferrer" target="_blank" href="">
+                      <a hidden={data.user.instaid?false:true} rel="noreferrer" target="_blank" href={"http://instagram.com/"+data.user.instaid}>
                         <FontAwesomeIcon
                           className="insta-icon"
                           icon={faInstagram}
                         />
                       </a>
-                      <a rel="noreferrer" target="_blank" href="">
+                      <a hidden={data.user.pinterestid?false:true} rel="noreferrer" target="_blank" href={"http://pinterset.com/"+data.user.pinterestid}>
                         <FontAwesomeIcon
                           className="pinter-icon"
                           icon={faPinterest}
                         />
                       </a>
-                      <a rel="noreferrer" target="_blank" href="">
+                      <a hidden={data.user.twitterid?false:true} rel="noreferrer" target="_blank" href={"http://twitter.com/"+data.user.twitterid}>
                         <FontAwesomeIcon
                           className="twitter-icon"
                           icon={faTwitter}
@@ -118,8 +139,9 @@ export default function Ranking(props) {
                   </div>
                 </div>
               </div>
-              <div className="right">
-                <button className="follow">Follow</button>
+              <div className="right"> 
+              
+                {/* <button hidden={user.info&&user.info.userid===data.user.userid?true:false} onClick={e=>followOrNot(user.info.userid, data.user.userid).then(bool=>setData(bool,index))} className="follow">{data.user.isfollowing?"following":"follow"}</button> */}
               </div>
             </div>
           ))}
@@ -143,26 +165,24 @@ export default function Ranking(props) {
                 </div>
                 <div className="brand-main-section">
                   <div className="brandname-container">
-                    <span className="brandname">Adidas</span>
+                    <Link to={"/list/brand/"+data.brandname+"/1"} className="brandname">{data.brandname}</Link>
                   </div>
                   <div className="brand-info-container">
-                    <span>1000 posts</span>
+                    <span>{calculateScale(data.postedcount)} posts</span>
                   </div>
                 </div>
                 <div className="brand-button-section">
-                  <Link to={"/list/brand/"+"adidas"+"/1"}>more</Link>
+                  <Link to={"/list/brand/" + data.brandname + "/1"}>more</Link>
                 </div>
               </div>
               <div className="img-section">
-                <Link>
-                  <img src={sample} alt="" />
+                {data.post.map((img,index)=>(
+                  <Link to={"/detail/"+img.postid}>
+                  <img src={img.imgUrl} alt="" />
                 </Link>
-                <Link>
-                  <img src={sample} alt="" />
-                </Link>
-                <Link>
-                  <img src={sample} alt="" />
-                </Link>
+                ))}
+                
+                
               </div>
             </div>
           ))}
@@ -171,19 +191,27 @@ export default function Ranking(props) {
   };
 
   useEffect(() => {
+    if(type==="brand"&&filter!=="all"){
+      history.push("/ranking/brand/all")
+    }
     //all - women - men
     setLoading(true);
+    if(list[type]&&list[type][filter]&&list[type][filter].length>0){
+      setCount(list[type][filter].length/10)
+      
+    }
+    else{
+      setCount(0)
 
     setList(
       {
         ...list,
-        [type]: {
-          [filter]: data,
-        },
+        [type]: { ...list[type], [filter]: brandData },
       },
-      setLoading(false)
+      
     );
-    console.log(1);
+  }
+  setLoading(false)
     // setLoading(true);
     // getRankingData(type, filter, count)
     //   .then(res => {
@@ -207,6 +235,7 @@ export default function Ranking(props) {
     // getRankingList()
   }, [filter, type]);
   useEffect(() => {
+
     if (!isThreshold && !isMaxCount) {
       window.onscroll = _.debounce(e => {
         setIsThreshold(
@@ -215,13 +244,14 @@ export default function Ranking(props) {
         );
       });
     }
-
+    console.log(list)
     if (isThreshold && !loading && !isMaxCount) {
       setLoading(true);
 
+      
       setTimeout(() => {
         setList(
-          { ...list, [type]: { [filter]: [...list[type][filter], ...data] } },
+          { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...brandData] } },
           setIsThreshold(
             false,
             setLoading(
@@ -250,7 +280,67 @@ export default function Ranking(props) {
 
     return () => (window.onscroll = null);
   }, [isThreshold, isMaxCount]);
+  // 백 구축되면 위에꺼 지우고 아래꺼 복귀 
+  // useEffect(() => {
 
+  //   //all - women - men
+  //   setLoading(true);
+  //   if(list[type]&&list[type][filter]&&list[type][filter].length>0){
+  //     setCount(list[type][filter].length/10)
+      
+  //   }
+  //   else{
+  //     setCount(0)
+  //     getRankingData(type, filter, 0).then(res=>
+  //       setList(
+  //         {
+  //           ...list,
+  //           [type]: { ...list[type], [filter]: res.content },
+  //         }
+  //       ,setMaxCount(res.totalPages-1),setCount(1))//확인 필요함
+  //       ).catch(err=>console.log(err))
+  // }
+  // setLoading(false)
+  // }, [filter, type]);
+  // useEffect(() => {
+
+  //   if (!isThreshold && !isMaxCount) {
+  //     window.onscroll = _.debounce(e => {
+  //       setIsThreshold(
+  //         window.innerHeight + document.documentElement.scrollTop >=
+  //           document.body.offsetHeight
+  //       );
+  //     });
+  //   }
+
+  //   if (isThreshold && !loading && !isMaxCount) {
+  //     setLoading(true);
+
+      
+      
+  //       getRankingData(type,filter,count).then(res=>{
+  //         setList(
+  //           { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...res.content] } },
+  //           setIsThreshold(
+  //             false,
+  //             setLoading(
+  //               false,
+  //               setCount(count => count + 1)
+  //             )
+  //           )
+  //         );
+  //       }).catch(err=>console.log(err))
+        
+  //       if (count === 9||count===maxCount) {
+  //         setIsMaxCount(true);
+        
+  //     }
+
+      
+  //   }
+
+  //   return () => (window.onscroll = null);
+  // }, [isThreshold, isMaxCount]);
   return (
     <div className="Ranking">
       <Switch>
