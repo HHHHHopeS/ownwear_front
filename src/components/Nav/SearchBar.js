@@ -9,7 +9,6 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 
 export default function SearchBar(props) {
-
   function clickSearchBar() {
     document.querySelector(".blur-section").setAttribute("style", "display:block")
     document.querySelector(".blur-section").classList.remove("noblur")
@@ -18,7 +17,6 @@ export default function SearchBar(props) {
     document.querySelector(".SearchBar").classList.add("active")
     setKeyword("tag")
   }
-
   const keyword = props.keyword
   const setKeyword = props.setKeyword
   const [inputText, setInputText] = useState("")
@@ -35,9 +33,6 @@ export default function SearchBar(props) {
       setCount(0)
     }
   }
-
-
-
   const setValue = useCallback(_.debounce((value) => setData(value), 100))
   const onChange = (e) => {
     setInputText(e.currentTarget.value)
@@ -45,21 +40,24 @@ export default function SearchBar(props) {
       setValue(e.currentTarget.value)
     }
   }
-
   const getResult = () => {
-    getAutoComplete(inputText, keyword).then(response => setResults(response.hashTagForms))
+    switch(keyword){
+      case "tag":getAutoComplete(inputText,keyword).then(response=>setResults(response.hashTagForms));break;
+      case "brand":getAutoComplete(inputText,keyword).then(response=>setResults(response.brandForms));break;
+      case "user":getAutoComplete(inputText,keyword).then(response=>setResults(response.userForms));break;
+      default:break;
+    }
   }
-
   const textChange = (e) => {
     if (e.keyCode === 13) {
-      console.log("enter")
+
       if (document.querySelector(`.result.focus`)) {
         setInputText(document.querySelector(`.result.focus`).innerText)
       }
     }
     if (e.keyCode === 40) {
       if (results) {
-        console.log(count)
+
         if (count < results.length) {
           document.querySelectorAll(`.result`).forEach(el => {
             el.classList.remove("focus")
@@ -130,7 +128,7 @@ export default function SearchBar(props) {
           value={inputText}
         />
       </div>
-      <SearchToolBox setKeyword={setKeyword} results={results} />
+      <SearchToolBox {...props} setKeyword={setKeyword} results={results} />
     </div>
   );
 }

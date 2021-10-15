@@ -302,7 +302,7 @@ export function getAutoComplete(inputText,keyword){
 
     return request({
         // url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
-        url:API_BASE_URL+"/index/srchdata?username="+inputText,
+        url:API_BASE_URL+"/srchdata?value="+inputText+"&keyword="+keyword,
         method:"GET",
     })
 }

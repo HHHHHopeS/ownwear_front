@@ -1,3 +1,4 @@
+@import "../base";
 .Ranking{
     min-height: 100vh;
     width: 100vw;
@@ -65,8 +66,283 @@
 
     }
     .TopBrands{
-        width: 100%;
+        
+        width: 72%;
+        display: flex;
         min-height: 100vh;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        .brand-box{
+            width: 30%;
+            height: 50vh;
+            margin: 16px;
+            box-shadow: $boxshadow-container;
+            border-radius: 8px;
+            .info-section{
+                display: flex;
+                width: 100%;
+                height: 40%;
+                box-shadow: $boxshadow-bottom;
+                .ranking-number-tag{
+                    height: 100%;
+                    display: flex;
+                    width: 20%;
+                    justify-content: center;
+                    margin-top: 2rem;
+                    font-weight: bold;
+                    font-size: 2rem;
+                    span{
+                    
+                    }
+                }
+                .brand-main-section{
+                    height: 100%;
+                    
+                    display: flex;
+                    flex-direction: column;
 
+
+                    .brandname-container{
+                        margin-top: 2rem;
+                        font-weight: bold;
+                    
+                    font-size: 2rem;
+                    text-transform: capitalize;
+                    }
+                    .brand-info-container{
+                        color: $grey;
+                        height: 10%;
+                    }
+                    
+                }
+                .brand-button-section{
+                    display: flex;
+                    margin-top: 2.7rem;
+                    margin-left: 40px;
+                    font-style: italic;
+                    height: 20%;
+                    align-items: center;
+                    a{
+
+                        text-decoration: none;
+                        padding: 5px 10px;
+                        border-radius: 8px;
+
+                        color:white;
+                        font-weight: bold;
+                        text-transform: capitalize;
+                        background-color: black;
+                    }
+                }
+            }
+            .img-section{
+                width: 100%;
+                height: 60%;
+                border-radius: 8px;
+                z-index: -3;
+                a{
+                    border-radius: 8px;
+                    position: absolute;
+                    width: cacl(50vh * 0.45);
+                    height: calc(50vh * 0.6);
+                    border-inline: white 1px solid;
+                    box-shadow: $boxshadow-container;
+                    
+                img{
+                    
+                    border-radius: 8px;
+                    height: calc(50vh * 0.6);
+                       
+                }
+                &:nth-child(1){
+                    z-index: 3;
+                    border:none;
+                    border-right: 1px solid white;
+                }
+                &:nth-child(2){
+                    z-index: 2;
+                    margin-left: 5.75%;
+                    
+                }    
+                &:nth-child(3){
+                    z-index: 1;
+                    margin-left: 11.5%;
+                }    
+                
+                &:hover{
+                    z-index:5;
+                
+                } 
+            }
+            
+            }
+        }
+    }
+    .TopUser{
+        min-height: 100vh;
+        width: 90%;
+        margin-top: 20px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .user-box{
+            display: flex;
+            border-radius: 3px;
+            width: 70%;
+            height: 100px;
+            box-shadow: $boxshadow-container;
+            margin: 7px;
+            .left{
+                width: 15%;
+
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                span{
+                    font-weight: bold;
+                    font-size: 30px;
+                    
+                }
+            }
+            .center{
+                width: 70%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                .img-section{
+                    width: 20%;
+                img{
+                    width: 65px;
+                    height: 65px;
+                    border-radius: 50%;
+                    box-shadow: $boxshadow-container;
+                }
+                
+            }
+            .info-section{
+                width: 80%;
+                height: 100%;
+                display: flex;
+                .user-info-main{
+                    height: 100%;
+                    .username-section{
+                        height: 60%;
+                        display: flex;
+
+                        align-items: flex-end;
+                        a{
+                            text-decoration: none;
+                            font-weight: bold;
+                            font-size: 25px;
+                            color: black;
+                            &:hover{
+                                text-decoration: underline;
+                                text-decoration-thickness: 2px;
+                            }
+                        }
+                    }   
+                    .user-info-section{
+                        height: 40%;
+                        span{
+                            color: $grey;
+                            font-size: 14px;
+                            text-transform: capitalize;
+                            margin-right: 5px;
+                            
+                        }
+                        
+                    }
+                }
+                .user-info-sub{
+                    height: 100%;
+                    margin-left: 30px;
+                    display: flex;
+                    .follow-section{
+                        display: flex;
+                        align-items: center;
+                        .follow-container{
+                            margin-top: 5px;
+                            display: flex;
+                            flex-direction: column;
+                            margin-left: 20px;
+                            cursor: pointer;
+                            &:hover{
+                                text-decoration: underline;
+
+                            }
+                            span{
+                                font-size: 15px;
+                                text-transform: capitalize;
+                                font-weight: bold;
+                                text-align: center;
+                            }
+                        }                        
+                    }
+                    .sns-section{
+                        align-items: center;
+                        display: flex;
+                        margin-left: 50px;
+                        a{
+                            font-size: 25px;
+                            margin-left: 12px;
+                            color: black;
+
+                        }
+                        .insta-icon:hover{
+
+                                display: inline-block;
+                                width: 23px;
+                                height: 23px;
+                                margin-left: -1px;
+                            margin-top: -4px;
+                                border-radius: 8px;
+                                color: #fff;
+                                font-size: 220px;
+                                line-height: 230px;
+                                vertical-align: middle;
+                                background: #d6249f;
+                                background: radial-gradient(
+                                  circle at 30% 107%,
+                                  #fdf497 0%,
+                                  #fdf497 5%,
+                                  #fd5949 45%,
+                                  #d6249f 60%,
+                                  #285aeb 90%
+                                );
+
+                              
+                        }
+                        .pinter-icon:hover{
+                            
+                            color:#F0002A
+                        }
+                        .twitter-icon:hover{
+                            color:#00acee
+                        }
+
+                    }
+                }
+            }
+            }
+            .right{
+                display: flex;
+                align-items: center;
+                
+                button{
+                    color: white;
+                    background-color: black;
+                    font-weight: bold;
+                    margin-top: 5px;
+                    margin-left: 5px;
+                    padding: 10px 20px;    
+                    border-radius: 4px;
+                }
+            }
+        }
+        
     }
 }

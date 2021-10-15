@@ -20,16 +20,64 @@
     .content-tab{
         height: 100%;
         .content.active-content{
+            height: 100%;
+            padding: 0!important;
+            ol{
+                padding: 0 !important;
+                
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                align-items: flex-start;
             a:link {
                 color: black;
                 text-decoration: none;
             }
             li{
+
+
+                box-shadow: $boxshadow-bottom;
+                padding:10px 30px;
+                
+                display: flex;
+                align-items: flex-start;
+
+                height: 70px;
+                width: 400px;
+
                 list-style: none;
+                .left{
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 10%;
+                }
+                .right{
+                    
+                    display: flex;
+                    flex-direction: column;
+                a{
+                    font-weight: bold;
+                    font-size: 16px;
+                    color: black;
+                    &:hover{
+                        text-decoration: underline;
+                        text-decoration-thickness: 2px;
+                    }
+                }
+                span{
+                    color: $grey;
+                    font-size: 14px;
+                }
+            }
             }
             li.focus{
-                background-color: aquamarine;
+                
+                background-color: #eee;
             }
+        }
         }
         .content{
             width: 100%; 
