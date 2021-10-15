@@ -1,7 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useContext,useEffect, useState } from 'react';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-import {useHistory} from "react-router"
+import { useContext, useEffect, useState } from 'react';
+import { useHistory } from "react-router";
+import CacheRoute, { CacheSwitch } from "react-router-cache-route";
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import Alert from "react-s-alert";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
 import "react-s-alert/dist/s-alert-default.css";
@@ -15,6 +16,7 @@ import Footer from "./components/Footer/Footer";
 import List from "./components/List/List";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
+import ListModal from "./components/Modal/ListModal";
 import MyPage from "./components/MyPage/MyPage";
 import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
@@ -24,8 +26,6 @@ import UnVerified from "./components/UnVerified/UnVerified";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
 import { getCurrentUser } from "./util/APIUtils";
-import CacheRoute, {CacheSwitch} from "react-router-cache-route"
-
 
 
 
@@ -36,9 +36,11 @@ const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
 const [id,setId] = useState(null)
 const [loading,setLoading] = useState(true)
-
+const [show,setShow] = useState(false)
+const [userList,setUserList] = useState([])
+const [title,setTitle]=useState("")
 const history = useHistory()
-let userid= null
+
 
 
 const handleLogout= ()=>{
@@ -126,7 +128,7 @@ else return null
     <div className="App">
       
       <Nav onLogout={handleLogout}/>
-      <SubNav setId={setId} />
+      <SubNav setUserList={setUserList} setTitle={setTitle} setShow={setShow} setId={setId} />
       <div className="main-section" style={window.location.pathname==="/create"?{marginTop:"0"}:{}}
       >
         
@@ -138,7 +140,7 @@ else return null
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
           <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
-          <Route exact path="/detail/:id" component={Detail}/>
+          <Route exact path="/detail/:id" render={props=><Detail setTitle={setTitle} setUserList={setUserList} setShow={setShow} {...props}/> }/>
 
     
           
@@ -160,10 +162,16 @@ else return null
           <Route component={NotFound} />
 
         </CacheSwitch>
-  
+
       </div>
       <Footer />
-      
+      <ListModal
+          setUserList={setUserList}
+          userList={userList}
+          show={show}
+          setShow={setShow}
+          title={title}
+        />
     </div>
     
   );

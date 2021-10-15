@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import { ACCESS_TOKEN, FACEBOOK_AUTH_URL } from "../../constants";
-import { getCurrentUser, login, signup } from "../../util/APIUtils";
+import { login, signup } from "../../util/APIUtils";
 import "./Login.scss";
 
 export default function Login(props) {

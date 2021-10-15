@@ -1,12 +1,15 @@
-import { useEffect, useState, } from "react";
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { FiUserPlus } from 'react-icons/fi';
+import { Link, useLocation } from "react-router-dom";
+import exPhoto from "../../res/iu.jpg";
 import ImgBox from "../ImgBox/ImgBox";
+
 import { Link, useLocation } from "react-router-dom"
 import { FiUserPlus } from 'react-icons/fi'
 import { getIndexData } from "../../util/APIUtils"
+
 import "./Main.scss";
 
-import exPhoto from "../../res/iu.jpg";
 
 export default function Main(props) {
   const location = useLocation()

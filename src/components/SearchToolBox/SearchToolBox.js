@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react"
-import "./SearchToolBox.scss"
-import { getAutoComplete } from "../../util/APIUtils"
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
-import React from 'react'
+import "./SearchToolBox.scss"
 
 
 export default function SearchToolBox(props) {

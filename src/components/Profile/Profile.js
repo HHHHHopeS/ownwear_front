@@ -1,21 +1,21 @@
-import "./Profile.scss";
-import { useState, useEffect } from "react";
-import { getdata, setAlertChecked } from "../../util/APIUtils";
-import _ from "lodash";
-import LoadingIndicator from "../../common/LoadingIndicator";
-import sample from "../../res/sample.png";
-import calculateScale from "../../util/numberUtils";
-import { calculateDatetime } from "../../util/TimeUtils";
 import { faCheck, faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useHistory } from "react-router";
+import _ from "lodash";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router";
+import LoadingIndicator from "../../common/LoadingIndicator";
+import sample from "../../res/sample.png";
+import { getProfileData } from "../../util/APIUtils";
+import calculateScale from "../../util/numberUtils";
+import { calculateDatetime } from "../../util/TimeUtils";
+import "./Profile.scss";
 export default function Profile(props) {
   let id = props.id;
   const [isThreshold, setIsThreshold] = useState(false);
   const [loading, setLoading] = useState(false);
   const [contents, setContents] = useState([]);
-
-  const data = [
+  const location = useLocation()
+  const data = [  
     {
       post: {
         postid: 1,
@@ -154,25 +154,29 @@ export default function Profile(props) {
   const history = useHistory();
   const [pageCount, setPageCount] = useState(0);
   const [isError,setIsError] = useState(false)
-  const request = Object.assign(
-    {},
-    { isHashtag: "profile", title: id, pageCount }
-  );
+
+  const username = location.pathname.split("/")[2]
   useEffect(() => {
+    if (pageCount === maxCount) {
+      return setIsMaxCount(true);
+    }
     if (pageCount === 0&&!isMaxCount) {
-      getdata(request).then(response =>{
-        if(response.ok){
+      getProfileData(username,pageCount).then(response =>{
+        console.log(response)
+        if(response){
         setContents(
           response.content,
           setMaxCount(response.totalPages, setPageCount(pageCount=>pageCount + 1))
         )
-        
       }
       else{
-        
+        setContents([])
         setIsMaxCount(true)
-        return setIsError(true)
       }
+      
+
+        
+      
       });
     }
     if (!isThreshold && !isMaxCount) {
@@ -186,10 +190,10 @@ export default function Profile(props) {
 
     if (isThreshold && !isMaxCount) {
       setLoading(true);
-      getdata(request)
+      getProfileData(username,pageCount)
         .then(response =>
           setContents(contents=>
-            [...contents, response.ok.content]
+            [...contents, response.content]
             
           )
         )
@@ -198,9 +202,7 @@ export default function Profile(props) {
       setPageCount(pageCount=>pageCount + 1)
       return (window.onscroll = null);
     }
-    if (pageCount === maxCount) {
-      return setIsMaxCount(true);
-    }
+    
    
   }, [isThreshold]);
 
@@ -214,14 +216,14 @@ export default function Profile(props) {
       </div>
       :
       
-      contents&&contents.map((content, index) => (
+      
         <div className="page-container">
-          {content.map((item, index) => (
+          {contents&&contents.map((item, index) => (
             <div
-              onClick={() => history.push(`/detail/${item.post.post_no}`)}
-              className={"post post-" + item.post.post_no}
+              onClick={() => history.push(`/detail/${item.postid}`)}
+              className={"post post-" + item.postid}
             >
-              <img src={item.post.imgData.imageurl} alt="" />
+              <img src={item.imgData?item.imgData.imgUrl:null} alt="" />
               <span className="like-count img-info">
                 {" "}
                 <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
@@ -234,13 +236,13 @@ export default function Profile(props) {
               </span>
               <span className="rdate img-info">
                 <FontAwesomeIcon icon={faCheck} />
-                {calculateDatetime(item.post.rdate)}
+                {calculateDatetime(item.rdate)}
               </span>
             </div>
           ))
           }
         </div>
-      ))}
+      }
     
       {loading ? <LoadingIndicator /> : null}
     </div>

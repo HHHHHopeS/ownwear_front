@@ -1,17 +1,15 @@
-import { useEffect, useState, useContext } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
+import { getCheckPassword } from "../../util/APIUtils";
+import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
 // import { Modal } from './Modal';
 import Tab from './Tab';
-import "./MyPage.scss";
 import "./Tab.scss";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import defaultUser from "../../res/default-user.jpeg";
-import { UserContext } from "../../common/UserContext";
-import { sendImage, changePassword, checkPassword, getCheckPassword } from "../../util/APIUtils";
-import { getChangePassword } from "../../util/APIUtils"
 
 
 // const Container = styled.div`
@@ -64,7 +62,7 @@ export default function MyPage() {
                 
                if(response){
                    
-                   getChangePassword(request)
+                console.log(response)
                }
                else{
                    console.log(response)

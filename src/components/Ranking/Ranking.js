@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
-import { Switch, Route, useLocation } from "react-router";
+import _ from "lodash";
+import { useEffect, useState } from "react";
+import { Route, Switch, useLocation } from "react-router";
 import {
   useDidCache,
-  useDidRecover,
-  getCachingKeys,
+  useDidRecover
 } from "react-router-cache-route";
-import _ from "lodash";
-import { data } from "./sampleData";
-import "./Ranking.scss";
-import { getRankingData } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
-import ImgBox from "../ImgBox/ImgBox";
 import ScrollHandler from "../../common/ScrollHandler";
+import ImgBox from "../ImgBox/ImgBox";
+import "./Ranking.scss";
+import { data } from "./sampleData";
 
 export default function Ranking(props) {
   const [list, setList] = useState([]);

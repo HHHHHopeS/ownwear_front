@@ -1,9 +1,9 @@
-import { useEffect,useRef } from "react";
-import { useLocation } from "react-router";
-
 import _ from "lodash";
-
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router";
 import { useScrollPosition } from "./ScrollContext";
+
+
 
 export default function ScrollHandler() {
     const {getScrollPosition,setScrollPosition} = useScrollPosition()
