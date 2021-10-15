@@ -175,12 +175,19 @@ export function getGoogleData(getGoogleDataRequest){
 }
 
 
-//인덱스 게시물데이터
+//인덱스 게시물추가데이터
 export function getIndexData(url,position,ids){
     return request({
-        url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
+        url:API_BASE_URL+"/getindex?url="+url+"&position="+position,
         method:"POST",
         body:ids
+    })
+}
+//인덱스 초기데이터
+export function getIndexDataInit(){
+    return request({
+        url:API_BASE_URL+"/getindex",
+        method:"GET",
     })
 }
 
@@ -283,7 +290,8 @@ export function toggleFollow(current_username,target_username){
 export function getAutoComplete(inputText,keyword){
 
     return request({
-        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+        // url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+        url:API_BASE_URL+"/index/srchdata?username="+inputText,
         method:"GET",
     })
 }
