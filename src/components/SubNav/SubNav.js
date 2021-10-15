@@ -17,7 +17,7 @@ import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
 import {
-  deleteDetailPage, getDetailProfileSubNavData, getProfileSubNavData, getUserList, toggleFollow
+  deleteDetailPage, getDetailProfileSubNavData, getProfileSubNavData, getUserList
 } from "../../util/APIUtils";
 import calculateScale from "../../util/numberUtils";
 import "./SubNav.scss";
@@ -25,6 +25,8 @@ import "./SubNav.scss";
 export default function SubNav(props) {
   const { user } = useContext(UserContext);
   const history = useHistory();
+  const toggleFollowModal = props.toggleFollowModal
+  const followOrNot = props.followOrNot
   const setShow = props.setShow;
   const setUserList = props.setUserList;
   const setTitle= props.setTitle
@@ -32,14 +34,7 @@ export default function SubNav(props) {
   
   // 팔로잉 언팔 버튼 토글 return true false
 
-  const followOrNot = (current_userid, target_userid) => {
-    if (user.auth) {
-      toggleFollow(current_userid, target_userid);
-    } else {
-      Alert.error("please login first");
-      history.push("/login");
-    }
-  };
+
 
   const Main = () => {
     return (
@@ -197,9 +192,11 @@ export default function SubNav(props) {
       document
         .querySelector(`.btn-${location.pathname.split("/")[2]}`)
         .classList.add("active");
+        if(location.pathname.split("/")[2]!=="brand"){
       document
         .querySelector(`.sub-btn-${location.pathname.split("/")[3]}`)
         .classList.add("active");
+      }
     }, [location.pathname]);
 
     return (
@@ -251,39 +248,15 @@ export default function SubNav(props) {
   };
   // 프로필
   const Profile = props => {
-    const toggleFollowModal = e => {
-      const type = e.currentTarget.classList[1]; //follwer , f, like
-      console.log(type);
-      const request = Object.assign(
-        {},
-        {
-          type,
-          current_userid: user.info.userid,
-          // 유저 프로필 불러오기 완성되면 변경
-
-          targetid:info.user.userid
-
-        }
-      );
-      console.log(type)
-      getUserList(request)
-        .then(response => {
-        
-          console.log(response)
-         setUserList(response)
-        })
-        .catch(err => console.log);
-      setTitle(type);
-        
-      setShow(true);
-    };
-    
+    const toggleFollowModal = props.toggleFollowModal
+    const followOrNot = props.followOrNot
     useEffect(() => {
       const profile_username = props.location.pathname.split("/")[2];  
       
       
       let current_userid = -1;
       if (user.info) {
+        
         current_userid = user.info.userid;
       }
       
@@ -301,6 +274,7 @@ export default function SubNav(props) {
           history.push("/404");
         });
       }
+      console.log(info)
     }, [info,props.location.pathname]);
     if(info&&info.user){
     return (
@@ -330,11 +304,11 @@ export default function SubNav(props) {
               />
             </div>
             <div className="follower-section">
-              <div onClick={toggleFollowModal} className="f-box follower">
+              <div onClick={e=>toggleFollowModal(e,"follower",info.user.userid)} className="f-box follower">
                 <span className="title">Follower</span>
                 <span>{info&&info.follower&&calculateScale(info.follower)}</span>
               </div>
-              <div onClick={toggleFollowModal} className="f-box following">
+              <div onClick={e=>toggleFollowModal(e,"following",info.user.userid)} className="f-box following">
                 <span className="title">Following</span>
                 <span>{info&&info.following&&calculateScale(info.following)}</span>
               </div>
@@ -418,7 +392,8 @@ export default function SubNav(props) {
                 user.info.uername !== info.user.username ? (
                   <button
                     onClick={e =>
-                      followOrNot(user.info.userid, info.user.userid)
+                      
+                      setInfo({...info,follower:followOrNot(user.info.userid, info.user.userid,info)?info.follower+1:info.follower-1})
                     }
                     className="follow-button"
                     hidden={user.info&&user.info.username!==info.user.username?false:true}
@@ -426,7 +401,15 @@ export default function SubNav(props) {
                     {info.user&&info.user.isfollowing ? "unfollow" : "follow"}
                   </button>
                 ) : null
-              ) : null}
+              ) : <button
+              onClick={e =>
+                followOrNot(null, info.user.userid,info)
+              }
+              className="follow-button"
+              
+            >
+              follow
+            </button>}
             </div>
           </div>
         </div>
@@ -495,7 +478,7 @@ export default function SubNav(props) {
         <Route exact path="/list/:id/:id/:id" component={List} />
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/ranking/:id/:id" component={Ranking} />
-        <Route exact path="/profile/:id" component={Profile} />
+        <Route exact path="/profile/:id" render={(props)=><Profile {...props} followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}/>} />
         <Route exact path="/mypage" component={MyPage} />
         <Route component={NotFound} />
       </Switch>

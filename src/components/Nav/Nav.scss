@@ -9,6 +9,7 @@
   position: fixed;
   opacity: 0.95;
   z-index: 10;
+  
   .nav-section {
     height: 100%;
     width: 100%;
@@ -30,6 +31,9 @@
       text-decoration: none;
     }
     >li:first-child {
+      @include mobile{
+        display: none;
+      }
       .search-bar-container {
         width: 350px;
         margin-right: -100px;
@@ -79,6 +83,9 @@
     .logo-section {
       margin-top: 10px;
       margin-left: -75px;
+      @include mobile{
+        margin-left: 10px;
+      }
       button {
         background: none;
 
@@ -106,6 +113,9 @@
       margin-top: 5px;
       margin-left: 50px;
       li:nth-child(2){
+        @include mobile{
+          display: none;
+        }
         button{
         background: none;
       }
@@ -149,6 +159,10 @@
           vertical-align: middle;
           @include tablet{
             left: -15vw;
+          }
+          @include mobile{
+            left: -20vw;
+            top:60px;
           }
           .button-container {
             cursor: pointer;

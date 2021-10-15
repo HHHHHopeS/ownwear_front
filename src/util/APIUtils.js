@@ -325,7 +325,20 @@ export function getCheckPassword(getCheckPasswordData){
 }
 
 // 랭킹페이지 리스트 불러오기
+// type = like or brand or user
+// filter = all or man or women ** brand filter always null
+// count = page count 
 
+// return 
+// like.content = [post]
+// user.content = [userinfo] 팔로잉 팔로워 카운트 포함 유저 프로필 subnav데이터 불러올때랑 완죤 똑같은 데이터유형
+// brand.content = [brandinfo]
+// brandinfo = {
+//     brandname:,
+//     postedcount: 브랜드 태깅한 포스트 카운트,
+//     [post]: 태깅한 포스트 단 3개 순서는 최신순이던 인기순이던 상관 무,
+
+// }
 export function getRankingData(type,filter,count){
     return request({
         url:API_BASE_URL+"/ranking?type="+type+"&filter="+filter+"&page="+count,
