@@ -148,10 +148,20 @@ export default function SubNav(props) {
   };
   const Detail = props => {
     const postid = props.location.pathname.split("/")[2];
-    const request = Object.assign(
+    let request =null
+    if(user.info){
+
+     request = Object.assign(
       {},
       { current_userid: user.info.userid, postid }
     );
+  }
+  else{
+    request= Object.assign(
+      {},
+      { current_userid: null, postid }
+    );
+  }
     useEffect(() => {
       getDetailProfileSubNavData(request).then(res => {
         if (res.ok) {
