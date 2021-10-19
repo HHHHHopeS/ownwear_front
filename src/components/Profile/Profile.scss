@@ -3,17 +3,23 @@
 .Profile {
   width: 100vw;
   min-height: 100vh;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .page-container {
+
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     width: 88%;
     margin: 0 6%;
+    @include mobile{
+      width: 75%;
+      margin-top: -15%;
+    }
   }
-  justify-content: center;
-  align-items: center;
+  
   .post {
       cursor: pointer;
     position: relative;
@@ -26,6 +32,17 @@
       height: 380px;
       span{
           font-size: 1.5rem;
+      }
+    }
+    @include mobile{
+      width: 170px;
+      height: 212px;
+
+      img{
+        @include mobile{
+          width: 170px;
+          height: 212px;
+        }
       }
     }
     span {

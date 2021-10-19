@@ -7,15 +7,17 @@
   box-shadow: $boxshadow-bottom;
   background-color: white;
   position: fixed;
-  z-index: 1;
+  opacity: 0.95;
+  z-index: 10;
+  
   .nav-section {
     height: 100%;
     width: 100%;
-  }
+  
   .logo-image {
     max-height: 60px;
   }
-  ul {
+  >ul {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -28,7 +30,10 @@
     li {
       text-decoration: none;
     }
-    li:first-child {
+    >li:first-child {
+      @include mobile{
+        display: none;
+      }
       .search-bar-container {
         width: 350px;
         margin-right: -100px;
@@ -74,8 +79,13 @@
         }
       }
     }
-    li:nth-child(2) {
+    
+    .logo-section {
       margin-top: 10px;
+      margin-left: -75px;
+      @include mobile{
+        margin-left: 10px;
+      }
       button {
         background: none;
 
@@ -83,7 +93,8 @@
         cursor: pointer;
       }
     }
-    li:nth-child(3) {
+
+    .menu-section {
       margin-top: 15px;
       button {
         background: none;
@@ -94,13 +105,21 @@
         margin-left: 15%;
         border-radius: 4px;
       }
-    }
+    
+  }
     .nav-after-login {
       display: flex;
       align-items: center;
       margin-top: 5px;
       margin-left: 50px;
-
+      li:nth-child(2){
+        @include mobile{
+          display: none;
+        }
+        button{
+        background: none;
+      }
+      }
       li {
         margin: 0;
         padding: 0;
@@ -140,6 +159,10 @@
           vertical-align: middle;
           @include tablet{
             left: -15vw;
+          }
+          @include mobile{
+            left: -20vw;
+            top:60px;
           }
           .button-container {
             cursor: pointer;
@@ -385,7 +408,7 @@ display: flex;
     }
     }
   }
-
+}
   .noblur {
     background-color: black;
     width: 100vw;

@@ -1,7 +1,7 @@
 import {
   faChevronLeft,
   faPlus,
-  faTimes,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,8 +10,9 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
+  useState
 } from "react";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/src/ReactCrop.scss";
 import { useHistory } from "react-router";
@@ -22,9 +23,8 @@ import {
   getGoogleData,
   hashtagAutoComplete,
   insertImageData,
-  sendImage,
+  sendImage
 } from "../../util/APIUtils";
-import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import "./ImageUploadModule.scss";
 /**
  * @param {HTMLImageElement} image - Image File Object
@@ -53,7 +53,7 @@ export default function Upload(props) {
   const [activeInputFocus, setActiveInputFocus] = useState(false);
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   // ref
   const imgRef = useRef();
   const previewImageRef = useRef();
@@ -65,8 +65,18 @@ export default function Upload(props) {
   productTagRef.current = productTags.map(
     (productTag, i) => productTagRef.current[i] ?? createRef()
   );
-
-
+  const filterDuplicateCategory = filter => {
+    if (
+      filter[0].regionInfo.boundingBox.leftCol >
+      filter[1].regionInfo.boundingBox.leftCol
+    ) {
+      filter[0].data.concepts[0].name = "shoes L";
+      filter[1].data.concepts[0].name = "shoes R";
+    } else {
+      filter[1].data.concepts[0].name = "shoes L";
+      filter[0].data.concepts[0].name = "shoes R";
+    }
+  };
 
   useEffect(() => {
     if (crop) {
@@ -79,67 +89,44 @@ export default function Upload(props) {
         break;
       case 1:
         imgRef.current.hidden = false;
-
         break;
       case 2:
         imgRef.current.hidden = true;
-
         const base64 = previewCanvasRef.current.toDataURL();
+        const list = [];
         setPreviewImage({ data: base64 });
-
+        //clarifai 데이터 요청 
         getClarifaiData(base64)
           .then(response => {
-            const list = [];
             if (response) {
-              console.log(response)
               const filter = response.regions.filter(
                 region => region.data.concepts[0].name === "shoes"
               );
-
-              if(filter.length>0){
-              if (
-                filter[0].regionInfo.boundingBox.leftCol >
-                filter[1].regionInfo.boundingBox.leftCol
-              ) {
-                filter[0].data.concepts[0].name = "shoes L";
-                filter[1].data.concepts[0].name = "shoes R";
-              } else {
-                filter[1].data.concepts[0].name = "shoes L";
-                filter[0].data.concepts[0].name = "shoes R";
-              }
-            }
+              filterDuplicateCategory(filter);
               response.regions.map(region => {
-                
-                if(filter.length>0){
-                  console.log(filter)
-                for (let data of filter) {
-                  if (JSON.stringify(data.regionInfo) === region.regionInfo) {
-                    region = data;
+                if (filter.length > 0) {
+                  for (let data of filter) {
+                    if (JSON.stringify(data.regionInfo) === region.regionInfo) {
+                      region = data;
+                    }
                   }
                 }
-              }
-                console.log(region)
                 if (region.value > 0.95) list.push(region);
-                return false
+                return false;
               });
-              if(list.length===0){
-                setRectors(response.regions)
-              }
-              else{
-              setRectors(list);
-            }
-              setPhase({ ...phase, phaseNo: 3 });
               
+              setRectors(list);
+              
+              setPhase({ ...phase, phaseNo: 3 });
+            } else {
+              console.log("결과가 없습니다.");
             }
-            else{
-              console.log()
-            }
-            return false})
+            return false;
+          })
           .catch(err => {
-            console.log(err)
+            console.log(err);
             Alert.error("error!");
           });
-
         break;
       case 3:
         tagsRef.current.style.width = "30%";
@@ -166,7 +153,8 @@ export default function Upload(props) {
 
         document.querySelector(`.cropped-img-${index}`),
         croppedRector
-      );return null
+      );
+      return null;
     });
   }, [croppedRectors]);
 
@@ -206,22 +194,18 @@ export default function Upload(props) {
   const handleOver = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("over!");
-
     preview === "" && setHighlight(true);
   };
 
   const handleLeave = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("leave!");
     setHighlight(false);
   };
 
   const handleUpload = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("drop!");
     setHighlight(false);
     setDrop(true);
 
@@ -237,7 +221,7 @@ export default function Upload(props) {
     }
     reader.onload = () => {
       // this is the base64 data
-      const fileRes = Buffer.from(reader.result,"binary").toString("base64");
+      const fileRes = Buffer.from(reader.result, "binary").toString("base64");
       if (fileRes) {
         setPreview(`data:image/jpg;base64,${fileRes}`);
         setPhase({ ...phase, phaseNo: 1 });
@@ -249,16 +233,12 @@ export default function Upload(props) {
     };
   }
 
-  //
+  //이미지 크롭
   function getCroppedImg(image, canv, crp) {
     const canvas = canv;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    console.log(image.naturalWidth);
-    console.log(image.naturalHeight);
-
     const crop = crp;
-    console.log(crop);
     const ctx = canvas.getContext("2d");
 
     canvas.width = (crop.width * image.naturalWidth) / 100;
@@ -267,20 +247,6 @@ export default function Upload(props) {
 
     ctx.imageSmoothingQuality = "high";
 
-    // ctx.drawImage(
-    //   image,
-    //   ((crop.x * image.width) / 100) * scaleX,
-    //   ((crop.y * image.height) / 100) * scaleY,
-    //   ((crop.width * image.width) / 100) * scaleX,
-    //   ((crop.height * image.height) / 100) * scaleY,
-    //   0,
-    //   0,
-    //   (crop.width * image.width) / 100,
-    //   (crop.height * image.height) / 100
-    console.log((crop.x * image.naturalWidth) / 100);
-    console.log((crop.width * image.naturalWidth) / 100);
-    console.log((crop.width * image.naturalWidth) / 100);
-    // );
     ctx.drawImage(
       image,
       (crop.x * image.naturalWidth) / 100,
@@ -302,6 +268,7 @@ export default function Upload(props) {
     }
     return false;
   }
+  //태그 이미지 크롭
   function getCroppedImgForTag(image, canv, crp) {
     const canvas = canv;
 
@@ -318,20 +285,7 @@ export default function Upload(props) {
 
     ctx.imageSmoothingQuality = "high";
 
-    // ctx.drawImage(
-    //   image,
-    //   ((crop.x * image.width) / 100) * scaleX,
-    //   ((crop.y * image.height) / 100) * scaleY,
-    //   ((crop.width * image.width) / 100) * scaleX,
-    //   ((crop.height * image.height) / 100) * scaleY,
-    //   0,
-    //   0,
-    //   (crop.width * image.width) / 100,
-    //   (crop.height * image.height) / 100
-    console.log((crop.x * image.naturalWidth) / 100);
-    console.log((crop.width * image.naturalWidth) / 100);
-    console.log((crop.width * image.naturalWidth) / 100);
-    // );
+
     ctx.drawImage(
       image,
       (crop.x * image.naturalWidth) / 100,
@@ -357,9 +311,7 @@ export default function Upload(props) {
     const width = parseFloat(el.style.width.split("%")[0]);
     const height = parseFloat(el.style.height.split("%")[0]);
     const x = parseFloat(el.style.left.split("%")[0]);
-
     const y = parseFloat(el.style.top.split("%")[0]);
-
     const crop = {
       unit: "%",
       width,
@@ -397,11 +349,9 @@ export default function Upload(props) {
     const canvasList = document.getElementsByClassName("cropped");
     for (let canvas of canvasList) {
       base64List.push(canvas.toDataURL());
-      console.log(canvas.toDataURL());
+
     }
-
     const dataRequest = Object.assign({}, { list: base64List });
-
     const arr = productTags.slice(0, productTags.length - 1);
     if (base64List.length > 0) {
       setPhase({ ...phase, phaseNo: 4 });
@@ -410,7 +360,6 @@ export default function Upload(props) {
           response.map(data =>
             arr.push(data.responses[0].productSearchResults.results)
           );
-
           setProductTags(arr);
           const indexes = [];
           for (let i = 0; i < rectors.length; i++) {
@@ -431,14 +380,12 @@ export default function Upload(props) {
             }
           }
           const rArr = [];
-
           for (let i = 0; i < rectors.length; i++) {
             if (indexes.includes(i)) {
               rArr.push(rectors[i]);
             }
           }
           setRectors(rArr);
-
           setPhase({ ...phase, phaseNo: 5 });
         })
         .catch(err => {
@@ -578,12 +525,11 @@ export default function Upload(props) {
     setPhase({ ...phase, phaseNo: 6 });
   }
 
-
   function addHashTag(e, el) {
     document.querySelector(".hashtag-error").innerText = "";
     let tag = null;
     if (el) {
-      tag = el.state.text
+      tag = el.state.text;
     } else {
       tag = e.currentTarget.value;
     }
@@ -593,26 +539,24 @@ export default function Upload(props) {
     var check = /[가-힣A-Za-z0-9_]{1,30}/;
 
     if (regExp.test(tag) !== true) {
-      if(!tag.includes(" ")){
-      if (check.test(tag)) {
-        if (!hashtagData.includes(tag)) {
-          setHashtagData([...hashtagData, tag]);
+      if (!tag.includes(" ")) {
+        if (check.test(tag)) {
+          if (!hashtagData.includes(tag)) {
+            setHashtagData([...hashtagData, tag]);
+            document.querySelector(".hashtag-error").innerText =
+              "태그가 추가 되었습니다.";
+          } else {
+            document.querySelector(".hashtag-error").innerText =
+              "이미 있는 태그입니다.";
+          }
+        } else {
           document.querySelector(".hashtag-error").innerText =
-            "태그가 추가 되었습니다.";
+            "한글은 자음 및 모음만 입력할 수 없습니다.";
         }
-         else {
-          document.querySelector(".hashtag-error").innerText =
-            "이미 있는 태그입니다.";
-        }
-        
-      }else{
+      } else {
         document.querySelector(".hashtag-error").innerText =
-      "한글은 자음 및 모음만 입력할 수 없습니다.";
+          "'_'를 제외한 공백, 특수문자는 입력할 수 없습니다.";
       }
-    }else{
-      document.querySelector(".hashtag-error").innerText =
-      "'_'를 제외한 공백, 특수문자는 입력할 수 없습니다.";
-    }
     } else {
       document.querySelector(".hashtag-error").innerText =
         "'_'를 제외한 공백, 특수문자는 입력할 수 없습니다.";
@@ -634,12 +578,8 @@ export default function Upload(props) {
     setHashtagData(hashtagDataCopied);
   }
   function finishCreate() {
-    console.log(tagData); //tag data
-    console.log(previewImageRef.current.src); // base 64
-    console.log(hashtagData); // hashtag
-    console.log(user.info);
-    const brands = []
-    tagData.map(tag=>brands.push(tag.productInfo.brandName))
+    const brands = [];
+    tagData.map(tag => brands.push(tag.productInfo.brandName));
     // insertImageData()
     setPhase({ ...phase, phaseNo: 7 });
     sendImage(previewImageRef.current.src)
@@ -650,7 +590,15 @@ export default function Upload(props) {
           tagData,
         };
 
-        const request = Object.assign({}, {user:{userid:user.info.userid}, imgData, hashtags:hashtagData,brands});
+        const request = Object.assign(
+          {},
+          {
+            user: { userid: user.info.userid },
+            imgData,
+            hashtags: hashtagData,
+            brands,
+          }
+        );
         insertImageData(request)
           .then(response =>
             setTimeout(() => history.push(`/detail/${response}`), 2000)
@@ -732,7 +680,7 @@ export default function Upload(props) {
                 }
                 alt=""
               />
-              {phase.phaseNo >= 3&&rectors
+              {phase.phaseNo >= 3 && rectors
                 ? rectors.map((rector, index) => {
                     let mt = rector.regionInfo.boundingBox.topRow;
                     let ml = rector.regionInfo.boundingBox.leftCol;
@@ -892,20 +840,15 @@ export default function Upload(props) {
                     <AsyncTypeahead
                       id="hashtag-input"
                       minLength={1}
-                      options={
-                        autoCompleteResult ? autoCompleteResult : []
-                      }
+                      options={autoCompleteResult ? autoCompleteResult : []}
                       isLoading={isLoading}
-                      onSearch={
-                        (q)=>{
-
-                          setIsLoading(true)
-                          const obj =Object.assign({},{data:q})
-                          // console.log(1)
-                          hashtagAutoComplete(obj).then(response=>setAutoCompleteResult(response))
-                          setIsLoading(false)
-                        }
-                      }
+                      onSearch={q => {
+                        setIsLoading(true);
+                        const obj = Object.assign({}, { data: q });
+                        hashtagAutoComplete(obj, "hashtag").then(response =>
+                          console.log(response.ok)
+                        );
+                      }}
                       ref={hashTagInputRef}
                       onFocus={() => setActiveInputFocus(true)}
                       onBlur={() => {
@@ -913,15 +856,13 @@ export default function Upload(props) {
                       }}
                       // onInputChange={(text, e) => configureHashtag(text, e)}
                       onKeyDown={e => {
-
                         if (e.key === "Enter") {
                           addHashTag(e);
 
-                          hashTagInputRef.current.clear()
+                          hashTagInputRef.current.clear();
                         }
                       }}
                       searchText={"searching"}
-
                     />
                     {/* <input
                       value={hashtagInputValue}
@@ -941,12 +882,7 @@ export default function Upload(props) {
                     /> */}
                   </div>
                   <button
-                    onClick={e =>
-                      addHashTag(
-                        e,
-                        hashTagInputRef.current
-                      )
-                    }
+                    onClick={e => addHashTag(e, hashTagInputRef.current)}
                     className={activeInputFocus ? "active" : null}
                   >
                     <FontAwesomeIcon icon={faPlus} />

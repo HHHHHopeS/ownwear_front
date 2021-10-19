@@ -54,39 +54,40 @@ export function signup(signupRequest){
 
 //초기 데이터 가져오기 
 
-export function getDetailData(detailDataReqeust){
+export function getDetailData(postid){
     return request({
-        url:API_BASE_URL+"/detail/"+detailDataReqeust.postid,
-        method:"POST",
-        body:JSON.stringify(detailDataReqeust)
+        url:API_BASE_URL+"/detail/"+postid,
+        method:"get",
+
     })
 }
 
 
 //좋아요 했는지 조회
 
-    export function getIsLike(getIsLikeRequest){
+    export function getIsLike(userid,postid){
         return request({
-            url:API_BASE_URL+"/like/check",
-            method:"POST",
-            body:JSON.stringify(getIsLikeRequest)
+            url:API_BASE_URL+"/detail/like/check?userid="+userid+"&postid="+postid,
+            method:"get",
+
         })
     }
 
 
     //좋아요 토글
-    export function toggleLike(toggleLikeRequest){
-        return request({
-            url:API_BASE_URL+"/like/toggle",
-            method:"POST",
-            body:JSON.stringify(toggleLikeRequest)
-        })
-    }
+export function toggleLike(toggleLikeRequest){
+    return request({
+        url:API_BASE_URL+"/like/toggle",
+        method:"POST",
+        body:JSON.stringify(toggleLikeRequest)
+    })
+}
+
 
 //팔로우 유저 목록 조회 (유저 권한은 필요 없을듯?) // 좋아요, 팔로워, 팔로잉 리스트 전부 통일
 export function getUserList(getUserListRequest){
     return request({
-        url:API_BASE_URL+"/modal/getlist",
+        url:API_BASE_URL+"/user/modal",
         method:"POST",
         body:JSON.stringify(getUserListRequest)
     })
@@ -110,49 +111,50 @@ export function updateComment(updateCommentRequest){
         body:JSON.stringify(updateCommentRequest)
     })
 }
-export function fetchDeleteComment(deleteCommentRequest){
+export function fetchDeleteComment(fetchDeleteCommentRequest){
     return request({
-        url:API_BASE_URL+"/comment/update",
-        method:"POST",
-        body:JSON.stringify(deleteCommentRequest)
+        url:API_BASE_URL+"/comment/delete",
+        method:"post",
+        body:JSON.stringify(fetchDeleteCommentRequest)
     })
 }
 
 //해시태그 자동완성 요청
-export function hashtagAutoComplete(hashtagAutoCompleteRequest){
+export function hashtagAutoComplete(data,type){
     return request({
-        url:API_BASE_URL+"/detail/hashtagAutoComplete",
-        method:"POST",
-        body:JSON.stringify(hashtagAutoCompleteRequest)
+        url:API_BASE_URL+"/AutoComplete/"+type+"?data="+data,
+        method:"GET",
+
     })
 }
 
 
-//유저태그 자동완성 요청
-export function usertagAutoComplete(usertagAutoCompleteRequest){
+
+
+
+//detail 페이지 delete
+export function deleteDetailPage(deleteDetailPageRequest){
     return request({
-        url:API_BASE_URL+"/usertag/autocomplete",
+        url:API_BASE_URL+"/detail/delete",
         method:"POST",
-        body:JSON.stringify(usertagAutoCompleteRequest)
+        body:JSON.stringify(deleteDetailPageRequest)
     })
 }
 
-//좋아요모달 팔로우
-
-export function updateModalFollow(updateModalFollowRequest){
-    return request({
-        url:API_BASE_URL+"usertag/autocomplete",
-        method:"POST",
-        body:JSON.stringify(updateModalFollowRequest)
-    })
-}
 
 //페이징
 export function getdata(getDataRequest){
     return request({
-        url:API_BASE_URL+"/getdata",
+        url:API_BASE_URL+"/user.",
         method:"POST",
         body:JSON.stringify(getDataRequest)
+    })
+}
+
+export function getProfileData(username,pageno){
+    return request({
+        url:API_BASE_URL+"/user/"+username+"/posts/"+pageno,
+        method:"get"
     })
 }
 // clarifai 데이터 가져오기
@@ -175,12 +177,19 @@ export function getGoogleData(getGoogleDataRequest){
 }
 
 
-//인덱스 게시물데이터
+//인덱스 게시물추가데이터
 export function getIndexData(url,position,ids){
     return request({
-        url:API_BASE_URL+"/getlist/?url="+url+"&position="+position,
+        url:API_BASE_URL+"/getindex?url="+url+"&position="+position,
         method:"POST",
         body:ids
+    })
+}
+//인덱스 초기데이터
+export function getIndexDataInit(){
+    return request({
+        url:API_BASE_URL+"/getindex",
+        method:"GET",
     })
 }
 
@@ -265,7 +274,7 @@ export function setAlertChecked(setAlertCheckedRequest){
 // 프로필 subnav 데이터 가져오기
 export function getProfileSubNavData(current_userid,profile_username){
     return request({
-        url:API_BASE_URL+"/"+profile_username+"/username?current_userid="+current_userid,
+        url:API_BASE_URL+"/user/"+profile_username+"?current_userid="+current_userid,
         method:"get",
 
     })
@@ -278,10 +287,11 @@ export function getDetailProfileSubNavData(current_userid,postid){
     })
 }
 
-// 프로필 subnav 팔로우 토글
-export function toggleFollow(current_username,target_username){
+// 팔로우 토글 (모달포함 )
+
+export function toggleFollow(current_userid,target_userid){
     return request ({
-        url:API_BASE_URL+"/subnav/profile?target_username="+target_username+"&current_username="+current_username,
+        url:API_BASE_URL+"/follow/toggle?target_userid="+target_userid+"&current_userid="+current_userid,
         method:"get",
     })
 }
@@ -291,7 +301,8 @@ export function toggleFollow(current_username,target_username){
 export function getAutoComplete(inputText,keyword){
 
     return request({
-        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+        // url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+        url:API_BASE_URL+"/srchdata?value="+inputText+"&keyword="+keyword,
         method:"GET",
     })
 }
@@ -314,7 +325,20 @@ export function getCheckPassword(getCheckPasswordData){
 }
 
 // 랭킹페이지 리스트 불러오기
+// type = like or brand or user
+// filter = all or man or women ** brand filter always null
+// count = page count 
 
+// return 
+// like.content = [post]
+// user.content = [userinfo] 팔로잉 팔로워 카운트 포함 유저 프로필 subnav데이터 불러올때랑 완죤 똑같은 데이터유형
+// brand.content = [brandinfo]
+// brandinfo = {
+//     brandname:,
+//     postedcount: 브랜드 태깅한 포스트 카운트,
+//     [post]: 태깅한 포스트 단 3개 순서는 최신순이던 인기순이던 상관 무,
+
+// }
 export function getRankingData(type,filter,count){
     return request({
         url:API_BASE_URL+"/ranking?type="+type+"&filter="+filter+"&page="+count,

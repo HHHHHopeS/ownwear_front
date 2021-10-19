@@ -26,6 +26,9 @@
       font-size: 60px;
       font-weight: 700;
       text-transform: capitalize;
+      @include mobile{
+        font-size: 40px;
+      }
     }
   }
   .create-main-container{

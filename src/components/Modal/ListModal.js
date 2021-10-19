@@ -3,7 +3,8 @@ import { Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
-import { updateModalFollow } from "../../util/APIUtils";
+import defaultUser from "../../res/default-user.jpeg";
+import { toggleFollow } from "../../util/APIUtils";
 export default function ListModal(props) {
   const title = props.title
   const show = props.show;
@@ -13,53 +14,41 @@ export default function ListModal(props) {
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
+
   const controlFollow = (e, index, userid) => {
     const target = e.currentTarget;
+    const toggleText=(el,obj,response)=>{
+      const arr = userList.slice(0,userList.length)
+      if(response){
+        target.className="following"
+        target.innerText="following"
+        arr[index]={...arr[index],follower:arr[index].follower+1}
+      }
+      else{
+        target.className="follow"
+        target.innerText="follow"
+        arr[index]={...arr[index],follower:arr[index].follower-1}
+      }
+      setUserList(arr)
+    }
     let arr = [...userList];
     const obj = userList[index];
     if(user.auth){
-    if (target.className === "follow") {
-      const updateModalFollowRequest = Object.assign(
-        {},
-        { targetuserno: userid, userid: user.info.id, operator: "plus" }
-      );
-      updateModalFollow(updateModalFollowRequest).then(response => {
-        if (response) {
-          target.className = "following";
-          target.innerText = "Following";
-          obj.follower += 1;
-        }
+      toggleFollow(user.info.userid,obj.user.userid).then(response => {
+        
+          toggleText(target,obj,response)
+        
         
       }).catch(
           err=>{
             Alert.error("oops cannot follow")
           }
       );
-    } else {
-      const updateModalFollowRequest = Object.assign(
-        {},
-        { targetuserno: userid, userid: user.info.id, operator: "minus" }
-      );
-      updateModalFollow(updateModalFollowRequest).then(
-          response =>{
-            if(response.ok){
-            target.className = "follow";
-            target.innerText = "Follow";
-            obj.follower -= 1;
-          }
-          }
-      ).catch(err=>{
-          Alert.error("oops cannot follow")
-      });
-      
-    }
-
-
-
-
-    arr[index] = obj;
-    setUserList(arr);
-}
+    //   arr[index] = obj;
+    //   console.log(arr)
+    // setUserList(arr.slice(0,arr.length));
+    } 
+    
     else{
         Alert.error("Please Login First")
         history.push("/login")
@@ -72,46 +61,45 @@ export default function ListModal(props) {
         <button onClick={handleClose} className="btn-close"></button>
       </Modal.Header>
       <Modal.Body>
-        {userList.length > 0 ? (
-          userList.map((user, index) => (
+        {userList.length>0 ? (
+          userList.map((data, index) => (
             <div key={index} className="user-container">
-              <div className="user-info-section">
-                <div className="user-info-image">
-                  <Link to={"profile/" + user.username}>
-                    <img src={user.userImg} alt="" />
-                  </Link>
-                </div>
-                <div className="user-info-text">
-                  <Link to={"profile/" + user.username}>
-                    {user.username}
-                  </Link>
-                  <span>{user.follower} followers </span>
-                </div>
+            <div className="user-info-section">
+              <div className="user-info-image">
+                <Link to={"/profile/" + data.user.username}>
+                  <img src={data.user.userImg?data.user.userImg:defaultUser} alt="" />
+                </Link>
               </div>
-              <div className="user-follower-section">
-                {/* follow trigger */}
-                {user.isUserFollowed ? (
-                  <button
-                    onClick={e => {
-                      controlFollow(e, index, user.userid);
-                    }}
-                    className="following"
-                  >
-                    Following
-                  </button>
-                ) : (
-                  <button
-                    onClick={e => {
-                      controlFollow(e, index, user.userid);
-                    }}
-                    className="follow"
-                  >
-                    Follow
-                  </button>
-                )}
+              <div className="user-info-text">
+                <Link to={"/profile/" + data.user.username}>
+                  {data.user.username}
+                </Link>
+                <span>{data.follower} followers </span>
               </div>
             </div>
-          ))
+            <div className="user-follower-section">
+              {data.isTrue ? (
+                <button
+                  onClick={e => {
+                    controlFollow(e, index, data.user.userid);
+                  }}
+                  className="following"
+                >
+                  following
+                </button>
+              ) : (
+                <button
+                  onClick={e => {
+                    controlFollow(e, index, data.user.userid);
+                  }}
+                  className="follow"
+                >
+                  Follow
+                </button>
+              )}
+            </div>
+          </div>
+        ))
         ) : (
           <h1> no list</h1>
         )}

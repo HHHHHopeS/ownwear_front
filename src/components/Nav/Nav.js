@@ -1,30 +1,24 @@
 import {
-  faAddressCard,
-  faBell,
-  faPlusSquare,
+    faAddressCard,
+    faBell,
+    faPlusSquare
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faBell as fsBell,
-  faTimes,
-  faSyncAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faArrowRight,
-  faSignOutAlt,
-  faSlidersH,
+    faArrowRight, faBell as fsBell, faSignOutAlt,
+    faSlidersH, faSyncAlt, faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Alert from "react-s-alert";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import exPhoto from "../../res/exPhoto.jpeg";
 import logo from "../../res/logo.png";
-import "./Nav.scss";
-import SearchBar from "./SearchBar";
 import { getAlertList, setAlertChecked } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
-import LoadingIndicator from "../../common/LoadingIndicator";
-import Alert from "react-s-alert"
+import "./Nav.scss";
+import SearchBar from "./SearchBar";
 export default function Nav(props) {
   const { user } = useContext(UserContext);
   const [activeProfile, setActiveProfile] = useState(false);
@@ -205,12 +199,12 @@ export default function Nav(props) {
     <div className="Nav">
       <div className="nav-section">
         <ul style={user.auth ? {} : { marginLeft: "-5%" }}>
-          <li>
+          <li className="search-bar-section">
             <div className="search-bar-container">
-              <SearchBar  keyword={keyword} setKeyword={setKeyword} />
+              <SearchBar loseSearchBar={loseSearchBar} keyword={keyword} setKeyword={setKeyword} />
             </div>
           </li>
-          <li>
+          <li className="logo-section">
             <Link to="/">
               <button>
                 <img className="logo-image" src={logo} alt="logo" />
@@ -218,7 +212,7 @@ export default function Nav(props) {
             </Link>
           </li>
           {!user.auth ? (
-            <li>
+            <li className="menu-section">
               <Link to="/login">
                 <button>SingIn/Signup</button>
               </Link>

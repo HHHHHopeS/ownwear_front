@@ -77,7 +77,19 @@
         .profile-section {
           display: flex;
           flex-direction: column;
-
+          .profile-name-section{
+            
+            a{
+              margin-left: 25px;
+              text-decoration: none;
+              color: black;
+              font-weight: bold;
+              font-size: 35px;
+              &:hover{
+                text-decoration: underline;
+              }
+            }
+          }
           .profile-info-section {
             display: flex;
             flex-direction: row;
@@ -131,8 +143,14 @@
   div.ranking {
     height: 250px;
     display: block;
+    @include mobile{
+      height: 150px;
+    }
     .buttons-section {
       height: 25%;
+      @include mobile{
+        height: 50%;
+      }
       display: flex;
       flex-direction: row;
 
@@ -163,16 +181,29 @@
     .title-section {
       height: 45%;
       display: flex;
-
+      margin-left: 90px;
+      
       justify-content: flex-start;
       .title-container {
-        margin: 60px 12%;
+
+        margin: 65px 12%;
         h1 {
           font-weight: 600;
           text-transform: uppercase;
           svg {
             margin-right: 10px;
           }
+        }
+      }
+      @include mobile{
+        height: 50%;
+        display: flex;
+        margin: 0;
+        align-items: center;
+        justify-content: flex-start;
+        margin-left: 15%;
+        .title-container{
+          margin: 0;
         }
       }
     }
@@ -186,7 +217,7 @@
 
       a {
         background: none;
-        border: 2px solid $primary;
+        box-shadow: rgba(0, 0, 0, 0.16) -1px 0px 4px;;
         border-bottom: none;
 
         padding-top: 10px;
@@ -202,7 +233,8 @@
       }
 
       a.active {
-        background-color: $primary;
+
+        border-bottom: 3px solid black;
       }
       button:focus {
         outline: none;
@@ -226,6 +258,9 @@
       div.left-section {
         width: 30%;
         display: flex;
+        @include mobile{
+          width: 50%;
+        }
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -267,9 +302,19 @@
       width: 80%;
       height: 100%;
       display: flex;
+      @include mobile{
+        width: 50%;
+
+        flex-direction: column;
+      }
       div.profile-section {
+
         width: 40%;
         margin-inline: 5%;
+        @include mobile{
+          margin-top: 10%;
+          margin-inline: 20%;
+        }
         div.profile-info-section {
           display: flex;
           align-items: center;
@@ -333,13 +378,23 @@
       }
       div.button-section {
         height: 100%;
+        
         width: 60%;
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
+        
         button{
           margin-right: 100px;
           margin-bottom: 10px;
+          
+        }
+        @include mobile{
+          height: 50%;
+          button{
+            margin: 0;
+            margin-right: -50%;
+          }
         }
       }
     }

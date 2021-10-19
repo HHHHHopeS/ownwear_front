@@ -1,6 +1,6 @@
-import React, { useState } from "react"; 
-import './Paging.scss'; 
-import Pagination from "react-js-pagination"; 
+import React from "react";
+import Pagination from "react-js-pagination";
+import './Paging.scss';
 
 
   const Paging = (props) => {
