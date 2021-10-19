@@ -57,7 +57,7 @@ export default function MyPage() {
         if (newPassword === newRePassword) {
             console.log("green")
             console.log(user)
-            const request = Object.assign({}, { userid: user.info.userid,password: inputs.password })
+            const request = Object.assign({}, { userid: user.info.userid, password: inputs.newPassword})
             
             console.log(request)
             getCheckPassword(request).then(response => {
