@@ -4,9 +4,6 @@ import _ from "lodash";
 import React, { useCallback, useEffect, useState } from 'react';
 import SearchToolBox from "../SearchToolBox/SearchToolBox";
 import { getAutoComplete } from "../../util/APIUtils";
-import { AsyncTypeahead } from "react-bootstrap-typeahead";
-
-
 
 export default function SearchBar(props) {
   function clickSearchBar() {
@@ -50,19 +47,16 @@ export default function SearchBar(props) {
   }
   const textChange = (e) => {
     if (e.keyCode === 13) {
-
       if (document.querySelector(`.result.focus`)) {
         setInputText(document.querySelector(`.result.focus`).innerText)
       }
     }
     if (e.keyCode === 40) {
       if (results) {
-
         if (count < results.length) {
           document.querySelectorAll(`.result`).forEach(el => {
             el.classList.remove("focus")
           });
-
           document.querySelector(`.result-${count}`).classList.add("focus")
           setCount(count + 1)
         }
@@ -70,7 +64,6 @@ export default function SearchBar(props) {
           document.querySelectorAll(`.result`).forEach(el => {
             el.classList.remove("focus")
           });
-
           document.querySelector(`.result-0`).classList.add("focus")
           setCount(1)
         }

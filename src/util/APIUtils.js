@@ -178,11 +178,11 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물추가데이터
-export function getIndexData(url,position,ids){
+export function getIndexMoreData(getIndexMoreDataRequest){
     return request({
-        url:API_BASE_URL+"/getindex?url="+url+"&position="+position,
+        url:API_BASE_URL+"/getindex",
         method:"POST",
-        body:ids
+        body:JSON.stringify(getIndexMoreDataRequest)
     })
 }
 //인덱스 초기데이터
