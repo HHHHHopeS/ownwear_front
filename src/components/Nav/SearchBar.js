@@ -12,7 +12,8 @@ export default function SearchBar(props) {
     document.querySelector(".blur-section").classList.add("blur")
     document.querySelector(".SearchToolBox").classList.add("active")
     document.querySelector(".SearchBar").classList.add("active")
-    setKeyword("tag")
+    
+
   }
   const keyword = props.keyword
   const setKeyword = props.setKeyword
@@ -24,9 +25,9 @@ export default function SearchBar(props) {
 
   const clearState = () => {
     if (document.querySelector(".SearchToolBox")) {
-      document.querySelectorAll(`.result`).forEach(el => {
-        el.classList.remove("focus")
-      });
+      // document.querySelectorAll(`.result`).forEach(el => {
+      //   el.classList.remove("focus")
+      // });
       setCount(0)
     }
   }
@@ -48,7 +49,7 @@ export default function SearchBar(props) {
   const textChange = (e) => {
     if (e.keyCode === 13) {
       if (document.querySelector(`.result.focus`)) {
-        setInputText(document.querySelector(`.result.focus`).innerText)
+        setInputText(document.querySelector(`.result.focus`).querySelector('a').innerText)
       }
     }
     if (e.keyCode === 40) {
@@ -87,22 +88,20 @@ export default function SearchBar(props) {
       }
     }
   }
-
   useEffect(() => {
     if (inputText && keyword) {
       getResult()
     }
-    else {
+    if(!inputText){
       setResults(null)
     }
+    // else {
+    //   setResults(null)
+    // }
   }, [inputText, keyword])
 
   useEffect(() => {
     if (document.querySelector(`.result-${count}`)) {
-      // document.querySelector(`.result-${count}`).classList.add("focus")
-      // if(document.querySelector('.result.focus')){
-      //   setInputText(document.querySelector('.result.focus').innerText)
-      // }
     }
   }, [count])
 
