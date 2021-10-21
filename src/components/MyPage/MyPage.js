@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
+import { getInfo } from "../../util/APIUtils";
+
 import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
+
 import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
@@ -45,27 +48,52 @@ export default function MyPage() {
     // const openModal = () => {
     //   setShowModal(prev => !prev);
     // };
+
+    const submitinfo = (e) => {
+        e.preventDefault()
+        console.log(e)
+        console.log(e.target[0].value)
+        console.log(e.target[1].value)
+        console.log(e.target[2].value)
+        console.log(e.target[3].value)
+
+
+        if(parseInt(e.target[0].value)||!e.target[0].value){
+        const request =Object.assign({}, {...user.info,height:e.target[0].value, instaid:e.target[1].value, twitterid:e.target[2].value, pinterestid:e.target[3].value})
+        getInfo(request).then(response => console.log(response))
+        .catch(err => console.log(err))
+      
+        }
+      
+    else{
+        alert("숫자아님")
+    }}
     const submit = (e) => {
         e.preventDefault()
        
 
-
-    
+       
 
         if (newPassword === newRePassword) {
             console.log("green")
             console.log(user)
-            const request = Object.assign({}, { id: user.info.userid,pw: inputs.password,newPw:inputs.newPassword })
+
+            const request = Object.assign({}, { userid: user.info.userid, password: inputs.password})
+            const newRequest = Object.assign({},{ userid: user.info.userid, password: inputs.newPassword})
+
+
             
+
             console.log(request)
             getChangePassword(request).then(response => {
                 
                if(response){
-                   
-                console.log(response)
+                getChangePassword(newRequest).then(response=>console.log(response))   
+                
                }
                else{
                    console.log(response)
+                
                 //    alert("현재 비밀번호가 잘못되었습니다.")
                }
 
@@ -81,11 +109,14 @@ export default function MyPage() {
             alert("새비밀번호 확인부탁")
         }
     }
+    
+
     const [inputs, setInputs] = useState({
         password: "",
         newPassword: "",
         newRePassword: ""
     })
+
     const { password, newPassword, newRePassword } = inputs;
 
     const onChange = (e) => {
@@ -166,14 +197,14 @@ export default function MyPage() {
                         <p className="email">{user.info ? user.info.email : null}</p>
                         <p className="sex">{user.info ? user.info.sex : null}</p>
                         <div style={showForm ? { display: "block" } : { display: "none" }} className="profile-edit">
-                            <form action="MyPage.js" method="POST" onSubmit="" >
+                            <form  onSubmit={submitinfo} >
                                 <input type="text" name="height" defaultValue={user.info ? user.info.height : null} placeholder="height" />
                                 <label>SNS ID</label>
                                 <input type="text" name="insta" defaultValue={user.info ? user.info.instaid : null} placeholder="instagram" />
                                 <input type="text" name="twitter" defaultValue={user.info ? user.info.twitterid : null} placeholder="Twitter" />
                                 <input type="text" name="pinterest" defaultValue={user.info ? user.info.pinterestid : null} placeholder="Pinterest" />
                                 <div className="btt">
-                                    <button className="edit-save">저장</button>
+                                    <button type="submit" className="edit-save">저장</button>
                                     <button onClick={(e) => { e.preventDefault(); setShowForm(false) }} className="edit-save">닫기</button>
                                 </div>
                             </form>

@@ -21,13 +21,13 @@ export default function List(props) {
       imgIndex: 1,
       user: "abc",
       imgUrl:
-        "https://news.nateimg.co.kr/orgImg/my/2020/11/27/202011270741372275_1.jpg",
+        "https://img.hankyung.com/photo/201609/BF.12433095.1.jpg",
       likecount: 14100,
       userName: "주희남자친구",
-      height: 183,
+      height: 184,
       rdate: "2021-09-15",
       profileImgUrl:
-        "https://dimg.donga.com/wps/SPORTS/IMAGE/2020/12/23/104600447.1.jpg",
+        "https://mblogthumb-phinf.pstatic.net/MjAxNjEyMTVfMTIw/MDAxNDgxNzgwNjcyNDU2.-jpgfAqquywYJL85KDQCO1QO_93HhTemf16Nlw95mhYg.iW6fSKBWEXF61_JjM-VDekrZiBGP-0pFktLM-iKrwsgg.JPEG.wjs7889/DoKeBi.E04.161210.mp4_20161214_021703.077.jpg?type=w2",
       tagData: [
         {
           rectorX: 0.432,
@@ -161,13 +161,13 @@ export default function List(props) {
       imgIndex: 6,
       user: "abc",
       imgUrl:
-        "https://pbs.twimg.com/media/ES-WzIRU4AAz4MX.jpg",
+        "http://img.marieclairekorea.com/2016/06/1607mcmacemr09_07-750x1000.jpg",
       likecount: 14100,
       userName: "주희남자친구",
-      height: 183,
+      height: 184,
       rdate: "2021-09-15",
       profileImgUrl:
-        "https://dimg.donga.com/wps/SPORTS/IMAGE/2020/12/23/104600447.1.jpg",
+        "https://mblogthumb-phinf.pstatic.net/MjAxNjEyMTVfMTIw/MDAxNDgxNzgwNjcyNDU2.-jpgfAqquywYJL85KDQCO1QO_93HhTemf16Nlw95mhYg.iW6fSKBWEXF61_JjM-VDekrZiBGP-0pFktLM-iKrwsgg.JPEG.wjs7889/DoKeBi.E04.161210.mp4_20161214_021703.077.jpg?type=w2",
       tagData: [
         {
           rectorX: 0.432,
