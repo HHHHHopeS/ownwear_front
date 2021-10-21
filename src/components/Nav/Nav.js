@@ -24,7 +24,7 @@ export default function Nav(props) {
   const [activeProfile, setActiveProfile] = useState(false);
   const [activeAlert, setActiveAlert] = useState(false);
   const [loading,setLoading] = useState(false)
-  const [keyword, setKeyword] = useState(null)
+  const [keyword, setKeyword] = useState("tag")
   const [alertList, setAlertList] = useState([
     {
       alertid:1,
