@@ -21,7 +21,7 @@ import {
 } from "../../util/APIUtils";
 import calculateScale from "../../util/numberUtils";
 import "./SubNav.scss";
-
+import Select from "react-select";
 export default function SubNav(props) {
   const { user } = useContext(UserContext);
   const history = useHistory();
@@ -176,7 +176,11 @@ export default function SubNav(props) {
   const Ranking = props => {
     const [rankingTitle, setRankingTitle] = useState("");
     const setChange = props.setChange;
-
+    const options = [
+      {value: "all" ,label : "all"},
+      {value: "men" ,label : "men"},
+      {value: "women" ,label : "women"}
+    ]
     const location = useLocation();
     const subButtonEvent = event => {
       const subButtons = document.querySelector(".sub-buttons-section");
@@ -186,7 +190,7 @@ export default function SubNav(props) {
       }
       event.target.classList.add("active");
     };
-
+    console.log(window.innerWidth)
     useEffect(() => {
       setRankingTitle(location.pathname.split("/")[2]);
       document
@@ -198,6 +202,8 @@ export default function SubNav(props) {
         .classList.add("active");
       }
     }, [location.pathname]);
+
+    
 
     return (
       <div className="ranking">
@@ -223,7 +229,7 @@ export default function SubNav(props) {
             </h1>
           </div>
         </div>
-        <div hidden={location.pathname.includes("brand")?true:false} className="sub-buttons-section">
+        <div style={window.innerWidth<758?{display:"none"}:{}}  hidden={location.pathname.includes("brand")?true:false} className="sub-buttons-section">
           <Link
             to={"/ranking/" + location.pathname.split("/")[2] + "/all"}
             className="sub-btn-all"
@@ -243,6 +249,9 @@ export default function SubNav(props) {
             WOMEN
           </Link>
         </div>
+        <Select onChange={e=>history.push("/ranking/"+location.pathname.split("/")[2]+"/"+e.value)} isSearchable={false} defaultValue={{value:location.pathname.split("/")[3],label:location.pathname.split("/")[3]}} options={options} />
+
+        
       </div>
     );
   };
@@ -391,9 +400,13 @@ export default function SubNav(props) {
               {user.info && info.user ? (
                 user.info.uername !== info.user.username ? (
                   <button
-                    onClick={e =>
+                    onClick={e =>{
+                      followOrNot(user.info.userid, info.user.userid).then(bool=>
+                        setInfo({...info,user:{...info.user,isfollowing:bool?true:false},follower:bool?info.follower+1:info.follower-1})  
+                        )
                       
-                      setInfo({...info,follower:followOrNot(user.info.userid, info.user.userid,info)?info.follower+1:info.follower-1})
+                      
+                    }
                     }
                     className="follow-button"
                     hidden={user.info&&user.info.username!==info.user.username?false:true}

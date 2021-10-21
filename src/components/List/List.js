@@ -391,6 +391,7 @@ export default function List(props) {
     });
     getdata(getListDataRequest)
     .then(response => {
+      console.log(response)
       setData(response.data)
     setTotalcount(response.totalcount);
     })

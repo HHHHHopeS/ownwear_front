@@ -17,6 +17,7 @@ export default function UnVerified(props) {
   const history = useHistory();
   if (user.auth) {
     if (user.info.isverified) {
+      
       history.push("/");
     }
   } else {
