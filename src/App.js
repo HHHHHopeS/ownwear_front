@@ -17,6 +17,7 @@ import List from "./components/List/List";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import ListModal from "./components/Modal/ListModal";
+import MoreInfoModal from "./components/Modal/MoreInfoModal";
 import MyPage from "./components/MyPage/MyPage";
 import Nav from "./components/Nav/Nav";
 import Profile from "./components/Profile/Profile";
@@ -39,6 +40,7 @@ const [loading,setLoading] = useState(true)
 const [show,setShow] = useState(false)
 const [userList,setUserList] = useState([])
 const [title,setTitle]=useState("")
+const [toggleMoreInfo,setToggleMoreInfo] = useState(false)
 const history = useHistory()
 
 const  followOrNot = async (current_userid, target_userid) => {
@@ -145,10 +147,16 @@ else return null
     
     
   loadCurrentlyLoggedInUser();
-
+  
 
   return () => setLoading(false);
   },[localStorage.accessToken])
+  useEffect(()=>{
+      if(user.info&&(!user.info.height||!user.info.sex)){
+        // setToggleMoreInfo(true)
+        //  todo: oauth2 백 완성되면 해제 
+      }
+  },[user,user.info])
   useEffect(() => {
     console.log(history.action)
     if(history.action==="PUSH"){
@@ -177,7 +185,7 @@ else return null
           <Route exact path="/unverified" component={UnVerified} />
           <Route exact path="/men" component={Main} />
           <Route exact path="/women" component={Main} />
-          <Route exact path="/login"  render={(props)=><Login  {...props}/>}/>
+          <Route exact path="/login"  render={(props)=><Login setToggleMoreInfo={setToggleMoreInfo}  {...props}/>}/>
           <Route exact path="/detail/:id" render={props=><Detail setTitle={setTitle} setUserList={setUserList} setShow={setShow} {...props}/> }/>
 
     
@@ -210,7 +218,7 @@ else return null
           setShow={setShow}
           title={title}
         />
-        
+        <MoreInfoModal keyboard={false} centered backdrop="static" show={toggleMoreInfo} onHide={()=>setToggleMoreInfo(false)}/>
     </div>
     
   );

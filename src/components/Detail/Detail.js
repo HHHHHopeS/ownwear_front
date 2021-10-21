@@ -1,61 +1,71 @@
 import {
   faFacebookF,
   faPinterest,
-  faTwitter
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faHeart as emptyHeart,
-  faShareSquare
+  faShareSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faEdit,
   faEllipsisH,
+  faHeading,
   faHeart,
   faPaperPlane,
   faPen,
   faShareAlt,
   faTimes,
-  faTrashAlt
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, {
   createRef,
   useContext,
   useEffect,
-  useLayoutEffect, useRef,
-  useState
+  useLayoutEffect,
+  useRef,
+  useState,
 } from "react";
 import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import {
-  getDetailData, getIsLike, getUserList,toggleLike ,updateComment,fetchCreateComment,fetchDeleteComment, hashtagAutoComplete, 
+  getDetailData,
+  getIsLike,
+  getUserList,
+  toggleLike,
+  updateComment,
+  fetchCreateComment,
+  fetchDeleteComment,
+  hashtagAutoComplete,
 } from "../../util/APIUtils";
 import NotFound from "../404/NotFound";
 import "./Detail.scss";
 import ListModal from "../Modal/ListModal";
 import { calculateDatetime } from "../../util/TimeUtils";
-import defaultUser from "../../res/default-user.jpeg"
+import defaultUser from "../../res/default-user.jpeg";
+import _ from "lodash";
 export default function Detail(props) {
   const pathName = props.location.pathname;
-  
+
   const postuser = pathName.split("/")[1];
   const postid = parseInt(pathName.split("/")[2]);
 
   const [isLike, setIsLike] = useState(false);
-const setShow = props.setShow;
-const setUserList = props.setUserList;
+  const setShow = props.setShow;
+  const setUserList = props.setUserList;
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoverTag, setHoverTag] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [detailPageData, setDetailPageData] = useState({
-    postform:{
+    postform: {
       postid: postid,
-      
-      user:{
+
+      user: {
         userid: 1,
         username: "winter",
       },
@@ -73,7 +83,8 @@ const setUserList = props.setUserList;
             productInfo: {
               brandName: "Givenchy",
               category: "top",
-              productName: "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
+              productName:
+                "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
               productUrl:
                 "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
               productImgUrl:
@@ -140,24 +151,21 @@ const setUserList = props.setUserList;
   });
 
   useEffect(() => {
-
-    // 디테일 페이지 로직, 
+    // 디테일 페이지 로직,
 
     getDetailData(postid)
       .then(response => {
-        if(response){
-
-        setDetailPageData(response);
-      }
-      else{
-        console.log(response)
-      }
+        if (response) {
+          console.log(response)
+          setDetailPageData(response);
+        } else {
+          console.log(response);
+        }
         if (user.auth) {
-        
-          getIsLike(user.info.userid,postid)
+          getIsLike(user.info.userid, postid)
             .then(response => {
               if (response) {
-                setIsLike(true)
+                setIsLike(true);
               } else {
                 setIsLike(false);
               }
@@ -173,7 +181,7 @@ const setUserList = props.setUserList;
         Alert.error("failed to get data");
         // setNotFound(true)  백 구축 하면 원상복귀
       });
-  }, [postid,user.auth,]);
+  }, [postid, user.auth]);
   // }, [postid]);
   useLayoutEffect(() => {
     if (targetRef.current) {
@@ -237,6 +245,7 @@ const setUserList = props.setUserList;
               setUserList={setUserList}
               setLikecount={setLikecount}
               user={user}
+              detailPageData={detailPageData}
               setShow={setShow}
               {...props}
             />
@@ -251,9 +260,13 @@ const setUserList = props.setUserList;
         <div className="detail-side-section">
           <ImageInfo detailPageData={detailPageData} />
           <Product detailPageData={detailPageData} hoverTag={hoverTag} />
-          <RelatedImages postid={postid} userRelated={detailPageData.userRelated} username={detailPageData.postform.user.username} userid={detailPageData.postform.user.userid}/>
+          <RelatedImages
+            postid={postid}
+            userRelated={detailPageData.userRelated}
+            username={detailPageData.postform.user.username}
+            userid={detailPageData.postform.user.userid}
+          />
         </div>
-        
       </div>
     );
   } else {
@@ -261,13 +274,12 @@ const setUserList = props.setUserList;
   }
 }
 
-
 function Image(props) {
   const dimensions = props.dimensions;
   const targetRef = props.targetRef;
   const setHoverTag = props.setHoverTag;
   const imgdata = props.imgdata;
-  
+
   const RenderTags = () => {
     let tagRenderer = [];
     let i = 1;
@@ -328,26 +340,26 @@ function Image(props) {
 
 function LikeShare(props) {
   // const postid = props.location.pathname.split("/")[3];
-  const postid = props.postid
+  const postid = props.postid;
   const likecount = props.likecount;
   const setLikecount = props.setLikecount;
   const [hover, setHover] = useState(false);
-  const [shareActive, setShareActive] = useState(false);
-  const setUserList=props.setUserList
+
+  const setUserList = props.setUserList;
+
   const setShow = props.setShow;
   const isLike = props.isLike;
-  const setTitle = props.setTitle
+  const setTitle = props.setTitle;
   const setIsLike = props.setIsLike;
   const user = props.user;
   const [icon, setIcon] = useState(emptyHeart);
   const pressLike = () => {
     if (user.auth) {
-      
       const toggleLikeRequest = Object.assign(
         {},
-        { likePost:{likepostid:null,userid: user.info.userid, postid: postid}}
+        { postid: parseInt(postid), userid: user.info.userid }
       );
-      
+
       // if (isLike) {
       //   setIsLike(false);
       //   setLikecount(likecount-1);
@@ -355,10 +367,13 @@ function LikeShare(props) {
       //   setIsLike(true);
       //   setLikecount(likecount+1);
       // }
-      
+
       toggleLike(toggleLikeRequest)
         .then(response => {
-          console.log(response)
+          if (response) setIsLike(true, setLikecount(true));
+          else {
+            setIsLike(false, setLikecount(false));
+          }
         })
         .catch(() => {
           Alert.error("oops cannot change, please retry!");
@@ -369,26 +384,31 @@ function LikeShare(props) {
     }
   };
   const activeListModal = () => {
-    if(user.auth){
-    const LikeUserListRequest = Object.assign({}, {type:"like" ,targetid: postid,current_userid:user.info.userid });
-    getUserList(LikeUserListRequest).then(response=>{
-      console.log(response)
-      setUserList(response)
-    
-    }).catch(err=>console.log(err))
-  }
-  else{
-    const LikeUserListRequest = Object.assign({}, { type:"like",targetid: postid,current_userid:-1 });
-    getUserList(LikeUserListRequest).then(response=>{
-      if(response.ok){
-      setUserList(response)
+    if (user.auth) {
+      const LikeUserListRequest = Object.assign(
+        {},
+        { type: "like", targetid: postid, current_userid: user.info.userid }
+      );
+      getUserList(LikeUserListRequest)
+        .then(response => {
+          console.log(response);
+          setUserList(response);
+        })
+        .catch(err => console.log(err));
+    } else {
+      const LikeUserListRequest = Object.assign(
+        {},
+        { type: "like", targetid: postid, current_userid: -1 }
+      );
+      getUserList(LikeUserListRequest).then(response => {
+        if (response.ok) {
+          setUserList(response);
+        } else {
+          console.log(response);
+        }
+      });
     }
-    else{
-      console.log(response)
-    }
-    })
-  }
-    setTitle("like")
+    setTitle("like");
     setShow(true);
   };
   useEffect(() => {
@@ -425,32 +445,7 @@ function LikeShare(props) {
               />
             </button>
           </div>
-          <div
-            className={shareActive ? "share-section active" : "share-section"}
-          >
-            <button
-              className="share"
-              onClick={
-                shareActive
-                  ? () => {
-                      setShareActive(false);
-                    }
-                  : setShareActive
-              }
-            >
-              <FontAwesomeIcon icon={faShareAlt} />
-            </button>
-            <div className="share-icons">
-              <button className="facebook">
-                <FontAwesomeIcon icon={faFacebookF} />
-              </button>
-              <button className="twitter">
-                <FontAwesomeIcon icon={faTwitter} />
-              </button>
-              <button className="pinterest">
-                <FontAwesomeIcon icon={faPinterest} /></button>
-            </div>
-          </div>
+          
         </div>
         <div className="letter-section">
           <span onClick={activeListModal}>{likecount}Likes</span>
@@ -464,8 +459,8 @@ function Comment(props) {
   const postid = props.postid;
   const user = props.user;
   const comments = props.detailPageData.comments;
-  const detailPageData = props.detailPageData
-  const setDetailPageData = props.setDetailPageData
+  const detailPageData = props.detailPageData;
+  const setDetailPageData = props.setDetailPageData;
 
   const [initialContent, setInitialContent] = useState(null);
   const [showmenu, setShowmenu] = useState({
@@ -481,10 +476,7 @@ function Comment(props) {
   contentRef.current = comments.map(
     (comment, i) => contentRef.current[i] ?? createRef()
   );
-  const handleChange = e => {
-
-  };
-
+  const handleChange = e => {};
 
   const confirmEdit = (updatedContent, commentid) => {
     const requestContent = updatedContent.innerText.trim();
@@ -518,6 +510,7 @@ function Comment(props) {
       document.querySelector(".comment-input").value = "@" + targetName + " ";
   };
   const complete = (data, el) => {
+    console.log(el);
     const inputValue = el.value;
     const position = el.selectionStart;
     const startingpoint = inputValue.lastIndexOf("#", position);
@@ -540,9 +533,11 @@ function Comment(props) {
   };
   const transformTags = data => {
     const hashTags =
-      data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
+      data.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_ㄱ-힣]{0,30})(\b|\W|\r)/g) ||
+      [];
     const userTags =
-      data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || [];
+      data.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_ㄱ-힣]{0,30})(\b|\W|\r)/g) ||
+      [];
 
     let innerHtml = data;
     userTags.map(usertag => {
@@ -550,14 +545,16 @@ function Comment(props) {
         usertag,
         `<a href="/profile/${usertag.replace("@", "")}">${usertag}</a>`
       );
-        return false
+      return false;
     });
+
     hashTags.map(hashtag => {
       innerHtml = innerHtml.replace(
         hashtag,
         `<a href="/list/${hashtag.replace("#", "")}">${hashtag}</a>`
       );
-      return false
+
+      return false;
     });
 
     return { __html: "<span>" + innerHtml + "</span>" };
@@ -566,11 +563,17 @@ function Comment(props) {
   const listenTags = e => {
     const position = e.currentTarget.selectionStart;
     const inputValue = e.currentTarget.value;
+    const el = e.currentTarget;
+
     const hashTagcount = (
-      inputValue.match(/(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+      inputValue.match(
+        /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_ㄱ-힣]{0,30})(\b|\W|\r)/g
+      ) || []
     ).length;
     const userTagcount = (
-      inputValue.match(/(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)/g) || []
+      inputValue.match(
+        /(^|\B)@(?![0-9_]+\b)([a-zA-Z0-9_ㄱ-힣]{0,30})(\b|\W|\r)/g
+      ) || []
     ).length;
 
     if (hashTagcount > 0 || userTagcount > 0) {
@@ -586,19 +589,21 @@ function Comment(props) {
             startingpoint + 2,
             position
           );
-          setTimeout(
-            hashtagAutoComplete(newHashtagValue,"usertag").then(response=>{
-              
-              setAutoCompleteResult({data:response,targetElement:e.currentTarget})
-            }).catch(err=>{
-              console.log(err)
-              Alert.error("autocomplete not work!")
-            })
-
-          ,800)
-          
-          
-          
+          const usertagRequest = ()=>{
+            hashtagAutoComplete(newHashtagValue, "usertag")
+              .then(response => {
+                console.log(response)
+                setAutoCompleteResult({ data: response, targetElement: el });
+              })
+              .catch(err => {
+                console.log(err);
+                Alert.error("autocomplete not work!");
+              });
+          }
+          console.log(newHashtagValue);
+          const method= _.debounce(usertagRequest
+          , 500);
+          method()
         }
       } else {
         if (
@@ -609,16 +614,23 @@ function Comment(props) {
             startingpoint + 1,
             position
           );
-          setTimeout(
-            hashtagAutoComplete(newHashtagValue,"hashtag").then(response=>{
-              console.log(response)
-              setAutoCompleteResult({data:response,targetElement:e.currentTarget})
-            }).catch(err=>{
-              console.log(err)
-              Alert.error("autocomplete not work!")
-            })
 
-          ,800)
+
+          const hashtagRequest=()=>{
+            console.log(1)
+            hashtagAutoComplete(newHashtagValue, "hashtag")
+              .then(response => {
+                setAutoCompleteResult({ data: response, targetElement: el });
+              })
+              .catch(err => {
+                console.log(err);
+                Alert.error("autocomplete not work!");
+              })
+          }
+          const method = _.debounce(hashtagRequest,            
+            500
+          );
+          method()
         } else {
           setAutoCompleteResult([]);
         }
@@ -627,17 +639,23 @@ function Comment(props) {
       setAutoCompleteResult([]);
     }
   };
-  const createComment=()=>{
-    const data =document.querySelector(".comment-input").value
-    const createCommentRequest = Object.assign({},{user:{userid:user.info.userid},post:{postid:props.postid},content:data})
-    fetchCreateComment(createCommentRequest).then(
-      response=>{
-        
-        setDetailPageData({...detailPageData,comments:response})
+  const createComment = () => {
+    const data = document.querySelector(".comment-input").value;
+    const createCommentRequest = Object.assign(
+      {},
+      {
+        user: { userid: user.info.userid },
+        post: { postid: props.postid },
+        content: data,
       }
-    ).catch(err=>{
-      Alert.error("oops cannot create comment")
-    })
+    );
+    fetchCreateComment(createCommentRequest)
+      .then(response => {
+        setDetailPageData({ ...detailPageData, comments: response });
+      })
+      .catch(err => {
+        Alert.error("oops cannot create comment");
+      });
 
     // arr.push(
     //   {
@@ -651,19 +669,20 @@ function Comment(props) {
     // content:data
     // })
     // setDetailPageData({...detailPageData,comments:arr})
-    document.querySelector(".comment-input").value=""
-  }
-  const deleteComment=(comment)=>{
-    console.log(comment)
-    const request = Object.assign({},{...comment})
-    fetchDeleteComment(request).then(response=>{
-      Alert.success("comment has deleted!")
-      setDetailPageData({...detailPageData,comments:response})  
-    }).catch(err=>{
-      Alert.error("delete failed!")
-    })
-    
-  }
+    document.querySelector(".comment-input").value = "";
+  };
+  const deleteComment = comment => {
+    console.log(comment);
+    const request = Object.assign({}, { ...comment });
+    fetchDeleteComment(request)
+      .then(response => {
+        Alert.success("comment has deleted!");
+        setDetailPageData({ ...detailPageData, comments: response });
+      })
+      .catch(err => {
+        Alert.error("delete failed!");
+      });
+  };
   return (
     <div className="comment-section">
       <div className="comment-list-section">
@@ -677,16 +696,22 @@ function Comment(props) {
             >
               <div className="comment-profile-section">
                 <div className="comment-profile-image">
-                <Link  to={{pathname:"/profile/"+comment.user.username}}
-
-              >
-                  <img src={comment.user.userImg?comment.user.userImg:defaultUser} alt="" />
-                      </Link>
+                  <Link to={{ pathname: "/profile/" + comment.user.username }}>
+                    <img
+                      src={
+                        comment.user.userImg
+                          ? comment.user.userImg
+                          : defaultUser
+                      }
+                      alt=""
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="comment-main-section">
                 <div className="comment-content-section">
-                  <Link  to={{pathname:"/profile/"+comment.user.username,}}
+                  <Link
+                    to={{ pathname: "/profile/" + comment.user.username }}
                     className={
                       "comment-profile-username user-" + comment.user.userid
                     }
@@ -768,9 +793,7 @@ function Comment(props) {
                   </div>
                   <div className="comment-reply-section">
                     <span
-                      className={
-                        "comment-target-user-" + comment.user.username
-                      }
+                      className={"comment-target-user-" + comment.user.username}
                       onClick={replyComment}
                     >
                       답장
@@ -822,7 +845,7 @@ function Comment(props) {
                       >
                         <FontAwesomeIcon icon={faEdit} /> 수정
                       </button>
-                      <button onClick={()=>deleteComment(comment)}>
+                      <button onClick={() => deleteComment(comment)}>
                         <FontAwesomeIcon icon={faTrashAlt} /> 삭제
                       </button>
                     </div>
@@ -841,7 +864,9 @@ function Comment(props) {
             <input
               className="comment-input"
               type="text"
-              onKeyDown={e=>{if(e.key === "Enter")createComment()}}
+              onKeyDown={e => {
+                if (e.key === "Enter") createComment();
+              }}
               onChange={listenTags}
               placeholder={
                 user.auth
@@ -865,17 +890,24 @@ function Comment(props) {
           style={{ position: "absolute" }}
           hidden={autoCompleteResult ? false : true}
         >
-          {autoCompleteResult.data&&autoCompleteResult.data.length>0
+          {autoCompleteResult.data && autoCompleteResult.data.length > 0
             ? autoCompleteResult.data.map(data => (
                 <button
                   onClick={() => {
-                    complete(data.username?data.username:data.hashtagname, autoCompleteResult.targetElement);
+                    complete(
+                      data.username ? data.username : data.hashtagname,
+                      autoCompleteResult.targetElement
+                    );
                     setAutoCompleteResult({ data: null, targetElement: null });
                   }}
                 >
-                  {data.username?<img src={data.userimg?data.userimg:defaultUser} alt="" />:null}
-                  {data.username?"@"+data.username:"#"+data.hashtagname}
-                  
+                  {data.username ? (
+                    <img
+                      src={data.userimg ? data.userimg : defaultUser}
+                      alt=""
+                    />
+                  ) : null}
+                  {data.username ? "@" + data.username : "#" + data.hashtagname}
                 </button>
               ))
             : null}
@@ -886,75 +918,92 @@ function Comment(props) {
 }
 
 function ImageInfo(props) {
-  const detailPageData = props.detailPageData
+  const detailPageData = props.detailPageData;
   return (
     <div className="img-info-container">
       {/* 프로필 앵커태그 */}
-      <Link to={"/profile/"+detailPageData.postform.user.username} className="title-profile"> {detailPageData.postform.user.username}</Link>
+      <div className="img-info-header">
+      <span className="title-header">Post {detailPageData.postform.postid}</span>
+      <span>{calculateDatetime( detailPageData.postform.rdate)}</span>
+      </div>
+      <div className="img-info-title">
+        
+        <Link
+          to={"/profile/" + detailPageData.postform.user.username}
+          className="title-profile"
+        >
+          {" "}
+          {detailPageData.postform.user.username}
+        </Link>
+        <span>님의</span>
+        {/* 상품 앵커태그 */}
+        <br />
+        <span className="title-product">
+          {detailPageData.postform.imgdata.tagData[0].productInfo.productName}
+        </span>
+        <br />
 
-      <span>님의</span>
-      {/* 상품 앵커태그 */}
-      <span className="title-product">
-        {detailPageData.postform.imgdata.tagData[0].productName}</span>
-      <span>을 활용한 데일리 룩</span>
+        <span className="rest">을 활용한 데일리 룩</span>
+      </div>
 
       <div className="hashtag-container">
-        {detailPageData.hashtags.map(hashtag=>(
-          <Link to={"/list/hashtag/"+hashtag+"/1"} className="hashtag">#{hashtag}</Link>
+        {detailPageData.hashtags.map(hashtag => (
+          <Link to={"/list/hashtag/" + hashtag.hashtagname + "/1"} className="hashtag">
+            #{hashtag.hashtagname}
+          </Link>
         ))}
       </div>
 
-      <div className="register-date-container">
-        작성일 : {detailPageData.postform.rdate}
-      </div>
+      
     </div>
-
   );
 }
 
 function Product(props) {
-  const tagdata = props.detailPageData.postform.imgdata.tagData
-  
+  const tagdata = props.detailPageData.postform.imgdata.tagData;
+
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>
-      {tagdata.map((tag,index)=>(
-        <div className={"product product-"+{index}}>
+      {tagdata.map((tag, index) => (
+        <div className={"product product-" + index }>
           <div className="product-img-section">
-            <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
-          <img
-            src={tag.productInfo.productImgUrl}
-            alt="productImg"
-          />
-          </a>
-        </div>
-        <div className="product-info-section">
-          <Link to={"/list/brand/"+tag.productInfo.brandName+"/1"}>
-          <span className="product-brand">{tag.productInfo.brandName}</span>
-          </Link>
-          <a href={tag.productInfo.productUrl} rel="noreferrer" target="_blank">
-          <span className="product-name">
-            {tag.productInfo.productName}
-          </span>
-          </a>
+            <a
+              href={tag.productInfo.productUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <img src={tag.productInfo.productImgUrl} alt="productImg" />
+            </a>
+          </div>
+          <div className="product-info-section">
+            <Link to={"/list/brand/" + tag.productInfo.brandName + "/1"}>
+              <span className="product-brand">{tag.productInfo.brandName}</span>
+            </Link>
+            <a
+              href={tag.productInfo.productUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className="product-name">
+                {tag.productInfo.productName}
+              </span>
+            </a>
 
-          <span className="product-price">{tag.productInfo.price}</span>
-        </div>
+            <span className="product-price">{tag.productInfo.price}</span>
+          </div>
         </div>
       ))}
-      
-      
     </div>
   );
 }
 
 function RelatedImages(props) {
-  const userRelated = props.userRelated
-  const username = props.username
+  const userRelated = props.userRelated;
+  const username = props.username;
 
-  const postid= props.postid
+  const postid = props.postid;
   return (
-
     <div className="related-img-container">
       <div className="header-section">
         <span className="title-header">Related Image</span>
@@ -965,32 +1014,31 @@ function RelatedImages(props) {
           className="masonry-grid"
           columnClassName="masonry-grid-column"
         >
-          {userRelated.map(relatedPost=>{
-            
-
-            if(relatedPost.postid!=postid){
-              return(
-              <Link to={"/detail/"+relatedPost.postid}>
-                <img src={relatedPost.imgdata&&relatedPost.imgdata.imgUrl} alt="" />
-              </Link>
-          )
-        }
-        else{
-          return null
-        }
-        })}
+          {userRelated.map(relatedPost => {
+            if (relatedPost.postid != postid) {
+              return (
+                <Link to={"/detail/" + relatedPost.postid}>
+                  <img
+                    src={relatedPost.imgdata && relatedPost.imgdata.imgUrl}
+                    alt=""
+                  />
+                </Link>
+              );
+            } else {
+              return null;
+            }
+          })}
 
           <div className="more">
-            <Link to={"/profile/"+username}>
-            <img
-              src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
-              alt=""
-            />
-            <span>
-              <FontAwesomeIcon icon={faEllipsisH} />
-            </span>
+            <Link to={"/profile/" + username}>
+              <img
+                src="https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200"
+                alt=""
+              />
+              <span>
+                <FontAwesomeIcon icon={faEllipsisH} />
+              </span>
             </Link>
-            
           </div>
         </Masonry>
       </div>

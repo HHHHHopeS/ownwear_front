@@ -2,7 +2,7 @@ export const data = [
     
   {
     postid: 5,
-    userid: 2,
+    userid: 3,
     imgUrl:
       "https://news.nateimg.co.kr/orgImg/my/2020/11/27/202011270741372275_1.jpg",
     likecount: 14100,
@@ -296,7 +296,7 @@ export const userdata = [
       pinterestid:"solari3t",
       sex:0, 
       twitterid:"solari3t",
-      userid:1,
+      userid:2,
       userimg:"https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F267E4F4C58B59AA723",
       username:"Tom_Haasfaaa"
     }
@@ -463,24 +463,7 @@ export const userdata = [
       username:"aa"
     }
   },
-  {
-    follower:150,
-    following:2020,
-    user:{
-      email:"abl123@naver.com",
-      height:160,
-      instaid:"solari3t",
-      ischecked:null,
-      isfollowing:true,
-      isverified:true,
-      pinterestid:"solari3t",
-      sex:1, 
-      twitterid:"solari3t",
-      userid:1,
-      userimg:"https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F267E4F4C58B59AA723",
-      username:"aa"
-    }
-  },
+  
 ]
 
 export const brandData = [

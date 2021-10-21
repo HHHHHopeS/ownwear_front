@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-import { getChangePassword, getCheckPassword } from "../../util/APIUtils";
 import { getInfo } from "../../util/APIUtils";
+
+import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
+
 import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
@@ -75,10 +77,15 @@ export default function MyPage() {
         if (newPassword === newRePassword) {
             console.log("green")
             console.log(user)
+
             const request = Object.assign({}, { userid: user.info.userid, password: inputs.password})
             const newRequest = Object.assign({},{ userid: user.info.userid, password: inputs.newPassword})
+
+
+            
+
             console.log(request)
-            getCheckPassword(request).then(response => {
+            getChangePassword(request).then(response => {
                 
                if(response){
                 getChangePassword(newRequest).then(response=>console.log(response))   

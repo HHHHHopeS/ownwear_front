@@ -114,7 +114,7 @@ export function updateComment(updateCommentRequest){
 export function fetchDeleteComment(fetchDeleteCommentRequest){
     return request({
         url:API_BASE_URL+"/comment/delete",
-        method:"post",
+        method:"get",
         body:JSON.stringify(fetchDeleteCommentRequest)
     })
 }
@@ -145,7 +145,7 @@ export function deleteDetailPage(deleteDetailPageRequest){
 //페이징
 export function getdata(getDataRequest){
     return request({
-        url:API_BASE_URL+"/user.",
+        url:API_BASE_URL+"/detail/postlist",
         method:"POST",
         body:JSON.stringify(getDataRequest)
     })
@@ -178,11 +178,11 @@ export function getGoogleData(getGoogleDataRequest){
 
 
 //인덱스 게시물추가데이터
-export function getIndexData(url,position,ids){
+export function getIndexMoreData(getIndexMoreDataRequest){
     return request({
-        url:API_BASE_URL+"/getindex?url="+url+"&position="+position,
+        url:API_BASE_URL+"/getindex",
         method:"POST",
-        body:ids
+        body:JSON.stringify(getIndexMoreDataRequest)
     })
 }
 //인덱스 초기데이터
