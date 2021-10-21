@@ -11,7 +11,7 @@ import "./Login.scss";
 export default function Login(props) {
   const { user, setCurrentUser } = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(true);
-
+  const setToggleMoreInfo = props.setToggleMoreInfo
   useEffect(() => {
     if (props.location.state && props.location.state.error) {
       setTimeout(() => {
@@ -51,7 +51,7 @@ export default function Login(props) {
               </div>
             </div>
           ) : (
-            <Signup setCurrentUser={setCurrentUser} {...props} />
+            <Signup setToggleMoreInfo={setToggleMoreInfo} setCurrentUser={setCurrentUser} {...props} />
           )}
         </div>
         <div
@@ -168,7 +168,7 @@ function Signup(props) {
       <h2>SIGNUP</h2>
       {/* <form onSubmit={joinMember} className="join-form"> */}
 
-      <SignupForm {...props} />
+      <SignupForm setToggleMoreInfo={props.setToggleMoreInfo} {...props} />
     </div>
   );
 }
@@ -188,6 +188,7 @@ function SignupForm(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setToggleMoreInfo = props.setToggleMoreInfo
   const handleInputChange = e => {
     const target = e.target;
     const inputName = target.name;
@@ -216,7 +217,9 @@ function SignupForm(props) {
           );
           login(loginRequest).then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            setToggleMoreInfo(true)
             props.history.goBack();
+
           });
         }
         else{

@@ -1,7 +1,7 @@
 import {
   faChevronLeft,
   faPlus,
-  faTimes
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +10,7 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import ReactCrop from "react-image-crop";
@@ -23,7 +23,7 @@ import {
   getGoogleData,
   hashtagAutoComplete,
   insertImageData,
-  sendImage
+  sendImage,
 } from "../../util/APIUtils";
 import "./ImageUploadModule.scss";
 /**
@@ -95,28 +95,29 @@ export default function Upload(props) {
         const base64 = previewCanvasRef.current.toDataURL();
         const list = [];
         setPreviewImage({ data: base64 });
-        //clarifai 데이터 요청 
+        //clarifai 데이터 요청
         getClarifaiData(base64)
           .then(response => {
             if (response) {
               const filter = response.regions.filter(
                 region => region.data.concepts[0].name === "shoes"
               );
-              filterDuplicateCategory(filter);
+              if (filter.length > 0) {
+                filterDuplicateCategory(filter);
+              }
               response.regions.map(region => {
-                if (filter.length > 0) {
-                  for (let data of filter) {
-                    if (JSON.stringify(data.regionInfo) === region.regionInfo) {
-                      region = data;
-                    }
+                for (let data of filter) {
+                  if (JSON.stringify(data.regionInfo) === region.regionInfo) {
+                    region = data;
                   }
                 }
+
                 if (region.value > 0.95) list.push(region);
                 return false;
               });
-              
+
               setRectors(list);
-              
+
               setPhase({ ...phase, phaseNo: 3 });
             } else {
               console.log("결과가 없습니다.");
@@ -285,7 +286,6 @@ export default function Upload(props) {
 
     ctx.imageSmoothingQuality = "high";
 
-
     ctx.drawImage(
       image,
       (crop.x * image.naturalWidth) / 100,
@@ -349,7 +349,6 @@ export default function Upload(props) {
     const canvasList = document.getElementsByClassName("cropped");
     for (let canvas of canvasList) {
       base64List.push(canvas.toDataURL());
-
     }
     const dataRequest = Object.assign({}, { list: base64List });
     const arr = productTags.slice(0, productTags.length - 1);
@@ -589,12 +588,12 @@ export default function Upload(props) {
           imgUrl,
           tagData,
         };
-
+        
         const request = Object.assign(
           {},
           {
             user: { userid: user.info.userid },
-            imgData,
+            imgdata:imgData,
             hashtags: hashtagData,
             brands,
           }
@@ -724,6 +723,14 @@ export default function Upload(props) {
         <div className="tag-container" ref={tagsRef}>
           <div className="tag-container-title">
             <span>{phase.phaseNo > 5 ? "Your HashTag" : "Your Tag"}</span>
+            <button onTouchEnd={()=>{
+              document.querySelector(".tag-container").style.display=null;
+              document.body.style.overflow="unset"
+
+
+
+            }
+            } hidden={window.innerWidth>757?true:false}><FontAwesomeIcon icon={faTimes}/></button>
           </div>
           <div className="tag-container-main">
             <div className="cropped-tag-container" ref={tagContainerRef}>
@@ -844,9 +851,12 @@ export default function Upload(props) {
                       isLoading={isLoading}
                       onSearch={q => {
                         setIsLoading(true);
-                        const obj = Object.assign({}, { data: q });
-                        hashtagAutoComplete(obj, "hashtag").then(response =>
-                          console.log(response.ok)
+                        const arr = []
+                        hashtagAutoComplete(q, "hashtag").then(response =>{
+                          response.map(data=>arr.push(data.hashtagname))
+                          
+                          setAutoCompleteResult(arr,setIsLoading(false))
+                        }
                         );
                       }}
                       ref={hashTagInputRef}
@@ -938,6 +948,23 @@ export default function Upload(props) {
       </div>
 
       <div className="footer-button-section">
+        <button
+          onTouchEnd={e => {
+
+            if (
+              (!document.querySelector(".tag-container").style.display||document.querySelector(".tag-container").style.display==="none")&&croppedRectors.length>0
+            ){
+              document.querySelector(".tag-container").style.display = "block";
+              document.body.style.overflow="hidden"
+            // document.body.classList.add("modal");
+            // document.body.style.display="block"
+          }
+            
+          }}
+          hidden={phase.phaseNo<3||window.innerWidth > 757 ? true : false}
+        >
+          <span>{croppedRectors.length}</span> tags selected
+        </button>
         <div className="upload-button">
           <input
             type="file"
@@ -945,6 +972,7 @@ export default function Upload(props) {
             accept="image/*"
             onChange={e => handleUpload(e)}
           />
+
           <button
             onClick={
               phase.phaseNo >= 2

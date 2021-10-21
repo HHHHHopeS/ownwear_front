@@ -33,6 +33,7 @@ export default function ImgBox(props) {
                     alt={data.imgIndex}
                     style={imgHover? {opacity:0.5}:{opacity:1}}
                     />
+                    {window.innerWidth>1023?
                 <div className="img-rector" style={imgHover?tagY>=0.6? { display:"flex",flexDirection:"column-reverse",top:`${tagY*100}%`
                 ,left:`${tagX*100}%`}:{ display:"flex",flexDirection:"column",top:`${tagY*100}%`
                 ,left:`${tagX*100}%`}:{display:"none"} } >
@@ -53,8 +54,10 @@ export default function ImgBox(props) {
                         </div>
         
                     </div>
-                </div>
+                </div>:null
+                }
             </div>
+        
             <div className="info-container">
                 <div className="profile-section">
                     <div className="profile-img-section" >

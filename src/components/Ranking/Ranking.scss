@@ -15,9 +15,15 @@
         justify-content: flex-start;
         align-items: flex-start;
         .img-box{
+            
             position: relative;
             margin-inline: .5vw;
-            margin-block: 3vh;
+            margin-block: 2vh;
+
+            @include mobile{
+                width: 45%;
+                margin-inline: 2vw;
+            }
         .ranking-number-tag{
             width: 40px;
             height: 40px;
@@ -33,6 +39,10 @@
             padding: 5px ;
             
             border-radius: 50%;
+            @include mobile{
+                width: 30px;
+                height: 30px;
+            }
         }
         
     }
@@ -74,9 +84,14 @@
         .brand-box{
             width: 30%;
             height: 50vh;
-            margin: 16px;
+            margin: 1vw;
             box-shadow: $boxshadow-container;
             border-radius: 8px;
+            @include tablet{
+                width: 45%;
+                height: 40vh;
+            }
+            
             .info-section{
                 display: flex;
                 width: 100%;
@@ -147,18 +162,20 @@
                 height: 60%;
                 border-radius: 8px;
                 z-index: -3;
+                display: flex;
                 a{
                     border-radius: 8px;
-                    position: absolute;
-                    width: cacl(50vh * 0.45);
-                    height: calc(50vh * 0.6);
+                    position: relative;
+                    width: 60%;
+                    height: 100%;
                     border-inline: white 1px solid;
                     box-shadow: $boxshadow-container;
                     
                 img{
                     
                     border-radius: 8px;
-                    height: calc(50vh * 0.6);
+                    width: 100%;
+                    height: 100%;
                        
                 }
                 &:nth-child(1){
@@ -168,12 +185,12 @@
                 }
                 &:nth-child(2){
                     z-index: 2;
-                    margin-left: 5.75%;
+                    margin-left: -32%;
                     
                 }    
                 &:nth-child(3){
                     z-index: 1;
-                    margin-left: 11.5%;
+                    margin-left: -32%;
                 }    
                 
                 &:hover{
@@ -221,25 +238,7 @@
                     }
                 }
                 .img-section{
-                    a{
-                        width: 30vw;
-                        height: 18vh;
-                        img{
-                            width: 100%;
-                            height: 18vh;
-                        }
-                    }
-                    a:first-child{
-                        border-left:none;
-                    }
-                    a:nth-child(2){
-                        margin-left: 8%;
-                    }
-                    a:nth-child(3){
-                        margin-left: 15.3%;
-                        border-right: none;
-
-                    }
+                    
                 }
             }
         }
@@ -259,6 +258,10 @@
             height: 100px;
             box-shadow: $boxshadow-container;
             margin: 7px;
+            @include media(mobile,tablet){
+                width: 100%;
+                
+            }
             .left{
                 width: 15%;
 
@@ -268,7 +271,10 @@
                 align-items: center;
                 span{
                     font-weight: bold;
-                    font-size: 30px;
+                    font-size: 2.1vw;
+                    @include mobile{
+                        font-size: 25px;
+                    }
                     
                 }
             }
@@ -279,21 +285,38 @@
                 align-items: center;
                 .img-section{
                     width: 15%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    a{
+                    width: 70%;
+                    height: 70%;
+                    @include mobile{
+                        width: 100px;
+                        height: 60px;
+                    }
+                    @include wide{
+                        width: 70px;
+                        height: 70px;
+                    }
                 img{
-                    width: 65px;
-                    height: 65px;
+
+                    width: 100%;
+                    height: 100%;
                     border-radius: 50%;
                     box-shadow: $boxshadow-container;
+                    
                 }
+            }
                 
             }
             .info-section{
-                width: 80%;
+                width: 85%;
                 height: 100%;
                 display: flex;
                 .user-info-main{
                     height: 100%;
-                    width: 200px;
+                    width: 30%;
                     .username-section{
                         height: 60%;
                         display: flex;
@@ -305,66 +328,100 @@
                             text-overflow:ellipsis;
                             text-decoration: none;
                             font-weight: bold;
-                            font-size: 25px;
+                            font-size: 1.7vw;
+                            @include wide{
+                                font-size: 20px;
+                            }
                             color: black;
                             &:hover{
                                 text-decoration: underline;
                                 text-decoration-thickness: 2px;
                             }
                         }
+                        
                     }   
+                    @include mobile{
+                        margin-left: 15px;
+                        width: 40%;
+                        .username-section{
+                        a{
+                            font-size: 15px;
+                    }
+                }
+                    }
                     .user-info-section{
                         height: 40%;
                         span{
                             color: $grey;
-                            font-size: 14px;
+                            font-size: 1vw;
+                            @include mobile{
+                                font-size: 9px;
+                            }
                             text-transform: capitalize;
                             margin-right: 5px;
-                            
+                            @include wide{
+                                font-size: 15px;
+                            }
                         }
                         
                     }
                 }
                 .user-info-sub{
+                    
                     height: 100%;
-
+                    width: 70%;
                     display: flex;
                     .follow-section{
+                        width: 50%;
                         display: flex;
                         align-items: center;
                         .follow-container{
                             margin-top: 5px;
                             display: flex;
                             flex-direction: column;
-                            margin-left: 20px;
+                            margin-left: 8%;
                             cursor: pointer;
                             &:hover{
                                 text-decoration: underline;
 
                             }
                             span{
-                                font-size: 15px;
+                                font-size: 1.1vw;
                                 text-transform: capitalize;
                                 font-weight: bold;
                                 text-align: center;
+                                @include mobile{
+                                    font-size: 10px;
+                                }
+                                @include wide{
+                                    font-size: 15px;
+                                }
                             }
                         }                        
                     }
                     .sns-section{
+                        width: 40%;
                         align-items: center;
                         display: flex;
-                        margin-left: 50px;
+                        justify-content: center;
+                        
                         a{
-                            font-size: 25px;
+                            font-size: 2.3vw;
                             margin-left: 12px;
                             color: black;
+                            @include wide{
+                                font-size: 30px;
+                            }
 
+                        }
+                        @include mobile{
+                            display: none;
                         }
                         .insta-icon:hover{
 
                                 display: inline-block;
-                                width: 23px;
-                                height: 23px;
+                                width: 2.3vw;
+                                height: 2.3vw;
                                 margin-left: -1px;
                             margin-top: -4px;
                                 border-radius: 8px;
@@ -399,15 +456,26 @@
             .right{
                 display: flex;
                 align-items: center;
-                
+                width: 15%;
                 button{
                     color: white;
                     background-color: black;
                     font-weight: bold;
                     margin-top: 5px;
-                    margin-left: 5px;
-                    padding: 10px 20px;    
+font-size: 1.1vw;
+                    padding: .75vw 1.2vw;    
                     border-radius: 4px;
+                    text-transform: capitalize;
+                    @include wide{
+                        font-size: 15px;
+                    }    
+                }
+                @include mobile{
+                    width: 25%;
+                    button{
+                    font-size: 10px;
+                }
+                
                 }
             }
         }

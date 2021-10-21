@@ -224,9 +224,7 @@ export default function Main(props) {
               <div className="title">
                 <span className="brand-title">Tag</span>
               </div>
-              <div className="more-button-section">
-                <Link to={{ pathname: '/ranking/tag/all' }}>More</Link>
-              </div>
+              
             </div>
             <ol>
               <HotTag />
