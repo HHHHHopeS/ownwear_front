@@ -16,6 +16,7 @@ $white: #fff;
     .upload {
       @include mobile{
         width: 100% !important;
+        min-height: 100%;
       }
       display: flex;
       align-items: center;
@@ -92,7 +93,7 @@ $white: #fff;
       justify-content: flex-start;
       align-items: center;
       transition: width 1s ease;
-
+      
       .tag-container-title {
         display: none;
         height: 70px;
@@ -310,6 +311,9 @@ $white: #fff;
                 &:focus{
                   outline: none;
                 }
+                @include mobile{
+                  font-size:20px;
+                }
               } }
               
               
@@ -402,6 +406,39 @@ $white: #fff;
           font-weight: bold;
           text-transform: uppercase;
           border: none;
+        }
+      }
+      @include mobile{
+        display: none;
+        position: fixed;
+        top: 70px;
+        width: 100% !important;
+        height: 90vh;
+        background-color: $creat-bg;
+        z-index: 10;
+        background-attachment: fixed;
+        .tag-container-title{
+          justify-content: flex-end;
+          align-items: center;
+          span{
+            margin: 0;
+          }
+          button{
+            margin-left: 70px;
+            margin-right: 50px;
+            background: none;
+            color: black;
+            font-size: 30px;
+          }
+        }
+        .tag-container-footer{
+          margin-top: 40px;
+        }
+        >div{
+          background:none !important;
+        }
+        input{
+          background: none;
         }
       }
     }

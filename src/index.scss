@@ -11,6 +11,85 @@ body {
   .fade.modal-backdrop.show{
       z-index: 10;
   }
+  > div.fade.info-modal.modal{
+    .modal-dialog{
+
+    
+    .modal-content{
+       
+      button{
+        
+        color: white;
+        background-color: black;
+        padding: 5px 15px;
+        border-radius: 7px;
+        font-weight: bold;
+        text-transform: capitalize;
+
+      }
+    .modal-body{
+      display: flex;
+      
+      height: 30vh;
+      form{
+        display: flex;
+      
+      .img-section{
+        width: 40%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        img{
+          width: 70%;
+          height: 70%;
+          border-radius: 50%;
+          box-shadow: $boxshadow-container;
+        }
+        button{
+          margin-top: 15px;
+        }
+      }
+      .info-section{
+        width: 60%;
+        height: 100%;
+        .height-sex-input-container{
+          margin-top: 15px;
+          display: flex;
+          width: 100%;
+          div:nth-child(1){
+            margin-right: 10px;
+          }
+        }
+        .sns-input-container{
+          .title{
+            span{
+              font-weight: bold;
+            }
+          }
+          
+          input{
+            margin-top: 10px;
+            border: none;
+            padding: 0 10px;
+            box-shadow: 0 7px 3px -7px $grey;
+            transition: box-shadow ease .3s;
+            &:focus{
+              outline:none;
+              box-shadow: 0 7px 4px -7px blue;
+            }
+          }
+
+        }
+      }
+    }
+    }
+    
+  }
+}
+  }
   > div.fade.ListModal.modal {
     display: flex !important;
     justify-content: center;

@@ -114,7 +114,7 @@ export function updateComment(updateCommentRequest){
 export function fetchDeleteComment(fetchDeleteCommentRequest){
     return request({
         url:API_BASE_URL+"/comment/delete",
-        method:"post",
+        method:"get",
         body:JSON.stringify(fetchDeleteCommentRequest)
     })
 }
@@ -145,7 +145,7 @@ export function deleteDetailPage(deleteDetailPageRequest){
 //페이징
 export function getdata(getDataRequest){
     return request({
-        url:API_BASE_URL+"/user.",
+        url:API_BASE_URL+"/detail/postlist",
         method:"POST",
         body:JSON.stringify(getDataRequest)
     })

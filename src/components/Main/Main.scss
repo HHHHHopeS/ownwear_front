@@ -8,7 +8,14 @@
     scroll-behavior: smooth;
     @include mobile{
         margin: 0;
+        
+        .container{
+            display: flex;
+            justify-content: center;
+
+        }
     }
+
     .side-section {
         @include mobile {
             display: none;
@@ -43,12 +50,7 @@
                         }
                     }
                 }
-                .more-button-section {
-                    font-size: 20px;
-                    display: flex;
-                    cursor: pointer;
-                    align-items: center;
-                }
+                
             }
             .sidebar-contentbox-container.first {
                 span {
@@ -114,31 +116,15 @@
     }
     .main-section {
         width: 80%;
-        .more-button-section {
-            align-self: end;
-            margin-right: 40px;
-            margin-top: 30px;
-            font-size: 25px;
-            float: right;
-            button {
-                border: none;
-                padding: 10px 30px;
-                cursor: pointer;
-            }
-            a {
-                text-decoration: none;
-                color: black;
-            }
-            a:hover {
-                text-decoration: underline;
-            }
-        }
+        
         .list-section {
             margin-top: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             .title-section {
+                text-transform: capitalize;
+                font-weight: bold;
                 font-size: 25px;
                 margin-top: 20px;
             }
@@ -152,6 +138,7 @@
                     margin-top: 10px;
                     margin-bottom: 30px;
                 }
+                
             }
             .line {
                 margin-top: 10px;
@@ -159,24 +146,43 @@
                 height: 1px;
                 border-bottom: 1px solid $primary;
             }
-            .more-button-section {
-                align-self: end;
-                margin-right: 40px;
-                margin-top: 30px;
-                font-size: 25px;
-                button {
-                    border: none;
-                    padding: 10px 30px;
-                    cursor: pointer;
-                }
-                a {
-                    text-decoration: none;
-                    color: black;
-                }
-                a:hover {
-                    text-decoration: underline;
+            
+        }
+        @include mobile{
+            margin: 0;
+            width: 95%;
+            .list-section{
+                .imgbox-section{
+                    .ImgBox{
+                        width: 45%;
+                    }
                 }
             }
         }
     }
+
+    
+    .more-button-section {
+        width: 100%;
+
+        
+        font-size: 1rem;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        @include mobile{
+            font-size: 1rem;
+        }
+        
+        a {
+            top: -10px;
+            margin-right: 15px;
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    }
+
 }

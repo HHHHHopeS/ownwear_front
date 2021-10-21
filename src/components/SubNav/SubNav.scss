@@ -56,6 +56,9 @@
     display: flex;
     flex-direction: column;
     padding-inline: 12%;
+    @include media(mobile,tablet){
+     display: none;
+    }
   }
   div.detail {
     height: 180px;
@@ -64,7 +67,10 @@
     flex-direction: column;
     padding-inline: 12%;
     padding-top: 20px;
-
+    @include mobile{
+      padding-top: 5px;
+      padding-inline: 10px;
+    }
     .subnav-main-section {
       display: flex;
       flex-direction: row;
@@ -137,14 +143,18 @@
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
+        @include mobile{
+          width: 50%;
+        }
       }
+
     }
   }
   div.ranking {
     height: 250px;
     display: block;
     @include mobile{
-      height: 150px;
+      height: 100px;
     }
     .buttons-section {
       height: 25%;
@@ -179,6 +189,7 @@
 
     }
     .title-section {
+      
       height: 45%;
       display: flex;
       margin-left: 90px;
@@ -196,15 +207,9 @@
         }
       }
       @include mobile{
-        height: 50%;
-        display: flex;
-        margin: 0;
-        align-items: center;
-        justify-content: flex-start;
-        margin-left: 15%;
-        .title-container{
-          margin: 0;
-        }
+        
+        display: none;
+        
       }
     }
     .sub-buttons-section {
@@ -238,6 +243,15 @@
       }
       button:focus {
         outline: none;
+      }
+      @include mobile{
+        height: 50%;
+      }
+    }
+    >div:nth-child(4){
+      display: none;
+      @include mobile{
+        display: block;
       }
     }
   }
@@ -391,9 +405,11 @@
         }
         @include mobile{
           height: 50%;
+
           button{
+            padding: 10px 20px;
             margin: 0;
-            margin-right: -50%;
+            margin-right: -70%;
           }
         }
       }
@@ -441,8 +457,9 @@
 
 
 button.follow-button {
-  background-color: $primary;
+  background-color: black;
   padding: 10px 40px;
-  font-weight: 600;
+  font-weight: bold;
   border: none;
+  color: white;
 }

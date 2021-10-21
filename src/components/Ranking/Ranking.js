@@ -41,11 +41,20 @@ export default function Ranking(props) {
   useDidRecover(() => {}, [list]);
   ScrollHandler();
   const setData = (bool,index)=>{
-    let follower = list[type][filter][index].follower
-    if(bool){follower=follower+1}
-    else {follower=follower-1}
-    console.log(follower)
-    setList({...list,[type]:{...list[type],[filter]:[...list[type][filter],{...list[type][filter][index],follower,user:{...list[type][filter][index].user,isfollowing:bool?true:false}}]}})
+
+    const parentObj = list[type][filter]
+    const obj = list[type][filter][index]
+    
+
+    console.log(bool)
+    if(bool){obj.follower=obj.follower+1;obj.user.isfollowing=true}
+    else {obj.follower=obj.follower-1;obj.user.isfollowing=false}
+    
+    parentObj.splice(index,1,obj)
+    
+    console.log(parentObj)
+    setList({...list,[type]:{...list[type],[filter]:[...list[type][filter]]}})
+
   }
   const TopLikes = props => {
     return (
@@ -141,7 +150,7 @@ export default function Ranking(props) {
               </div>
               <div className="right"> 
               
-                {/* <button hidden={user.info&&user.info.userid===data.user.userid?true:false} onClick={e=>followOrNot(user.info.userid, data.user.userid).then(bool=>setData(bool,index))} className="follow">{data.user.isfollowing?"following":"follow"}</button> */}
+                <button hidden={user.info&&user.info.userid===data.user.userid?true:false} onClick={e=>followOrNot(user.info.userid, data.user.userid).then(bool=>setData(bool,index))} className="follow">{data.user.isfollowing?"following":"follow"}</button>
               </div>
             </div>
           ))}
@@ -206,7 +215,7 @@ export default function Ranking(props) {
     setList(
       {
         ...list,
-        [type]: { ...list[type], [filter]: brandData },
+        [type]: { ...list[type], [filter]: userdata },
       },
       
     );
@@ -251,7 +260,7 @@ export default function Ranking(props) {
       
       setTimeout(() => {
         setList(
-          { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...brandData] } },
+          { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...userdata] } },
           setIsThreshold(
             false,
             setLoading(
