@@ -1,13 +1,78 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Tab.scss";
-import {calculateDatetime} from "../../util/TimeUtils"
+import { calculateDatetime } from "../../util/TimeUtils"
+import { getActivity } from "../../util/APIUtils"
+import userEvent from "@testing-library/user-event";
 
 function Tabs() {
   const [toggleState, setToggleState] = useState(1);
 
+  const [follower, setFollower] = useState([
+    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
+    { type: "follower", commentid: 1, username: "주희", alert_date: "2021-10-21" },
+    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
+    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
+    { type: "follower", commentid: 1, username: "주희", alert_date: "2021-10-21" },
+    { type: "follower", likepostid: 1, username: "주희", alert_date: "2021-10-21" }
+
+
+  ]);
+
+  // const [list] = useState(
+  //   [
+  // {type:"following",likepostid,username,alert_date},
+  // {type:"follower",commentid,username,alert_date},
+  // {type:"following",likepostid,username,alert_date},
+  // {type:"following",likepostid,username,alert_date},
+  // {type:"follower",commentid,username,alert_date},
+  // {type:"follower",likepostid,username,alert_date},
+  //   ]
+
+
+  // )
+
+
+  // useEffect(()=>{
+  //   try{
+  //   getActivity().then(response => {
+  //   const followerData =  response.data;
+  //   setFollower(followerData)
+  // })} catch(e){
+  //   console.log(e);
+  // }
+
+  // },[])
+
+  // [{commentid,likepostid,username,alert_date}]
+
+  const FollowerList = props => {
+    const type= props.type
+    
+    return(
+    follower.map(f => {
+    
+    if (f.type === "follower" && (type === "all" ||type=== "follower")) {
+      return (<p>  {f.username}님이 회원님 게시글에 {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
+        {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
+        <span className="time">{f.alert_date}</span></p>)
+    }
+    else if (f.type === "following" && (type === "all" ||type=== "following")) {
+      return( <p>  {f.username}님 게시글에  {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
+        {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
+        <span className="time">{f.alert_date}</span></p>)
+    }
+  }
+  )
+  )
+}
+
+
+
   const toggleTab = (index) => {
     setToggleState(index);
   };
+
+
 
   return (
     <div className="tab-container">
@@ -16,13 +81,13 @@ function Tabs() {
           className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(1)}
         > ALL
-          
+
         </button>
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
         >Follower
-           
+
         </button>
         <button
           className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
@@ -36,9 +101,9 @@ function Tabs() {
         <div
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
-           <h2>ALL</h2>
+          <h2>ALL</h2>
           <hr />
-          <p>
+          {/* <p>
             모두 볼 수 있는 곳 
           </p>
           <p>
@@ -67,19 +132,42 @@ function Tabs() {
           </p>
           <p>
             모두 볼 수 있는 곳 
-          </p>
-          
-          
-          
+          </p> */}
+        <FollowerList type={"all"}/>
+
+
         </div>
-         
+
         <div
           className={toggleState === 2 ? "content  active-content" : "content"}
         >
           <h2>Follower</h2>
           <hr />
+
+          <FollowerList type={"follower"}/>
+
+          {/* {
+          follower.map( f=>{
+            return <p> 
+              {f.username}님이 회원님 게시글에
+              {f.likepostid !== null && <div><span className="like">👍좋아요</span>를 눌렀습니다.</div>}
+              {f.commentid !== null && <div><span className="like">💬댓글</span>을 남겼습니다.</div> }
+               <span className="time">{f.alert_date}</span></p>
+          })
+        } */}
+
+
+
+
+
+
+
+
+
+
+          {/* 
           <p>
-            ✔ <a href="">최동현</a>님이 회원님 게시글에 <span className="like">👍좋아요</span>를 눌렀습니다. <span className="time">{calculateDatetime("2021-10-15 05:05:10")}</span>
+            ✔ <a href="">최동현</a>님이 회원님 게시글에 <span className="like">👍좋아요</span>를 눌렀습니다. <span className="time">{("2021-10-15 05:05:10")}</span>
           </p>
           <p>
             ✔ <a href="">송지훈</a>님이 회원님 게시글에  <span className="like">👍좋아요</span>를 눌렀습니다. <span className="time">{calculateDatetime("2021-10-15 02:05:10")}</span>
@@ -102,18 +190,17 @@ function Tabs() {
           <p>
             ✔ <a href="">박준협</a>님이 회원님 게시글에  <span className="like">👍좋아요</span>를 눌렀습니다.  <span className="time">{calculateDatetime("2021-10-11 05:05:10")}</span>
           </p>
-
+*/}
         </div>
 
 
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-           <h2>Following</h2>
+          <h2>Following</h2>
           <hr />
-          <p>
-           김선호님 게시글에 좋아요 눌렀습니다.
-          </p>
+    
+          <FollowerList type={"following"}/>
         </div>
       </div>
     </div>
