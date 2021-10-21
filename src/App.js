@@ -183,13 +183,10 @@ else return null
 
 
           <Route exact path="/unverified" component={UnVerified} />
-          <Route exact path="/men" component={Main} />
-          <Route exact path="/women" component={Main} />
+          {/* <Route  exact path="/men" component={Main} />
+          <Route  exact path="/women" component={Main} /> */}
           <Route exact path="/login"  render={(props)=><Login setToggleMoreInfo={setToggleMoreInfo}  {...props}/>}/>
           <Route exact path="/detail/:id" render={props=><Detail setTitle={setTitle} setUserList={setUserList} setShow={setShow} {...props}/> }/>
-
-    
-          
           <CacheRoute saveScrollPosition="true" when="always" cacheKey="Ranking" exact path="/ranking/:id/:id" >
 
             <Ranking followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}></Ranking>
@@ -203,9 +200,9 @@ else return null
           <Route exact path="/create" component={Create}/>
           <Route exact path="/list/:id/:id/:id" component={List}/>
           <Route path = "/oauth2/redirect" component={OAuth2RedirectHandler}/>
-          <Route exact path="/" component={Main} />
+          <CacheRoute cacheKey="Main" saveScrollPosition="true" when="always" component={Main} />
 
-          <Route component={NotFound} />
+
 
         </CacheSwitch>
 
