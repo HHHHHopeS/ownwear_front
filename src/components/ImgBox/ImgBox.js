@@ -11,15 +11,12 @@ export default function ImgBox(props) {
     const history = useHistory()
     const [hover,setHover] = useState(false)
     const [imgHover,setImgHover] = useState(false)
-
     useEffect(()=>{
-        
     },[hover])
-    
-    if(data){
 
-        const tagX = data.tagData[0].rectorX
-        const tagY = data.tagData[0].rectorY 
+    if(data){
+        const tagX = data.imgData.tagData[0].rectorX
+        const tagY = data.imgData.tagData[0].rectorY
     return(
 
         <div className="ImgBox">
@@ -29,8 +26,9 @@ export default function ImgBox(props) {
                     setImgHover(false);
                     
                     }}>
-                <img src={ data.imgUrl}
-                    alt={data.imgIndex}
+                <img src={ data.imgData.imgUrl}
+                    alt="..."
+                    // {data.imgIndex}
                     style={imgHover? {opacity:0.5}:{opacity:1}}
                     />
                     {window.innerWidth>1023?
@@ -45,11 +43,11 @@ export default function ImgBox(props) {
                     <FontAwesomeIcon icon={tagY>=0.6 ? faCaretDown: faCaretUp}  />
                         <div className="product-tag-info-section" style={tagY>=0.6?tagX>=0.5? {marginTop:"-53px",marginLeft:"-90%"}:{marginTop:"-53px",marginLeft:"",flexDirection:"row-reverse"}:tagX>=0.5?{marginTop: "-10px",marginLeft:"-90%"}:{marginTop: "-10px",marginLeft:"",flexDirection:"row-reverse"}} >
                             <div className="product-tag-img-section">
-                                <img src={data.tagData[0].productInfo.productImgUrl} alt="productUrl" />
+                                <img src={data.imgData.tagData[0].productInfo.productImgUrl} alt="productUrl" />
                             </div>
                             <div className="product-tag-text-section">
-                                <span className="product-name">{data.tagData[0].productInfo.brandName}</span>
-                                <span className="product-price">{data.tagData[0].productInfo.price}원</span>
+                                <span className="product-name">{data.imgData.tagData[0].productInfo.brandName}</span>
+                                <span className="product-price">{data.imgData.tagData[0].productInfo.price}원</span>
                             </div>
                         </div>
         
@@ -61,11 +59,11 @@ export default function ImgBox(props) {
             <div className="info-container">
                 <div className="profile-section">
                     <div className="profile-img-section" >
-                        <Link key={data.profileImgUrl} to={`/profile/${data.userName}`}><img src={data.profileImgUrl} alt="sd" /></Link>
+                        <Link key={data.user.userimg} to={`/profile/${data.user.username}`}><img src={data.user.userimg} alt="sd" /></Link>
                     </div>
                     <div className="profile-info-section">
-                        <Link to={"/profile/"+data.userName}>{data.userName}</Link>
-                        <span className="height">{data.height}cm</span>
+                        <Link to={"/profile/"+data.user.username}>{data.user.username}</Link>
+                        <span className="height">{data.user.height}cm</span>
                     </div>
                 </div>
                 <div className="button-section">
