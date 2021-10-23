@@ -4,7 +4,7 @@ import _ from "lodash";
 import React, { useCallback, useEffect, useState } from 'react';
 import SearchToolBox from "../SearchToolBox/SearchToolBox";
 import { getAutoComplete } from "../../util/APIUtils";
-
+import { useHistory } from "react-router";
 export default function SearchBar(props) {
   function clickSearchBar() {
     document.querySelector(".blur-section").setAttribute("style", "display:block")
@@ -22,7 +22,7 @@ export default function SearchBar(props) {
   const [results, setResults] = useState(null)
   const [count, setCount] = useState(0)
   const regexSearchText = /^[가-힣A-Za-z0-9_]{0,30}$/;
-
+  const history = useHistory()
   const clearState = () => {
     if (document.querySelector(".SearchToolBox")) {
       // document.querySelectorAll(`.result`).forEach(el => {
@@ -30,6 +30,20 @@ export default function SearchBar(props) {
       // });
       setCount(0)
     }
+  }
+  const redirect = (e,value)=>{
+    let path = keyword
+    if(path==="tag"){
+      path= "hashtag"
+    }
+      if(keyword!=="user"){
+        history.push(`/list/${path}/${value}/1`)
+      }
+      else{
+        history.push(`/profile/${value}`)
+      }
+    
+  
   }
   const setValue = useCallback(_.debounce((value) => setData(value), 100))
   const onChange = (e) => {
@@ -48,25 +62,31 @@ export default function SearchBar(props) {
   }
   const textChange = (e) => {
     if (e.keyCode === 13) {
-      if (document.querySelector(`.result.focus`)) {
-        setInputText(document.querySelector(`.result.focus`).querySelector('a').innerText)
+      console.log(keyword)
+      if (document.querySelector(`.active-content .result.focus`)) {
+        const value = document.querySelector(`.active-content .result.focus`).querySelector('a').innerText
+        redirect(null,value)
+
+        
       }
     }
     if (e.keyCode === 40) {
       if (results) {
         if (count < results.length) {
-          document.querySelectorAll(`.result`).forEach(el => {
+          document.querySelectorAll(`.active-content .result`).forEach(el => {
             el.classList.remove("focus")
           });
-          document.querySelector(`.result-${count}`).classList.add("focus")
+          document.querySelector(`.active-content .result-${count}`).classList.add("focus")
           setCount(count + 1)
         }
         else {
           document.querySelectorAll(`.result`).forEach(el => {
             el.classList.remove("focus")
           });
-          document.querySelector(`.result-0`).classList.add("focus")
+          if(document.querySelector(`.active-content .result-0`)){
+          document.querySelector(`.active-content .result-0`).classList.add("focus")
           setCount(1)
+        }
         }
       }
     }
@@ -75,16 +95,17 @@ export default function SearchBar(props) {
         document.querySelectorAll(`.result`).forEach(el => {
           el.classList.remove("focus")
         });
-        document.querySelector(`.result-${count - 2}`).classList.add("focus")
+        document.querySelector(`.active-content .result-${count - 2}`).classList.add("focus")
         setCount(count => count - 1)
       }
       else {
         document.querySelectorAll(`.result`).forEach(el => {
           el.classList.remove("focus")
         });
-
-        document.querySelector(`.result-${results.length - 1}`).classList.add("focus")
+        if(document.querySelector(`.active-content .result-${results.length - 1}`)){
+        document.querySelector(`.active-content .result-${results.length - 1}`).classList.add("focus")
         setCount(results.length)
+        }
       }
     }
   }
@@ -120,7 +141,7 @@ export default function SearchBar(props) {
           value={inputText}
         />
       </div>
-      <SearchToolBox {...props} setKeyword={setKeyword} results={results} />
+      <SearchToolBox {...props} redirect={redirect} keyword={keyword} setKeyword={setKeyword} results={results} />
     </div>
   );
 }

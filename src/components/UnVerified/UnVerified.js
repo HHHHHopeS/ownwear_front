@@ -28,10 +28,11 @@ export default function UnVerified(props) {
     email: "",
     username: "",
     height: "160",
-    sex: "1",
+    sex: true,
     instaid: "",
     twitterid: "",
     pinterestid: "",
+    userid:"",
   });
 
   const [isEmailValidate, setIsEmailValidate] = useState(0);
@@ -45,6 +46,7 @@ export default function UnVerified(props) {
         userimg: user.info.userimg,
         email: user.info.email,
         username: user.info.username,
+        userid: user.info.userid,
       });
       
     }
@@ -77,27 +79,22 @@ export default function UnVerified(props) {
     
       error("email",isEmailValidate)
       error("username",isUsernameValidate)
-    
+      
   },[isEmailValidate,isUsernameValidate])
   function handleSubmit() {
     if(isEmailValidate===0||isUsernameValidate===0){
+        
 
-    
     
     
   }
     if(isEmailValidate===2&&isUsernameValidate===2){
-      if(preview===defaultUser)
-      {
-
-      }
-      else{
-        
-      }
       
-      updateAdditonalData()
+      const request = Object.assign({},formData)
+      console.log(request)
+      // updateAdditonalData()
     }
-    console.log(formData)
+
     
   }
   
@@ -155,12 +152,15 @@ export default function UnVerified(props) {
   }
   const handleUserImg = () => {
     if (user.info && user.info.userimg && !preview) {
+      setFormData({...formData,userimg:user.info.userimg})
       return user.info.userimg;
     }
     if (preview) {
+      setFormData({...formData,userimg:preview})
       return preview;
     } 
     else {
+      setFormData({...formData,userimg:null})
       return defaultUser;
     }
   };
@@ -315,7 +315,7 @@ export default function UnVerified(props) {
                       defaultChecked
                       type={"radio"}
                       name="group-sex"
-                      value="1"
+                      value={true}
                       onClick={e =>
                         setFormData({
                           ...formData,
@@ -327,7 +327,7 @@ export default function UnVerified(props) {
                     <Form.Check
                       inline
                       label="women"
-                      value="0"
+                      value={false}
                       name="group-sex"
                       type={"radio"}
                       onClick={e =>

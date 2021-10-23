@@ -199,99 +199,10 @@ export default function Ranking(props) {
     );
   };
 
-  useEffect(() => {
-    if(type==="brand"&&filter!=="all"){
-      history.push("/ranking/brand/all")
-    }
-    //all - women - men
-    setLoading(true);
-    if(list[type]&&list[type][filter]&&list[type][filter].length>0){
-      setCount(list[type][filter].length/10)
-      
-    }
-    else{
-      setCount(0)
-
-    setList(
-      {
-        ...list,
-        [type]: { ...list[type], [filter]: userdata },
-      },
-      
-    );
-  }
-  setLoading(false)
-    // setLoading(true);
-    // getRankingData(type, filter, count)
-    //   .then(res => {
-    //     if (res.ok) {
-    //       setList(
-    //         res,
-    //         setCount(count => count + 1),
-    //         setLoading(false)
-    //       );
-    //     } else {
-    //       console.log(res);
-    //       setLoading(false);
-    //       // props.history.push("/404")
-    //       setCount(count=> count+1)
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    //   const request = Object.assign({},{})
-    // getRankingList()
-  }, [filter, type]);
-  useEffect(() => {
-
-    if (!isThreshold && !isMaxCount) {
-      window.onscroll = _.debounce(e => {
-        setIsThreshold(
-          window.innerHeight + document.documentElement.scrollTop >=
-            document.body.offsetHeight
-        );
-      });
-    }
-    console.log(list)
-    if (isThreshold && !loading && !isMaxCount) {
-      setLoading(true);
-
-      
-      setTimeout(() => {
-        setList(
-          { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...userdata] } },
-          setIsThreshold(
-            false,
-            setLoading(
-              false,
-              setCount(count => count + 1)
-            )
-          )
-        );
-        if (count === 9) {
-          setIsMaxCount(true);
-        }
-      }, 1000);
-
-      // getRankingData(type, filter, count).then(res => {
-      //   if (res.ok) {
-      //     setList(list => [...list, res.ok.content],setIsThreshold(false),setCount(count=>count+1));
-
-      //   }
-      //   else{
-      //       setIsThreshold(false)
-
-      //       setCount(count=>count+1)
-      //   }
-      // });
-    }
-
-    return () => (window.onscroll = null);
-  }, [isThreshold, isMaxCount]);
-  // 백 구축되면 위에꺼 지우고 아래꺼 복귀 
   // useEffect(() => {
-
+  //   if(type==="brand"&&filter!=="all"){
+  //     history.push("/ranking/brand/all")
+  //   }
   //   //all - women - men
   //   setLoading(true);
   //   if(list[type]&&list[type][filter]&&list[type][filter].length>0){
@@ -300,16 +211,37 @@ export default function Ranking(props) {
   //   }
   //   else{
   //     setCount(0)
-  //     getRankingData(type, filter, 0).then(res=>
-  //       setList(
-  //         {
-  //           ...list,
-  //           [type]: { ...list[type], [filter]: res.content },
-  //         }
-  //       ,setMaxCount(res.totalPages-1),setCount(1))//확인 필요함
-  //       ).catch(err=>console.log(err))
+
+  //   setList(
+  //     {
+  //       ...list,
+  //       [type]: { ...list[type], [filter]: userdata },
+  //     },
+      
+  //   );
   // }
   // setLoading(false)
+  //   // setLoading(true);
+  //   // getRankingData(type, filter, count)
+  //   //   .then(res => {
+  //   //     if (res.ok) {
+  //   //       setList(
+  //   //         res,
+  //   //         setCount(count => count + 1),
+  //   //         setLoading(false)
+  //   //       );
+  //   //     } else {
+  //   //       console.log(res);
+  //   //       setLoading(false);
+  //   //       // props.history.push("/404")
+  //   //       setCount(count=> count+1)
+  //   //     }
+  //   //   })
+  //   //   .catch(err => {
+  //   //     console.log(err);
+  //   //   });
+  //   //   const request = Object.assign({},{})
+  //   // getRankingList()
   // }, [filter, type]);
   // useEffect(() => {
 
@@ -321,35 +253,115 @@ export default function Ranking(props) {
   //       );
   //     });
   //   }
-
+  //   console.log(list)
   //   if (isThreshold && !loading && !isMaxCount) {
   //     setLoading(true);
 
       
-      
-  //       getRankingData(type,filter,count).then(res=>{
-  //         setList(
-  //           { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...res.content] } },
-  //           setIsThreshold(
+  //     setTimeout(() => {
+  //       setList(
+  //         { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...userdata] } },
+  //         setIsThreshold(
+  //           false,
+  //           setLoading(
   //             false,
-  //             setLoading(
-  //               false,
-  //               setCount(count => count + 1)
-  //             )
+  //             setCount(count => count + 1)
   //           )
-  //         );
-  //       }).catch(err=>console.log(err))
-        
-  //       if (count === 9||count===maxCount) {
+  //         )
+  //       );
+  //       if (count === 9) {
   //         setIsMaxCount(true);
-        
-  //     }
+  //       }
+  //     }, 1000);
 
-      
+  //     // getRankingData(type, filter, count).then(res => {
+  //     //   if (res.ok) {
+  //     //     setList(list => [...list, res.ok.content],setIsThreshold(false),setCount(count=>count+1));
+
+  //     //   }
+  //     //   else{
+  //     //       setIsThreshold(false)
+
+  //     //       setCount(count=>count+1)
+  //     //   }
+  //     // });
   //   }
 
   //   return () => (window.onscroll = null);
   // }, [isThreshold, isMaxCount]);
+  // 백 구축되면 위에꺼 지우고 아래꺼 복귀 
+  useEffect(() => {
+    let current_userid=-1
+    if(user.info){
+      current_userid = user.info.userid
+    }
+    //all - women - men
+    setLoading(true);
+    if(list[type]&&list[type][filter]&&list[type][filter].length>0){
+      setCount(list[type][filter].length/10)
+      
+    }
+    else{
+      setCount(0)
+      getRankingData(type, filter, 0,current_userid).then(res=>{
+        console.log(res)
+        if(res.length<10){
+          setIsMaxCount(true)
+        }
+        setList(
+          {
+            ...list,
+            [type]: { ...list[type], [filter]: res },
+          }
+        ,setCount(1))//확인 필요함
+
+      }
+        ).catch(err=>console.log(err))
+  }
+  setLoading(false)
+  }, [filter, type]);
+  useEffect(() => {
+    let current_userid=-1
+    if(user.info){
+      current_userid = user.info.userid
+    }
+    if (!isThreshold && !isMaxCount) {
+      window.onscroll = _.debounce(e => {
+        setIsThreshold(
+          window.innerHeight + document.documentElement.scrollTop >=
+            document.body.offsetHeight
+        );
+      });
+    }
+
+    if (isThreshold && !loading && !isMaxCount) {
+      setLoading(true);
+
+      
+      
+        getRankingData(type,filter,count,current_userid).then(res=>{
+          setList(
+            { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...res] } },
+            setIsThreshold(
+              false,
+              setLoading(
+                false,
+                setCount(count => count + 1)
+              )
+            )
+          );
+        }).catch(err=>console.log(err))
+        
+        if (count === 9||count===maxCount) {
+          setIsMaxCount(true);
+        
+      }
+
+      
+    }
+
+    return () => (window.onscroll = null);
+  }, [isThreshold, isMaxCount]);
   return (
     <div className="Ranking">
       <Switch>

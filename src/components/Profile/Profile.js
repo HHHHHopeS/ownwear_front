@@ -204,7 +204,7 @@ export default function Profile(props) {
     }
     
    
-  }, [isThreshold]);
+  }, [isThreshold,username]);
 
   //
 
