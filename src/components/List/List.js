@@ -15,6 +15,7 @@ export default function List(props) {
   
 
   const [data, setData] = useState(
+
     [
       
     {
@@ -187,6 +188,7 @@ export default function List(props) {
     },
      
   ]
+
 
   );
   // response
@@ -371,7 +373,7 @@ export default function List(props) {
 
   const isHashtag = pathName.split("/")[2];
   const title = pathName.split("/")[3];
-  const pageno = pathName.split("/")[4];
+  const pageno = (parseInt(pathName.split("/")[4])-1);
   // const totalFetch =() => {
   //   fetch(URL)
   //   .then(response => response.json())
@@ -389,6 +391,7 @@ export default function List(props) {
       title, //해시태그 value #장준석 // userid
       pageno // 0
     });
+    console.log(getListDataRequest)
     getdata(getListDataRequest)
     .then(response => {
       console.log(response)

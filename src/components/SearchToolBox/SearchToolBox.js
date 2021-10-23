@@ -1,6 +1,6 @@
 import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import "./SearchToolBox.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -8,14 +8,16 @@ export default function SearchToolBox(props) {
   const loseSearchBar = props.loseSearchBar;
   const results = props.results;
   const setKeyword = props.setKeyword;
-
+  const keyword = props.keyword
+  const history = useHistory()
   const [active, setActive] = useState(0);
-
+  const redirect = props.redirect
   const clickTab = (index, e) => {
     setKeyword(e.currentTarget.innerText.toLowerCase());
     setActive(index);
+    document.querySelector(".search-section input").focus()
   };
-
+  
   return (
     <div className="SearchToolBox">
       <div className="title-tab">
@@ -46,6 +48,7 @@ export default function SearchToolBox(props) {
                   <li
                     key={data.hashtag_id}
                     className={"result result-" + index}
+                    onClick={e=>redirect(e,data.hashtagname)}
                   >
                       <div className="left">
                           <FontAwesomeIcon icon={faSearch}/>
@@ -74,6 +77,7 @@ export default function SearchToolBox(props) {
                   <li
                     key={data.userid}
                     className={"result result-" + index}
+                    onClick={e=>redirect(e,data.username)}
                   >
                       <div className="left">
                           <FontAwesomeIcon icon={faSearch}/>
@@ -102,6 +106,7 @@ export default function SearchToolBox(props) {
                   <li
                     key={data.brandid}
                     className={"result result-" + index}
+                    onClick={e=>redirect(e,data.brandname)}
                   >
                       <div className="left">
                           <FontAwesomeIcon icon={faSearch}/>
