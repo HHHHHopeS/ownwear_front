@@ -345,3 +345,21 @@ export function getRankingData(type,filter,count,current_userid){
         method:"get"
     })
 }
+//최근활동
+export function getActivity(username){
+    return request({
+        url:API_BASE_URL+"/activity/"+username,
+        method:"get",
+    
+    })
+}
+
+//정보수정(키, SNS ID)
+export function getInfo(getInfoData){
+    return request({
+        url:API_BASE_URL+"/user/mypage/update",
+        method:"POST",
+        body:JSON.stringify(getInfoData)
+
+    })
+}
