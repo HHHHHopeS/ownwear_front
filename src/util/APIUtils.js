@@ -180,25 +180,20 @@ export function getGoogleData(getGoogleDataRequest){
 //인덱스 게시물추가데이터   /index/getindex로 바꿀것
 export function getIndexMoreData(getIndexMoreDataRequest){
     return request({
-        url:API_BASE_URL+"/getindex",
+        url:API_BASE_URL+"/index/getindex",
         method:"POST",
         body:JSON.stringify(getIndexMoreDataRequest)
     })
 }
-// //인덱스 초기데이터
-// export function getIndexDataInit(url){
-//     return request({
-//         url:API_BASE_URL+"/index/getindex?"+url,
-//         method:"GET",
-//     })
-// }
-//인덱스 초기데이터 /index/getindex로 바꿀것
-export function getIndexDataInit(){
+//인덱스 초기데이터
+export function getIndexDataInit(url){
     return request({
-        url:API_BASE_URL+"/getindex",
+        url:API_BASE_URL+"/index/getindex?"+url,
         method:"GET",
     })
 }
+
+
 
 //브랜드데이터
 export function getBrandData(getBrandDataRequest){
@@ -308,8 +303,8 @@ export function toggleFollow(current_userid,target_userid){
 export function getAutoComplete(inputText,keyword){
 
     return request({
-        // url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
-        url:API_BASE_URL+"/index/srchdata?value="+inputText+"&keyword="+keyword,
+        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+
         method:"GET",
     })
 }
