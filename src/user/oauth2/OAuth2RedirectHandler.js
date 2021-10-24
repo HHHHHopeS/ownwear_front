@@ -35,7 +35,7 @@ export default function OAuth2RedirectHandler(props) {
         return <Redirect to={{
             pathname:"/login",
             state:{
-                from:this.props.location,
+
                 error:error
             }
         }}/>

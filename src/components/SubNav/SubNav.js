@@ -190,7 +190,7 @@ export default function SubNav(props) {
       }
       event.target.classList.add("active");
     };
-    console.log(window.innerWidth)
+
     useEffect(() => {
       setRankingTitle(location.pathname.split("/")[2]);
       document
@@ -260,9 +260,10 @@ export default function SubNav(props) {
     const toggleFollowModal = props.toggleFollowModal
     const followOrNot = props.followOrNot
     useEffect(() => {
+      console.log(1)
       const profile_username = props.location.pathname.split("/")[2];  
       
-      
+
       let current_userid = -1;
       if (user.info) {
         
@@ -270,10 +271,10 @@ export default function SubNav(props) {
       }
       
       //프로필 유저정보
-      if(!info||info.postid){
+      if(!info||info.user.username!==profile_username){
       getProfileSubNavData(current_userid, profile_username)
         .then(res => {
-          console.log(res)
+
             setInfo(res)
 
         })
@@ -283,8 +284,8 @@ export default function SubNav(props) {
           history.push("/404");
         });
       }
-      console.log(info)
-    }, [info,props.location.pathname]);
+
+    }, [props.location.pathname]);
     if(info&&info.user){
     return (
       <div className="profile">

@@ -66,12 +66,12 @@ export default function ListModal(props) {
             <div key={index} className="user-container">
             <div className="user-info-section">
               <div className="user-info-image">
-                <Link to={"/profile/" + data.user.username}>
+                <Link onClick={()=>setShow(false)} to={"/profile/" + data.user.username}>
                   <img src={data.user.userImg?data.user.userImg:defaultUser} alt="" />
                 </Link>
               </div>
               <div className="user-info-text">
-                <Link to={"/profile/" + data.user.username}>
+                <Link onClick={()=>setShow(false)} to={"/profile/" + data.user.username}>
                   {data.user.username}
                 </Link>
                 <span>{data.follower} followers </span>

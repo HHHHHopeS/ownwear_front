@@ -158,12 +158,16 @@ export default function Ranking(props) {
     );
   };
   const TopBrand = props => {
+    if(list[type]&&list[type][filter]){
+    console.log(list[type][filter])
+  }
+
     return (
       <div id="topbrand" className="TopBrands">
-        {list[[type]] &&
-          list[[type]][[filter]] &&
-          list[[type]][[filter]].length > 0 &&
-          list[[type]][[filter]].map((data, index) => (
+        {list[type] &&
+          list[type][filter] &&
+          list[type][filter].length > 0 &&
+          list[type][filter].map((data, index) => (
             <div
               id={"topbrand-" + index}
               className={"brand-box box-" + (index + 1)}
@@ -185,9 +189,9 @@ export default function Ranking(props) {
                 </div>
               </div>
               <div className="img-section">
-                {data.post.map((img,index)=>(
-                  <Link to={"/detail/"+img.postid}>
-                  <img src={img.imgUrl} alt="" />
+                {data.posts.map((post,index)=>(
+                  <Link to={"/detail/"+post.imgdata.postid}>
+                  <img src={post.imgdata.imgUrl} alt="" />
                 </Link>
                 ))}
                 
@@ -303,6 +307,7 @@ export default function Ranking(props) {
     }
     else{
       setCount(0)
+      
       getRankingData(type, filter, 0,current_userid).then(res=>{
         console.log(res)
         if(res.length<10){

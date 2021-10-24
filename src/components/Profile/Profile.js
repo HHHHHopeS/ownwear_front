@@ -154,22 +154,38 @@ export default function Profile(props) {
   const history = useHistory();
   const [pageCount, setPageCount] = useState(0);
   const [isError,setIsError] = useState(false)
-
+  const [preUser,setPreUser]= useState(null);
   const username = location.pathname.split("/")[2]
   useEffect(() => {
-    if (pageCount === maxCount) {
-      return setIsMaxCount(true);
+    console.log(1)
+    if(preUser!==username){
+
+      getProfileData(username,0).then(response=>{
+        if(response){
+          setContents(
+            response.content,
+            setMaxCount(response.totalPages,setPageCount(1))
+          )
+        }
+      })
+      setPreUser(username)
     }
+    
+    
     if (pageCount === 0&&!isMaxCount) {
+      console.log(1)
       getProfileData(username,pageCount).then(response =>{
         console.log(response)
-        if(response){
+        if(response.content.length>0){
         setContents(
           response.content,
           setMaxCount(response.totalPages, setPageCount(pageCount=>pageCount + 1))
         )
+        setPreUser(username)
       }
       else{
+        
+        setPreUser(username)
         setContents([])
         setIsMaxCount(true)
       }
@@ -185,9 +201,9 @@ export default function Profile(props) {
           window.innerHeight + document.documentElement.scrollTop >=
             document.body.offsetHeight
         );
-      });
+      },100);
     }
-
+    
     if (isThreshold && !isMaxCount) {
       setLoading(true);
       getProfileData(username,pageCount)
@@ -199,7 +215,14 @@ export default function Profile(props) {
         )
         .then(() => setIsThreshold(false)).catch(err=>console.log(err))
       setLoading(false);
+      
+      
+      if(pageCount==maxCount){
+
+        setIsMaxCount(true)
+      }
       setPageCount(pageCount=>pageCount + 1)
+      setIsThreshold(false)
       return (window.onscroll = null);
     }
     
@@ -209,7 +232,7 @@ export default function Profile(props) {
   //
 
   return (
-    <div className="Profile">
+    <div className="Profile" style={contents.length!==0?{}:{minHeight:"30vh"}}>
       {isError?
       <div className="error">
         cannot load page ,please retry
@@ -218,7 +241,7 @@ export default function Profile(props) {
       
       
         <div className="page-container">
-          {contents&&contents.map((item, index) => (
+          {contents&&contents.length!==0?contents.map((item, index) => (
             <div
               onClick={() => history.push(`/detail/${item.postid}`)}
               className={"post post-" + item.postid}
@@ -240,6 +263,10 @@ export default function Profile(props) {
               </span>
             </div>
           ))
+          :
+          <div className="null-page">
+            해당유저의 이미지가 존재하지 않습니다.
+          </div>
           }
         </div>
       }
