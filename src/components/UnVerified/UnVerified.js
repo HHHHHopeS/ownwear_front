@@ -23,44 +23,32 @@ export default function UnVerified(props) {
   } else {
     history.push("/login");
   }
-  const [formData, setFormData] = useState({
-    userimg: "",
-    email: "",
-    username: "",
-    height: "160",
-    sex: true,
-    instaid: "",
-    twitterid: "",
-    pinterestid: "",
-    userid:"",
-  });
+  
+  const [info,setInfo] = useState({
+    sex:true,
+    height:"160"
+  })
 
   const [isEmailValidate, setIsEmailValidate] = useState(0);
   const [isUsernameValidate, setIsUsernameValidate] = useState(0);
-  const [preview, setPreview] = useState(defaultUser);
+  const [preview, setPreview] = useState(null);
   
   useEffect(() => {
     if (user.info) {
-      setFormData({
-        ...formData,
-        userimg: user.info.userimg,
-        email: user.info.email,
-        username: user.info.username,
-        userid: user.info.userid,
-      });
+      
+      setInfo({...user.info,...info,})
+      
       
     }
     
     
   }, [user.info]);
-
+  
+  
   useEffect(()=>{
-    handleUserImg()
-  },[preview])
-  useEffect(()=>{
-    checkValidation(null,"email",formData.email)
-    checkValidation(null,"username",formData.username)
-  },[formData.email,formData.username])
+    checkValidation(null,"email",info.email)
+    checkValidation(null,"username",info.username)
+  },[info.email,info.username])
   useEffect(()=>{
 
     const error= (type,value)=>{
@@ -90,9 +78,11 @@ export default function UnVerified(props) {
   }
     if(isEmailValidate===2&&isUsernameValidate===2){
       
-      const request = Object.assign({},formData)
-      console.log(request)
-      // updateAdditonalData()
+      const request = Object.assign({},info)
+      console.log(info)
+      updateAdditonalData(request).then(res=>{
+        console.log(res)
+      })
     }
 
     
@@ -150,20 +140,7 @@ export default function UnVerified(props) {
       return "확인!"
     }
   }
-  const handleUserImg = () => {
-    if (user.info && user.info.userimg && !preview) {
-      setFormData({...formData,userimg:user.info.userimg})
-      return user.info.userimg;
-    }
-    if (preview) {
-      setFormData({...formData,userimg:preview})
-      return preview;
-    } 
-    else {
-      setFormData({...formData,userimg:null})
-      return defaultUser;
-    }
-  };
+  
   const getImage = e => {
     const [file] = e.currentTarget.files;
     console.log(file);
@@ -176,14 +153,14 @@ export default function UnVerified(props) {
       console.log(fileRes);
       if (fileRes) {
         setPreview(`data:image/jpg;base64,${fileRes}`);
-        setFormData({...formData,userimg:`data:image/jpg;base64,${fileRes}`})
+        setInfo({...info,userimg:`data:image/jpg;base64,${fileRes}`})
       }
     };
   };
   const removeImage = ()=>{
     if(window.confirm("프로필 사진을 지우겠습니까?")){
-    setPreview(defaultUser)
-    setFormData({...formData,userimg:null})
+    setPreview(null)
+    setInfo({...info,userimg:null})
   }
   else{
     return false;
@@ -204,7 +181,7 @@ export default function UnVerified(props) {
                   <label htmlFor="profile-image">Profile Image</label>
                   <div className="profile-image-main">
                     <div className="image-container">
-                      <img src={preview?preview:""} alt="user-img" />
+                      <img src={preview?preview:defaultUser} alt="user-img" />
                     </div>
                     <div className="button-container">
                       <input
@@ -238,10 +215,10 @@ export default function UnVerified(props) {
                         type="email"
                         name="email"
                         placeholder="Email"
-                        defaultValue={user.info ? user.info.email : null}
+                        defaultValue={info.email}
                         onChange={e =>{
-                          setFormData({
-                            ...formData,
+                          setInfo({
+                            ...info,
                             email: e.currentTarget.value,
                           })
                           setIsEmailValidate(0)}
@@ -262,10 +239,11 @@ export default function UnVerified(props) {
                         type="text"
                         name="username"
                         placeholder="Username"
-                        defaultValue={user.info ? user.info.username : null}
+                        defaultValue={info.username}
                         onChange={e =>{
-                          setFormData({
-                            ...formData,
+                          console.log(e.currentTarget.value)
+                          setInfo({
+                            ...info,
                             username: e.currentTarget.value,
                       
                           }
@@ -297,8 +275,8 @@ export default function UnVerified(props) {
                       defaultValue="160"
                       name="height"
                       onChange={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           height: e.currentTarget.value,
                         })
                       }
@@ -317,8 +295,8 @@ export default function UnVerified(props) {
                       name="group-sex"
                       value={true}
                       onClick={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           sex: e.currentTarget.value,
                         })
                       }
@@ -331,8 +309,8 @@ export default function UnVerified(props) {
                       name="group-sex"
                       type={"radio"}
                       onClick={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           sex: e.currentTarget.value,
                         })
                       }
@@ -354,8 +332,8 @@ export default function UnVerified(props) {
                       name="sns-instagram"
                       placeholder="Instagram"
                       onChange={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           instaid: e.currentTarget.value,
                         })
                       }
@@ -373,8 +351,8 @@ export default function UnVerified(props) {
                       type="text"
                       placeholder="Twitter"
                       onChange={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           twitterid: e.currentTarget.value,
                         })
                       }
@@ -393,8 +371,8 @@ export default function UnVerified(props) {
                       type="text"
                       placeholder="Pinterest"
                       onChange={e =>
-                        setFormData({
-                          ...formData,
+                        setInfo({
+                          ...info,
                           pinterestid: e.currentTarget.value,
                         })
                       }
