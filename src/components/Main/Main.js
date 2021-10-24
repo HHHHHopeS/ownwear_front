@@ -36,7 +36,7 @@ export default function Main(props) {
     },
   });
 
-  const newArr = []
+
   const [page, setPage] = useState(0);
   const [ids, setIds] = useState({ all: [], men: [], women: [] });
   const [brand, setBrand] = useState([]);
@@ -101,7 +101,7 @@ export default function Main(props) {
   }, [url]);
 
   useEffect(() => {
-
+    const newArr = []
     const req = { url, page, ids: ids[url] }
     if (!isThreshold && !isMaxCount) {
       window.onscroll = _.debounce(e => {
@@ -116,32 +116,40 @@ export default function Main(props) {
     }
     if (page === 0) {
       setIsLoading(true)
-      
-      getIndexDataInit().then(response =>{
+      getIndexDataInit(url).then(response => {
         console.log(response)
         setData({ ...data, [url]: { ...data[url], ranking: response.postMap.rank, new: response.postMap.new } },
-        setPage(1), setIsLoading(false),
-        setBrand(response.brandForms), setHotuser(response.userInfos), setHotTag(response.hashTagForms))
-        // for(let i =0; i<response.postMap.new.length; i++){
-        //   newArr.concat(response.postMap.new[i].postid)
-        // }
-        // setIds(...newArr,ids.all)
+          setPage(1), setIsLoading(false),
+          setBrand(response.brandForms), setHotuser(response.userInfos), setHotTag(response.hashTagForms))
+          for (let i = 0; i < response.postMap.new.length; i++) {
+            newArr.push(response.postMap.new[i].postid, response.postMap.rank[i].postid)
+          }
+          setIds({ ...ids, [url]: [...newArr] })
       })
     }
-    console.log(ids)
-
     if (isThreshold && !isLoading && !isMaxCount && page === 1) {
       setIsLoading(true);
-      getIndexMoreData(req).then(response =>{
+      console.log(ids)
+      getIndexMoreData(req).then(response => {
+        console.log(response)
         setData({ ...data, [url]: { ...data[url], brand: response.brand } }, setIsThreshold(false, setIsLoading(false, setPage(2))))
+        for (let i = 0; i < response.brand.length; i++) {
+          newArr.push(response.brand[i].postid)
+        }
+        setIds({ ...ids, [url]: [...newArr] })
       })
     }
     if (isThreshold && !isLoading && !isMaxCount && page > 1) {
       setIsLoading(true)
-      getIndexMoreData(req).then(response =>
-        
+      console.log(ids)
+      getIndexMoreData(req).then(response => {
+        console.log(response)
         setData({ ...data, [url]: { ...data[url], suggestion: [...data[url].suggestion, ...response.random] } }, setIsLoading(false, setIsThreshold(false), setPage(page + 1)))
-      )
+        for (let i = 0; i < response.random.length; i++) {
+          newArr.push(response.random[i].postid)
+        }
+        setIds({ ...ids, [url]: [...newArr] })
+      })
     }
 
     return () => (window.onscroll = null);

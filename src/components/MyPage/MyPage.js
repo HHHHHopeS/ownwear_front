@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
+
 import { getCurrentUser, getInfo, updateImage } from "../../util/APIUtils";
+
 
 import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
 import Alert from "react-s-alert"
@@ -60,11 +62,13 @@ export default function MyPage() {
 
         if(parseInt(e.target[0].value)||!e.target[0].value){
         const request =Object.assign({}, {...user.info,height:e.target[0].value, instaid:e.target[1].value, twitterid:e.target[2].value, pinterestid:e.target[3].value})
+
         getInfo(request).then(response =>{ if(response){
             setShowForm(false)
             Alert.success("정보가 변경되었습니다.")
         }})
         .catch(err => console.log(err))
+
       
         }
       
