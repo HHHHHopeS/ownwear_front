@@ -341,9 +341,9 @@ export function getCheckPassword(getCheckPasswordData){
 //     [post]: 태깅한 포스트 단 3개 순서는 최신순이던 인기순이던 상관 무,
 
 // }
-export function getRankingData(type,filter,count){
+export function getRankingData(type,filter,count,current_userid){
     return request({
-        url:API_BASE_URL+"/index/ranking?type="+type+"&filter="+filter+"&page="+count,
+        url:API_BASE_URL+"/detail/ranking?type="+type+"&filter="+filter+"&page="+count+"&current_userid="+current_userid,
         method:"get"
     })
 

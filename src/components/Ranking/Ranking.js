@@ -190,7 +190,7 @@ export default function Ranking(props) {
               </div>
               <div className="img-section">
                 {data.posts.map((post,index)=>(
-                  <Link to={"/detail/"+post.imgdata.postid}>
+                  <Link to={"/detail/"+post.postid}>
                   <img src={post.imgdata.imgUrl} alt="" />
                 </Link>
                 ))}

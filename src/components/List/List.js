@@ -391,10 +391,11 @@ export default function List(props) {
     getdata(isHashtag,pageno,title)
     .then(response => {
       console.log(response)
-      setData(response.data)
-    setTotalcount(response.totalcount);
+      setData(response.content)
+    setTotalcount(response.totalPages);
     })
     .catch(err => {
+      console.log(err)
       Alert.error("해당 페이지가 없습니다");
     });
 
