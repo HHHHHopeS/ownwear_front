@@ -386,13 +386,9 @@ export default function List(props) {
   
   useEffect(()=>{
     
-    const getListDataRequest = Object.assign({},{
-      isHashtag,  //해시태그 //프로필
-      title, //해시태그 value #장준석 // userid
-      pageno // 0
-    });
-    console.log(getListDataRequest)
-    getdata(getListDataRequest)
+    
+
+    getdata(isHashtag,pageno,title)
     .then(response => {
       console.log(response)
       setData(response.data)
@@ -402,7 +398,7 @@ export default function List(props) {
       Alert.error("해당 페이지가 없습니다");
     });
 
-    getdata(getListDataRequest).then(response=>setData(data)).catch(err=>console.log(err))
+    // getdata(isHashtag,pageno,title).then(response=>setData(data)).catch(err=>console.log(err))
   },[pathName])
   useEffect(()=>{
 
