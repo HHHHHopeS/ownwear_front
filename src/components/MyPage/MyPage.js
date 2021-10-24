@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-import { getInfo } from "../../util/APIUtils";
+// import { getInfo } from "../../util/APIUtils";
 
 import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
 
@@ -60,8 +60,8 @@ export default function MyPage() {
 
         if(parseInt(e.target[0].value)||!e.target[0].value){
         const request =Object.assign({}, {...user.info,height:e.target[0].value, instaid:e.target[1].value, twitterid:e.target[2].value, pinterestid:e.target[3].value})
-        getInfo(request).then(response => console.log(response))
-        .catch(err => console.log(err))
+        // getInfo(request).then(response => console.log(response))
+        // .catch(err => console.log(err))
       
         }
       

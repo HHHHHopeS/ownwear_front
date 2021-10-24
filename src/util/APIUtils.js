@@ -122,7 +122,7 @@ export function fetchDeleteComment(fetchDeleteCommentRequest){
 //해시태그 자동완성 요청
 export function hashtagAutoComplete(data,type){
     return request({
-        url:API_BASE_URL+"/AutoComplete/"+type+"?data="+data,
+        url:API_BASE_URL+"/index/AutoComplete/"+type+"?data="+data,
         method:"GET",
 
     })
@@ -177,7 +177,7 @@ export function getGoogleData(getGoogleDataRequest){
 }
 
 
-//인덱스 게시물추가데이터
+//인덱스 게시물추가데이터   /index/getindex로 바꿀것
 export function getIndexMoreData(getIndexMoreDataRequest){
     return request({
         url:API_BASE_URL+"/getindex",
@@ -185,7 +185,14 @@ export function getIndexMoreData(getIndexMoreDataRequest){
         body:JSON.stringify(getIndexMoreDataRequest)
     })
 }
-//인덱스 초기데이터
+// //인덱스 초기데이터
+// export function getIndexDataInit(url){
+//     return request({
+//         url:API_BASE_URL+"/index/getindex?"+url,
+//         method:"GET",
+//     })
+// }
+//인덱스 초기데이터 /index/getindex로 바꿀것
 export function getIndexDataInit(){
     return request({
         url:API_BASE_URL+"/getindex",
@@ -302,7 +309,7 @@ export function getAutoComplete(inputText,keyword){
 
     return request({
         // url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
-        url:API_BASE_URL+"/srchdata?value="+inputText+"&keyword="+keyword,
+        url:API_BASE_URL+"/index/srchdata?value="+inputText+"&keyword="+keyword,
         method:"GET",
     })
 }
@@ -339,27 +346,9 @@ export function getCheckPassword(getCheckPasswordData){
 //     [post]: 태깅한 포스트 단 3개 순서는 최신순이던 인기순이던 상관 무,
 
 // }
-export function getRankingData(type,filter,count,current_userid){
+export function getRankingData(type,filter,count){
     return request({
-        url:API_BASE_URL+"/detail/ranking?type="+type+"&filter="+filter+"&page="+count+"&current_userid="+current_userid,
+        url:API_BASE_URL+"/index/ranking?type="+type+"&filter="+filter+"&page="+count,
         method:"get"
-    })
-}
-//최근활동
-export function getActivity(username){
-    return request({
-        url:API_BASE_URL+"/activity/"+username,
-        method:"get",
-    
-    })
-}
-
-//정보수정(키, SNS ID)
-export function getInfo(getInfoData){
-    return request({
-        url:API_BASE_URL+"/user/mypage/update",
-        method:"POST",
-        body:JSON.stringify(getInfoData)
-
     })
 }
