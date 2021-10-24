@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-// import { getInfo } from "../../util/APIUtils";
+
+import { getCurrentUser, getInfo, updateImage } from "../../util/APIUtils";
+
 
 import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
-
+import Alert from "react-s-alert"
 import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
@@ -42,7 +44,7 @@ export default function MyPage() {
     const [showPassForm, setShowPassForm] = useState(false);
     const element = <FontAwesomeIcon icon={faCamera} />
     const [preview, setPreview] = useState(defaultUser);
-    const { user } = useContext(UserContext)
+    const { setCurrentUser,user } = useContext(UserContext)
 
     // const [showModal, setShowModal] = useState(false);
     // const openModal = () => {
@@ -60,8 +62,13 @@ export default function MyPage() {
 
         if(parseInt(e.target[0].value)||!e.target[0].value){
         const request =Object.assign({}, {...user.info,height:e.target[0].value, instaid:e.target[1].value, twitterid:e.target[2].value, pinterestid:e.target[3].value})
-        // getInfo(request).then(response => console.log(response))
-        // .catch(err => console.log(err))
+
+        getInfo(request).then(response =>{ if(response){
+            setShowForm(false)
+            Alert.success("정보가 변경되었습니다.")
+        }})
+        .catch(err => console.log(err))
+
       
         }
       
@@ -78,24 +85,25 @@ export default function MyPage() {
             console.log("green")
             console.log(user)
 
-            const request = Object.assign({}, { userid: user.info.userid, password: inputs.password})
-            const newRequest = Object.assign({},{ userid: user.info.userid, password: inputs.newPassword})
+            const request = Object.assign({}, { userid: user.info.userid, pw: inputs.password,newPw:inputs.newPassword})
+
 
 
             
 
-            console.log(request)
+            
             getChangePassword(request).then(response => {
                 
                if(response){
-                getChangePassword(newRequest).then(response=>console.log(response))   
+                setShowPassForm(false,Alert.success("비밀번호가 변경되었습니다."))   
                 
                }
                else{
                    console.log(response)
                 
-                //    alert("현재 비밀번호가 잘못되었습니다.")
+                   Alert.error("현재 비밀번호가 잘못되었습니다.")
                }
+               
 
                 // if (response.ok) {
                 //     console.log(response.ok) 
@@ -136,8 +144,12 @@ export default function MyPage() {
     }, [user.info])
     useEffect(() => {
         if (user.auth) {
-            if (preview !== user.info.userimg) {
+            
 
+            if (preview!=defaultUser&&preview !== user.info.userimg) {
+                
+                const req = Object.assign({},{...user.info,userimg:preview})
+                updateImage(req).then(response=>setCurrentUser(response))
                 // sendImage(sendImageRequest).then(response=>setPreview(preview)).catch(err=>console.log(err))
 
             }

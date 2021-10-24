@@ -143,11 +143,11 @@ export function deleteDetailPage(deleteDetailPageRequest){
 
 
 //페이징
-export function getdata(getDataRequest){
+export function getdata(type,page,value){
     return request({
-        url:API_BASE_URL+"/detail/postlist",
-        method:"POST",
-        body:JSON.stringify(getDataRequest)
+        url:API_BASE_URL+"/detail/postlist?type="+type+"&page="+page+"&value="+value,
+        method:"get",
+
     })
 }
 
@@ -351,4 +351,34 @@ export function getRankingData(type,filter,count){
         url:API_BASE_URL+"/index/ranking?type="+type+"&filter="+filter+"&page="+count,
         method:"get"
     })
+
+}
+//최근활동
+export function getActivity(username){
+    return request({
+        url:API_BASE_URL+"/activity/"+username,
+        method:"get",
+    
+    })
+}
+
+//정보수정(키, SNS ID)
+export function getInfo(getInfoData){
+    return request({
+        url:API_BASE_URL+"/user/mypage/update",
+        method:"POST",
+        body:JSON.stringify(getInfoData)
+
+    })
+}
+//이미지 업로드
+
+export function updateImage(updateImageRequest){
+    return request({
+        url:API_BASE_URL+"/user/mypage/updateImg",
+        method:"POST",
+        body:JSON.stringify(updateImageRequest)
+
+    })
+
 }

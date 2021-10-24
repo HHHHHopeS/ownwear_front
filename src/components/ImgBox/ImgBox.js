@@ -15,9 +15,9 @@ export default function ImgBox(props) {
     useEffect(()=>{
     },[hover])
 
-    if(data&&data.imgData){
-        const tagX = data.imgData.tagData[0].rectorX
-        const tagY = data.imgData.tagData[0].rectorY
+    if(data&&data.imgdata){
+        const tagX = data.imgdata.tagData[0].rectorX
+        const tagY = data.imgdata.tagData[0].rectorY
     return(
 
         <div className="ImgBox">
@@ -27,7 +27,7 @@ export default function ImgBox(props) {
                     setImgHover(false);
                     
                     }}>
-                <img src={ data.imgData.imgUrl}
+                <img src={ data.imgdata.imgUrl}
                     alt="..."
                     // {data.imgIndex}
                     style={imgHover? {opacity:0.5}:{opacity:1}}
@@ -44,11 +44,11 @@ export default function ImgBox(props) {
                     <FontAwesomeIcon icon={tagY>=0.6 ? faCaretDown: faCaretUp}  />
                         <div className="product-tag-info-section" style={tagY>=0.6?tagX>=0.5? {marginTop:"-53px",marginLeft:"-90%"}:{marginTop:"-53px",marginLeft:"",flexDirection:"row-reverse"}:tagX>=0.5?{marginTop: "-10px",marginLeft:"-90%"}:{marginTop: "-10px",marginLeft:"",flexDirection:"row-reverse"}} >
                             <div className="product-tag-img-section">
-                                <img src={data.imgData.tagData[0].productInfo.productImgUrl} alt="productUrl" />
+                                <img src={data.imgdata.tagData[0].productInfo.productImgUrl} alt="productUrl" />
                             </div>
                             <div className="product-tag-text-section">
-                                <span className="product-name">{data.imgData.tagData[0].productInfo.brandName}</span>
-                                <span className="product-price">{data.imgData.tagData[0].productInfo.price}원</span>
+                                <span className="product-name">{data.imgdata.tagData[0].productInfo.brandName}</span>
+                                <span className="product-price">{data.imgdata.tagData[0].productInfo.price}원</span>
                             </div>
                         </div>
         
