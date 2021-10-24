@@ -15,7 +15,7 @@ export default function ImgBox(props) {
     useEffect(()=>{
     },[hover])
 
-    if(data&&data.imgdata){
+    if(data&&data.imgdata&&data.imgdata.tagData){
         const tagX = data.imgdata.tagData[0].rectorX
         const tagY = data.imgdata.tagData[0].rectorY
     return(

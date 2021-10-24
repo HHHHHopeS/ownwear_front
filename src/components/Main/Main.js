@@ -143,7 +143,7 @@ export default function Main(props) {
       setIsLoading(true)
       console.log(ids)
       getIndexMoreData(req).then(response => {
-        console.log(response)
+        
         setData({ ...data, [url]: { ...data[url], suggestion: [...data[url].suggestion, ...response.random] } }, setIsLoading(false, setIsThreshold(false), setPage(page + 1)))
         for (let i = 0; i < response.random.length; i++) {
           newArr.push(response.random[i].postid)
