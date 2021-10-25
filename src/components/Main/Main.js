@@ -101,8 +101,10 @@ export default function Main(props) {
   }, [url]);
 
   useEffect(() => {
+    
     const newArr = []
     const req = { url, page, ids: ids[url] }
+    if(url!=="ranking"&&url!=="list"){
     if (!isThreshold && !isMaxCount) {
       window.onscroll = _.debounce(e => {
         setIsThreshold(
@@ -127,6 +129,7 @@ export default function Main(props) {
           setIds({ ...ids, [url]: [...newArr] })
       })
     }
+    console.log(ids)
     if (isThreshold && !isLoading && !isMaxCount && page === 1) {
       setIsLoading(true);
       console.log(ids)
@@ -151,7 +154,7 @@ export default function Main(props) {
         setIds({ ...ids, [url]: [...newArr] })
       })
     }
-
+  }
     return () => (window.onscroll = null);
   }, [isThreshold, isMaxCount]);
   // useEffect(() => {
