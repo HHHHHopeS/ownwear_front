@@ -181,7 +181,7 @@ export default function Ranking(props) {
                     <Link to={"/list/brand/"+data.brandname+"/1"} className="brandname">{data.brandname}</Link>
                   </div>
                   <div className="brand-info-container">
-                    <span>{calculateScale(data.postedcount)} posts</span>
+                    <span>{calculateScale(data.postcount)} posts</span>
                   </div>
                 </div>
                 <div className="brand-button-section">
@@ -343,8 +343,9 @@ export default function Ranking(props) {
       setLoading(true);
 
       
-      
+      console.log(count)
         getRankingData(type,filter,count,current_userid).then(res=>{
+          console.log(res)
           setList(
             { ...list, [type]: {...list[type], [filter]: [...list[type][filter], ...res] } },
             setIsThreshold(

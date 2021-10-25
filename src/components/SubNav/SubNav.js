@@ -7,6 +7,7 @@ import {
   faCrown,
   faHashtag,
   faHome,
+  faTshirt,
   faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -459,6 +460,10 @@ export default function SubNav(props) {
     );
   };
   const List = () => {
+    const {pathname} = useLocation();
+    const isHashtag = pathname.split("/")[2]
+    const value = pathname.split("/")[3]
+    console.log(isHashtag)
     return (
       <div className="list">
         <div className="subnav-breadcrumb-section">
@@ -466,13 +471,14 @@ export default function SubNav(props) {
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />
             </Breadcrumb.Item>
-            <Breadcrumb.Item active>tag-name</Breadcrumb.Item>
+            <Breadcrumb.Item active>{isHashtag==="hashtag"?"hashtag":"brand"}</Breadcrumb.Item>
+            <Breadcrumb.Item active>{value}</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="title-section">
           <h1>
-            <FontAwesomeIcon icon={faHashtag} />
-            Tag-name list
+            <FontAwesomeIcon icon={isHashtag==="hashtag"?faHashtag:faTshirt} />
+             {value}
           </h1>
         </div>
       </div>
