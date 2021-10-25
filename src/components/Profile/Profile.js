@@ -246,7 +246,7 @@ export default function Profile(props) {
               onClick={() => history.push(`/detail/${item.postid}`)}
               className={"post post-" + item.postid}
             >
-              <img src={item.imgData?item.imgData.imgUrl:null} alt="" />
+              <img src={item.imgdata?item.imgdata.imgUrl:null} alt="" />
               <span className="like-count img-info">
                 {" "}
                 <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
