@@ -244,7 +244,7 @@ export function checkIsValid(checkIsValidRequest){
 }
 export function updateAdditonalData(updateAdditonalDataRequest){
     return request({
-        url:API_BASE_URL+"/user/update/oauth2",
+        url:API_BASE_URL+"/user/mypage/updateImg",
         method:"POST",
         body:JSON.stringify(updateAdditonalDataRequest)
     })
