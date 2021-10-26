@@ -582,18 +582,7 @@ function Comment(props) {
         Alert.error("oops cannot create comment");
       });
 
-    // arr.push(
-    //   {
-    //   commentid:3,
-    //   commentdata:"2021-9-23 18:31:20",
-    //   userinfo:{
-    //     userid:1,
-    //   username:"winter",
-    //   userImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-    // },
-    // content:data
-    // })
-    // setDetailPageData({...detailPageData,comments:arr})
+
     document.querySelector(".comment-input").value = "";
   };
   const deleteComment = comment => {
@@ -624,8 +613,8 @@ function Comment(props) {
                   <Link to={{ pathname: "/profile/" + comment.user.username }}>
                     <img
                       src={
-                        comment.user.userImg
-                          ? comment.user.userImg
+                        comment.user.userimg
+                          ? comment.user.userimg
                           : defaultUser
                       }
                       alt=""
