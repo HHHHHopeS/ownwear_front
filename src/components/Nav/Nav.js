@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link,useLocation, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
@@ -25,14 +25,22 @@ export default function Nav(props) {
   const [activeAlert, setActiveAlert] = useState(false);
   const [loading,setLoading] = useState(false)
   const [keyword, setKeyword] = useState("tag")
+  const {pathname} = useLocation()
   const [alertList, setAlertList] = useState([
-    { type: "following", likepostid: 1,postid:1, username: "jjangjjun", alert_date: "2021-10-21 10:10:13" },
-    { type: "follower", commentid: 1,postid:2, username: "임양", alert_date: "2021-10-22 12:02:13" },
-    { type: "following", likepostid: 1,postid:3, username: "braveleftji", alert_date: "2021-10-21 13:04:14" },
-    { type: "following", likepostid: 1,postid:4, username: "braveleftji", alert_date: "2021-10-21 16:18:13" },
-    { type: "follower", commentid: 1, postid:5,username: "임양", alert_date: "2021-10-21 16:72:13" },
-    { type: "follower", likepostid: 1,postid:6, username: "임양", alert_date: "2021-10-21 16:63:32" }
+    
   ]);
+  useEffect(()=>{
+      
+
+        
+
+          
+      if(user.info){
+    getActivity(user.info.userid).then(response=>setAlertList(response)).catch(err=>console.log(err))
+  }
+  
+  
+},[])
   const getList=()=>{
     setLoading(true)
     console.log(1)
@@ -84,12 +92,7 @@ export default function Nav(props) {
         </span>
       )
     }
-    useEffect(()=>{
-      if(user.info){
-        setLoading(true)
-        getActivity(user.info.userid).then(response=>setAlertList(response),setLoading(false)).catch(err=>console.log(err))
-      }
-    },[user.info])
+    
     
     return alertList.map((content, index) => (
       <div key={index} className="alert-item-container">
@@ -128,17 +131,7 @@ export default function Nav(props) {
     }
     return false;
   }, [activeProfile]);
-  useEffect(()=>{
-    
-  },[user.info])
 
-  useEffect(()=>{
-
-    if(user.info&&!user.info.ischecked){
-    getList()
-  }
-
-  },[])
 
 
   return (
@@ -260,14 +253,14 @@ export default function Nav(props) {
                   <FontAwesomeIcon
                     style={
                       user.info
-                        ? !user.info.ischecked
+                        ? alertList.length>0
                           ? { color: "#f6b800" }
                           : {}
                         : {}
                     }
                     icon={
                       user.info
-                        ? !user.info.ischecked
+                        ? alertList.length>0
                           ? fsBell
                           : faBell
                         : faBell
