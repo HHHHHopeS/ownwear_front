@@ -1,7 +1,7 @@
 import {
   faChevronLeft,
   faPlus,
-  faTimes,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +10,7 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import ReactCrop from "react-image-crop";
@@ -23,7 +23,7 @@ import {
   getGoogleData,
   hashtagAutoComplete,
   insertImageData,
-  sendImage,
+  sendImage
 } from "../../util/APIUtils";
 import "./ImageUploadModule.scss";
 /**

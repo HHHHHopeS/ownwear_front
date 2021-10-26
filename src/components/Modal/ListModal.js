@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-import LoadingIndicator from "../../common/LoadingIndicator";
 import { toggleFollow } from "../../util/APIUtils";
 export default function ListModal(props) {
   const title = props.title

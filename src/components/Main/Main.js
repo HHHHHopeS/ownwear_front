@@ -1,13 +1,11 @@
+import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { FiUserPlus } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
-import exPhoto from "../../res/iu.jpg";
-import ImgBox from "../ImgBox/ImgBox";
-import { getIndexMoreData, getIndexDataInit } from "../../util/APIUtils";
-import { sampleIU, sampleGongyou } from "./sample";
-import "./Main.scss";
-import _ from "lodash";
+import { getIndexDataInit, getIndexMoreData } from "../../util/APIUtils";
 import NotFound from "../404/NotFound";
+import ImgBox from "../ImgBox/ImgBox";
+import "./Main.scss";
 
 export default function Main(props) {
   const { pathname } = useLocation();

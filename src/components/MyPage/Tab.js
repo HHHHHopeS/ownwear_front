@@ -1,9 +1,9 @@
-import { useContext,useEffect, useState } from "react";
-import "./Tab.scss";
-import { calculateDatetime } from "../../util/TimeUtils"
-import { getActivity } from "../../util/APIUtils"
-
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
+import { getActivity } from "../../util/APIUtils";
+import { calculateDatetime } from "../../util/TimeUtils";
+import "./Tab.scss";
+
 
 function Tabs() {
   const {user}= useContext(UserContext)

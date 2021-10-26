@@ -1,25 +1,23 @@
+import {
+    faInstagram,
+    faPinterest,
+    faTwitter
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _ from "lodash";
 import { useContext, useEffect, useState } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { useDidCache, useDidRecover } from "react-router-cache-route";
+import { Link } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import ScrollHandler from "../../common/ScrollHandler";
-import ImgBox from "../ImgBox/ImgBox";
-import defaultUser from "../../res/default-user.jpeg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./Ranking.scss";
-import { brandData, data,userdata } from "./sampleData";
-import sample from "../../res/sample.png";
-import calculateScale from "../../util/numberUtils"
-import ReactTooltip from "react-tooltip";
-import { getRankingData } from "../../util/APIUtils";
-import {
-  faInstagram,
-  faPinterest,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
 import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
+import { getRankingData } from "../../util/APIUtils";
+import calculateScale from "../../util/numberUtils";
+import ImgBox from "../ImgBox/ImgBox";
+import "./Ranking.scss";
 
 export default function Ranking(props) {
   const [list, setList] = useState([]);

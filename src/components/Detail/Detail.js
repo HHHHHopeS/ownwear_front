@@ -1,53 +1,39 @@
 import {
-  faFacebookF,
-  faPinterest,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faHeart as emptyHeart,
-  faShareSquare,
+  faHeart as emptyHeart
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faEdit,
-  faEllipsisH,
-  faHeading,
-  faHeart,
+  faEllipsisH, faHeart,
   faPaperPlane,
-  faPen,
-  faShareAlt,
-  faTimes,
-  faTrashAlt,
+  faPen, faTimes,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import _ from "lodash";
 import React, {
   createRef,
   useContext,
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import Alert from "react-s-alert";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
 import {
-  getDetailData,
-  getIsLike,
-  getUserList,
-  toggleLike,
-  updateComment,
   fetchCreateComment,
-  fetchDeleteComment,
-  hashtagAutoComplete,
+  fetchDeleteComment, getDetailData,
+  getIsLike,
+  getUserList, hashtagAutoComplete, toggleLike,
+  updateComment
 } from "../../util/APIUtils";
+import { calculateDatetime } from "../../util/TimeUtils";
 import NotFound from "../404/NotFound";
 import "./Detail.scss";
-import ListModal from "../Modal/ListModal";
-import { calculateDatetime } from "../../util/TimeUtils";
-import defaultUser from "../../res/default-user.jpeg";
-import _ from "lodash";
-import LoadingIndicator from "../../common/LoadingIndicator";
 export default function Detail(props) {
   const pathName = props.location.pathname;
 

@@ -9,7 +9,6 @@ import "react-s-alert/dist/s-alert-default.css";
 import './App.scss';
 import LoadingIndicator from "./common/LoadingIndicator";
 import { UserContext } from "./common/UserContext";
-import NotFound from './components/404/NotFound';
 import Create from "./components/Create/Create";
 import Detail from "./components/Detail/Detail";
 import Footer from "./components/Footer/Footer";
@@ -26,7 +25,7 @@ import SubNav from './components/SubNav/SubNav';
 import UnVerified from "./components/UnVerified/UnVerified";
 import { ACCESS_TOKEN } from "./constants";
 import OAuth2RedirectHandler from "./user/oauth2/OAuth2RedirectHandler";
-import { getCurrentUser, getUserList,toggleFollow } from "./util/APIUtils";
+import { getCurrentUser, getUserList, toggleFollow } from "./util/APIUtils";
 
 
 

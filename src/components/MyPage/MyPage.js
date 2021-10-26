@@ -1,21 +1,20 @@
-import { faAt, faCamera, faMars, faRuler, faTimes, faTrash, faUser, faVenus } from "@fortawesome/free-solid-svg-icons";
+import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faAt, faCamera, faMars, faRuler, faTrash, faUser, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
+import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-
-import { getCurrentUser, getInfo, updateImage } from "../../util/APIUtils";
-
-
-import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
-import Alert from "react-s-alert"
+import { getChangePassword, getInfo, updateImage } from "../../util/APIUtils";
 import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
 // import { Modal } from './Modal';
 import Tab from './Tab';
 import "./Tab.scss";
-import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";
+
+
+
 
 
 // const Container = styled.div`

@@ -11,18 +11,18 @@ import {
   faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
-import { Link, Route, Switch, useHistory, useLocation,Redirect } from "react-router-dom";
+import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import Alert from "react-s-alert";
+import Select from "react-select";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
 import {
-  deleteDetailPage, getDetailProfileSubNavData, getProfileSubNavData, getUserList
+  deleteDetailPage, getDetailProfileSubNavData, getProfileSubNavData
 } from "../../util/APIUtils";
 import calculateScale from "../../util/numberUtils";
 import "./SubNav.scss";
-import Select from "react-select";
 export default function SubNav(props) {
   const { user } = useContext(UserContext);
   const history = useHistory();

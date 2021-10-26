@@ -2,9 +2,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from 'react';
-import SearchToolBox from "../SearchToolBox/SearchToolBox";
-import { getAutoComplete } from "../../util/APIUtils";
 import { useHistory } from "react-router";
+import { getAutoComplete } from "../../util/APIUtils";
+import SearchToolBox from "../SearchToolBox/SearchToolBox";
 export default function SearchBar(props) {
   function clickSearchBar() {
     document.querySelector(".blur-section").setAttribute("style", "display:block")

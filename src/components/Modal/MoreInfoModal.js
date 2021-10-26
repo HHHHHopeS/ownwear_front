@@ -1,11 +1,9 @@
-import { Modal,Form } from "react-bootstrap";
-import { useState,useContext } from "react";
-import { UserContext } from "../../common/UserContext";
-import defaultUser from "../../res/default-user.jpeg"
+import { useContext, useState } from "react";
+import { Modal } from "react-bootstrap";
 import Select from "react-select";
+import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
 import { updateAdditonalData } from "../../util/APIUtils";
-import path from 'path';
-import { COMPARISON_BINARY_OPERATORS } from "@babel/types";
 
 export default function MoreInfoModal(props) {
     const [preview,setPreview] = useState(null)

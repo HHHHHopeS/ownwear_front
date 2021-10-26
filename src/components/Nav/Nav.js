@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import {
     faArrowRight, faBell as fsBell, faSignOutAlt,
-    faSlidersH, faSyncAlt, faTimes
+    faSlidersH, faSyncAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import exPhoto from "../../res/default-user.jpeg";
 import logo from "../../res/logo.png";
-import { getAlertList, setAlertChecked } from "../../util/APIUtils";
+import { getAlertList } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
 import "./Nav.scss";
 import SearchBar from "./SearchBar";
