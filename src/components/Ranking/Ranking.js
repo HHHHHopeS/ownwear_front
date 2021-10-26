@@ -354,8 +354,12 @@ export default function Ranking(props) {
                 false,
                 setCount(count => count + 1)
               )
+              
             )
           );
+          if(res.length<10){
+            setIsMaxCount(true)     
+          }
         }).catch(err=>console.log(err))
         
         if (count === 9||count===maxCount) {
