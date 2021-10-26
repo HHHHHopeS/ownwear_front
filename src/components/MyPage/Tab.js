@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import { getActivity } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
+import { Link } from "react-router-dom";
 import "./Tab.scss";
 
 
@@ -10,12 +11,6 @@ function Tabs() {
   const [toggleState, setToggleState] = useState(1);
 
   const [follower, setFollower] = useState([
-    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
-    { type: "follower", commentid: 1, username: "주희", alert_date: "2021-10-21" },
-    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
-    { type: "following", likepostid: 1, username: "공유", alert_date: "2021-10-21" },
-    { type: "follower", commentid: 1, username: "주희", alert_date: "2021-10-21" },
-    { type: "follower", likepostid: 1, username: "주희", alert_date: "2021-10-21" }
 
 
   ]);
@@ -38,7 +33,7 @@ function Tabs() {
 
      try{
      getActivity(user.info.userid).then(response => {
-     
+     console.log(response)
      setFollower(response)
    })} catch(e){
      console.log(e);
@@ -55,12 +50,12 @@ function Tabs() {
     follower&&follower.length>0&&follower.map(f => {
     
     if (f.type === "follower" && (type === "all" ||type=== "follower")) {
-      return (<p>  {f.username}님이 회원님 게시글에 {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
+      return (<p>  <Link to={"/profile/"+f.username}>{f.username}</Link>님이 회원님 <Link to={"/detail/"+f.postid}>게시글</Link>에 {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
         {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
         <span className="time">{calculateDatetime(f.alert_date)}</span></p>)
     }
     else if (f.type === "following" && (type === "all" ||type=== "following")) {
-      return( <p>  {f.username}님 게시글에  {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
+      return( <p>  <Link to={"/profile/"+f.username}>{f.username}</Link>님 <Link to={"/detail/"+f.postid}>게시글</Link>에  {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
         {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
         <span className="time">{calculateDatetime(f.alert_date)}</span></p>)
     }

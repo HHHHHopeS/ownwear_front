@@ -349,9 +349,9 @@ export function getRankingData(type,filter,count,current_userid){
 
 }
 //최근활동
-export function getActivity(username){
+export function getActivity(current_userid){
     return request({
-        url:API_BASE_URL+"/activity/"+username,
+        url:API_BASE_URL+"/user/activity/?current_userid="+current_userid,
         method:"get",
     
     })
