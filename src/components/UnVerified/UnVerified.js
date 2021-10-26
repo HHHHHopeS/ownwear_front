@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { UserContext } from "../../common/UserContext";
-import "./UnVerified.scss";
-import defaultUser from "../../res/default-user.jpeg";
-import Form from "react-bootstrap/Form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { checkIsValid ,updateAdditonalData} from "../../util/APIUtils";
 import {
-  faInstagram,
-  faPinterest,
-  faTwitter,
+    faInstagram,
+    faPinterest,
+    faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
+import { useHistory } from "react-router";
+import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
+import { getCurrentUser, updateOauth2 } from "../../util/APIUtils";
+import "./UnVerified.scss";
 export default function UnVerified(props) {
-  const { user } = useContext(UserContext);
+  const { user,setCurrentUser } = useContext(UserContext);
   const history = useHistory();
   if (user.auth) {
     if (user.info.isverified) {
@@ -80,8 +80,12 @@ export default function UnVerified(props) {
       
       const request = Object.assign({},info)
       console.log(info)
-      updateAdditonalData(request).then(res=>{
-        console.log(res)
+      updateOauth2(request).then(res=>{
+
+        if(res){
+          getCurrentUser().then(res=>setCurrentUser(res))
+
+        }
       })
     }
 
@@ -181,7 +185,7 @@ export default function UnVerified(props) {
                   <label htmlFor="profile-image">Profile Image</label>
                   <div className="profile-image-main">
                     <div className="image-container">
-                      <img src={preview?preview:defaultUser} alt="user-img" />
+                      <img src={user.info&&user.info.userimg&&!preview?user.info.userimg:preview?preview:defaultUser} alt="user-img" />
                     </div>
                     <div className="button-container">
                       <input

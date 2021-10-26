@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
 import { toggleFollow } from "../../util/APIUtils";
@@ -11,12 +12,14 @@ export default function ListModal(props) {
   const setShow = props.setShow;
   const userList = props.userList;
   const setUserList = props.setUserList;
+  const modalLoading = props.modalLoading
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
-  console.log(userList)
+  console.log(modalLoading)
   const controlFollow = (e, index, userid) => {
     const target = e.currentTarget;
+    
     const toggleText=(el,obj,response)=>{
       const arr = userList.slice(0,userList.length)
       if(response){
@@ -51,6 +54,7 @@ export default function ListModal(props) {
     
     else{
         Alert.error("Please Login First")
+        setShow(false)
         history.push("/login")
     }
   };
@@ -61,7 +65,12 @@ export default function ListModal(props) {
         <button onClick={handleClose} className="btn-close"></button>
       </Modal.Header>
       <Modal.Body>
-        {userList.length>0 ? (
+        {
+          modalLoading?
+          (
+            <LoadingIndicator />
+          ):
+        userList.length>0 ? (
           userList.map((data, index) => (
             <div key={index} className="user-container">
             <div className="user-info-section">

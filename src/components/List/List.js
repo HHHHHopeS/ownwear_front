@@ -382,17 +382,17 @@ export default function List(props) {
   //   })
   //   .catch(error => console.error('Error',error))
   // };
-
+  
   
   useEffect(()=>{
-    
-    
 
-    getdata(isHashtag,pageno,title)
+    
+console.log(pageno)
+    getdata(isHashtag,page-1,title)
     .then(response => {
       console.log(response)
-      setData(response.content)
-    setTotalcount(response.totalPages);
+      setData(response.content,setTotalcount(response.totalElements))
+    ;
     })
     .catch(err => {
       console.log(err)
@@ -400,10 +400,11 @@ export default function List(props) {
     });
 
     // getdata(isHashtag,pageno,title).then(response=>setData(data)).catch(err=>console.log(err))
-  },[pathName])
+  },[page])
   useEffect(()=>{
 
     props.history.push(`/list/${isHashtag}/${title}/${page}`)
+  
   },[page])
 
 

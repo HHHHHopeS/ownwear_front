@@ -15,6 +15,7 @@ import './Paging.scss';
   return  ( <Pagination
      activePage={page}
     itemsCountPerPage={12} 
+    
      totalItemsCount={totalcount} 
      pageRangeDisplayed={5} 
      prevPageText={"‹"} 

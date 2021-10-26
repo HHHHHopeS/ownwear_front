@@ -456,10 +456,13 @@
 
 
 
-button.follow-button {
+button.follow-button,.delete-button {
   background-color: black;
   padding: 10px 40px;
   font-weight: bold;
   border: none;
   color: white;
+}
+.delete-button{
+  background-color: #ed4956;
 }

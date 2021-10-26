@@ -1,20 +1,20 @@
-import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faInstagram, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faAt, faCamera, faMars, faRuler, faTrash, faUser, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useState } from "react";
+import Alert from "react-s-alert";
 import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg";
-
-import { getCurrentUser, getInfo, updateImage } from "../../util/APIUtils";
-
-
-import { getCheckPassword,getChangePassword } from "../../util/APIUtils";
-import Alert from "react-s-alert"
+import { getChangePassword, getInfo, updateImage } from "../../util/APIUtils";
 import "./MyPage.scss";
 // import styled from 'styled-components';
 // import { GlobalStyle } from './globalStyles';
 // import { Modal } from './Modal';
 import Tab from './Tab';
 import "./Tab.scss";
+
+
+
 
 
 // const Container = styled.div`
@@ -124,7 +124,7 @@ export default function MyPage() {
         newPassword: "",
         newRePassword: ""
     })
-
+    const [cameraActive,setCameraActive] = useState(false)
     const { password, newPassword, newRePassword } = inputs;
 
     const onChange = (e) => {
@@ -185,15 +185,12 @@ export default function MyPage() {
             <div className="profile-change">
                 <div className="profile-nav">
                     <div className="close">
-                        <button type="button"
-                            onClick={removeImage} style={{ background: "none" }}>
-                            <FontAwesomeIcon icon={faTimes} />
-                        </button>
+                        
                     </div>
                     <div className="profile-img">
                         <img src={preview ? preview : defaultUser} />
                     </div>
-                    <div className="camera">
+                    <div onMouseOver={setCameraActive} onMouseOut={e=>setCameraActive(false)} className="camera">
 
                         <button onClick={() =>
                             document.getElementById("selectedFile").click()
@@ -202,20 +199,40 @@ export default function MyPage() {
                         </button >
 
                         <input onChange={getImage} type="file" style={{ display: "none" }} name="photo" accept="image/*" placeholder="photo" id="selectedFile" />
+                        <button  type="button" className={cameraActive&&preview?"close-button active":"close-button"}
+                            onClick={removeImage} style={{ background: "none" }}>
+                            <FontAwesomeIcon icon={faTrash} />
+                        </button>
                     </div>
 
                     <div className="p-edit-container">
-                        <p className="username">{user.info ? user.info.username : null}</p>
-                        <p className="email">{user.info ? user.info.email : null}</p>
-                        <p className="sex">{user.info ? user.info.sex : null}</p>
+                        <p className="username"><FontAwesomeIcon icon={faUser}/>     {user.info ? user.info.username : null}</p>
+                        <p className="email"><FontAwesomeIcon icon={faAt}/> {user.info ? user.info.email : null}</p>
+                        <p className="sex"><FontAwesomeIcon icon={user.info && user.info.sex? faMars:faVenus}/>{user.info&& user.info.sex?"male":"female"}</p>
                         <div style={showForm ? { display: "block" } : { display: "none" }} className="profile-edit">
                             <form  onSubmit={submitinfo} >
-                                <input type="text" name="height" defaultValue={user.info ? user.info.height : null} placeholder="height" />
-                                <label>SNS ID</label>
-                                <input type="text" name="insta" defaultValue={user.info ? user.info.instaid : null} placeholder="instagram" />
-                                <input type="text" name="twitter" defaultValue={user.info ? user.info.twitterid : null} placeholder="Twitter" />
-                                <input type="text" name="pinterest" defaultValue={user.info ? user.info.pinterestid : null} placeholder="Pinterest" />
-                                <div className="btt">
+                                
+                                <div className="input-container">
+                                    <span><FontAwesomeIcon icon={faRuler}/></span>
+                                    <input type="text" name="height" defaultValue={user.info ? user.info.height : null} placeholder="height" />
+                                </div>
+
+                                
+                                <div className="input-container">
+                                    <span><FontAwesomeIcon icon={faInstagram}/></span>
+                                    <input type="text" name="insta" defaultValue={user.info ? user.info.instaid : null} placeholder="instagram" />
+                                    
+                                </div>
+                                <div className="input-container">
+                                    <span><FontAwesomeIcon icon={faTwitter}/></span>
+                                    <input type="text" name="twitter" defaultValue={user.info ? user.info.twitterid : null} placeholder="Twitter" />
+                                    
+                                </div>
+                                <div className="input-container">
+                                    <span><FontAwesomeIcon icon={faPinterest}/></span>
+                                    <input type="text" name="pinterest" defaultValue={user.info ? user.info.pinterestid : null} placeholder="Pinterest" />
+                                    
+                                </div><div className="btt">
                                     <button type="submit" className="edit-save">저장</button>
                                     <button onClick={(e) => { e.preventDefault(); setShowForm(false) }} className="edit-save">닫기</button>
                                 </div>
