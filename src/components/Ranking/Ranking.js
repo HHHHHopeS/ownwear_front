@@ -179,7 +179,7 @@ export default function Ranking(props) {
                     <Link to={"/list/brand/"+data.brandname+"/1"} className="brandname">{data.brandname}</Link>
                   </div>
                   <div className="brand-info-container">
-                    <span>{calculateScale(data.postcount)} posts</span>
+                    <span>{calculateScale(data.posts.length)} posts</span>
                   </div>
                 </div>
                 <div className="brand-button-section">
@@ -187,10 +187,10 @@ export default function Ranking(props) {
                 </div>
               </div>
               <div className="img-section">
-                {data.posts.map((post,index)=>(
+                {data.posts.map((post,index)=>(index<3?
                   <Link to={"/detail/"+post.postid}>
                   <img src={post.imgdata.imgUrl} alt="" />
-                </Link>
+                </Link>:null
                 ))}
                 
                 
@@ -293,22 +293,33 @@ export default function Ranking(props) {
   // }, [isThreshold, isMaxCount]);
   // 백 구축되면 위에꺼 지우고 아래꺼 복귀 
   useEffect(() => {
+    setIsMaxCount(false)
     let current_userid=-1
     if(user.info){
       current_userid = user.info.userid
     }
     //all - women - men
+    console.log(count)
+    console.log(maxCount)
+    console.log(isMaxCount)
     setLoading(true);
     if(list[type]&&list[type][filter]&&list[type][filter].length>0){
-      setCount(list[type][filter].length/10)
       
+      setCount(list[type][filter].length/10)
+      if((count/10)%1!==0){
+
+        setIsMaxCount(true)
+      }
     }
+    
     else{
       setCount(0)
-      
+      console.log("b")
       getRankingData(type, filter, 0,current_userid).then(res=>{
         console.log(res)
+        
         if(res.length<10){
+          console.log("bc")
           setIsMaxCount(true)
         }
         setList(
