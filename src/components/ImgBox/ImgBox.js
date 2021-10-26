@@ -14,10 +14,10 @@ export default function ImgBox(props) {
     const [imgHover,setImgHover] = useState(false)
     useEffect(()=>{
     },[hover])
-
     if(data&&data.imgdata&&data.imgdata.tagData){
-        const tagX = data.imgdata.tagData[0].rectorX
-        const tagY = data.imgdata.tagData[0].rectorY
+        
+        const tagX = data.imgdata.tagData.length>0&&data.imgdata.tagData[0].rectorX
+        const tagY = data.imgdata.tagData.length>0&&data.imgdata.tagData[0].rectorY
     return(
 
         <div className="ImgBox">
@@ -44,11 +44,11 @@ export default function ImgBox(props) {
                     <FontAwesomeIcon icon={tagY>=0.6 ? faCaretDown: faCaretUp}  />
                         <div className="product-tag-info-section" style={tagY>=0.6?tagX>=0.5? {marginTop:"-53px",marginLeft:"-90%"}:{marginTop:"-53px",marginLeft:"",flexDirection:"row-reverse"}:tagX>=0.5?{marginTop: "-10px",marginLeft:"-90%"}:{marginTop: "-10px",marginLeft:"",flexDirection:"row-reverse"}} >
                             <div className="product-tag-img-section">
-                                <img src={data.imgdata.tagData[0].productInfo.productImgUrl} alt="productUrl" />
+                                <img src={data.imgdata.tagData.length>0&&data.imgdata.tagData[0].productInfo.productImgUrl} alt="productUrl" />
                             </div>
                             <div className="product-tag-text-section">
-                                <span className="product-name">{data.imgdata.tagData[0].productInfo.brandName}</span>
-                                <span className="product-price">{data.imgdata.tagData[0].productInfo.price}</span>
+                                <span className="product-name">{data.imgdata.tagData.length>0&&data.imgdata.tagData[0].productInfo.brandName}</span>
+                                <span className="product-price">{data.imgdata.tagData.length>0&&data.imgdata.tagData[0].productInfo.price}</span>
                             </div>
                         </div>
         
