@@ -15,7 +15,7 @@ import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import exPhoto from "../../res/default-user.jpeg";
 import logo from "../../res/logo.png";
-import { getAlertList } from "../../util/APIUtils";
+import { getActivity, getAlertList } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
 import "./Nav.scss";
 import SearchBar from "./SearchBar";
@@ -33,7 +33,10 @@ export default function Nav(props) {
     { type: "follower", commentid: 1, postid:5,username: "임양", alert_date: "2021-10-21 16:72:13" },
     { type: "follower", likepostid: 1,postid:6, username: "임양", alert_date: "2021-10-21 16:63:32" }
   ]);
-
+  const getList=()=>{
+    setLoading(true)
+    console.log(1)
+    getActivity(user.info.userid).then(response=>setAlertList(response),setLoading(false)).catch(err=>console.log(err))}
   const history = useHistory();
   function loseSearchBar() {
     document.querySelector(".blur-section").classList.remove("blur");
@@ -61,6 +64,7 @@ export default function Nav(props) {
     // const clear = (index,alertid) => {
     //   setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
     // };
+
     const FigureType = props => {
       const content = props.content;
       const time = calculateDatetime(content.alert_date);
@@ -80,7 +84,13 @@ export default function Nav(props) {
         </span>
       )
     }
-
+    useEffect(()=>{
+      if(user.info){
+        setLoading(true)
+        getActivity(user.info.userid).then(response=>setAlertList(response),setLoading(false)).catch(err=>console.log(err))
+      }
+    },[user.info])
+    
     return alertList.map((content, index) => (
       <div key={index} className="alert-item-container">
         <div className="alert-item-main">
@@ -109,11 +119,6 @@ export default function Nav(props) {
     ));
   }
 
-  function getList(){
-    setLoading(true)
-    getAlertList(user.info.userid).then(response=>setAlertList(response)).then(()=>setLoading(false)).catch(err=>{Alert.error("connection error!");setLoading(false)})
-    
-  }
   
   useEffect(() => {
     if (activeProfile === 2) {
