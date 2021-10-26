@@ -137,7 +137,7 @@ export default function SubNav(props) {
                       <span>{info.user.height?info.user.height+"cm":"160cm"}</span>
                     </div>
                     <div>
-                      <span>{info.user.sex === 0 ? "women" : "men"}</span>
+                      <span>{info.user.sex === false ? "women" : "men"}</span>
                     </div>
                   </div>
                 </div>
@@ -345,7 +345,7 @@ export default function SubNav(props) {
                 </div>
                 <div className="profile-span-container">
                   <span className="user-gender">
-                    {info.user && info.user.sex === 0 ? "women" : "men"}
+                    {info.user && info.user.sex === false ? "women" : "men"}
                   </span>
                 </div>
               </div>
