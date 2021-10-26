@@ -13,7 +13,7 @@ import { Link, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
-import exPhoto from "../../res/exPhoto.jpeg";
+import exPhoto from "../../res/default-user.jpeg";
 import logo from "../../res/logo.png";
 import { getAlertList, setAlertChecked } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
