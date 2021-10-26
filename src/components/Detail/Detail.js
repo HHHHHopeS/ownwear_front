@@ -47,6 +47,7 @@ import ListModal from "../Modal/ListModal";
 import { calculateDatetime } from "../../util/TimeUtils";
 import defaultUser from "../../res/default-user.jpeg";
 import _ from "lodash";
+import LoadingIndicator from "../../common/LoadingIndicator";
 export default function Detail(props) {
   const pathName = props.location.pathname;
 
@@ -61,94 +62,7 @@ export default function Detail(props) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoverTag, setHoverTag] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [detailPageData, setDetailPageData] = useState({
-    postform: {
-      postid: postid,
-
-      user: {
-        userid: 1,
-        username: "winter",
-      },
-      imgdata: {
-        imgUrl:
-          "https://pbs.twimg.com/media/E1uT-9eVkAEdyGG?format=jpg&name=large",
-        height: 164,
-        profileImgUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn36JZPyW1BmGR_QM8SRGpBL44mjr1yLwAFw&usqp=CAU",
-
-        tagData: [
-          {
-            rectorX: 0.5,
-            rectorY: 0.5,
-            productInfo: {
-              brandName: "Givenchy",
-              category: "top",
-              productName:
-                "RED OVERSIZE SWEATSHIRT WITH LOGO AND METAL DETAILS",
-              productUrl:
-                "https://www.gaudenziboutique.com/en-US/men/d˜esigner/givenchy/red-oversize-sweatshirt-with-logo-and-metal-details-bmj0b83y69600",
-              productImgUrl:
-                "https://gaudenziboutiquestorage.blob.core.windows.net/product/72158/big/34576833-1c67-42c6-a7fd-02a97dd7a4a6.jpg",
-              price: 1012000,
-            },
-          },
-        ],
-      },
-      rdate: "2021-08-30 08:31:20",
-      edate: "",
-    },
-    hashtags: ["Givenchy", "sweatshirt", "red"],
-    userRelated: [
-      {
-        postid: 2,
-        imgUrl:
-          "https://post-phinf.pstatic.net/MjAyMTAzMjJfMTk1/MDAxNjE2Mzc5NTQ2OTcz.42DcHh3ob_HfoX8ogysOrN40cbhCbIrjuCWeEtHeV9sg.FjaSGRM8Q2FGLWP8ewZcr2ehzBgF7-PCxXhCnCCx0aIg.JPEG/001.jpg?type=w1200",
-      },
-      {
-        postid: 3,
-        imgUrl:
-          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
-      },
-      {
-        postid: 4,
-        imgUrl:
-          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
-      },
-      {
-        postid: 5,
-        imgUrl:
-          "https://blog.kakaocdn.net/dn/qPpMz/btqTLwZolfx/vYDUHDlZNvYXtk1NP6AKe0/img.png",
-      },
-    ],
-    likecount: 1543,
-    comments: [
-      //시간순 오래된순
-      {
-        commentid: 1,
-        commnetdate: "2021-09-01 18:31:20",
-        user: {
-          userid: 2,
-          username: "카리나",
-          userImg:
-            "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-        },
-        content:
-          "나는 #weg @bcd 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
-      },
-      {
-        commentid: 2,
-        commnetdate: "2021-09-18 10:02:20",
-        user: {
-          userid: 1,
-          username: "카리나a",
-          userImg:
-            "https://thumb.mt.co.kr/06/2020/10/2020102814240071146_1.jpg/dims/optimize/",
-        },
-        content:
-          "나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!나는 댓글입니다 정말 댓글이에요!",
-      },
-    ],
-  });
+  const [detailPageData, setDetailPageData] = useState();
 
   useEffect(() => {
     // 디테일 페이지 로직,
@@ -221,13 +135,14 @@ export default function Detail(props) {
       });
     }
   };
-  if (postid && postuser && !notFound) {
+  if (postid && postuser && !notFound&&detailPageData) {
     return (
       <div className="Detail">
         <div className="detail-main-section">
           <Image
             imgdata={detailPageData.postform.imgdata}
             dimensions={dimensions}
+            setDimensions={setDimensions}
             targetRef={targetRef}
             setHoverTag={setHoverTag}
           />
@@ -269,8 +184,10 @@ export default function Detail(props) {
         </div>
       </div>
     );
-  } else {
+  } if(notFound) {
     return <NotFound></NotFound>;
+  }else{
+    return LoadingIndicator
   }
 }
 
@@ -279,7 +196,14 @@ function Image(props) {
   const targetRef = props.targetRef;
   const setHoverTag = props.setHoverTag;
   const imgdata = props.imgdata;
-
+  const setDimensions = props.setDimensions
+  const reload = ()=>{
+    console.log(1)
+    setDimensions({
+      width: targetRef.current.offsetWidth,
+      height: targetRef.current.offsetHeight,
+    });
+  }
   const RenderTags = () => {
     let tagRenderer = [];
     let i = 1;
@@ -322,6 +246,7 @@ function Image(props) {
       <img
         className="user-image"
         ref={targetRef}
+        onLoad={reload}
         src={imgdata.imgUrl} //imgUrl
         alt=""
       />

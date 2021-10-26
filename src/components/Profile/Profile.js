@@ -157,7 +157,7 @@ export default function Profile(props) {
   const [preUser,setPreUser]= useState(null);
   const username = location.pathname.split("/")[2]
   useEffect(() => {
-    console.log(1)
+    
     if(preUser!==username){
 
       getProfileData(username,0).then(response=>{
@@ -173,14 +173,18 @@ export default function Profile(props) {
     
     
     if (pageCount === 0&&!isMaxCount) {
-      console.log(1)
+
       getProfileData(username,pageCount).then(response =>{
         console.log(response)
         if(response.content.length>0){
+          
         setContents(
           response.content,
           setMaxCount(response.totalPages, setPageCount(pageCount=>pageCount + 1))
         )
+        if((pageCount+1)===response.totalPages){
+          setIsMaxCount(true)
+        }
         setPreUser(username)
       }
       else{
