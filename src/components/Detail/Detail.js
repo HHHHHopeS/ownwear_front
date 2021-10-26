@@ -594,6 +594,7 @@ function Comment(props) {
         setDetailPageData({ ...detailPageData, comments: response });
       })
       .catch(err => {
+        console.log(err)
         Alert.error("delete failed!");
       });
   };
@@ -703,7 +704,7 @@ function Comment(props) {
                   className="comment-content-sub-section"
                 >
                   <div className="comment-time-section">
-                    <span>{calculateDatetime(comment.commnetdate)}</span>
+                    <span>{calculateDatetime(comment.commentdate)}</span>
                   </div>
                   <div className="comment-reply-section">
                     <span
@@ -853,7 +854,7 @@ function ImageInfo(props) {
         {/* 상품 앵커태그 */}
         <br />
         <span className="title-product">
-          {detailPageData.postform.imgdata.tagData[0].productInfo.productName}
+          {detailPageData.postform.imgdata.tagData.length>0?detailPageData.postform.imgdata.tagData[0].productInfo.productName:null}
         </span>
         <br />
 
@@ -879,7 +880,7 @@ function Product(props) {
   return (
     <div className="product-container">
       <span className="title-header">tagged item</span>
-      {tagdata.map((tag, index) => (
+      {tagdata.length>0?tagdata.map((tag, index) => (
         <div className={"product product-" + index }>
           <div className="product-img-section">
             <a
@@ -907,7 +908,11 @@ function Product(props) {
             <span className="product-price">{tag.productInfo.price}</span>
           </div>
         </div>
-      ))}
+      )):
+      <div style={{width:"100%",height:"60px",margin:"20px 40px"}}>
+        태그된 상품이 없습니다. 
+      </div>
+      }
     </div>
   );
 }

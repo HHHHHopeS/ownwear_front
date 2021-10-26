@@ -13,6 +13,7 @@ export default function ImgBox(props) {
     const [hover,setHover] = useState(false)
     const [imgHover,setImgHover] = useState(false)
     useEffect(()=>{
+
     },[hover])
     if(data&&data.imgdata&&data.imgdata.tagData){
         
@@ -38,8 +39,9 @@ export default function ImgBox(props) {
                 ,left:`${tagX*100}%`}:{display:"none"} } >
 
                         
-                    
-                    <div className="product-tag-container" >
+                    {
+                        data.imgdata.tagData&&data.imgdata.tagData.length>0?
+                    <div className="product-tag-container"  >
                     
                     <FontAwesomeIcon icon={tagY>=0.6 ? faCaretDown: faCaretUp}  />
                         <div className="product-tag-info-section" style={tagY>=0.6?tagX>=0.5? {marginTop:"-53px",marginLeft:"-90%"}:{marginTop:"-53px",marginLeft:"",flexDirection:"row-reverse"}:tagX>=0.5?{marginTop: "-10px",marginLeft:"-90%"}:{marginTop: "-10px",marginLeft:"",flexDirection:"row-reverse"}} >
@@ -52,7 +54,8 @@ export default function ImgBox(props) {
                             </div>
                         </div>
         
-                    </div>
+                    </div>:null
+                    }
                 </div>:null
                 }
             </div>

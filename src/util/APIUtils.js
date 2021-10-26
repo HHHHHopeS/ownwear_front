@@ -114,7 +114,7 @@ export function updateComment(updateCommentRequest){
 export function fetchDeleteComment(fetchDeleteCommentRequest){
     return request({
         url:API_BASE_URL+"/comment/delete",
-        method:"get",
+        method:"post",
         body:JSON.stringify(fetchDeleteCommentRequest)
     })
 }
