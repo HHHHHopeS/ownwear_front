@@ -303,7 +303,7 @@ export function toggleFollow(current_userid,target_userid){
 export function getAutoComplete(inputText,keyword){
 
     return request({
-        url:API_BASE_URL+"/index/srchdata?"+keyword+"="+inputText,
+        url:API_BASE_URL+"/index/srchdata?keyword="+keyword+"&value="+inputText,
 
         method:"GET",
     })

@@ -208,6 +208,7 @@ export default function MyPage() {
                         <p className="username">{user.info ? user.info.username : null}</p>
                         <p className="email">{user.info ? user.info.email : null}</p>
                         <p className="sex">{user.info ? user.info.sex : null}</p>
+                        <p className="height">{user.info ? user.info.height : null}cm</p>
                         <div style={showForm ? { display: "block" } : { display: "none" }} className="profile-edit">
                             <form  onSubmit={submitinfo} >
                                 <input type="text" name="height" defaultValue={user.info ? user.info.height : null} placeholder="height" />
