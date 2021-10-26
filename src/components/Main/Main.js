@@ -152,11 +152,11 @@ export default function Main(props) {
           newArr.push(response.random[i].postid)
         }
         setIds({ ...ids, [url]: [...newArr] })
-      })
+      }).catch(err=>console.log(err))
     }
   }
     return () => (window.onscroll = null);
-  }, [isThreshold, isMaxCount]);
+  }, [isThreshold, isMaxCount,page]);
   // useEffect(() => {
   //   if (!data || currentUrl) {
   //     setIsLoading(true);
