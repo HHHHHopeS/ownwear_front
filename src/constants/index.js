@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://34.64.221.199:8443/';
+export const API_BASE_URL = 'https://34.64.221.199:8443';
 // export const API_BASE_URL = 'https://localhost:8443/';
 export const ACCESS_TOKEN = 'accessToken';
 
