@@ -73,12 +73,14 @@ export default function Main(props) {
   };
   //초기데이터
   useEffect(() => {
+   
     setIsLoading(true);
     if (pathname !== "/" && pathname !== "/men" && pathname !== "/women") {
       setIsLoading(false)
       return false
     }
     if (data[url].ranking.length === 0) {
+     
       setIsMaxCount(false)
       setPage(0)
 
@@ -101,7 +103,7 @@ export default function Main(props) {
   }, [url]);
 
   useEffect(() => {
-    
+
     const newArr = []
     const req = { url, page, ids: ids[url] }
     if(url!=="ranking"&&url!=="list"){
@@ -119,44 +121,43 @@ export default function Main(props) {
     if (page === 0) {
       setIsLoading(true)
       getIndexDataInit(url).then(response => {
-        console.log(response)
         setData({ ...data, [url]: { ...data[url], ranking: response.postMap.rank, new: response.postMap.new } },
           setPage(1), setIsLoading(false),
           setBrand(response.brandForms), setHotuser(response.userInfos), setHotTag(response.hashTagForms))
+          
           for (let i = 0; i < response.postMap.new.length; i++) {
+            if(response.postMap.new[i].postid){
             newArr.push(response.postMap.new[i].postid, response.postMap.rank[i].postid)
-          }
+          }}
           setIds({ ...ids, [url]: [...newArr] })
-      })
+      }).catch(err=>console.log(err))
     }
-    console.log(ids)
     if (isThreshold && !isLoading && !isMaxCount && page === 1) {
       setIsLoading(true);
-      console.log(ids)
       getIndexMoreData(req).then(response => {
         console.log(response)
         setData({ ...data, [url]: { ...data[url], brand: response.brand } }, setIsThreshold(false, setIsLoading(false, setPage(2))))
         for (let i = 0; i < response.brand.length; i++) {
           newArr.push(response.brand[i].postid)
         }
-        setIds({ ...ids, [url]: [...newArr] })
-      })
+        setIds({ ...ids, [url]: [...ids[url],...newArr] })
+      }).catch(err=>console.log(err))
     }
     if (isThreshold && !isLoading && !isMaxCount && page > 1) {
       setIsLoading(true)
-      console.log(ids)
       getIndexMoreData(req).then(response => {
-        
         setData({ ...data, [url]: { ...data[url], suggestion: [...data[url].suggestion, ...response.random] } }, setIsLoading(false, setIsThreshold(false), setPage(page + 1)))
         for (let i = 0; i < response.random.length; i++) {
           newArr.push(response.random[i].postid)
         }
-        setIds({ ...ids, [url]: [...newArr] })
-      })
+        setIds({ ...ids, [url]: [...ids[url],...newArr] })
+      }).catch(err=>console.log(err))
+
     }
   }
+  console.log(data)
     return () => (window.onscroll = null);
-  }, [isThreshold, isMaxCount]);
+  }, [isThreshold, isMaxCount,page]);
   // useEffect(() => {
   //   if (!data || currentUrl) {
   //     setIsLoading(true);
@@ -222,12 +223,11 @@ export default function Main(props) {
   //   // }
   //   return () => window.removeEventListener("scroll", scrollEvent);
   // }, [page]);
-
   const HotTag = () => {
     return (
       <div>
         {hotTag.map(tag => (
-          <Link key={tag.hashtagid} to={`/list/${tag.hashtagName}/1`}>
+          <Link key={tag.hashtagid} to={`/list/tag/${tag.hashtagName}/1`}>
             <p className="tag-name">{tag.hashtagName}</p>
           </Link>
         ))}
@@ -263,13 +263,14 @@ export default function Main(props) {
     return (
       <div>
         {brand.map(name => (
-          <Link key={name.brandid} to={`/list/${name.brandName}/1`}>
+          <Link key={name.brandid} to={`/list/brand/${name.brandName}/1`}>
             <p className="brand-name">{name.brandName}</p>
           </Link>
         ))}
       </div>
     );
   };
+  console.log(data)
   if (pathname !== "/" && pathname !== "/men" && pathname !== "/women") {
     return (
       <NotFound></NotFound>
@@ -318,7 +319,7 @@ export default function Main(props) {
           <div className="main-section ">
             {listSection("ranking", data[url].ranking)}
             {listSection("최신글", data[url].new)}
-            {listSection("brand", data[url].brand)}
+            {data[url].brand&&data[url].brand.length>0 ? listSection(`brand-${data[url].brand[0].imgdata.tagData[0].productInfo.brandName}`, data[url].brand):null}
             {listSection("추천코디", data[url].suggestion)}
 
             {/* {moreImgBox(moreData[3])} */}

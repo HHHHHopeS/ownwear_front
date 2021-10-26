@@ -11,7 +11,7 @@ import {
   faUserAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Breadcrumb } from "react-bootstrap";
 import { Link, Route, Switch, useHistory, useLocation,Redirect } from "react-router-dom";
 import Alert from "react-s-alert";
@@ -74,10 +74,10 @@ export default function SubNav(props) {
     );
   };
   const Detail = props => {
-    const { pathname } = useHistory();
+    const { pathname } = useLocation();
 
     useEffect(() => {
-      const postid = props.location.pathname.split("/")[2];
+      const postid = pathname.split("/")[2];
       let current_userid = -1;
 
       if (user.auth) {
@@ -90,11 +90,11 @@ export default function SubNav(props) {
           .catch(err => console.log(err));
           }
 
-    }, [info,props.location.pathname]);
+    }, [pathname]);
 
     const deleteThisPost = ()=>{
 
-      const postid= parseInt(props.location.pathname.split("/")[2])
+      const postid= parseInt(pathname.split("/")[2])
       const request = Object.assign({},{postid:3})
       if(window.confirm("정말 포스트를 지우겠습니까?")){
         if(window.confirm("정말루?")){
@@ -260,9 +260,13 @@ export default function SubNav(props) {
   const Profile = props => {
     const toggleFollowModal = props.toggleFollowModal
     const followOrNot = props.followOrNot
-    useEffect(() => {
+    const {pathname} = useLocation()
+    useEffect(()=>{
       console.log(1)
-      const profile_username = props.location.pathname.split("/")[2];  
+    })
+    useEffect(() => {
+      
+      const profile_username = pathname.split("/")[2];  
       
 
       let current_userid = -1;
@@ -273,9 +277,10 @@ export default function SubNav(props) {
       
       //프로필 유저정보
       if(!info||info.user.username!==profile_username){
+        
       getProfileSubNavData(current_userid, profile_username)
         .then(res => {
-
+          console.log(res)
             setInfo(res)
 
         })
@@ -286,9 +291,11 @@ export default function SubNav(props) {
         });
       }
 
-    }, [props.location.pathname]);
+    }, [pathname]);
+    
     if(info&&info.user){
     return (
+      
       <div className="profile">
         <div className="subnav-breadcrumb-section">
           <Breadcrumb>
@@ -307,9 +314,9 @@ export default function SubNav(props) {
             <div className="img-section">
               <img
                 src={
-                  info && info.user.userimg
+                  info.user && info.user.userimg
                     ? info.user.userimg
-                    : defaultUser
+                    : null
                 }
                 alt=""
               />
@@ -491,15 +498,22 @@ export default function SubNav(props) {
   return (
     <div className="SubNav">
       <Switch>
+        
+        <Route exact path="/login"  >
+        <Login />
+        </Route>
+        <Route exact path="/list/:id/:id/:id" component={List} />
+        <Route exact path="/detail/:id"  >
+        <Detail />
+        </Route>
+        <Route exact path="/ranking/:id/:id" component={Ranking} />
+        <Route exact path="/profile/:id" render >
+        <Profile {...props} followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}/>
+        </Route>
+        <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/" component={Main} />
         <Route exact path="/men" component={Main} />
         <Route exact path="/women" component={Main} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/list/:id/:id/:id" component={List} />
-        <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/ranking/:id/:id" component={Ranking} />
-        <Route exact path="/profile/:id" render={(props)=><Profile {...props} followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}/>} />
-        <Route exact path="/mypage" component={MyPage} />
         <Route component={NotFound} />
       </Switch>
       

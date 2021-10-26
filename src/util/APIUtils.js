@@ -188,7 +188,7 @@ export function getIndexMoreData(getIndexMoreDataRequest){
 //인덱스 초기데이터
 export function getIndexDataInit(url){
     return request({
-        url:API_BASE_URL+"/index/getindex?"+url,
+        url:API_BASE_URL+"/index/getindex?url="+url,
         method:"GET",
     })
 }
@@ -244,7 +244,7 @@ export function checkIsValid(checkIsValidRequest){
 }
 export function updateAdditonalData(updateAdditonalDataRequest){
     return request({
-        url:API_BASE_URL+"/user/update/oauth2",
+        url:API_BASE_URL+"/user/mypage/updateImg",
         method:"POST",
         body:JSON.stringify(updateAdditonalDataRequest)
     })

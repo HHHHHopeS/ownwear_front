@@ -4,31 +4,35 @@ import { UserContext } from "../../common/UserContext";
 import defaultUser from "../../res/default-user.jpeg"
 import Select from "react-select";
 import { updateAdditonalData } from "../../util/APIUtils";
+import path from 'path';
+import { COMPARISON_BINARY_OPERATORS } from "@babel/types";
 
 export default function MoreInfoModal(props) {
     const [preview,setPreview] = useState(null)
-    const {user} = useContext(UserContext)
+    const {setCurrentUser,user} = useContext(UserContext)
     const array = Array.from({length:90},(x,i)=>({value:i+130,label:i+130+"cm"}))
     const selectStyles =  {
         input:(p,s)=>({
             ...p,width:100
         })
     }
+    const setToggleMoreInfo = props.setToggleMoreInfo
     const [userimg,setUserimg] = useState(null)
     
     const imgupload= (e)=>{
         const [file] = e.currentTarget.files;
-
+        
      const reader = new FileReader();
         if (file) {
         reader.readAsBinaryString(file);
+        
         }
         reader.onload = () => {
             const fileRes = Buffer.from(reader.result, "binary").toString("base64");
             
             if (fileRes) {
-              setPreview(`data:image/jpg;base64,${fileRes}`);
-              setUserimg(`data:image/jpg;base64,${fileRes}`)
+              setPreview(`data:${file.type};base64,${fileRes}`);
+              setUserimg(`data:${file.type};base64,${fileRes}`)
             }
           };
     }
@@ -47,8 +51,9 @@ export default function MoreInfoModal(props) {
         else{
             sex=false
         }
-        const request = Object.assign({},{userid:user.info.userid,username:user.info.username,userimg,instaid,pinterestid,twitterid,height,sex})
-        updateAdditonalData(request).then(res=>console.log(res))
+        const request = Object.assign({},{...user.info,userimg,instaid,pinterestid,twitterid,height,sex})
+        console.log(request)
+        updateAdditonalData(request).then(res=>setCurrentUser(res,setToggleMoreInfo(false)))
     }
 
     return(
@@ -61,7 +66,7 @@ export default function MoreInfoModal(props) {
                 <Modal.Body>
                     <form id="add-form" onSubmit={submit}>
                     <div className="img-section">
-                        <img src={user.info&&user.info.userimg?user.info.userimg:preview?preview:defaultUser} alt="" />
+                        <img src={user.info&&user.info.userimg&&!preview?user.info.userimg:preview?preview:defaultUser} alt="" />
                     <input
                         type="file"
                         accept="image/*"

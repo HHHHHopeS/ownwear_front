@@ -14,7 +14,7 @@ export default function ListModal(props) {
   const history = useHistory()
   const handleClose = () => setShow(false);
   const {user} = useContext(UserContext);
-
+  console.log(userList)
   const controlFollow = (e, index, userid) => {
     const target = e.currentTarget;
     const toggleText=(el,obj,response)=>{
@@ -67,7 +67,7 @@ export default function ListModal(props) {
             <div className="user-info-section">
               <div className="user-info-image">
                 <Link onClick={()=>setShow(false)} to={"/profile/" + data.user.username}>
-                  <img src={data.user.userImg?data.user.userImg:defaultUser} alt="" />
+                  <img src={data.user.userimg?data.user.userimg:defaultUser} alt="" />
                 </Link>
               </div>
               <div className="user-info-text">

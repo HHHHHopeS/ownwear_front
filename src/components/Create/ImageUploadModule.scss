@@ -114,7 +114,7 @@ $white: #fff;
         overflow-x: hidden;
         position: relative;
         background-color: white;
-        height: 400px;
+        height:calc(100% - 130px);
         width: 100%;
         flex-direction: row;
         .cropped-tag-container {

@@ -48,7 +48,7 @@ export default function ImgBox(props) {
                             </div>
                             <div className="product-tag-text-section">
                                 <span className="product-name">{data.imgdata.tagData[0].productInfo.brandName}</span>
-                                <span className="product-price">{data.imgdata.tagData[0].productInfo.price}원</span>
+                                <span className="product-price">{data.imgdata.tagData[0].productInfo.price}</span>
                             </div>
                         </div>
         

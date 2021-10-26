@@ -58,7 +58,7 @@ const  followOrNot = async (current_userid, target_userid) => {
 
 const toggleFollowModal = (e,type,userid) => {
    //follwer , f, like
-  
+
   const request = Object.assign(
     {},
     {
@@ -74,7 +74,7 @@ const toggleFollowModal = (e,type,userid) => {
   getUserList(request)
     .then(response => {
     
-      console.log(response)
+      
      setUserList(response)
     })
     .catch(err => console.log);
@@ -215,7 +215,7 @@ else return null
           setShow={setShow}
           title={title}
         />
-        <MoreInfoModal keyboard={false} centered backdrop="static" show={toggleMoreInfo} onHide={()=>setToggleMoreInfo(false)}/>
+        <MoreInfoModal keyboard={false} setToggleMoreInfo={setToggleMoreInfo} centered backdrop="static" show={toggleMoreInfo} onHide={()=>setToggleMoreInfo(false)}/>
     </div>
     
   );
