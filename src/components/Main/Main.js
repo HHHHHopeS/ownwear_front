@@ -151,6 +151,7 @@ export default function Main(props) {
         }
         setIds({ ...ids, [url]: [...ids[url],...newArr] })
       })
+
     }
   }
     return () => (window.onscroll = null);
