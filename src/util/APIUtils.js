@@ -366,6 +366,15 @@ export function getInfo(getInfoData){
 
     })
 }
+// 페이스북 로그인 업데이트
+export function updateOauth2(updateOauth2request){
+    return request({
+        url:API_BASE_URL+"/user/update/oauth2",
+        method:"POST",
+        body:JSON.stringify(updateOauth2request)
+
+    })
+}
 //이미지 업로드
 
 export function updateImage(updateImageRequest){

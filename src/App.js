@@ -37,6 +37,7 @@ const {setCurrentUser,user} = useContext(UserContext)
 const location = useLocation()
 const [id,setId] = useState(null)
 const [loading,setLoading] = useState(true)
+const [modalLoading,setModalLoading] = useState(false)
 const [show,setShow] = useState(false)
 const [userList,setUserList] = useState([])
 const [title,setTitle]=useState("")
@@ -47,6 +48,7 @@ const  followOrNot = async (current_userid, target_userid) => {
   
   if (user.auth) {
     let response = await toggleFollow(current_userid, target_userid).then(bool=>bool)
+    console.log(response)
     return response
   } else {
     Alert.error("please login first");
@@ -59,11 +61,16 @@ const  followOrNot = async (current_userid, target_userid) => {
 const toggleFollowModal = (e,type,userid) => {
    //follwer , f, like
 
+   setModalLoading(true)
+   let current_userid = -1
+  if(user.info){
+    current_userid =user.info.userid
+  }
   const request = Object.assign(
     {},
     {
       type,
-      current_userid: user.info.userid,
+      current_userid,
       // 유저 프로필 불러오기 완성되면 변경
 
       targetid:userid
@@ -72,22 +79,23 @@ const toggleFollowModal = (e,type,userid) => {
   );
   
   getUserList(request)
-    .then(response => {
+    .then(response => 
     
       
-     setUserList(response)
-    })
+     setUserList(response,setModalLoading(false))
+    )
     .catch(err => console.log);
   setTitle(type);
     
   setShow(true);
+  
 };
 
 const handleLogout= ()=>{
   localStorage.removeItem(ACCESS_TOKEN);
   setCurrentUser(null)
 
-  Alert.success("You re safely logged out!")
+  Alert.success("로그아웃 되었습니다.")
 }
 
 const CheckVerified= ()=>{
@@ -186,7 +194,7 @@ else return null
           {/* <Route  exact path="/men" component={Main} />
           <Route  exact path="/women" component={Main} /> */}
           <Route exact path="/login"  render={(props)=><Login setToggleMoreInfo={setToggleMoreInfo}  {...props}/>}/>
-          <Route exact path="/detail/:id" render={props=><Detail setTitle={setTitle} setUserList={setUserList} setShow={setShow} {...props}/> }/>
+          <Route exact path="/detail/:id" render={props=><Detail setModalLoading={setModalLoading} setTitle={setTitle} setUserList={setUserList} setShow={setShow} {...props}/> }/>
           <CacheRoute saveScrollPosition="true" when="always" cacheKey="Ranking" exact path="/ranking/:id/:id" >
 
             <Ranking followOrNot={followOrNot} toggleFollowModal={toggleFollowModal}></Ranking>
@@ -214,6 +222,7 @@ else return null
           show={show}
           setShow={setShow}
           title={title}
+          modalLoading={modalLoading}
         />
         <MoreInfoModal keyboard={false} setToggleMoreInfo={setToggleMoreInfo} centered backdrop="static" show={toggleMoreInfo} onHide={()=>setToggleMoreInfo(false)}/>
     </div>

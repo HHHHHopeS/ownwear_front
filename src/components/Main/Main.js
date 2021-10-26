@@ -77,12 +77,13 @@ export default function Main(props) {
             <div className="imgbox-section">
               {data ? data.map(boxdata => <ImgBox data={boxdata} />) : null}
             </div>
-            {value === "추천코디" ? null : (
+            {value!=="추천코디"?
               <div className="more-button-section">
-                <Link to={{ pathname: "/list//1" }}>More</Link>
+                <Link to={{ pathname: `/list/${value==="최신글"?"new/all/":"brand/"+value}/1` }}>More</Link>
               </div>
-            )
+              :null
             }
+            
           </div>
         );
       }
@@ -246,7 +247,7 @@ export default function Main(props) {
       <div>
         {hotTag.map(tag => (
           <Link key={tag.hashtagid} to={`/list/tag/${tag.hashtagName}/1`}>
-            <p className="tag-name">{tag.hashtagName}</p>
+            <p className="tag-name">#{tag.hashtagName}</p>
           </Link>
         ))}
       </div>
@@ -279,6 +280,7 @@ export default function Main(props) {
   }
 
   const HotBrand = () => {
+
     return (
       <div>
         {brand.map(name => (
@@ -296,6 +298,32 @@ export default function Main(props) {
     )
   }
   else {
+    const confBrandName= (value)=>{
+
+
+      if(value&&value.length>0){
+        const arr = []
+        
+        value.map(brand=>brand.imgdata.tagData.map(tag=>arr.push(tag.productInfo.brandName)))
+        console.log(arr) 
+        
+        for(let i =0;i<arr.length;i++){
+            let index = []
+          for(let j=0;j<arr.length;j++){
+            if(arr[i]===arr[j]){
+              index.push(arr[i])
+            }
+            
+          }
+          if(index.length===6){
+            return arr[i]
+          }
+        }
+        
+        
+        
+      }
+    }
     return (
       <div className="Main">
         <div className="side-section">
@@ -338,13 +366,9 @@ export default function Main(props) {
           <div className="main-section ">
             {listSection("ranking", data[url].ranking)}
             {listSection("최신글", data[url].new)}
-            {data[url].brand && data[url].brand.length > 0 ? listSection(`brand-${data[url].brand[0].imgdata.tagData[0].productInfo.brandName}`, data[url].brand) : null}
+            {listSection(confBrandName(data[url].brand), data[url].brand)}
             {listSection("추천코디", data[url].suggestion)}
 
-            {/* {moreImgBox(moreData[3])} */}
-            <div className="more-button-section">
-              <Link to={{ pathname: "/ranking/cody" }}>More</Link>
-            </div>
           </div>
         </div>
       </div>

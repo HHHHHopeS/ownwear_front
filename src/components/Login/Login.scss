@@ -45,7 +45,8 @@
         }
       }
       height: 100%;
-      background: linear-gradient(#1877f2, #22c1c3);
+
+      background: linear-gradient(114deg, rgba(51,44,179,1) 0%, rgba(9,11,51,1) 0%, rgba(161,135,135,1) 93%);
 
       text-align: center;
       display: flex;
@@ -53,7 +54,7 @@
       align-items: center;
       justify-content: center;
       span {
-        color: white;
+        color: #d9c0c0 ;
         font-size: 30px;
         font-weight: bold;
       }
@@ -61,9 +62,9 @@
         margin-top: 100px;
         width: 50%;
         background: none;
-        border: 3px solid white;
+        border: 3px solid #d9c0c0 ;
         border-radius: 25px;
-        color: white;
+        color: #d9c0c0 ;
         padding: 5px 25px;
         text-transform: capitalize;
         font-size: 20px;
@@ -90,7 +91,7 @@
       }
       transition: 0.7s all ease;
       button {
-        background-color: #22c1c3;
+        background-color: rgba(9,11,51,1);
         border: none;
         width: 100px;
         height: 40px;
@@ -107,13 +108,15 @@
         }
         &:focus {
             background-color: white!important;
-          box-shadow: 0 5px 4px -5px #22c1c3;
+          box-shadow: 0 5px 4px -5px #d9c0c0;
         }
       }
       a.forget-password-button {
         margin-top: -5px;
-        font-size: 14px;
+        margin-left: -90px;
+        font-size: 12px;
         text-decoration: none;
+
         text-transform: capitalize;
         &:hover{
             text-decoration: underline;
@@ -131,17 +134,18 @@
     }
   }
   h2 {
-    font-size: 35px;
-
-    color: #22c1c3;
+    font-size: 30px;
+    text-transform: capitalize;
+    color: rgba(9,11,51,1);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
     text-align: center;
+    
   }
   p {
     text-align: center;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
   }
 
   #login-form-container {
@@ -177,7 +181,7 @@
         }
       }
       .social-login {
-        background-color: #1877f2;
+        background-color: rgba(161,135,135,1);
         width: 247px;
         border-radius: 6px;
         height: 40px;

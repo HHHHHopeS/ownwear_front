@@ -218,6 +218,13 @@ $border: 1px solid rgb(219,219,219);
           .comment-content-section{
             font-size: 15px;
             width: 85%;
+            span{
+            a{
+              color:#00376b !important;
+              text-decoration: none;
+            }
+          }
+            
 
             .comment-profile-username{
               font-weight: 800;

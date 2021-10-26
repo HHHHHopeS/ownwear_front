@@ -57,6 +57,7 @@ export default function Detail(props) {
   const [isLike, setIsLike] = useState(false);
   const setShow = props.setShow;
   const setUserList = props.setUserList;
+  const setModalLoading = props.setModalLoading
   const { user } = useContext(UserContext);
   const targetRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -162,6 +163,7 @@ export default function Detail(props) {
               user={user}
               detailPageData={detailPageData}
               setShow={setShow}
+              setModalLoading={setModalLoading}
               {...props}
             />
             <Comment
@@ -271,7 +273,7 @@ function LikeShare(props) {
   const [hover, setHover] = useState(false);
 
   const setUserList = props.setUserList;
-
+  const setModalLoading = props.setModalLoading
   const setShow = props.setShow;
   const isLike = props.isLike;
   const setTitle = props.setTitle;
@@ -309,6 +311,7 @@ function LikeShare(props) {
     }
   };
   const activeListModal = () => {
+    setModalLoading(true)
     if (user.auth) {
       const LikeUserListRequest = Object.assign(
         {},
@@ -316,8 +319,10 @@ function LikeShare(props) {
       );
       getUserList(LikeUserListRequest)
         .then(response => {
+          
           console.log(response);
-          setUserList(response);
+          setUserList(response,setModalLoading(false));
+
         })
         .catch(err => console.log(err));
     } else {
@@ -326,8 +331,9 @@ function LikeShare(props) {
         { type: "like", targetid: postid, current_userid: -1 }
       );
       getUserList(LikeUserListRequest).then(response => {
-        if (response.ok) {
-          setUserList(response);
+        if (response) {
+          
+          setUserList(response,setModalLoading(false));
         } else {
           console.log(response);
         }
@@ -590,12 +596,12 @@ function Comment(props) {
     const request = Object.assign({}, { ...comment });
     fetchDeleteComment(request)
       .then(response => {
-        Alert.success("comment has deleted!");
+        Alert.success("댓글이 삭제되었습니다");
         setDetailPageData({ ...detailPageData, comments: response });
       })
       .catch(err => {
         console.log(err)
-        Alert.error("delete failed!");
+        Alert.error("댓글 삭제를 실패하였습니다.!");
       });
   };
   return (
@@ -780,7 +786,7 @@ function Comment(props) {
               className="comment-input"
               type="text"
               onKeyDown={e => {
-                if (e.key === "Enter") createComment();
+                if (e.keyCode === 13) createComment();
               }}
               onChange={listenTags}
               placeholder={
@@ -854,7 +860,9 @@ function ImageInfo(props) {
         {/* 상품 앵커태그 */}
         <br />
         <span className="title-product">
+          <a rel="noreferrer" target="_blank" href={detailPageData.postform.imgdata.tagData.length>0?detailPageData.postform.imgdata.tagData[0].productInfo.productUrl:"none"} >
           {detailPageData.postform.imgdata.tagData.length>0?detailPageData.postform.imgdata.tagData[0].productInfo.productName:null}
+          </a>
         </span>
         <br />
 

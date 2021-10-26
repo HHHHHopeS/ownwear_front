@@ -64,11 +64,11 @@ export default function SubNav(props) {
             <Breadcrumb.Item href="/">
               <FontAwesomeIcon icon={faHome} />
             </Breadcrumb.Item>
-            <Breadcrumb.Item active>LOGIN&SIGNUP</Breadcrumb.Item>
+            <Breadcrumb.Item active>Sign In&Up</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="subnav-main-section">
-          <h1>LOGIN/SIGNUP</h1>
+          <h1>Sign In&Up</h1>
         </div>
       </div>
     );
@@ -105,7 +105,7 @@ export default function SubNav(props) {
         }
       }
     }
-
+    console.log(info)
     return (
       <div className="detail">
         {info&&info.user ? (
@@ -146,11 +146,14 @@ export default function SubNav(props) {
                 {user.info?user.info.userid !== info.user.userid ? (
                   <button
                     onClick={() => {
-                      followOrNot(user.info&&user.info.userid, info.user.userid);
+                      console.log()
+                      followOrNot(user.info&&user.info.userid, info.user.userid).then(bool=>
+                        setInfo({...info,user:{...info.user,isfollowing:bool?true:false}})
+                        );
                     }}
                     className="follow-button"
                   >
-                    Follow
+                    {info.user&&info.user.isfollowing?"Following":"Follow"}
                   </button>
                 ) : (
                   <button
@@ -161,7 +164,8 @@ export default function SubNav(props) {
                   </button>
                 ): <button
                 onClick={() => {
-                  followOrNot(user.info&&user.info.userid, info.user.userid);
+                  
+                  followOrNot(user.info&&user.info.userid, info.user.userid)
                 }}
                 className="follow-button"
               >
@@ -276,7 +280,7 @@ export default function SubNav(props) {
       }
       
       //프로필 유저정보
-      if(!info||info.user.username!==profile_username){
+      if(!info||info.postid||info.user.username!==profile_username){
         
       getProfileSubNavData(current_userid, profile_username)
         .then(res => {
@@ -316,7 +320,7 @@ export default function SubNav(props) {
                 src={
                   info.user && info.user.userimg
                     ? info.user.userimg
-                    : null
+                    : defaultUser
                 }
                 alt=""
               />
@@ -454,13 +458,13 @@ export default function SubNav(props) {
               <FontAwesomeIcon icon={faHome} />
             </Breadcrumb.Item>
             <Breadcrumb.Item>mypage</Breadcrumb.Item>
-            <Breadcrumb.Item active>my profile</Breadcrumb.Item>
+            <Breadcrumb.Item active>my account</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="title-section">
           <h1>
             <FontAwesomeIcon icon={faUserAlt} />
-            My Profile
+            My Account
           </h1>
         </div>
       </div>
@@ -504,7 +508,7 @@ export default function SubNav(props) {
         </Route>
         <Route exact path="/list/:id/:id/:id" component={List} />
         <Route exact path="/detail/:id"  >
-        <Detail />
+        <Detail  />
         </Route>
         <Route exact path="/ranking/:id/:id" component={Ranking} />
         <Route exact path="/profile/:id" render >

@@ -490,6 +490,7 @@ export default function Upload(props) {
           );
         }
         console.log(rector2);
+        if(rector2.length>0){
         const boundingBox2 = rector2[0].regionInfo.boundingBox;
         rectorX2 =
           boundingBox2.leftCol +
@@ -497,6 +498,7 @@ export default function Upload(props) {
         rectorY2 =
           boundingBox2.topRow +
           (boundingBox2.bottomRow - boundingBox2.topRow) / 2;
+        }
       }
 
       const brandName = getEl(className, ".product-brand").innerText;
@@ -525,6 +527,7 @@ export default function Upload(props) {
   }
 
   function addHashTag(e, el) {
+    console.log(e)
     document.querySelector(".hashtag-error").innerText = "";
     let tag = null;
     if (el) {
@@ -541,6 +544,8 @@ export default function Upload(props) {
       if (!tag.includes(" ")) {
         if (check.test(tag)) {
           if (!hashtagData.includes(tag)) {
+            console.log(tag)
+            console.log(hashtagData)
             setHashtagData([...hashtagData, tag]);
             document.querySelector(".hashtag-error").innerText =
               "태그가 추가 되었습니다.";
@@ -628,7 +633,7 @@ export default function Upload(props) {
             highlight ? " is-highlight" : drop ? " is-drop" : ""
           }`}
         >
-          {phase.phaseNo === 0 ? "Drag Your Image File" : null}
+          {phase.phaseNo === 0 ? "이미지를 드래그 앤 드랍 하세요" : null}
 
           <ReactCrop
             onComplete={(c, percentCrop) => {
@@ -857,7 +862,7 @@ export default function Upload(props) {
                           
                           setAutoCompleteResult(arr,setIsLoading(false))
                         }
-                        );
+                        ).catch(err=>console.log(err));
                       }}
                       ref={hashTagInputRef}
                       onFocus={() => setActiveInputFocus(true)}
@@ -866,7 +871,8 @@ export default function Upload(props) {
                       }}
                       // onInputChange={(text, e) => configureHashtag(text, e)}
                       onKeyDown={e => {
-                        if (e.key === "Enter") {
+                        if (e.keyCode === 13) {
+                          
                           addHashTag(e);
 
                           hashTagInputRef.current.clear();

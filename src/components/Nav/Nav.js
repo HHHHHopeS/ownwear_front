@@ -26,30 +26,12 @@ export default function Nav(props) {
   const [loading,setLoading] = useState(false)
   const [keyword, setKeyword] = useState("tag")
   const [alertList, setAlertList] = useState([
-    {
-      alertid:1,
-      type: "like",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "1900-10-5 13:01:00",
-    },
-    {
-      alertid:2,
-      type: "comment",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "2021-10-01 00:00:00",
-    },
-    {
-      alertid:3,
-      type: "follow",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "2010-11-11 00:00:00",
-    },
+    { type: "following", likepostid: 1,postid:1, username: "jjangjjun", alert_date: "2021-10-21 10:10:13" },
+    { type: "follower", commentid: 1,postid:2, username: "임양", alert_date: "2021-10-22 12:02:13" },
+    { type: "following", likepostid: 1,postid:3, username: "braveleftji", alert_date: "2021-10-21 13:04:14" },
+    { type: "following", likepostid: 1,postid:4, username: "braveleftji", alert_date: "2021-10-21 16:18:13" },
+    { type: "follower", commentid: 1, postid:5,username: "임양", alert_date: "2021-10-21 16:72:13" },
+    { type: "follower", likepostid: 1,postid:6, username: "임양", alert_date: "2021-10-21 16:63:32" }
   ]);
 
   const history = useHistory();
@@ -76,64 +58,28 @@ export default function Nav(props) {
     // e.currentTarget.children[1].classList.remove("active")
   }
   function AlertList() {
-    const clear = (index,alertid) => {
-      setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
-    };
+    // const clear = (index,alertid) => {
+    //   setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
+    // };
     const FigureType = props => {
       const content = props.content;
-      const index = props.index;
-      const time = calculateDatetime(content.date);
-      if (content.type === "like") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 게시글에 좋아요를 눌러써요 <i>{time}</i>
-          </span>
-        );
-      }
-      if (content.type === "follow") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 팔로우를 해써요 <i>{time}</i>
-          </span>
-        );
-      }
-      if (content.type === "comment") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 댓글을 다라써여 <i>{time}</i>
-          </span>
-        );
-      } else {
-        return null;
-      }
+      const time = calculateDatetime(content.alert_date);
+      return iterateAlert(content.username,content.likepostid,content.postid,time,content.type)
+
     };
+    const iterateAlert= (username,li,pi,date,type) => {
+      return(
+        <span>
+          <Link to={"/profile/"+username}>
+            {username}
+          </Link>
+          님
+          {type==="follower"?"이":"의"} 
+          <Link to={"/detail/"+ pi}>게시글</Link>
+          에 {li?"좋아요를 눌렀습니다.":"댓글을 작성하였습니다."}<i>{date}</i>
+        </span>
+      )
+    }
 
     return alertList.map((content, index) => (
       <div key={index} className="alert-item-container">
@@ -144,24 +90,19 @@ export default function Nav(props) {
               content.type === "follow"
                 ? null
                 : (e, index) => {
-                    clear(index,content.alertid);
-                    history.push(`/detail/${content.post_no}`);
+                    // clear(index,content.alertid);
+                    // history.push(`/detail/${content.post_no}`);
                   }
             }
           >
             <div className="profile-image-section">
-              <Link onClick={e=>{clear(index,content.alertid);e.stopPropagation()}} to={"/profile/"+content.username}>
-              <img src={content.userimg} alt="" />
-              </Link>
             </div>
             <div className="content-section">
               <FigureType index={index} content={content} />
             </div>
           </div>
           <div className="right">
-            <div onClick={() => clear(index,content.alertid)} className="button-section">
-              <FontAwesomeIcon icon={faTimes} />
-            </div>
+           
           </div>
         </div>
       </div>
