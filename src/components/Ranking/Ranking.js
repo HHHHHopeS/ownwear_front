@@ -111,7 +111,7 @@ export default function Ranking(props) {
                     </div>
                     <div className="user-info-section">
                       <span className="height">{data.user.height?data.user.height+"cm":null}</span>
-                      <span className="sex">{data.user.sex===1?"male":"female"}</span>
+                      <span className="sex">{data.user.sex===true?"male":"female"}</span>
                     </div>
                   </div>
                   <div className="user-info-sub">
