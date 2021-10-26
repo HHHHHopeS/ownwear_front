@@ -130,17 +130,18 @@ export default function Main(props) {
             newArr.push(response.postMap.new[i].postid, response.postMap.rank[i].postid)
           }}
           setIds({ ...ids, [url]: [...newArr] })
-      })
+      }).catch(err=>console.log(err))
     }
     if (isThreshold && !isLoading && !isMaxCount && page === 1) {
       setIsLoading(true);
       getIndexMoreData(req).then(response => {
+        console.log(response)
         setData({ ...data, [url]: { ...data[url], brand: response.brand } }, setIsThreshold(false, setIsLoading(false, setPage(2))))
         for (let i = 0; i < response.brand.length; i++) {
           newArr.push(response.brand[i].postid)
         }
         setIds({ ...ids, [url]: [...ids[url],...newArr] })
-      })
+      }).catch(err=>console.log(err))
     }
     if (isThreshold && !isLoading && !isMaxCount && page > 1) {
       setIsLoading(true)
@@ -150,10 +151,11 @@ export default function Main(props) {
           newArr.push(response.random[i].postid)
         }
         setIds({ ...ids, [url]: [...ids[url],...newArr] })
-      })
+      }).catch(err=>console.log(err))
 
     }
   }
+  console.log(data)
     return () => (window.onscroll = null);
   }, [isThreshold, isMaxCount,page]);
   // useEffect(() => {
@@ -317,7 +319,7 @@ export default function Main(props) {
           <div className="main-section ">
             {listSection("ranking", data[url].ranking)}
             {listSection("최신글", data[url].new)}
-            {data[url].brand.length>0 ? listSection(`brand-${data[url].brand[0].imgdata.tagData[0].productInfo.brandName}`, data[url].brand):null}
+            {data[url].brand&&data[url].brand.length>0 ? listSection(`brand-${data[url].brand[0].imgdata.tagData[0].productInfo.brandName}`, data[url].brand):null}
             {listSection("추천코디", data[url].suggestion)}
 
             {/* {moreImgBox(moreData[3])} */}
