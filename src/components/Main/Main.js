@@ -77,11 +77,11 @@ export default function Main(props) {
             <div className="imgbox-section">
               {data ? data.map(boxdata => <ImgBox data={boxdata} />) : null}
             </div>
-            {value === "추천코디" ? null : (
+            {value === "추천코디" ?(
               <div className="more-button-section">
-                <Link to={{ pathname: "/list//1" }}>More</Link>
+                <Link to={{ pathname: `/list/${value}/1` }}>More</Link>
               </div>
-            )
+            ):null
             }
           </div>
         );
@@ -245,7 +245,7 @@ export default function Main(props) {
     return (
       <div>
         {hotTag.map(tag => (
-          <Link key={tag.hashtagid} to={`/list/tag/${tag.hashtagName}/1`}>
+          <Link key={tag.hashtagid} to={`/list/hashtag/${tag.hashtagName}/1`}>
             <p className="tag-name">{tag.hashtagName}</p>
           </Link>
         ))}
@@ -342,9 +342,6 @@ export default function Main(props) {
             {listSection("추천코디", data[url].suggestion)}
 
             {/* {moreImgBox(moreData[3])} */}
-            <div className="more-button-section">
-              <Link to={{ pathname: "/ranking/cody" }}>More</Link>
-            </div>
           </div>
         </div>
       </div>
