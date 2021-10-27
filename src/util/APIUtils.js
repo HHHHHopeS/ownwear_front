@@ -349,9 +349,9 @@ export function getRankingData(type,filter,count,current_userid){
 
 }
 //최근활동
-export function getActivity(username){
+export function getActivity(current_userid){
     return request({
-        url:API_BASE_URL+"/activity/"+username,
+        url:API_BASE_URL+"/user/activity/?current_userid="+current_userid,
         method:"get",
     
     })
@@ -363,6 +363,15 @@ export function getInfo(getInfoData){
         url:API_BASE_URL+"/user/mypage/update",
         method:"POST",
         body:JSON.stringify(getInfoData)
+
+    })
+}
+// 페이스북 로그인 업데이트
+export function updateOauth2(updateOauth2request){
+    return request({
+        url:API_BASE_URL+"/user/update/oauth2",
+        method:"POST",
+        body:JSON.stringify(updateOauth2request)
 
     })
 }

@@ -1,8 +1,8 @@
-import { faHashtag, faSearch } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
-import { Link,useHistory } from "react-router-dom";
-import "./SearchToolBox.scss";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import "./SearchToolBox.scss";
 
 export default function SearchToolBox(props) {
   const loseSearchBar = props.loseSearchBar;

@@ -43,7 +43,7 @@ export default function Login(props) {
         >
           {isLogin ? (
             <div id="login-form-container">
-              <h2>SIGNIN</h2>
+              <h2>Sign In</h2>
               <LoginForm setCurrentUser={setCurrentUser} {...props} />
               <div id="social-login-form-container">
                 <p>OR</p>
@@ -165,7 +165,7 @@ function LoginForm(props) {
 function Signup(props) {
   return (
     <div id="signup-form-container">
-      <h2>SIGNUP</h2>
+      <h2>Sign Up</h2>
       {/* <form onSubmit={joinMember} className="join-form"> */}
 
       <SignupForm setToggleMoreInfo={props.setToggleMoreInfo} {...props} />
@@ -210,7 +210,7 @@ function SignupForm(props) {
     signup(signupRequest)
       .then(response => {
         if (response.success) {
-          Alert.success("you re successfuly registered! ");
+          Alert.success("회원가입 성공! ");
           const loginRequest = Object.assign(
             {},
             { email: email, password: password }

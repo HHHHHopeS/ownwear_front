@@ -1,25 +1,23 @@
+import {
+    faInstagram,
+    faPinterest,
+    faTwitter
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import _ from "lodash";
 import { useContext, useEffect, useState } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { useDidCache, useDidRecover } from "react-router-cache-route";
+import { Link } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import ScrollHandler from "../../common/ScrollHandler";
-import ImgBox from "../ImgBox/ImgBox";
-import defaultUser from "../../res/default-user.jpeg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./Ranking.scss";
-import { brandData, data,userdata } from "./sampleData";
-import sample from "../../res/sample.png";
-import calculateScale from "../../util/numberUtils"
-import ReactTooltip from "react-tooltip";
-import { getRankingData } from "../../util/APIUtils";
-import {
-  faInstagram,
-  faPinterest,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
 import { UserContext } from "../../common/UserContext";
+import defaultUser from "../../res/default-user.jpeg";
+import { getRankingData } from "../../util/APIUtils";
+import calculateScale from "../../util/numberUtils";
+import ImgBox from "../ImgBox/ImgBox";
+import "./Ranking.scss";
 
 export default function Ranking(props) {
   const [list, setList] = useState([]);
@@ -181,7 +179,7 @@ export default function Ranking(props) {
                     <Link to={"/list/brand/"+data.brandname+"/1"} className="brandname">{data.brandname}</Link>
                   </div>
                   <div className="brand-info-container">
-                    <span>{calculateScale(data.postcount)} posts</span>
+                    <span>{calculateScale(data.posts.length)} posts</span>
                   </div>
                 </div>
                 <div className="brand-button-section">
@@ -189,10 +187,10 @@ export default function Ranking(props) {
                 </div>
               </div>
               <div className="img-section">
-                {data.posts.map((post,index)=>(
+                {data.posts.map((post,index)=>(index<3?
                   <Link to={"/detail/"+post.postid}>
                   <img src={post.imgdata.imgUrl} alt="" />
-                </Link>
+                </Link>:null
                 ))}
                 
                 
@@ -295,22 +293,33 @@ export default function Ranking(props) {
   // }, [isThreshold, isMaxCount]);
   // 백 구축되면 위에꺼 지우고 아래꺼 복귀 
   useEffect(() => {
+    setIsMaxCount(false)
     let current_userid=-1
     if(user.info){
       current_userid = user.info.userid
     }
     //all - women - men
+    console.log(count)
+    console.log(maxCount)
+    console.log(isMaxCount)
     setLoading(true);
     if(list[type]&&list[type][filter]&&list[type][filter].length>0){
-      setCount(list[type][filter].length/10)
       
+      setCount(list[type][filter].length/10)
+      if((count/10)%1!==0){
+
+        setIsMaxCount(true)
+      }
     }
+    
     else{
       setCount(0)
-      
+      console.log("b")
       getRankingData(type, filter, 0,current_userid).then(res=>{
         console.log(res)
+        
         if(res.length<10){
+          console.log("bc")
           setIsMaxCount(true)
         }
         setList(

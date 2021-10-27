@@ -5,17 +5,17 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import {
     faArrowRight, faBell as fsBell, faSignOutAlt,
-    faSlidersH, faSyncAlt, faTimes
+    faSlidersH, faSyncAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link,useLocation, useHistory } from "react-router-dom";
 import Alert from "react-s-alert";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { UserContext } from "../../common/UserContext";
 import exPhoto from "../../res/default-user.jpeg";
 import logo from "../../res/logo.png";
-import { getAlertList, setAlertChecked } from "../../util/APIUtils";
+import { getActivity, getAlertList } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
 import "./Nav.scss";
 import SearchBar from "./SearchBar";
@@ -25,33 +25,26 @@ export default function Nav(props) {
   const [activeAlert, setActiveAlert] = useState(false);
   const [loading,setLoading] = useState(false)
   const [keyword, setKeyword] = useState("tag")
+  const {pathname} = useLocation()
   const [alertList, setAlertList] = useState([
-    {
-      alertid:1,
-      type: "like",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "1900-10-5 13:01:00",
-    },
-    {
-      alertid:2,
-      type: "comment",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "2021-10-01 00:00:00",
-    },
-    {
-      alertid:3,
-      type: "follow",
-      post_no: "1",
-      username: "카리나",
-      userimg: exPhoto,
-      date: "2010-11-11 00:00:00",
-    },
+    
   ]);
+  useEffect(()=>{
+      
 
+        
+
+          
+      if(user.info){
+    getActivity(user.info.userid).then(response=>setAlertList(response)).catch(err=>console.log(err))
+  }
+  
+  
+},[])
+  const getList=()=>{
+    setLoading(true)
+    console.log(1)
+    getActivity(user.info.userid).then(response=>setAlertList(response),setLoading(false)).catch(err=>console.log(err))}
   const history = useHistory();
   function loseSearchBar() {
     document.querySelector(".blur-section").classList.remove("blur");
@@ -76,65 +69,31 @@ export default function Nav(props) {
     // e.currentTarget.children[1].classList.remove("active")
   }
   function AlertList() {
-    const clear = (index,alertid) => {
-      setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
-    };
+    // const clear = (index,alertid) => {
+    //   setAlertChecked(alertid).then(response=>{if(response){setAlertList(alertList.slice(0, alertList.remove - 1).splice(index, 1))}}).catch(err=>console.log(err))
+    // };
+
     const FigureType = props => {
       const content = props.content;
-      const index = props.index;
-      const time = calculateDatetime(content.date);
-      if (content.type === "like") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 게시글에 좋아요를 눌러써요 <i>{time}</i>
-          </span>
-        );
-      }
-      if (content.type === "follow") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 팔로우를 해써요 <i>{time}</i>
-          </span>
-        );
-      }
-      if (content.type === "comment") {
-        return (
-          <span>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-                clear(index,content.alertid);
-              }}
-              to={"/profile/" + content.username}
-            >
-              {content.username}님
-            </Link>
-            이 댓글을 다라써여 <i>{time}</i>
-          </span>
-        );
-      } else {
-        return null;
-      }
-    };
+      const time = calculateDatetime(content.alert_date);
+      return iterateAlert(content.username,content.likepostid,content.postid,time,content.type)
 
+    };
+    const iterateAlert= (username,li,pi,date,type) => {
+      return(
+        <span>
+          <Link to={"/profile/"+username}>
+            {username}
+          </Link>
+          님
+          {type==="follower"?"이":"의"} 
+          <Link to={"/detail/"+ pi}>게시글</Link>
+          에 {li?"좋아요를 눌렀습니다.":"댓글을 작성하였습니다."}<i>{date}</i>
+        </span>
+      )
+    }
+    
+    
     return alertList.map((content, index) => (
       <div key={index} className="alert-item-container">
         <div className="alert-item-main">
@@ -144,35 +103,25 @@ export default function Nav(props) {
               content.type === "follow"
                 ? null
                 : (e, index) => {
-                    clear(index,content.alertid);
-                    history.push(`/detail/${content.post_no}`);
+                    // clear(index,content.alertid);
+                    // history.push(`/detail/${content.post_no}`);
                   }
             }
           >
             <div className="profile-image-section">
-              <Link onClick={e=>{clear(index,content.alertid);e.stopPropagation()}} to={"/profile/"+content.username}>
-              <img src={content.userimg} alt="" />
-              </Link>
             </div>
             <div className="content-section">
               <FigureType index={index} content={content} />
             </div>
           </div>
           <div className="right">
-            <div onClick={() => clear(index,content.alertid)} className="button-section">
-              <FontAwesomeIcon icon={faTimes} />
-            </div>
+           
           </div>
         </div>
       </div>
     ));
   }
 
-  function getList(){
-    setLoading(true)
-    getAlertList(user.info.userid).then(response=>setAlertList(response)).then(()=>setLoading(false)).catch(err=>{Alert.error("connection error!");setLoading(false)})
-    
-  }
   
   useEffect(() => {
     if (activeProfile === 2) {
@@ -182,17 +131,7 @@ export default function Nav(props) {
     }
     return false;
   }, [activeProfile]);
-  useEffect(()=>{
-    
-  },[user.info])
 
-  useEffect(()=>{
-
-    if(user.info&&!user.info.ischecked){
-    getList()
-  }
-
-  },[])
 
 
   return (
@@ -314,14 +253,14 @@ export default function Nav(props) {
                   <FontAwesomeIcon
                     style={
                       user.info
-                        ? !user.info.ischecked
+                        ? alertList.length>0
                           ? { color: "#f6b800" }
                           : {}
                         : {}
                     }
                     icon={
                       user.info
-                        ? !user.info.ischecked
+                        ? alertList.length>0
                           ? fsBell
                           : faBell
                         : faBell
