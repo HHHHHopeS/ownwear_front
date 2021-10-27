@@ -209,6 +209,7 @@ export default function MyPage() {
                         <p className="username"><FontAwesomeIcon icon={faUser}/>     {user.info ? user.info.username : null}</p>
                         <p className="email"><FontAwesomeIcon icon={faAt}/> {user.info ? user.info.email : null}</p>
                         <p className="sex"><FontAwesomeIcon icon={user.info && user.info.sex? faMars:faVenus}/>{user.info&& user.info.sex?"male":"female"}</p>
+
                         <div style={showForm ? { display: "block" } : { display: "none" }} className="profile-edit">
                             <form  onSubmit={submitinfo} >
                                 

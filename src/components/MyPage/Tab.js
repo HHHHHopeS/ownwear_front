@@ -1,9 +1,11 @@
+
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../common/UserContext";
 import { getActivity } from "../../util/APIUtils";
 import { calculateDatetime } from "../../util/TimeUtils";
 import { Link } from "react-router-dom";
 import "./Tab.scss";
+
 
 
 function Tabs() {
@@ -31,13 +33,15 @@ function Tabs() {
 
    useEffect(()=>{
 
+
      try{
      getActivity(user.info.userid).then(response => {
-     console.log(response)
+     
      setFollower(response)
    })} catch(e){
      console.log(e);
    }
+
 
    },[])
 
