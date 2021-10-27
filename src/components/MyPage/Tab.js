@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext,useEffect, useState } from "react";
 import "./Tab.scss";
 import { calculateDatetime } from "../../util/TimeUtils"
 import { getActivity } from "../../util/APIUtils"
 import userEvent from "@testing-library/user-event";
+import { UserContext } from "../../common/UserContext";
 
 function Tabs() {
+  const {user}= useContext(UserContext)
   const [toggleState, setToggleState] = useState(1);
 
   const [follower, setFollower] = useState([
@@ -32,16 +34,17 @@ function Tabs() {
   // )
 
 
-  // useEffect(()=>{
-  //   try{
-  //   getActivity().then(response => {
-  //   const followerData =  response.data;
-  //   setFollower(followerData)
-  // })} catch(e){
-  //   console.log(e);
-  // }
+   useEffect(()=>{
 
-  // },[])
+     try{
+     getActivity(user.info.userid).then(response => {
+     
+     setFollower(response)
+   })} catch(e){
+     console.log(e);
+   }
+
+   },[])
 
   // [{commentid,likepostid,username,alert_date}]
 
@@ -49,17 +52,17 @@ function Tabs() {
     const type= props.type
     
     return(
-    follower.map(f => {
+    follower&&follower.length>0&&follower.map(f => {
     
     if (f.type === "follower" && (type === "all" ||type=== "follower")) {
       return (<p>  {f.username}님이 회원님 게시글에 {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
         {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
-        <span className="time">{f.alert_date}</span></p>)
+        <span className="time">{calculateDatetime(f.alert_date)}</span></p>)
     }
     else if (f.type === "following" && (type === "all" ||type=== "following")) {
       return( <p>  {f.username}님 게시글에  {f.likepostid?<div><span className="like">👍좋아요</span>를 눌렀습니다.</div>:null}
         {f.commentid? <div><span className="like">💬댓글</span>을 남겼습니다.</div>:null}
-        <span className="time">{f.alert_date}</span></p>)
+        <span className="time">{calculateDatetime(f.alert_date)}</span></p>)
     }
   }
   )
