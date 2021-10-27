@@ -77,7 +77,7 @@ export default function Main(props) {
             </div>
             {value!=="추천코디"?
               <div className="more-button-section">
-                <Link to={{ pathname: `/list/${value==="최신글"?"new/all/1":"brand/"+value}/1` }}>More</Link>
+                <Link to={{ pathname: `/list/${value==="최신글"?"new/all":"brand/"+value}/1` }}>More</Link>
               </div>
               :null
             }
